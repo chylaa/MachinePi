@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dell\\Desktop\\Inzynier\\Projekt\\maszynaPi\\MaszynaPi\\MaszynaPi.csproj": {}
+    "/home/pi/inzynierka/maszynaPi/MaszynaPi/MaszynaPi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dell\\Desktop\\Inzynier\\Projekt\\maszynaPi\\MaszynaPi\\MaszynaPi.csproj": {
+    "/home/pi/inzynierka/maszynaPi/MaszynaPi/MaszynaPi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dell\\Desktop\\Inzynier\\Projekt\\maszynaPi\\MaszynaPi\\MaszynaPi.csproj",
+        "projectUniqueName": "/home/pi/inzynierka/maszynaPi/MaszynaPi/MaszynaPi.csproj",
         "projectName": "MaszynaPi",
-        "projectPath": "C:\\Users\\Dell\\Desktop\\Inzynier\\Projekt\\maszynaPi\\MaszynaPi\\MaszynaPi.csproj",
-        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dell\\Desktop\\Inzynier\\Projekt\\maszynaPi\\MaszynaPi\\obj\\",
+        "projectPath": "/home/pi/inzynierka/maszynaPi/MaszynaPi/MaszynaPi.csproj",
+        "packagesPath": "/home/pi/.nuget/packages/",
+        "outputPath": "/home/pi/inzynierka/maszynaPi/MaszynaPi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/pi/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,6 +48,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.10, 6.0.10]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -58,7 +62,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/pi/.dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
         }
       }
     }

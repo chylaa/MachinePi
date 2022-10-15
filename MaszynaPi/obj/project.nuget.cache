@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "cCKJoSmvK71XxQmP+uXj6koGIBvR93ZMtLdPnTu890fLv2dx8U+eTCd09zq/539qXzBTtQF4zZPoo99Y1SpUZg==",
+  "dgSpecHash": "8tAGEh21LcSX2Nl6pYv9Y8yTrUhUNZ6WLFv8aaWVV1TlhsQkj2/oBFowWhDF6EzCa+1ZzhmhbruGZUuvtXZ3uw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Dell\\Desktop\\Inzynier\\Projekt\\maszynaPi\\MaszynaPi\\MaszynaPi.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/pi/inzynierka/maszynaPi/MaszynaPi/MaszynaPi.csproj",
+  "expectedPackageFiles": [
+    "/home/pi/.nuget/packages/microsoft.windowsdesktop.app.ref/6.0.10/microsoft.windowsdesktop.app.ref.6.0.10.nupkg.sha512"
+  ],
   "logs": []
 }
