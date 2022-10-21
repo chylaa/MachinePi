@@ -1,0 +1,2 @@
+Linux SO in Visual Studio:
+https://visualgdb.com/tutorials/linux/libraries/
