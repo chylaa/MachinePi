@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "8tAGEh21LcSX2Nl6pYv9Y8yTrUhUNZ6WLFv8aaWVV1TlhsQkj2/oBFowWhDF6EzCa+1ZzhmhbruGZUuvtXZ3uw==",
+  "success": true,
+  "projectFilePath": "/home/pi/inzynierka/maszynaPi/MaszynaPi/MaszynaPi.csproj",
+  "expectedPackageFiles": [
+    "/home/pi/.nuget/packages/microsoft.windowsdesktop.app.ref/6.0.10/microsoft.windowsdesktop.app.ref.6.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
