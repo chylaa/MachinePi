@@ -5,10 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MaszynaPi.CommonOperations {
-    public static class Arythmetics {
+    public static class Arithmetics {
         public static bool IsPowerOfTwo(int number) { return true;  }
         public static int PowersDifference(uint exp1, uint exp2, uint power = 2) {
             return (int)(Math.Pow(power, exp1) - Math.Pow(power, exp2));
+        }
+
+        public static bool IsBitSet(int b, int bitNumber) {
+            return (((b >> bitNumber) & 1) != 0);
         }
 
         public static uint negateBits(int value) {

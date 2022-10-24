@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MaszynaPi.MachineLogic {
+namespace MaszynaPi.MachineLogic.Architecture {
     class Bus {
         public uint Value {
             get { return Value; }

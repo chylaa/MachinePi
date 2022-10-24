@@ -5,23 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.CommonOperations;
 
-namespace MaszynaPi.MachineLogic {
+namespace MaszynaPi.MachineLogic.Architecture {
     class MemoryException : Exception {public MemoryException(string message) : base(message) {}}
 
     class Memory {
-        private List<uint> Content = new List<uint>();
+        private List<uint> Content;
 
-        public Memory(uint addressSpace = Defines.DEFAULT_ADDR_BITS) {
-            InitMemoryContent(addressSpace);
+        public Memory() {
+            InitMemoryContent();
         }
 
-        public void InitMemoryContent(uint newAddressSpace) {
-            Content.Clear();
+        public void InitMemoryContent() {
+            Content = new List<uint>();
+            var newAddressSpace = ArchitectureSettings.GetAddressSpace();
             for (int i = 0; i < Math.Pow(2,newAddressSpace); i++)
                 Content.Add(Defines.DEFAULT_MEM_VAL);
         }
-        public void ExpandMemory(uint oldAddressSpace, uint newAddressSpace) {
-            for(int i=0; i < Arythmetics.PowersDifference(newAddressSpace,oldAddressSpace); i++)
+        public void ExpandMemory(uint oldAddressSpace) {
+            var newAddressSpace = ArchitectureSettings.GetAddressSpace();
+            for (int i=0; i < Arithmetics.PowersDifference(newAddressSpace,oldAddressSpace); i++)
                 Content.Add(Defines.DEFAULT_MEM_VAL);
         }
 

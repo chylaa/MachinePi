@@ -29,8 +29,8 @@ namespace MaszynaPi {
             //this.Controls.Add(architectureControl);
             //architectureControl.Show();
             //architectureControl.Visible = true;
-            MemoryControl.
-            
+            //MemoryControl.
+            Machine
         }
 
         private void LeftUpPanel_Paint(object sender, PaintEventArgs e) {
