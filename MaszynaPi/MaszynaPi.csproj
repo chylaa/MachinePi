@@ -83,7 +83,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="MachineAssembler\Decoders\InstructionSetDecoder.cs" />
     <Compile Include="MachineAssembler\Editors\InstructionEditor.cs" />
     <Compile Include="MachineLogic\Architecture\ArithmeticLogicUnit.cs" />
     <Compile Include="MachineLogic\Architecture\Bus.cs" />
@@ -98,7 +97,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MachineAssembler\Editors\CodeEditor.cs" />
-    <Compile Include="MachineAssembler\Decoders\Compiler.cs" />
+    <Compile Include="MachineAssembler\Compiler.cs" />
     <Compile Include="MachineLogic\Defines.cs" />
     <Compile Include="MachineLogic\CentralUnit.cs" />
     <EmbeddedResource Include="Form1.resx">

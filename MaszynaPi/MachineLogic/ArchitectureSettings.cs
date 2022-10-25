@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 
+ 
 namespace MaszynaPi.MachineLogic {
 
     static class ArchitectureSettings {
         static uint AddressSpace = Defines.DEFAULT_ADDR_BITS;
         static uint CodeBits = Defines.DEFAULT_CODE_BITS;
         static Defines.Machines CurrentArchitecture = Defines.DEFAULT_MACHINE;
-        static Defines.Components ActiveComponents  = (Defines.Components)Defines.DEFAULT_MACHINE;
+        static Defines.Components ActiveComponents = (Defines.Components)Defines.DEFAULT_MACHINE;
         static List<string> AvaibleSignals = new List<string>();
-        
+
         // Methods - ----------------------------------------------------------------------
         public static uint GetAddressSpace() { return AddressSpace; }
         public static void SetAddressSpace(uint newAddressSpace) {
@@ -35,7 +35,7 @@ namespace MaszynaPi.MachineLogic {
         public static void SetAvaibleSignals(Defines.Components active) {
             SetActiveComponents(active);
             AvaibleSignals.Clear();
-            for(int i=0; i<Defines.Signals.Count; i <<= 1) {
+            for (int i = 0; i < Defines.Signals.Count; i <<= 1) {
                 if (ActiveComponents.HasFlag((Defines.Components)i))
                     AvaibleSignals.AddRange(Defines.Signals[i]);
             }
@@ -49,6 +49,6 @@ namespace MaszynaPi.MachineLogic {
 
         }
 
-
+    }
         
 }

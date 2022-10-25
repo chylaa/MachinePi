@@ -7,10 +7,7 @@ using MaszynaPi.CommonOperations;
 
 namespace MaszynaPi.MachineLogic.Architecture {
     class Register {
-        public uint Value { 
-            get { return Value; }
-            set { Value = value; } 
-        }
+        public uint Value { get; set; }
         public Register(uint value = Defines.DEFAULT_REG_VAL) { 
             Value=(value);
         }

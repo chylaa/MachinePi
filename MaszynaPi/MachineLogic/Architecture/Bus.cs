@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace MaszynaPi.MachineLogic.Architecture {
     class Bus {
-        public uint Value {
-            get { return Value; }
-            set { Value = value; }
-        }
+        public uint Value { get; set; }
+  
         public Bus(uint value = Defines.DEFAULT_BUS_VAL) {
             Value = (value);
         }

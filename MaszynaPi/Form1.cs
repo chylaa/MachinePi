@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MaszynaPi.MachineLogic;
+using MaszynaPi.MachineAssembler;
 
 namespace MaszynaPi {
     public partial class Form1 : Form {
@@ -18,19 +19,23 @@ namespace MaszynaPi {
         //public static extern int GetJoystickState();
         //================================================================================================================================
 
+        /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
+         *przekazywana do wykonania Maszynie (metoda ManualTick) (możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
         CentralUnit Machine;
 
         public Form1() {
             InitializeComponent();
-            Machine = new MachineW();
-
+            Machine = new CentralUnit();
+            //Testy dopiero jak dodam InstructionSetDecoder->LoadSetFromFile->BasicSet a wtedy to już i compiler i CodeEditor można xD
+            //Machine.SetMemoryContent(new List<uint> { 33, 5, 0 }); 
         }
         private void Form1_Load(object sender, EventArgs e) {
             //this.Controls.Add(architectureControl);
             //architectureControl.Show();
             //architectureControl.Visible = true;
             //MemoryControl.
-            Machine
+            
+             
         }
 
         private void LeftUpPanel_Paint(object sender, PaintEventArgs e) {
@@ -40,6 +45,20 @@ namespace MaszynaPi {
         private void button1_Click_1(object sender, EventArgs e) {
             //int result = GetJoystickState();
             MessageBox.Show("C++ DLL function returns nothighxD", "CHECK");
+        }
+
+        private void MicrocontrollerPanel_Paint(object sender, PaintEventArgs e) {
+
+        }
+
+        private void CompileItemToolStrip_Click(object sender, EventArgs e) {
+            try {
+                Compiler.ProcessCodeFromEditor(codeLines: CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList());
+            } catch (CompilerException) {
+
+            } catch (Exception){
+
+            }
         }
     }
 }

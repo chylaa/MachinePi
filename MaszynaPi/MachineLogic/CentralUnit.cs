@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic.Architecture;
-using MaszynaPi.MachineLogic.Machines;
+//using MaszynaPi.MachineLogic.Machines;
 
 namespace MaszynaPi.MachineLogic {
 
@@ -22,6 +22,9 @@ namespace MaszynaPi.MachineLogic {
         // Compiler: "INSTRUCTION ARG" -> opcode&arg -> .hex to Memory
         // CentralUnit: MachineCycle: LoadInstruction(Czyt wys we il) DecodeInstruction(), ExecuteInstruction() -> 
         // CentralUnit: GetOpcode() from IR -> map{Opcode : Ticks} (ticks as List<List<string>>) -> perform Instruction (as ticks)
+
+        // U tutka assemblacją (wykonaniem programu) zajmuje się chyba osobny obiekt "Assembler" -> stworzyć taki (AssemblerUnit?)
+        //                                                                          i wrzucić jako atrybut CentralUnit???
 
         Memory PaO; // Operation Memory ("FLash"?)
         Bus MagA, MagS; // BUSes
@@ -73,13 +76,14 @@ namespace MaszynaPi.MachineLogic {
                 { "wyl", wyl },{ "wyak", wyak },{ "wel", wel }
             };
             SignalsMap = AllSignalsMap
+
                 .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
                 .ToDictionary(item => item.Key, item => item.Value);
         }
 
         public void LoadInstructionMap() {
             InstructionMap = new Dictionary<uint, List<List<string>>>();
-            MachineAssembler.Decoders.InstructionSetDecoder.
+            //MachineAssembler.Decoders.InstructionSetDecoder.
         }
         //===========< Machine Cycle >============
         void LoadInstruction() {
@@ -109,7 +113,9 @@ namespace MaszynaPi.MachineLogic {
 
         // ======================= <  User Interface Methods > ================================= //
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
+        public void SetMemoryContent(List<uint> values, uint offset=0) { for (uint i = offset; i < values.Count; i++) PaO.StoreValue(i, values[(int)i]); }
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
+        public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetAllMemoryContent().GetRange((int)addr, (int)size); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
         public void ExpandAndClearMemory() { PaO.InitMemoryContent(); }
         public void ManualTick(List<string> handActivatedSignals) { ExecuteTick(handActivatedSignals); }
