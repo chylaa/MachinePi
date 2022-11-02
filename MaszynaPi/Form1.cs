@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MaszynaPi.MachineLogic;
 using MaszynaPi.MachineAssembler;
+using MaszynaPi.MachineUI;
+using MaszynaPi.MachineAssembler.FilesHandling;
 
 namespace MaszynaPi {
     public partial class Form1 : Form {
@@ -21,11 +23,15 @@ namespace MaszynaPi {
 
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick) (możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
-        CentralUnit Machine;
+        ControlUnit Machine;
 
         public Form1() {
             InitializeComponent();
-            Machine = new CentralUnit();
+            InstructionLoader.LoadBaseInstructions();
+            Machine = new ControlUnit();
+            MemoryControl.SetItems(Machine.GetWholeMemoryContent());
+            MemoryControl.Refresh();
+            RegisterAControl.DisplayValues();
             //Testy dopiero jak dodam InstructionSetDecoder->LoadSetFromFile->BasicSet a wtedy to już i compiler i CodeEditor można xD
             //Machine.SetMemoryContent(new List<uint> { 33, 5, 0 }); 
         }
@@ -36,6 +42,12 @@ namespace MaszynaPi {
             //MemoryControl.
             
              
+        }
+
+        private void UpdateMemoryContentView() {
+            //this.MemoryControl.Items.Clear();
+            //MemoryControl.Items.Add(Machine.GetWholeMemoryContent().ToArray());
+            
         }
 
         private void LeftUpPanel_Paint(object sender, PaintEventArgs e) {

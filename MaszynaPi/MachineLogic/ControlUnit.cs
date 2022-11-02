@@ -10,7 +10,16 @@ namespace MaszynaPi.MachineLogic {
 
     public class CentralUnitException : Exception { public CentralUnitException(string message) : base(message) { } }
 
-    public class CentralUnit {
+/*
+Computer's central processing unit (CPU) that directs the operation of the processor.
+A CU typically uses a binary decoder to convert coded instructions into timing and control signals 
+that direct the operation of the other units (memory, arithmetic logic unit and input and output devices, etc.).
+ 
+ The Instruction Decoder is a CPU component that decodes and interprets the contents of the Instruction Register,
+ i.e. its splits whole instruction into fields for the Control Unit to interpret. 
+ The Instruction decoder is often considered to be a part of the Control Unit.
+*/
+    public class ControlUnit {
         //protected static uint AddressSpace = Defines.DEFAULT_ADDR_BITS;
         //protected static uint CodeBits = Defines.DEFAULT_CODE_BITS;
 
@@ -33,7 +42,7 @@ namespace MaszynaPi.MachineLogic {
         Register L; //Instruction Pointer
         InstructionRegister I; // Instruction Register
 
-        public CentralUnit() {
+        public ControlUnit() {
             PaO = new Memory();
             AK = new Register();
             A = new Register();
@@ -48,7 +57,7 @@ namespace MaszynaPi.MachineLogic {
             LoadInstructionMap();
         }
 
-        // ========================== <  Signals Methods > ========--=========================== //
+        // ========================== <  Signals Methods > ========--=========================== // (Microinstructions)
         public void czyt() { S.Value = PaO.GetValue(A.Value); }
         public void pisz() { PaO.StoreValue(A.Value, S.Value); }
         public void wys() { MagS.Value = S.Value; }
@@ -76,7 +85,6 @@ namespace MaszynaPi.MachineLogic {
                 { "wyl", wyl },{ "wyak", wyak },{ "wel", wel }
             };
             SignalsMap = AllSignalsMap
-
                 .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
                 .ToDictionary(item => item.Key, item => item.Value);
         }
@@ -90,7 +98,7 @@ namespace MaszynaPi.MachineLogic {
             czyt(); wys(); wei(); il();
         }
         void DecodeInstruction() {
-            I.DecodeInstruction(ArchitectureSettings.GetAddressSpace(), ArchitectureSettings.GetCodeBits());
+            I.DecodeInstruction();
         }
         void ExecuteTick(List<string> signals) {
             foreach (string signal in signals) 
@@ -100,7 +108,7 @@ namespace MaszynaPi.MachineLogic {
         void ExecuteInstruction() {
             LoadInstruction();
             DecodeInstruction();
-            List<List<string>> instructionSignals = InstructionMap[I.getOpcode()];
+            List<List<string>> instructionSignals = InstructionMap[I.getOpcode()]; // Tym musiała by zająć się klasa reprezentująca Dekoder Instrukcji
             foreach(var signals in instructionSignals)
                 ExecuteTick(signals);
         }
@@ -116,6 +124,7 @@ namespace MaszynaPi.MachineLogic {
         public void SetMemoryContent(List<uint> values, uint offset=0) { for (uint i = offset; i < values.Count; i++) PaO.StoreValue(i, values[(int)i]); }
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
         public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetAllMemoryContent().GetRange((int)addr, (int)size); }
+        public List<uint> GetWholeMemoryContent() { return PaO.GetAllMemoryContent(); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
         public void ExpandAndClearMemory() { PaO.InitMemoryContent(); }
         public void ManualTick(List<string> handActivatedSignals) { ExecuteTick(handActivatedSignals); }

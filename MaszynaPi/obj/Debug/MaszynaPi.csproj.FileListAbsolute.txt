@@ -1,4 +1,3 @@
-C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.csprojAssemblyReference.cache
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.Form1.resources
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.Properties.Resources.resources
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.csproj.GenerateResource.cache
@@ -27,3 +26,4 @@ C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Thre
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.csproj.CopyComplete
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.exe
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.pdb
+C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.csprojAssemblyReference.cache

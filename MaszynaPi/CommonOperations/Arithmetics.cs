@@ -36,5 +36,12 @@ namespace MaszynaPi.CommonOperations {
             uint wordBitsSize = MachineLogic.ArchitectureSettings.GetAddressSpace() + MachineLogic.ArchitectureSettings.GetCodeBits();
             return value % (uint)Math.Pow(2, wordBitsSize);
         }
+
+        public static uint DecodeIntructionArgument(uint Value) {
+            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetCodeBits(), noOfOnes: MachineLogic.ArchitectureSettings.GetAddressSpace()));
+        }
+        public static uint DecodeInstructionOpcode(uint Value) {
+            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetCodeBits(), noOfOnes: MachineLogic.ArchitectureSettings.GetAddressSpace(), zeroesFirst: false));
+        }
     }
 }

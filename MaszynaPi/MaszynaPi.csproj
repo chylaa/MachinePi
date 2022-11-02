@@ -83,6 +83,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MachineAssembler\Compiler.cs" />
     <Compile Include="MachineAssembler\Editors\InstructionEditor.cs" />
     <Compile Include="MachineLogic\Architecture\ArithmeticLogicUnit.cs" />
     <Compile Include="MachineLogic\Architecture\Bus.cs" />
@@ -94,23 +95,36 @@
     <Compile Include="MachineLogic\Architecture\Memory.cs" />
     <Compile Include="MachineLogic\Architecture\Register.cs" />
     <Compile Include="MachineLogic\ArchitectureSettings.cs" />
+    <Compile Include="MachineUI\UserControlMemory.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlMemory.Designer.cs">
+      <DependentUpon>UserControlMemory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MachineUI\UserControlRegister.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlRegister.Designer.cs">
+      <DependentUpon>UserControlRegister.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MachineAssembler\Editors\CodeEditor.cs" />
-    <Compile Include="MachineAssembler\Compiler.cs" />
+    <Compile Include="MachineAssembler\FilesHandling\InstructionLoader.cs" />
     <Compile Include="MachineLogic\Defines.cs" />
-    <Compile Include="MachineLogic\CentralUnit.cs" />
+    <Compile Include="MachineLogic\ControlUnit.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -130,6 +144,9 @@
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".instructions\Podstawa.lst" />
+    <Content Include=".instructions\Przerwania.lst" />
+    <Content Include=".instructions\Stos.lst" />
     <Content Include=".instructions\WeWy.lst" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

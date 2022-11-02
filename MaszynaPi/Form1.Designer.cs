@@ -29,7 +29,6 @@ namespace MaszynaPi {
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
-            this.MemoryControl = new System.Windows.Forms.ListBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.TopRightPanel = new System.Windows.Forms.Panel();
             this.ProgramPanel = new System.Windows.Forms.Panel();
@@ -38,9 +37,11 @@ namespace MaszynaPi {
             this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
+            this.RegisterAControl = new MaszynaPi.MachineUI.UserControlRegister();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.TopRightPanel.SuspendLayout();
@@ -79,21 +80,12 @@ namespace MaszynaPi {
             // MicrocontrollerPanel
             // 
             this.MicrocontrollerPanel.Controls.Add(this.MemoryControl);
+            this.MicrocontrollerPanel.Controls.Add(this.RegisterAControl);
             this.MicrocontrollerPanel.Location = new System.Drawing.Point(1, 1);
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
             this.MicrocontrollerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MicrocontrollerPanel_Paint);
-            // 
-            // MemoryControl
-            // 
-            this.MemoryControl.ColumnWidth = 20;
-            this.MemoryControl.FormattingEnabled = true;
-            this.MemoryControl.Location = new System.Drawing.Point(549, 119);
-            this.MemoryControl.MultiColumn = true;
-            this.MemoryControl.Name = "MemoryControl";
-            this.MemoryControl.Size = new System.Drawing.Size(159, 251);
-            this.MemoryControl.TabIndex = 1;
             // 
             // splitter2
             // 
@@ -173,13 +165,6 @@ namespace MaszynaPi {
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(165, 6);
             // 
-            // kopiujToolStripMenuItem
-            // 
-            this.kopiujToolStripMenuItem.Name = "kopiujToolStripMenuItem";
-            this.kopiujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.kopiujToolStripMenuItem.Text = "Kopiuj";
-            // 
             // wytnijToolStripMenuItem
             // 
             this.wytnijToolStripMenuItem.Name = "wytnijToolStripMenuItem";
@@ -187,12 +172,41 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.wytnijToolStripMenuItem.Text = "Wytnij";
             // 
+            // kopiujToolStripMenuItem
+            // 
+            this.kopiujToolStripMenuItem.Name = "kopiujToolStripMenuItem";
+            this.kopiujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.kopiujToolStripMenuItem.Text = "Kopiuj";
+            // 
             // wklejToolStripMenuItem
             // 
             this.wklejToolStripMenuItem.Name = "wklejToolStripMenuItem";
             this.wklejToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.wklejToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.wklejToolStripMenuItem.Text = "Wklej";
+            // 
+            // MemoryControl
+            // 
+            this.MemoryControl.FormattingEnabled = true;
+            this.MemoryControl.Location = new System.Drawing.Point(551, 128);
+            this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.ScrollAlwaysVisible = true;
+            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
+            this.MemoryControl.TabIndex = 3;
+            // 
+            // RegisterAControl
+            // 
+            this.RegisterAControl.BackColor = System.Drawing.Color.White;
+            this.RegisterAControl.CausesValidation = false;
+            this.RegisterAControl.Location = new System.Drawing.Point(549, 93);
+            this.RegisterAControl.Name = "RegisterAControl";
+            this.RegisterAControl.ReadOnly = true;
+            this.RegisterAControl.RegisterName = "A";
+            this.RegisterAControl.RegisterValue = ((uint)(0u));
+            this.RegisterAControl.Size = new System.Drawing.Size(159, 20);
+            this.RegisterAControl.TabIndex = 2;
+            this.RegisterAControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Form1
             // 
@@ -209,6 +223,7 @@ namespace MaszynaPi {
             this.Load += new System.EventHandler(this.Form1_Load);
             this.TopLeftPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.ResumeLayout(false);
+            this.MicrocontrollerPanel.PerformLayout();
             this.TopRightPanel.ResumeLayout(false);
             this.ProgramPanel.ResumeLayout(false);
             this.ProgramPanel.PerformLayout();
@@ -227,7 +242,6 @@ namespace MaszynaPi {
         private System.Windows.Forms.Panel MicrocontrollerPanel;
         private System.Windows.Forms.Panel ProgramPanel;
         private System.Windows.Forms.TextBox CodeEditorTextBox;
-        private System.Windows.Forms.ListBox MemoryControl;
         private System.Windows.Forms.ContextMenuStrip CodeEditorContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CompileItemToolStrip;
         private System.Windows.Forms.ToolStripMenuItem SaveItemToolStrip;
@@ -235,6 +249,8 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem wytnijToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kopiujToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wklejToolStripMenuItem;
+        private MachineUI.UserControlRegister RegisterAControl;
+        private MachineUI.UserControlMemory MemoryControl;
     }
 }
 
