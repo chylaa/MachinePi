@@ -28,6 +28,10 @@ namespace MaszynaPi.MachineLogic {
             CodeBits = newCodeBits;
         }
 
+        public static uint MaxAddress() {
+            return (uint)Math.Pow(2, AddressSpace+CodeBits)-1;
+        }
+
         public static void SetActiveComponents(Defines.Components active) { ActiveComponents = active; }
         public static Defines.Components GetActiveComponents() { return ActiveComponents; }
 

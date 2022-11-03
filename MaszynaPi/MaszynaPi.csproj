@@ -95,6 +95,7 @@
     <Compile Include="MachineLogic\Architecture\Memory.cs" />
     <Compile Include="MachineLogic\Architecture\Register.cs" />
     <Compile Include="MachineLogic\ArchitectureSettings.cs" />
+    <Compile Include="MachineUI\InputDialog.cs" />
     <Compile Include="MachineUI\UserControlMemory.cs">
       <SubType>Component</SubType>
     </Compile>

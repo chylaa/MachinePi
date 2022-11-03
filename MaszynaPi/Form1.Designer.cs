@@ -29,6 +29,8 @@ namespace MaszynaPi {
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
+            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.TopRightPanel = new System.Windows.Forms.Panel();
             this.ProgramPanel = new System.Windows.Forms.Panel();
@@ -40,8 +42,7 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
-            this.RegisterAControl = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.TopRightPanel.SuspendLayout();
@@ -79,13 +80,36 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterS);
             this.MicrocontrollerPanel.Controls.Add(this.MemoryControl);
-            this.MicrocontrollerPanel.Controls.Add(this.RegisterAControl);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterA);
             this.MicrocontrollerPanel.Location = new System.Drawing.Point(1, 1);
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
             this.MicrocontrollerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MicrocontrollerPanel_Paint);
+            // 
+            // MemoryControl
+            // 
+            this.MemoryControl.FormattingEnabled = true;
+            this.MemoryControl.Location = new System.Drawing.Point(551, 128);
+            this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.ScrollAlwaysVisible = true;
+            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
+            this.MemoryControl.TabIndex = 3;
+            // 
+            // UserControlRegisterA
+            // 
+            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterA.CausesValidation = false;
+            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 104);
+            this.UserControlRegisterA.Name = "UserControlRegisterA";
+            this.UserControlRegisterA.ReadOnly = true;
+            this.UserControlRegisterA.RegisterName = "A";
+            this.UserControlRegisterA.RegisterValue = ((uint)(0u));
+            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterA.TabIndex = 2;
+            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // splitter2
             // 
@@ -186,27 +210,14 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.wklejToolStripMenuItem.Text = "Wklej";
             // 
-            // MemoryControl
+            // UserControlRegisterS
             // 
-            this.MemoryControl.FormattingEnabled = true;
-            this.MemoryControl.Location = new System.Drawing.Point(551, 128);
-            this.MemoryControl.Name = "MemoryControl";
-            this.MemoryControl.ScrollAlwaysVisible = true;
-            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
-            this.MemoryControl.TabIndex = 3;
-            // 
-            // RegisterAControl
-            // 
-            this.RegisterAControl.BackColor = System.Drawing.Color.White;
-            this.RegisterAControl.CausesValidation = false;
-            this.RegisterAControl.Location = new System.Drawing.Point(549, 93);
-            this.RegisterAControl.Name = "RegisterAControl";
-            this.RegisterAControl.ReadOnly = true;
-            this.RegisterAControl.RegisterName = "A";
-            this.RegisterAControl.RegisterValue = ((uint)(0u));
-            this.RegisterAControl.Size = new System.Drawing.Size(159, 20);
-            this.RegisterAControl.TabIndex = 2;
-            this.RegisterAControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 359);
+            this.UserControlRegisterS.Name = "UserControlRegisterS";
+            this.UserControlRegisterS.RegisterName = "S";
+            this.UserControlRegisterS.RegisterValue = ((uint)(0u));
+            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterS.TabIndex = 4;
             // 
             // Form1
             // 
@@ -249,8 +260,9 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem wytnijToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kopiujToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wklejToolStripMenuItem;
-        private MachineUI.UserControlRegister RegisterAControl;
+        private MachineUI.UserControlRegister UserControlRegisterA;
         private MachineUI.UserControlMemory MemoryControl;
+        private MachineUI.UserControlRegister UserControlRegisterS;
     }
 }
 

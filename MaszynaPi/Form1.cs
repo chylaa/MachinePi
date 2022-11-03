@@ -31,7 +31,8 @@ namespace MaszynaPi {
             Machine = new ControlUnit();
             MemoryControl.SetItems(Machine.GetWholeMemoryContent());
             MemoryControl.Refresh();
-            RegisterAControl.DisplayValues();
+            UserControlRegisterA.Refresh();
+            UserControlRegisterS.Refresh();
             //Testy dopiero jak dodam InstructionSetDecoder->LoadSetFromFile->BasicSet a wtedy to już i compiler i CodeEditor można xD
             //Machine.SetMemoryContent(new List<uint> { 33, 5, 0 }); 
         }
@@ -42,6 +43,10 @@ namespace MaszynaPi {
             //MemoryControl.
             
              
+        }
+
+        private void RefreshUserControls() {
+            
         }
 
         private void UpdateMemoryContentView() {

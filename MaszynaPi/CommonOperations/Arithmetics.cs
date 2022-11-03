@@ -27,9 +27,9 @@ namespace MaszynaPi.CommonOperations {
         }
 
         public static uint CreateBitMask(uint noOfZeroes, uint noOfOnes, bool zeroesFirst = true) {
-            uint mask = (uint)(((int)(Math.Pow(2, noOfOnes) - 1) << (int)noOfZeroes));
-            if (zeroesFirst) return ~mask;
-            return mask;
+            if (!zeroesFirst)
+                return (uint)(((int)(Math.Pow(2, noOfOnes) - 1) << (int)noOfZeroes));
+            return (uint)(Math.Pow(2, noOfOnes) - 1);
         }
 
         public static uint ShrinkToWordLength(uint value) {
@@ -38,10 +38,10 @@ namespace MaszynaPi.CommonOperations {
         }
 
         public static uint DecodeIntructionArgument(uint Value) {
-            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetCodeBits(), noOfOnes: MachineLogic.ArchitectureSettings.GetAddressSpace()));
+            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetCodeBits(), noOfOnes: MachineLogic.ArchitectureSettings.GetAddressSpace(), zeroesFirst: true));
         }
         public static uint DecodeInstructionOpcode(uint Value) {
-            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetCodeBits(), noOfOnes: MachineLogic.ArchitectureSettings.GetAddressSpace(), zeroesFirst: false));
+            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetAddressSpace(), noOfOnes: MachineLogic.ArchitectureSettings.GetCodeBits(), zeroesFirst: false));
         }
     }
 }
