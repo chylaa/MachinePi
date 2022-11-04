@@ -13,7 +13,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         ZAK = 0b1000  // AK = 0
     }
 
-    class ArithmeticLogicUnit{
+    public class ArithmeticLogicUnit{
         uint OperandA, OperandB;
         Register Accumulator; // Dostęp do wników tylko przez akumulator
         ALUFlags JALFlags { get; set; }
@@ -32,7 +32,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
             if (Accumulator.Value == 0) JALFlags |= ALUFlags.ZAK;
         }
         public void SetResult() {
-            Accumulator.Value = Arithmetics.ShrinkToWordLength(OperandA); // to keep result valid based on current architecture settings (Word Length)
+            Accumulator.Value = Arithmetics.HandleOverflow(OperandA); // to keep result valid based on current architecture settings (Word Length)
         }
 
         public void SetResultAndFlags() {

@@ -22,8 +22,6 @@ namespace MaszynaPi.MachineLogic {
         public const uint DEFAULT_CODE_BITS = 3;
         public const uint DEFAULT_ADDR_BITS = 5;
 
-        public const string COMMENT = "//";
-
         //Enum represent different Machine architectures -> they are encoded as the sum of their base components ([Flag] enum Components) 
         public enum Machines:int { MachineW=0, MachineWp=1, MachineL=1151, MachineEW=2047};
         public const Machines DEFAULT_MACHINE = Machines.MachineW;

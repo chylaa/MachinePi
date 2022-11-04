@@ -16,9 +16,8 @@ namespace MaszynaPi.MachineUI {
         private const int NUM_OF_SPACES = 12;
         private const int MAX_NUMBER_STRING_LENGTH = 3;
 
-        private List<uint> UnformattedItems;
+        private List<uint> UnitMemory; //handle to CentralUnit Memory object
         public UserControlMemory() {
-            UnformattedItems = new List<uint>();
             InitializeComponent();
             MouseDoubleClick += HandleItemDoubleClicked;
         }
@@ -42,22 +41,23 @@ namespace MaszynaPi.MachineUI {
         }
 
         private void HandleItemDoubleClicked(object sender, MouseEventArgs args) {
-            string response = UnformattedItems[SelectedIndex].ToString();
+            string response = UnitMemory[SelectedIndex].ToString();
             Point location = PointToClient(this.Location);
             InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość ["+SelectedIndex.ToString()+"]", x: location.X, y: location.Y);
             if (response.Length != 0)
-                UnformattedItems[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
-                this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnformattedItems[SelectedIndex]);
+                UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
+                this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnitMemory[SelectedIndex]);
             
         }
 
-        public void SetItems(List<uint> newitems) {
-            UnformattedItems.Clear();
-            foreach (var item in newitems) UnformattedItems.Add(item);
+        public void SetItemsValueSource(List<uint> unitMemory) {
+            UnitMemory = unitMemory;
+            //UnitMemory.Clear();
+            //foreach (var item in newitems) UnitMemory.Add(item);
         }
-        public void AddItems(List<uint> newitems) {
-            foreach (var item in newitems) UnformattedItems.Add(item);
-        }
+        //public void AddItems(List<uint> newitems) {
+        //    foreach (var item in newitems) UnitMemory.Add(item);
+        //}
         
         //private uint GetValueFromItem(object item) {
         //    string itemStr = (item.ToString());
@@ -79,8 +79,8 @@ namespace MaszynaPi.MachineUI {
 
         protected void FormatItems() {
             Items.Clear();
-            for (int i = 0; i < UnformattedItems.Count; i++)
-                Items.Add(CreateFormattedItem(i, UnformattedItems[i]));
+            for (int i = 0; i < UnitMemory.Count; i++)
+                Items.Add(CreateFormattedItem(i, UnitMemory[i]));
         }
 
         public override void Refresh() {

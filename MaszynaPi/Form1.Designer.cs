@@ -106,7 +106,6 @@ namespace MaszynaPi {
             this.UserControlRegisterA.Name = "UserControlRegisterA";
             this.UserControlRegisterA.ReadOnly = true;
             this.UserControlRegisterA.RegisterName = "A";
-            this.UserControlRegisterA.RegisterValue = ((uint)(0u));
             this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
             this.UserControlRegisterA.TabIndex = 2;
             this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -215,7 +214,6 @@ namespace MaszynaPi {
             this.UserControlRegisterS.Location = new System.Drawing.Point(551, 359);
             this.UserControlRegisterS.Name = "UserControlRegisterS";
             this.UserControlRegisterS.RegisterName = "S";
-            this.UserControlRegisterS.RegisterValue = ((uint)(0u));
             this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
             this.UserControlRegisterS.TabIndex = 4;
             // 

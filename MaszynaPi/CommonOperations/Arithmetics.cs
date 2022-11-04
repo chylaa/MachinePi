@@ -33,8 +33,11 @@ namespace MaszynaPi.CommonOperations {
         }
 
         public static uint ShrinkToWordLength(uint value) {
-            uint wordBitsSize = MachineLogic.ArchitectureSettings.GetAddressSpace() + MachineLogic.ArchitectureSettings.GetCodeBits();
-            return value % (uint)Math.Pow(2, wordBitsSize);
+            return Math.Min(value, MachineLogic.ArchitectureSettings.MaxAddress());
+        }
+        // Defines how value should behave on overflow (based on word size) 
+        public static uint HandleOverflow(uint value) {
+            return value & MachineLogic.ArchitectureSettings.MaxAddress();
         }
 
         public static uint DecodeIntructionArgument(uint Value) {

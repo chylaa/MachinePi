@@ -10,15 +10,15 @@ namespace MaszynaPi.MachineLogic {
 
     public class CentralUnitException : Exception { public CentralUnitException(string message) : base(message) { } }
 
-/*
-Computer's central processing unit (CPU) that directs the operation of the processor.
-A CU typically uses a binary decoder to convert coded instructions into timing and control signals 
-that direct the operation of the other units (memory, arithmetic logic unit and input and output devices, etc.).
- 
- The Instruction Decoder is a CPU component that decodes and interprets the contents of the Instruction Register,
- i.e. its splits whole instruction into fields for the Control Unit to interpret. 
- The Instruction decoder is often considered to be a part of the Control Unit.
-*/
+    /*
+    Computer's central processing unit (CPU) that directs the operation of the processor.
+    A CU typically uses a binary decoder to convert coded instructions into timing and control signals 
+    that direct the operation of the other units (memory, arithmetic logic unit and input and output devices, etc.).
+
+     The Instruction Decoder is a CPU component that decodes and interprets the contents of the Instruction Register,
+     i.e. its splits whole instruction into fields for the Control Unit to interpret. 
+     The Instruction decoder is often considered to be a part of the Control Unit.
+    */
     public class ControlUnit {
         //protected static uint AddressSpace = Defines.DEFAULT_ADDR_BITS;
         //protected static uint CodeBits = Defines.DEFAULT_CODE_BITS;
@@ -35,12 +35,15 @@ that direct the operation of the other units (memory, arithmetic logic unit and 
         // U tutka assemblacją (wykonaniem programu) zajmuje się chyba osobny obiekt "Assembler" -> stworzyć taki (AssemblerUnit?)
         //                                                                          i wrzucić jako atrybut CentralUnit???
 
-        Memory PaO; // Operation Memory ("FLash"?)
-        Bus MagA, MagS; // BUSes
-        ArithmeticLogicUnit JAL;
-        Register A, S, AK; // Address Register, Value Register, Accumulator
-        Register L; //Instruction Pointer
-        InstructionRegister I; // Instruction Register
+        public Memory PaO { get; } // Operation Memory ("FLash"?)
+        public Bus MagA { get; }
+        public Bus MagS { get; } // BUSes
+        public ArithmeticLogicUnit JAL { get; }
+        public Register A { get; }
+        public Register S {get;}
+        public Register AK {get;} // Address Register, Value Register, Accumulator
+        public Register L; //Instruction Pointer
+        public InstructionRegister I; // Instruction Register
 
         public ControlUnit() {
             PaO = new Memory();
@@ -90,7 +93,7 @@ that direct the operation of the other units (memory, arithmetic logic unit and 
         }
 
         public void LoadInstructionMap() {
-            InstructionMap = new Dictionary<uint, List<List<string>>>();
+            InstructionMap = MachineAssembler.FilesHandling.InstructionLoader.GetInstructionSignalsMap();
             //MachineAssembler.Decoders.InstructionSetDecoder.
         }
         //===========< Machine Cycle >============
@@ -123,8 +126,8 @@ that direct the operation of the other units (memory, arithmetic logic unit and 
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
         public void SetMemoryContent(List<uint> values, uint offset=0) { for (uint i = offset; i < values.Count; i++) PaO.StoreValue(i, values[(int)i]); }
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
-        public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetAllMemoryContent().GetRange((int)addr, (int)size); }
-        public List<uint> GetWholeMemoryContent() { return PaO.GetAllMemoryContent(); }
+        public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetMemoryContent().GetRange((int)addr, (int)size); }
+        public List<uint> GetWholeMemoryContent() { return PaO.GetMemoryContent(); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
         public void ExpandAndClearMemory() { PaO.InitMemoryContent(); }
         public void ManualTick(List<string> handActivatedSignals) { ExecuteTick(handActivatedSignals); }

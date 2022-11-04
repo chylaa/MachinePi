@@ -9,7 +9,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
     /// <summary>
     /// CIR - Current instruction register. In classic Machine W named "I"
     /// </summary>
-    class InstructionRegister : Register {
+    public class InstructionRegister : Register {
         uint InstructionArgument;
         uint InstructionOpcode;
         public InstructionRegister(uint value = Defines.DEFAULT_REG_VAL) : base(value) {

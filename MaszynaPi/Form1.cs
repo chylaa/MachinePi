@@ -27,11 +27,13 @@ namespace MaszynaPi {
 
         public Form1() {
             InitializeComponent();
-            InstructionLoader.LoadBaseInstructions();
+            InstructionLoader.LoadBaseInstructions(); //First!
             Machine = new ControlUnit();
-            MemoryControl.SetItems(Machine.GetWholeMemoryContent());
+            MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
             MemoryControl.Refresh();
+            UserControlRegisterA.SetSourceRegister(Machine.A);
             UserControlRegisterA.Refresh();
+            UserControlRegisterS.SetSourceRegister(Machine.S);
             UserControlRegisterS.Refresh();
             //Testy dopiero jak dodam InstructionSetDecoder->LoadSetFromFile->BasicSet a wtedy to już i compiler i CodeEditor można xD
             //Machine.SetMemoryContent(new List<uint> { 33, 5, 0 }); 
@@ -59,10 +61,6 @@ namespace MaszynaPi {
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e) {
-            //int result = GetJoystickState();
-            MessageBox.Show("C++ DLL function returns nothighxD", "CHECK");
-        }
 
         private void MicrocontrollerPanel_Paint(object sender, PaintEventArgs e) {
 
@@ -70,11 +68,17 @@ namespace MaszynaPi {
 
         private void CompileItemToolStrip_Click(object sender, EventArgs e) {
             try {
-                Compiler.ProcessCodeFromEditor(codeLines: CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList());
-            } catch (CompilerException) {
-
-            } catch (Exception){
-
+                Compiler.CompileCodeLines(codeLines: CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList());
+                
+                /* //----<Test>----//
+                this.Machine.SetMemoryContent(2,69);
+                MemoryControl.Refresh(); //!!!! After setting internal remember to refresh!
+                MessageBox.Show("Content at [5] = " + this.Machine.GetMemoryContent(5).ToString()); // If content set in view - ControlUnit Mem set wihout refreshing 
+                */
+            } catch (CompilerException ex) {
+                MessageBox.Show("Compiler Error: " + ex.Message);
+            } catch (Exception ex){
+                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: "+ex.StackTrace);
             }
         }
     }
