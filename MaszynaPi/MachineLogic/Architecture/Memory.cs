@@ -28,12 +28,12 @@ namespace MaszynaPi.MachineLogic.Architecture {
         }
 
         public void StoreValue(uint addr, uint value) {
-            if (Content.Count <= addr) throw new MemoryException("Address request greater than memory size");
+            if (Content.Count <= addr) throw new MemoryException("Address store request greater than memory size");
             Content[(int)addr] = value;
         }
 
         public uint GetValue(uint addr) {
-            if (Content.Count <= addr) throw new MemoryException("Address request greater than memory size");
+            if (Content.Count <= addr) throw new MemoryException("Address get request greater than memory size");
             return Content[(int)addr];
         }
 

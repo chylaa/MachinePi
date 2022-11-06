@@ -29,6 +29,7 @@ namespace MaszynaPi {
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
             this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.splitter2 = new System.Windows.Forms.Splitter();
@@ -42,7 +43,6 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.TopRightPanel.SuspendLayout();
@@ -88,6 +88,17 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
             this.MicrocontrollerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MicrocontrollerPanel_Paint);
+            // 
+            // UserControlRegisterS
+            // 
+            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 359);
+            this.UserControlRegisterS.Name = "UserControlRegisterS";
+            this.UserControlRegisterS.ReadOnly = true;
+            this.UserControlRegisterS.RegisterName = "S";
+            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterS.TabIndex = 4;
+            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MemoryControl
             // 
@@ -166,13 +177,13 @@ namespace MaszynaPi {
             this.kopiujToolStripMenuItem,
             this.wklejToolStripMenuItem});
             this.CodeEditorContextMenu.Name = "CodeEditorContextMenu";
-            this.CodeEditorContextMenu.Size = new System.Drawing.Size(169, 120);
+            this.CodeEditorContextMenu.Size = new System.Drawing.Size(181, 142);
             // 
             // CompileItemToolStrip
             // 
             this.CompileItemToolStrip.Name = "CompileItemToolStrip";
             this.CompileItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
-            this.CompileItemToolStrip.Size = new System.Drawing.Size(168, 22);
+            this.CompileItemToolStrip.Size = new System.Drawing.Size(180, 22);
             this.CompileItemToolStrip.Text = "Kompiluj";
             this.CompileItemToolStrip.Click += new System.EventHandler(this.CompileItemToolStrip_Click);
             // 
@@ -180,42 +191,35 @@ namespace MaszynaPi {
             // 
             this.SaveItemToolStrip.Name = "SaveItemToolStrip";
             this.SaveItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.SaveItemToolStrip.Size = new System.Drawing.Size(168, 22);
+            this.SaveItemToolStrip.Size = new System.Drawing.Size(180, 22);
             this.SaveItemToolStrip.Text = "Zapisz";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(165, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // wytnijToolStripMenuItem
             // 
             this.wytnijToolStripMenuItem.Name = "wytnijToolStripMenuItem";
             this.wytnijToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.wytnijToolStripMenuItem.Text = "Wytnij";
             // 
             // kopiujToolStripMenuItem
             // 
             this.kopiujToolStripMenuItem.Name = "kopiujToolStripMenuItem";
             this.kopiujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.kopiujToolStripMenuItem.Text = "Kopiuj";
             // 
             // wklejToolStripMenuItem
             // 
             this.wklejToolStripMenuItem.Name = "wklejToolStripMenuItem";
             this.wklejToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.wklejToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.wklejToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.wklejToolStripMenuItem.Text = "Wklej";
-            // 
-            // UserControlRegisterS
-            // 
-            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 359);
-            this.UserControlRegisterS.Name = "UserControlRegisterS";
-            this.UserControlRegisterS.RegisterName = "S";
-            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterS.TabIndex = 4;
+            this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
             // Form1
             // 

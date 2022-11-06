@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MaszynaPi.MachineLogic;
 
 namespace MaszynaPi.CommonOperations {
     public static class Arithmetics {
@@ -33,18 +34,23 @@ namespace MaszynaPi.CommonOperations {
         }
 
         public static uint ShrinkToWordLength(uint value) {
-            return Math.Min(value, MachineLogic.ArchitectureSettings.MaxAddress());
+            return Math.Min(value, ArchitectureSettings.GetMaxWord());
         }
         // Defines how value should behave on overflow (based on word size) 
         public static uint HandleOverflow(uint value) {
-            return value & MachineLogic.ArchitectureSettings.MaxAddress();
+            return value & ArchitectureSettings.GetMaxWord();
         }
 
         public static uint DecodeIntructionArgument(uint Value) {
-            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetCodeBits(), noOfOnes: MachineLogic.ArchitectureSettings.GetAddressSpace(), zeroesFirst: true));
+            return (Value & CreateBitMask(noOfZeroes: ArchitectureSettings.GetCodeBits(), noOfOnes: ArchitectureSettings.GetAddressSpace(), zeroesFirst: true));
         }
         public static uint DecodeInstructionOpcode(uint Value) {
-            return (Value & CreateBitMask(noOfZeroes: MachineLogic.ArchitectureSettings.GetAddressSpace(), noOfOnes: MachineLogic.ArchitectureSettings.GetCodeBits(), zeroesFirst: false));
+            uint opcode =  (Value & CreateBitMask(noOfZeroes: ArchitectureSettings.GetAddressSpace(), noOfOnes: ArchitectureSettings.GetCodeBits(), zeroesFirst: false));
+            return (uint)((int)opcode >> (int)ArchitectureSettings.GetAddressSpace());
+        }
+
+        public static uint EncodeInstruction(uint opcode, uint argument) {
+            return argument + (uint)((int)opcode << (int)ArchitectureSettings.GetAddressSpace());
         }
     }
 }

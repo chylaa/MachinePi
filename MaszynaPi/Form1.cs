@@ -68,8 +68,10 @@ namespace MaszynaPi {
 
         private void CompileItemToolStrip_Click(object sender, EventArgs e) {
             try {
-                Compiler.CompileCodeLines(codeLines: CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList());
-                
+                MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
+                List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
+                Machine.SetMemoryContent(code);
+                MemoryControl.Refresh();
                 /* //----<Test>----//
                 this.Machine.SetMemoryContent(2,69);
                 MemoryControl.Refresh(); //!!!! After setting internal remember to refresh!
@@ -80,6 +82,10 @@ namespace MaszynaPi {
             } catch (Exception ex){
                 MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: "+ex.StackTrace);
             }
+        }
+
+        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) {
+            CodeEditorTextBox.Paste();
         }
     }
 }
