@@ -59,13 +59,16 @@ namespace MaszynaPi.MachineUI {
         //}
 
         private string CreateFormattedItem(int i, object item) {
-            if ((item is uint) == false) { throw new Exception("Error while tring to format memory content item " + item.ToString() + ". Element is not uint type."); }
-            Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
-            uint opcode = Arithmetics.DecodeInstructionOpcode((uint)item);
-            uint arg = Arithmetics.DecodeIntructionArgument((uint)item);
-            string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
-            string formatted = CreateStringChunk(i.ToString()) + CreateStringChunk(item.ToString()) + name + " " + arg;//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
-            return formatted;
+            string formatted = "";
+            try {
+                if ((item is uint) == false) { throw new Exception("Error while tring to format memory content item " + item.ToString() + ". Element is not uint type."); }
+                Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
+                uint opcode = Arithmetics.DecodeInstructionOpcode((uint)item);
+                uint arg = Arithmetics.DecodeIntructionArgument((uint)item);
+                string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
+                formatted = CreateStringChunk(i.ToString()) + CreateStringChunk(item.ToString()) + name + " " + arg;//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
+                return formatted;
+            } catch { return formatted; }
         }
 
         protected void FormatItems() { 
@@ -77,9 +80,7 @@ namespace MaszynaPi.MachineUI {
 
         public override void Refresh() {
             try { FormatItems(); } 
-            catch(Exception ex) {
-                if(Environment.OSVersion.Platform != PlatformID.Unix)
-                    MessageBox.Show("Error while formatting items: " + ex.Message + ". \nStack trace: " + ex.StackTrace); }
+            catch(Exception ex) { MessageBox.Show("Error while formatting items: " + ex.Message + ". \nStack trace: " + ex.StackTrace); }
             
             base.Refresh();
         }
