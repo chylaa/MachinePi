@@ -27,7 +27,7 @@ namespace MaszynaPi.MachineUI {
         }
 
         private string CreateStringChunk(string s) {
-            return (s + GetSpacing().Remove(0, s.Length)) + new string(' ',MAX_NUMBER_STRING_LENGTH-s.Length);
+            return (s + GetSpacing().Remove(0, s.Length)) + new string(' ', MAX_NUMBER_STRING_LENGTH - s.Length);
         }
 
 
@@ -37,17 +37,17 @@ namespace MaszynaPi.MachineUI {
 
         protected override void OnValueMemberChanged(EventArgs e) {
             base.OnValueMemberChanged(e);
-            
+
         }
 
         private void HandleItemDoubleClicked(object sender, MouseEventArgs args) {
             string response = UnitMemory[SelectedIndex].ToString();
             Point location = PointToClient(this.Location);
-            InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość ["+SelectedIndex.ToString()+"]", x: location.X, y: location.Y);
+            InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
             if (response.Length != 0)
                 UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
-                this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnitMemory[SelectedIndex]);
-            
+            this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnitMemory[SelectedIndex]);
+
         }
 
         public void SetItemsValueSource(List<uint> unitMemory) {
@@ -58,7 +58,7 @@ namespace MaszynaPi.MachineUI {
         //public void AddItems(List<uint> newitems) {
         //    foreach (var item in newitems) UnitMemory.Add(item);
         //}
-        
+
         //private uint GetValueFromItem(object item) {
         //    string itemStr = (item.ToString());
         //    const int valuePosition = 1;
@@ -68,7 +68,7 @@ namespace MaszynaPi.MachineUI {
         //}
 
         private string CreateFormattedItem(int i, object item) {
-            if((item is uint) == false) { throw new Exception("Error while tring to format memory content item " + item.ToString() + ". Element is not uint type."); }
+            if ((item is uint) == false) { throw new Exception("Error while tring to format memory content item " + item.ToString() + ". Element is not uint type."); }
             Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
             uint opcode = Arithmetics.DecodeInstructionOpcode((uint)item);
             uint arg = Arithmetics.DecodeIntructionArgument((uint)item);
