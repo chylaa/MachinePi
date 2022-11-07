@@ -36,6 +36,7 @@ namespace MaszynaPi.MachineUI {
                 string response = UnitMemory[SelectedIndex].ToString();
                 Point location = PointToClient(this.Location);
                 InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
+                if (response == null) MessageBox.Show("Response is null");
                 if (response.Length != 0)
                     UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
                 this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnitMemory[SelectedIndex]);
