@@ -35,14 +35,12 @@ namespace MaszynaPi {
             }
              
             Machine = new ControlUnit();
-            MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
-            MemoryControl.Refresh();
+            //MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
+            //MemoryControl.Refresh();
             UserControlRegisterA.SetSourceRegister(Machine.A);
             UserControlRegisterA.Refresh();
             UserControlRegisterS.SetSourceRegister(Machine.S);
             UserControlRegisterS.Refresh();
-            //Testy dopiero jak dodam InstructionSetDecoder->LoadSetFromFile->BasicSet a wtedy to już i compiler i CodeEditor można xD
-            //Machine.SetMemoryContent(new List<uint> { 33, 5, 0 }); 
         }
         private void Form1_Load(object sender, EventArgs e) {
             //this.Controls.Add(architectureControl);
@@ -85,7 +83,7 @@ namespace MaszynaPi {
                 MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
                 List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
                 Machine.SetMemoryContent(code);
-                MemoryControl.Refresh();
+                //MemoryControl.Refresh();
 
             } catch (CompilerException ex) {
                 MessageBox.Show("Compiler Error: " + ex.Message);
