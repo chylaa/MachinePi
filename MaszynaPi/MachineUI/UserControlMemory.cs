@@ -71,16 +71,15 @@ namespace MaszynaPi.MachineUI {
         protected void FormatItems() { 
             if(Items==null) return;
             if(Items.Count > 0) Items.Clear();
-            for (int i = 0; i < UnitMemory.Count; i++) {
-                MessageBox.Show("Test: " + i.ToString() + " -> " + UnitMemory[i].ToString()+"\nItems: "+Items.ToString());
+            for (int i = 0; i < UnitMemory.Count; i++) 
                 Items.Add(CreateFormattedItem(i, UnitMemory[i]));
-
-            }
         }
 
         public override void Refresh() {
             try { FormatItems(); } 
-            catch(Exception ex) {MessageBox.Show("Error while formatting items: " + ex.Message + ". \nStack trace: " + ex.StackTrace); }
+            catch(Exception ex) {
+                if(Environment.OSVersion.Platform != PlatformID.Unix)
+                    MessageBox.Show("Error while formatting items: " + ex.Message + ". \nStack trace: " + ex.StackTrace); }
             
             base.Refresh();
         }
