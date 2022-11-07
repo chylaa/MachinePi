@@ -32,12 +32,14 @@ namespace MaszynaPi.MachineUI {
 
 
         private void HandleItemDoubleClicked(object sender, MouseEventArgs args) {
-            string response = UnitMemory[SelectedIndex].ToString();
-            Point location = PointToClient(this.Location);
-            InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
-            if (response.Length != 0)
-                UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
-            this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnitMemory[SelectedIndex]);
+            try {
+                string response = UnitMemory[SelectedIndex].ToString();
+                Point location = PointToClient(this.Location);
+                InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
+                if (response.Length != 0)
+                    UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
+                this.Items[SelectedIndex] = CreateFormattedItem(SelectedIndex, UnitMemory[SelectedIndex]);
+            } catch { return; }
 
         }
 
@@ -59,16 +61,13 @@ namespace MaszynaPi.MachineUI {
         //}
 
         private string CreateFormattedItem(int i, object item) {
-            string formatted = "";
-            try {
-                if ((item is uint) == false) { throw new Exception("Error while tring to format memory content item " + item.ToString() + ". Element is not uint type."); }
-                Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
-                uint opcode = Arithmetics.DecodeInstructionOpcode((uint)item);
-                uint arg = Arithmetics.DecodeIntructionArgument((uint)item);
-                string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
-                formatted = CreateStringChunk(i.ToString()) + CreateStringChunk(item.ToString()) + name + " " + arg;//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
-                return formatted;
-            } catch { return formatted; }
+            if ((item is uint) == false) { throw new Exception("Error while tring to format memory content item " + item.ToString() + ". Element is not uint type."); }
+            Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
+            uint opcode = Arithmetics.DecodeInstructionOpcode((uint)item);
+            uint arg = Arithmetics.DecodeIntructionArgument((uint)item);
+            string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
+            string formatted = CreateStringChunk(i.ToString()) + CreateStringChunk(item.ToString()) + name + " " + arg;//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
+            return formatted;
         }
 
         protected void FormatItems() { 
