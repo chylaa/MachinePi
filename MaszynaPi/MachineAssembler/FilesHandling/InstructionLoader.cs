@@ -5,26 +5,29 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic;
+using System.Text.RegularExpressions;
 
 namespace MaszynaPi.MachineAssembler.FilesHandling {
     class InstructionLoaderException : Exception { public InstructionLoaderException(string message) : base(message) { } }
 
 
     static class InstructionLoader {
-        const string BASE_INSTRUCTION_SET_FILENAME =  "Podstawa"; // Podstawa.lst Embedded in Resources
-        const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
-        const string OPTIONS_HEADER = "[Opcje]";
+        public const string BASE_INSTRUCTION_SET_FILENAME =  "Podstawa"; // Podstawa.lst Embedded in Resources
+        public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
+        const string OPTIONS_HEADER = "[opcje]";
         const string COMPONENT_ON = "1";
-        const string ADDRESS_SPACE_HEADER = "Adres=";
-        const string CODE_BITS_HEADER = "Kod=";
+        const string ADDRESS_SPACE_HEADER = "adres=";
+        const string CODE_BITS_HEADER = "kod=";
         const byte OPTIONS_LINES = 12;
-        const string INSTRUCTIONS_HEADER = "[Rozkazy]";
-        const string INSTRUCTION_NAME_HEADER = "ROZKAZ ";
-        const string INSTRUCTION_NUMBER_HEADER = "Liczba=";
-        const string INSTRUCTION_LINES_HEADER = "Linie=";
-        const string INSTRUCTION_ARGSNUM_HEADER = "Argumenty ";
+        const string INSTRUCTIONS_HEADER = "[rozkazy]";
+        const string INSTRUCTION_NAME_HEADER = "rozkaz "; //importat space at the end!
+        const string INSTRUCTION_NUMBER_HEADER = "liczba=";
+        const string INSTRUCTION_LINES_HEADER = "linie=";
+        const string INSTRUCTION_ARGSNUM_HEADER = "argumenty ";
         const string COMMENT = "//";
         static uint MAX_OPCODE = 0;
+
+        readonly static List<string> INSTRUCTION_START = new List<string> { "czyt", "wys", "wei", "il" };
 
         //For instructions view panel:
         static Dictionary<string, List<string>> InstructionsLines = new Dictionary<string, List<string>>(); //{Name, filelines}
@@ -81,8 +84,32 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             LoadInstructionSet(lines);
         }
 
-        public static void LoadInstructionSet(List<string> lines) {
+        // Checks if instruction starts with czyt wys wei il; :)
+        private static bool IsValidStartOfInstruction(List<string> instructionline) {
+            return INSTRUCTION_START.Intersect(instructionline).Count() == INSTRUCTION_START.Count();
+        }
+
+
+        // Returns true if foud only in valid order statments sequences => none || if [arg] then @label else @label || if [arg] then @label
+        private static bool IsStatementValid(List<string> sigline) {
+            var sigcopy = new List<string>(sigline);
+            if (sigcopy[0].StartsWith(Defines.SIGNAL_LABEL)) sigcopy.RemoveAt(0);
+            if (sigcopy.All(sig => false==sig.Contains(Defines.SIGNAL_LABEL))) return true;
+
+            string line = string.Join(" ",sigcopy);
+            string ifRegex = "^[a-z ]*"+Defines.SIGNAL_STATEMENT_IF+" [a-z]+ "+Defines.SIGNAL_STATEMENT_THEN+" @[a-z]+$";
+            string ifelseRegex = ifRegex.Replace("$"," ")+Defines.SIGNAL_STATEMENT_ELSE+" @[a-z]+$";
+            if (Regex.IsMatch(line, ifRegex) || Regex.IsMatch(line, ifelseRegex)) return true;
+            return false;
+        }
+
+        private static List<string> StandarizeLines(List<string> lines) {
             lines.RemoveAll(string.IsNullOrWhiteSpace);
+            return lines.ConvertAll(d => d.ToLower());
+        }
+
+        public static void LoadInstructionSet(List<string> lines) {
+            lines = StandarizeLines(lines);
             //if (lines.IndexOf(OPTIONS_HEADER) < 0 || lines.IndexOf(INSTRUCTIONS_HEADER) < 0 || lines.IndexOf(ADDRESS_SPACE_HEADER) < 0) throw new InstructionLoaderException("Invalid format of instruction file."); //TODO: make checkFile() method as this
             List<string> options = lines.GetRange(lines.IndexOf(OPTIONS_HEADER)+1, (OPTIONS_LINES-lines.IndexOf(OPTIONS_HEADER)) );
             List<string> instructios = lines.GetRange(lines.IndexOf(INSTRUCTIONS_HEADER)+1, lines.Count-(lines.IndexOf(INSTRUCTIONS_HEADER)+1) );
@@ -104,9 +131,11 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             }
             instructios.RemoveRange(0, instNum+1);
             string processInstruction = "";
+            bool czytwysweiil = false;
             foreach (string line in instructios) {
                 if (line.StartsWith("[") && line.EndsWith("]")) { //is [instruction_name]
                     processInstruction = line.Replace("[", "").Replace("]", "");
+                    czytwysweiil = true;
                     continue;
                 }
                 if (line.Contains(INSTRUCTION_LINES_HEADER)) continue; // is instruction line number count
@@ -116,7 +145,16 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
                     continue;
                 }
                 if (line.IndexOf('=') == line.Length - 1) continue;
-                List<string> signalsInLine = line.Replace(";","").Substring(line.IndexOf('=')).Split(' ').ToList();
+
+                List<string> signalsInLine = line.Replace(";","").Substring(line.IndexOf('=')+1).Split(' ').ToList();
+
+                if (IsStatementValid(signalsInLine) == false)
+                    throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine));
+                if (czytwysweiil) {
+                    if (false == IsValidStartOfInstruction(signalsInLine)) 
+                        throw new InstructionLoaderException("Critical error in defined instruction "+processInstruction+". Say after me! czyt, wys, wei, il [!]");
+                    czytwysweiil = false;
+                }
                 InstructionSignalsMap[InstructionNamesOpcodes[processInstruction]].Add(signalsInLine);
                 
                 

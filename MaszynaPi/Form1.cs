@@ -27,7 +27,13 @@ namespace MaszynaPi {
 
         public Form1() {
             InitializeComponent();
-            InstructionLoader.LoadBaseInstructions(); //First!
+
+            //Must Be First!
+            try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
+                MessageBox.Show("Failed to load base instruction set. " + InstructionLoader.BASE_INSTRUCTION_SET_FILENAME + InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION
+                    + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
+            }
+             
             Machine = new ControlUnit();
             MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
             MemoryControl.Refresh();
@@ -66,26 +72,46 @@ namespace MaszynaPi {
 
         }
 
+        // ================ CodeEditor =======================================
+        private string GetErrorType(string errMsg) {
+            int starttype = errMsg.IndexOf("[");
+            int endtype = errMsg.IndexOf("]");
+            if (starttype != 0 && starttype < endtype) return errMsg.Substring(starttype + 1, endtype);
+            return "Error";
+        }
+
         private void CompileItemToolStrip_Click(object sender, EventArgs e) {
             try {
                 MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
                 List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
                 Machine.SetMemoryContent(code);
                 MemoryControl.Refresh();
-                /* //----<Test>----//
-                this.Machine.SetMemoryContent(2,69);
-                MemoryControl.Refresh(); //!!!! After setting internal remember to refresh!
-                MessageBox.Show("Content at [5] = " + this.Machine.GetMemoryContent(5).ToString()); // If content set in view - ControlUnit Mem set wihout refreshing 
-                */
+
             } catch (CompilerException ex) {
                 MessageBox.Show("Compiler Error: " + ex.Message);
-            } catch (Exception ex){
+            } catch (Exception ex){ 
                 MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: "+ex.StackTrace);
             }
         }
 
-        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) {
-            CodeEditorTextBox.Paste();
+        //=====================< Central Unit Manual Constrol >============================== 
+        
+        private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                Machine.ManualProgram();
+            } catch (CentralUnitException cEx) {
+                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message),""), GetErrorType(cEx.Message));
+            } catch (Exception ex) {
+                MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+            }
+
         }
+
+        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Paste(); }
+
+        private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
+
+        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut();}
+
     }
 }

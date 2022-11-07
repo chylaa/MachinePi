@@ -110,7 +110,7 @@ namespace MaszynaPi.MachineAssembler {
             codeLines.RemoveAll(string.IsNullOrWhiteSpace);
         }
 
-        // returns program size without taking into account space for variables
+        // returns program size without taking into account space for variables and consts
         static int CalculateProgramSize(List<string> codeLines) {
             int size = 0;
             foreach (string line in codeLines)
@@ -121,10 +121,7 @@ namespace MaszynaPi.MachineAssembler {
         static void MergeDicts(Dictionary<string, uint> baseDict, Dictionary<string, uint> fromDict) {
             fromDict.ToList().ForEach(x => baseDict.Add(x.Key, x.Value));
         }
-        /* |==============================================================================================+
-         TODO: BUG -> Program compiles and loads to memory but user constans should be loaded the same as variables into end of memory! ++++++++++++++++++++|
-           |==============================================================================================+
-         */
+
         public static List<uint> CompileCode(List<string> codeLines) {
             int progSize = CalculateProgramSize(codeLines);
             List<uint> varsValues = new List<uint>(); //append at the end of compilation to code

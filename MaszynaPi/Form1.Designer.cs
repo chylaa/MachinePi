@@ -29,9 +29,36 @@ namespace MaszynaPi {
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
+            this.groupBoxDebugLevel = new System.Windows.Forms.GroupBox();
+            this.radioButtonDebugTick = new System.Windows.Forms.RadioButton();
+            this.radioButtonDebugInstruction = new System.Windows.Forms.RadioButton();
+            this.radioButtonDebugProgram = new System.Windows.Forms.RadioButton();
             this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
             this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rozkazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otwórzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszJakoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ładujListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.opcjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wykonajToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.rozkazToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.taktToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.doKursoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przerwijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.TopRightPanel = new System.Windows.Forms.Panel();
             this.ProgramPanel = new System.Windows.Forms.Panel();
@@ -45,6 +72,8 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
+            this.groupBoxDebugLevel.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.TopRightPanel.SuspendLayout();
             this.ProgramPanel.SuspendLayout();
             this.CodeEditorContextMenu.SuspendLayout();
@@ -80,19 +109,77 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.checkBoxManualDebug);
+            this.MicrocontrollerPanel.Controls.Add(this.groupBoxDebugLevel);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterS);
             this.MicrocontrollerPanel.Controls.Add(this.MemoryControl);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterA);
+            this.MicrocontrollerPanel.Controls.Add(this.menuStrip1);
             this.MicrocontrollerPanel.Location = new System.Drawing.Point(1, 1);
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
             this.MicrocontrollerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MicrocontrollerPanel_Paint);
             // 
+            // checkBoxManualDebug
+            // 
+            this.checkBoxManualDebug.AutoSize = true;
+            this.checkBoxManualDebug.Location = new System.Drawing.Point(445, 21);
+            this.checkBoxManualDebug.Name = "checkBoxManualDebug";
+            this.checkBoxManualDebug.Size = new System.Drawing.Size(114, 17);
+            this.checkBoxManualDebug.TabIndex = 7;
+            this.checkBoxManualDebug.Text = "Sterowanie ręczne";
+            this.checkBoxManualDebug.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxDebugLevel
+            // 
+            this.groupBoxDebugLevel.Controls.Add(this.radioButtonDebugTick);
+            this.groupBoxDebugLevel.Controls.Add(this.radioButtonDebugInstruction);
+            this.groupBoxDebugLevel.Controls.Add(this.radioButtonDebugProgram);
+            this.groupBoxDebugLevel.Location = new System.Drawing.Point(435, 39);
+            this.groupBoxDebugLevel.Name = "groupBoxDebugLevel";
+            this.groupBoxDebugLevel.Size = new System.Drawing.Size(174, 72);
+            this.groupBoxDebugLevel.TabIndex = 5;
+            this.groupBoxDebugLevel.TabStop = false;
+            this.groupBoxDebugLevel.Text = "Poziom śledzenia";
+            // 
+            // radioButtonDebugTick
+            // 
+            this.radioButtonDebugTick.AutoSize = true;
+            this.radioButtonDebugTick.Location = new System.Drawing.Point(6, 50);
+            this.radioButtonDebugTick.Name = "radioButtonDebugTick";
+            this.radioButtonDebugTick.Size = new System.Drawing.Size(84, 17);
+            this.radioButtonDebugTick.TabIndex = 2;
+            this.radioButtonDebugTick.TabStop = true;
+            this.radioButtonDebugTick.Text = "wysoki (takt)";
+            this.radioButtonDebugTick.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDebugInstruction
+            // 
+            this.radioButtonDebugInstruction.AutoSize = true;
+            this.radioButtonDebugInstruction.Location = new System.Drawing.Point(6, 32);
+            this.radioButtonDebugInstruction.Name = "radioButtonDebugInstruction";
+            this.radioButtonDebugInstruction.Size = new System.Drawing.Size(93, 17);
+            this.radioButtonDebugInstruction.TabIndex = 1;
+            this.radioButtonDebugInstruction.TabStop = true;
+            this.radioButtonDebugInstruction.Text = "średni (rozkaz)";
+            this.radioButtonDebugInstruction.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDebugProgram
+            // 
+            this.radioButtonDebugProgram.AutoSize = true;
+            this.radioButtonDebugProgram.Location = new System.Drawing.Point(6, 14);
+            this.radioButtonDebugProgram.Name = "radioButtonDebugProgram";
+            this.radioButtonDebugProgram.Size = new System.Drawing.Size(93, 17);
+            this.radioButtonDebugProgram.TabIndex = 0;
+            this.radioButtonDebugProgram.TabStop = true;
+            this.radioButtonDebugProgram.Text = "niski (program)";
+            this.radioButtonDebugProgram.UseVisualStyleBackColor = true;
+            // 
             // UserControlRegisterS
             // 
             this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 359);
+            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 393);
             this.UserControlRegisterS.Name = "UserControlRegisterS";
             this.UserControlRegisterS.ReadOnly = true;
             this.UserControlRegisterS.RegisterName = "S";
@@ -103,7 +190,7 @@ namespace MaszynaPi {
             // MemoryControl
             // 
             this.MemoryControl.FormattingEnabled = true;
-            this.MemoryControl.Location = new System.Drawing.Point(551, 128);
+            this.MemoryControl.Location = new System.Drawing.Point(551, 162);
             this.MemoryControl.Name = "MemoryControl";
             this.MemoryControl.ScrollAlwaysVisible = true;
             this.MemoryControl.Size = new System.Drawing.Size(156, 225);
@@ -113,13 +200,174 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterA.CausesValidation = false;
-            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 104);
+            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 136);
             this.UserControlRegisterA.Name = "UserControlRegisterA";
             this.UserControlRegisterA.ReadOnly = true;
             this.UserControlRegisterA.RegisterName = "A";
             this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
             this.UserControlRegisterA.TabIndex = 2;
             this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plikToolStripMenuItem,
+            this.widokToolStripMenuItem,
+            this.projektToolStripMenuItem,
+            this.wykonajToolStripMenuItem,
+            this.pomocToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(775, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // plikToolStripMenuItem
+            // 
+            this.plikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nowyToolStripMenuItem,
+            this.otwórzToolStripMenuItem,
+            this.zapiszToolStripMenuItem,
+            this.zapiszJakoToolStripMenuItem,
+            this.wyjścieToolStripMenuItem});
+            this.plikToolStripMenuItem.Name = "plikToolStripMenuItem";
+            this.plikToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.plikToolStripMenuItem.Text = "Plik";
+            // 
+            // nowyToolStripMenuItem
+            // 
+            this.nowyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.programToolStripMenuItem,
+            this.rozkazToolStripMenuItem});
+            this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
+            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.nowyToolStripMenuItem.Text = "Nowy";
+            // 
+            // programToolStripMenuItem
+            // 
+            this.programToolStripMenuItem.Name = "programToolStripMenuItem";
+            this.programToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.programToolStripMenuItem.Text = "Program";
+            // 
+            // rozkazToolStripMenuItem
+            // 
+            this.rozkazToolStripMenuItem.Name = "rozkazToolStripMenuItem";
+            this.rozkazToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.rozkazToolStripMenuItem.Text = "Rozkaz";
+            // 
+            // otwórzToolStripMenuItem
+            // 
+            this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
+            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.otwórzToolStripMenuItem.Text = "Otwórz";
+            // 
+            // zapiszToolStripMenuItem
+            // 
+            this.zapiszToolStripMenuItem.Name = "zapiszToolStripMenuItem";
+            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.zapiszToolStripMenuItem.Text = "Zapisz";
+            // 
+            // zapiszJakoToolStripMenuItem
+            // 
+            this.zapiszJakoToolStripMenuItem.Name = "zapiszJakoToolStripMenuItem";
+            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.zapiszJakoToolStripMenuItem.Text = "Zapisz jako";
+            // 
+            // wyjścieToolStripMenuItem
+            // 
+            this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
+            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.wyjścieToolStripMenuItem.Text = "Wyjście";
+            // 
+            // widokToolStripMenuItem
+            // 
+            this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
+            this.widokToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.widokToolStripMenuItem.Text = "Widok";
+            // 
+            // projektToolStripMenuItem
+            // 
+            this.projektToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zapiszListęRozkazówToolStripMenuItem,
+            this.ładujListęRozkazówToolStripMenuItem,
+            this.opcjeToolStripMenuItem});
+            this.projektToolStripMenuItem.Name = "projektToolStripMenuItem";
+            this.projektToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.projektToolStripMenuItem.Text = "Projekt";
+            // 
+            // zapiszListęRozkazówToolStripMenuItem
+            // 
+            this.zapiszListęRozkazówToolStripMenuItem.Name = "zapiszListęRozkazówToolStripMenuItem";
+            this.zapiszListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.zapiszListęRozkazówToolStripMenuItem.Text = "Zapisz listę rozkazów ";
+            // 
+            // ładujListęRozkazówToolStripMenuItem
+            // 
+            this.ładujListęRozkazówToolStripMenuItem.Name = "ładujListęRozkazówToolStripMenuItem";
+            this.ładujListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.ładujListęRozkazówToolStripMenuItem.Text = "Ładuj listę rozkazów";
+            // 
+            // opcjeToolStripMenuItem
+            // 
+            this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
+            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.opcjeToolStripMenuItem.Text = "Opcje . . .";
+            // 
+            // wykonajToolStripMenuItem
+            // 
+            this.wykonajToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.programToolStripMenuItem1,
+            this.rozkazToolStripMenuItem1,
+            this.taktToolStripMenuItem,
+            this.doKursoraToolStripMenuItem,
+            this.resetToolStripMenuItem,
+            this.przerwijToolStripMenuItem});
+            this.wykonajToolStripMenuItem.Name = "wykonajToolStripMenuItem";
+            this.wykonajToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.wykonajToolStripMenuItem.Text = "Wykonaj";
+            // 
+            // programToolStripMenuItem1
+            // 
+            this.programToolStripMenuItem1.Name = "programToolStripMenuItem1";
+            this.programToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.programToolStripMenuItem1.Text = "Program";
+            this.programToolStripMenuItem1.Click += new System.EventHandler(this.programToolStripMenuItem1_Click);
+            // 
+            // rozkazToolStripMenuItem1
+            // 
+            this.rozkazToolStripMenuItem1.Name = "rozkazToolStripMenuItem1";
+            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.rozkazToolStripMenuItem1.Text = "Rozkaz";
+            // 
+            // taktToolStripMenuItem
+            // 
+            this.taktToolStripMenuItem.Name = "taktToolStripMenuItem";
+            this.taktToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.taktToolStripMenuItem.Text = "Takt";
+            // 
+            // doKursoraToolStripMenuItem
+            // 
+            this.doKursoraToolStripMenuItem.Name = "doKursoraToolStripMenuItem";
+            this.doKursoraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.doKursoraToolStripMenuItem.Text = "Do kursora";
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            // 
+            // przerwijToolStripMenuItem
+            // 
+            this.przerwijToolStripMenuItem.Name = "przerwijToolStripMenuItem";
+            this.przerwijToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.przerwijToolStripMenuItem.Text = "Przerwij";
+            // 
+            // pomocToolStripMenuItem
+            // 
+            this.pomocToolStripMenuItem.Name = "pomocToolStripMenuItem";
+            this.pomocToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.pomocToolStripMenuItem.Text = "Pomoc";
             // 
             // splitter2
             // 
@@ -177,13 +425,13 @@ namespace MaszynaPi {
             this.kopiujToolStripMenuItem,
             this.wklejToolStripMenuItem});
             this.CodeEditorContextMenu.Name = "CodeEditorContextMenu";
-            this.CodeEditorContextMenu.Size = new System.Drawing.Size(181, 142);
+            this.CodeEditorContextMenu.Size = new System.Drawing.Size(169, 120);
             // 
             // CompileItemToolStrip
             // 
             this.CompileItemToolStrip.Name = "CompileItemToolStrip";
             this.CompileItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
-            this.CompileItemToolStrip.Size = new System.Drawing.Size(180, 22);
+            this.CompileItemToolStrip.Size = new System.Drawing.Size(168, 22);
             this.CompileItemToolStrip.Text = "Kompiluj";
             this.CompileItemToolStrip.Click += new System.EventHandler(this.CompileItemToolStrip_Click);
             // 
@@ -191,33 +439,35 @@ namespace MaszynaPi {
             // 
             this.SaveItemToolStrip.Name = "SaveItemToolStrip";
             this.SaveItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.SaveItemToolStrip.Size = new System.Drawing.Size(180, 22);
+            this.SaveItemToolStrip.Size = new System.Drawing.Size(168, 22);
             this.SaveItemToolStrip.Text = "Zapisz";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(165, 6);
             // 
             // wytnijToolStripMenuItem
             // 
             this.wytnijToolStripMenuItem.Name = "wytnijToolStripMenuItem";
             this.wytnijToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.wytnijToolStripMenuItem.Text = "Wytnij";
+            this.wytnijToolStripMenuItem.Click += new System.EventHandler(this.wytnijToolStripMenuItem_Click);
             // 
             // kopiujToolStripMenuItem
             // 
             this.kopiujToolStripMenuItem.Name = "kopiujToolStripMenuItem";
             this.kopiujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.kopiujToolStripMenuItem.Text = "Kopiuj";
+            this.kopiujToolStripMenuItem.Click += new System.EventHandler(this.kopiujToolStripMenuItem_Click);
             // 
             // wklejToolStripMenuItem
             // 
             this.wklejToolStripMenuItem.Name = "wklejToolStripMenuItem";
             this.wklejToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.wklejToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wklejToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
@@ -231,12 +481,17 @@ namespace MaszynaPi {
             this.Controls.Add(this.TopLeftPanel);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.BottomPanel);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.TopLeftPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.PerformLayout();
+            this.groupBoxDebugLevel.ResumeLayout(false);
+            this.groupBoxDebugLevel.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.TopRightPanel.ResumeLayout(false);
             this.ProgramPanel.ResumeLayout(false);
             this.ProgramPanel.PerformLayout();
@@ -265,6 +520,33 @@ namespace MaszynaPi {
         private MachineUI.UserControlRegister UserControlRegisterA;
         private MachineUI.UserControlMemory MemoryControl;
         private MachineUI.UserControlRegister UserControlRegisterS;
+        private System.Windows.Forms.GroupBox groupBoxDebugLevel;
+        private System.Windows.Forms.RadioButton radioButtonDebugTick;
+        private System.Windows.Forms.RadioButton radioButtonDebugInstruction;
+        private System.Windows.Forms.RadioButton radioButtonDebugProgram;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem plikToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nowyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem programToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rozkazToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otwórzToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zapiszToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zapiszJakoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wyjścieToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem widokToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem projektToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zapiszListęRozkazówToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ładujListęRozkazówToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wykonajToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem programToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem rozkazToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem taktToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem doKursoraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem przerwijToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBoxManualDebug;
     }
 }
 

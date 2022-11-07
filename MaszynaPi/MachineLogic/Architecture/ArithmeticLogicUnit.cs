@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.CommonOperations;
 namespace MaszynaPi.MachineLogic.Architecture {
+    
     [Flags]
-    enum ALUFlags {
-        Z   = 0b0001, // AK < 0
-        V   = 0b0010, // 
-        INT = 0b0100, // Interuption
-        ZAK = 0b1000  // AK = 0
+    // Flags are encoded as it's bitwise XOR of lowercase letters in ASCII -> for if-else statment in instruction signals 
+    enum ALUFlags { 
+        Z   = 0b_0111_1010, // AK < 0
+        V   = 0b_0111_0110, // 
+        INT = (0b_0110_1001 ^ 0b_0110_1110 ^ 0b_0111_0100), // Interuption
+        ZAK = (0b_0111_1010 ^ 0b_0110_0001 ^ 0b_0110_1011)  // AK = 0
     }
 
     public class ArithmeticLogicUnit{
@@ -25,9 +27,20 @@ namespace MaszynaPi.MachineLogic.Architecture {
             OperandA = value;
             OperandB = value;
         }
+
+        // returns true if JALFlags has set flag == encoded argument (see ALUFlags specification of encoding)
+        public bool IsFlagSet(string argument) {
+            int argEncoded = 0;
+            foreach(int ascii in Encoding.ASCII.GetBytes(argument)) 
+                argEncoded ^= ascii;
+            return JALFlags.HasFlag((ALUFlags)argEncoded);
+        }
+        public bool IsFlagSet(int flag) {
+            return JALFlags.HasFlag((ALUFlags)flag);
+        }
         
         public void SetFlags() {
-            JALFlags &= ~(ALUFlags.ZAK | ALUFlags.Z); //clear Specyfic Flags
+            JALFlags &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
             if (Accumulator.Value < OperandA) JALFlags |= ALUFlags.Z;
             if (Accumulator.Value == 0) JALFlags |= ALUFlags.ZAK;
         }

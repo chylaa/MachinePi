@@ -32,26 +32,26 @@ Linia5=stop;
 Linie=4
 Linia1=ROZKAZ DOD;
 Linia2=czyt wys wei il;
-Linia3=wyad wea eni
+Linia3=wyad wea;
 Linia4=czyt wys weja dod weak wyl wea;
 [ode]
 Linie=4
 Linia1=ROZKAZ ODE;
 Linia2=czyt wys wei il;
-Linia3=wyad wea eni
+Linia3=wyad wea;
 Linia4=czyt wys weja ode weak wyl wea;
 [pob]
 Linie=4
 Linia1=ROZKAZ POB;
 Linia2=czyt wys wei il;
-Linia3=wyad wea eni
+Linia3=wyad wea;
 Linia4=czyt wys weja przep weak wyl wea;
 [ład]
 Linie=5
 Linia1=// (Ak)->(Ad)
 Linia2=ROZKAZ ŁAD;
 Linia3=czyt wys wei il;
-Linia4=wyad wea wyak wes eni
+Linia4=wyad wea wyak wes;
 Linia5=pisz wyl wea;
 [sob]
 Linie=5

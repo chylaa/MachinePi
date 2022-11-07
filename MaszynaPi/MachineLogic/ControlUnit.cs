@@ -27,6 +27,9 @@ namespace MaszynaPi.MachineLogic {
         Dictionary<string, Action> SignalsMap;
         //Loaded from .lst file
         Dictionary<uint, List<List<string>>> InstructionMap; //(opcode: list of ticks) -> ticks = list of signals
+        
+        //For Central Unit View of signals
+        List<string> ActiveSignals;
 
         // Compiler: "INSTRUCTION ARG" -> opcode&arg -> .hex to Memory
         // CentralUnit: MachineCycle: LoadInstruction(Czyt wys we il) DecodeInstruction(), ExecuteInstruction() -> 
@@ -63,20 +66,20 @@ namespace MaszynaPi.MachineLogic {
         // ========================== <  Signals Methods > ========--=========================== // (Microinstructions)
         public void czyt() { S.Value = PaO.GetValue(A.Value); }
         public void pisz() { PaO.StoreValue(A.Value, S.Value); }
-        public void wys() { MagS.Value = S.Value; }
-        public void wes() { S.Value = MagS.Value; }
-        public void wei() { I.Value = MagA.Value; }
+        public void wys() { MagS.SetValue(S.Value); }
+        public void wes() { S.Value = MagS.GetValue(); }
+        public void wei() { I.Value = MagS.GetValue(); I.DecodeInstruction(); }
         public void il() { L.Value++; }
-        public void wyl() { MagA.Value = L.Value; }
-        public void wel() { L.Value = MagA.Value; }
-        public void wyad() { MagA.Value = I.getArgument(); }
+        public void wyl() { MagA.SetValue(L.Value); }
+        public void wel() { L.Value = MagA.GetValue(); }
+        public void wyad() { MagA.SetValue(I.getArgument()); }
 
         public void przep() { JAL.Nop(); }
         public void dod() { JAL.Add(); }
         public void ode() { JAL.Sub(); }
         public void weak() { JAL.SetResult(); }
-        public void weja() { JAL.SetOperandB(MagS.Value); }
-        public void wyak() { MagS.Value = AK.Value; }
+        public void weja() { JAL.SetOperandB(MagS.GetValue()); }
+        public void wyak() { MagS.SetValue(AK.Value); }
         // . . . TODO
 
         // ========================= <  Execution Methods > =================================== //
@@ -87,39 +90,51 @@ namespace MaszynaPi.MachineLogic {
                 { "wei", wei },{ "weak", weak },{ "il", il },{ "weja", weja },
                 { "wyl", wyl },{ "wyak", wyak },{ "wel", wel }
             };
-            SignalsMap = AllSignalsMap
-                .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
-                .ToDictionary(item => item.Key, item => item.Value);
+            //SignalsMap = AllSignalsMap
+            //    .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
+            //    .ToDictionary(item => item.Key, item => item.Value);
+            SignalsMap = AllSignalsMap;
         }
 
         public void LoadInstructionMap() {
             InstructionMap = MachineAssembler.FilesHandling.InstructionLoader.GetInstructionSignalsMap();
             //MachineAssembler.Decoders.InstructionSetDecoder.
         }
+
+        private string GetSignalStatementArgument(List<string> signals) {
+            //return signals.fin
+            return "";
+        }
+
         //===========< Machine Cycle >============
         void LoadInstruction() {
-            czyt(); wys(); wei(); il();
+            ActiveSignals = new List<string> { "czyt", "wys", "wei", "il" };
+            ExecuteTick();
         }
-        void DecodeInstruction() {
-            I.DecodeInstruction();
-        }
-        void ExecuteTick(List<string> signals) {
-            foreach (string signal in signals) 
+
+        void ExecuteTick() {
+            MagA.SetEmpty(); MagS.SetEmpty();
+            foreach (string signal in ActiveSignals) 
                 SignalsMap[signal]();
         }
 
         void ExecuteInstruction() {
             LoadInstruction();
-            DecodeInstruction();
             List<List<string>> instructionSignals = InstructionMap[I.getOpcode()]; // Tym musiała by zająć się klasa reprezentująca Dekoder Instrukcji
-            foreach(var signals in instructionSignals)
-                ExecuteTick(signals);
+
+            foreach (var signals in instructionSignals) {
+                if (signals.Any(signal => signal.Contains(Defines.SIGNAL_LABEL))) {
+
+                }
+                ActiveSignals = new List<string>(signals);
+                ExecuteTick();
+            }
         }
         //========================================
         void ExecuteProgram() {
-            do {
-                ExecuteInstruction();
-            } while (I.getOpcode() != 0);
+            try { do { ExecuteInstruction(); } while (I.getOpcode() != 0); } 
+            catch (BusException ex) { throw new CentralUnitException(ex.Message); }
+            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction "+I.getOpcode().ToString()+". " + ex.Message); }
         }
 
         // ======================= <  User Interface Methods > ================================= //
@@ -130,10 +145,15 @@ namespace MaszynaPi.MachineLogic {
         public List<uint> GetWholeMemoryContent() { return PaO.GetMemoryContent(); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
         public void ExpandAndClearMemory() { PaO.InitMemoryContent(); }
-        public void ManualTick(List<string> handActivatedSignals) { ExecuteTick(handActivatedSignals); }
-        
+
+        public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }
+        public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
+
+        public void ManualTick() { ExecuteTick(); }
         public void ManualInstruction() { ExecuteInstruction(); } // Not avaible if ManualControl signal active
         public void ManualProgram() {ExecuteProgram(); } // Not avaible if ManualControl signal active
+
+
     }
 
 }

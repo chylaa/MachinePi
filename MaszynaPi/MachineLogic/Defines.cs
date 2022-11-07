@@ -60,6 +60,14 @@ namespace MaszynaPi.MachineLogic {
                                                                             SignalsALULogical, SignalsALUArythmetical, SignalsStack,
                                                                             SignalsRegisterX, SignalsRegisterY, SignalsInteruptions,
                                                                             SignalsInput, SignalsFlags};
-            
+
+
+        public const string SIGNAL_LABEL = "@";
+        public const string SIGNAL_STATEMENT_IF = "jeżeli";
+        public const string SIGNAL_STATEMENT_THEN = "to";
+        public const string SIGNAL_STATEMENT_ELSE = "gdy nie";
+        public const string SIGNAL_STATEMENT_END = "koniec";
+        public const int STATMENT_ARG_POSITION = 1;
+
     }
 }
