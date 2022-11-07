@@ -41,7 +41,12 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
 
         public static void LoadBaseInstructions() {
             var separator = Environment.NewLine.ToCharArray();
-            string baseInstructions = File.ReadAllText("./Podstawa.lst");//Properties.Resources.Podstawa;
+            string baseInstructions;
+            
+            if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./Podstawa.lst");
+            else if (Environment.OSVersion.Platform == PlatformID.Win32NT) baseInstructions = Properties.Resources.Podstawa;
+            else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
+
             LoadInstructionSet(baseInstructions.Split(separator).ToList());
         }
 
