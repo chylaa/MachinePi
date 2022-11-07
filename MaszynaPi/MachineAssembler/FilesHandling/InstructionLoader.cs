@@ -12,7 +12,7 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
 
 
     static class InstructionLoader {
-        public const string BASE_INSTRUCTION_SET_FILENAME =  "Podstawa"; // Podstawa.lst Embedded in Resources
+        public const string BASE_INSTRUCTION_SET_FILENAME = "Podstawa"; // Podstawa.lst Embedded in Resources
         public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
         const string OPTIONS_HEADER = "[opcje]";
         const string COMPONENT_ON = "1";
@@ -41,7 +41,7 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
 
         public static void LoadBaseInstructions() {
             var separator = Environment.NewLine.ToCharArray();
-            string baseInstructions = Properties.Resources.Podstawa;
+            string baseInstructions = File.ReadAllText("./Podstawa.lst");//Properties.Resources.Podstawa;
             LoadInstructionSet(baseInstructions.Split(separator).ToList());
         }
 
