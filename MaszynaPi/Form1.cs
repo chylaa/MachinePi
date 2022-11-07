@@ -26,17 +26,18 @@ namespace MaszynaPi {
         ControlUnit Machine;
 
         public Form1() {
-            InitializeComponent();
 
             //Must Be First!
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + InstructionLoader.BASE_INSTRUCTION_SET_FILENAME + InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION
                     + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
+                Close();
             }
+            InitializeComponent();
              
             Machine = new ControlUnit();
-            //MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
-            //MemoryControl.Refresh();
+            MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
+            MemoryControl.Refresh();
             UserControlRegisterA.SetSourceRegister(Machine.A);
             UserControlRegisterA.Refresh();
             UserControlRegisterS.SetSourceRegister(Machine.S);
@@ -83,7 +84,7 @@ namespace MaszynaPi {
                 MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
                 List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
                 Machine.SetMemoryContent(code);
-                //MemoryControl.Refresh();
+                MemoryControl.Refresh();
 
             } catch (CompilerException ex) {
                 MessageBox.Show("Compiler Error: " + ex.Message);

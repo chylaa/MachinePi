@@ -75,7 +75,7 @@ namespace MaszynaPi.MachineUI {
         }
 
         public override void Refresh() {
-            //FormatItems();
+            FormatItems();
             base.Refresh();
         }
 
