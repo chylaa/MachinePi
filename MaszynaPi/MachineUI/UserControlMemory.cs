@@ -31,15 +31,6 @@ namespace MaszynaPi.MachineUI {
         }
 
 
-        protected override void OnPaint(PaintEventArgs e) {
-            base.OnPaint(e);
-        }
-
-        protected override void OnValueMemberChanged(EventArgs e) {
-            base.OnValueMemberChanged(e);
-
-        }
-
         private void HandleItemDoubleClicked(object sender, MouseEventArgs args) {
             string response = UnitMemory[SelectedIndex].ToString();
             Point location = PointToClient(this.Location);
@@ -84,7 +75,7 @@ namespace MaszynaPi.MachineUI {
         }
 
         public override void Refresh() {
-            FormatItems();
+            //FormatItems();
             base.Refresh();
         }
 
