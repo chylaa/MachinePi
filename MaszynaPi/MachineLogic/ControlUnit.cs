@@ -80,6 +80,8 @@ namespace MaszynaPi.MachineLogic {
         public void weak() { JAL.SetResult(); }
         public void weja() { JAL.SetOperandB(MagS.GetValue()); }
         public void wyak() { MagS.SetValue(AK.Value); }
+
+        public void stop() { return; }
         // . . . TODO
 
         // ========================= <  Execution Methods > =================================== //
@@ -88,7 +90,7 @@ namespace MaszynaPi.MachineLogic {
                 { "czyt", czyt },{ "wyad", wyad },{ "pisz", pisz },{ "przep", przep },
                 { "wys", wys },{ "dod", dod },{ "wes", wes },{ "ode", ode },
                 { "wei", wei },{ "weak", weak },{ "il", il },{ "weja", weja },
-                { "wyl", wyl },{ "wyak", wyak },{ "wel", wel }
+                { "wyl", wyl },{ "wyak", wyak },{ "wel", wel }, {"stop",stop }
             };
             //SignalsMap = AllSignalsMap
             //    .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
@@ -135,6 +137,8 @@ namespace MaszynaPi.MachineLogic {
             try { do { ExecuteInstruction(); } while (I.getOpcode() != 0); } 
             catch (BusException ex) { throw new CentralUnitException(ex.Message); }
             catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction "+I.getOpcode().ToString()+". " + ex.Message); }
+            System.Media.SystemSounds.Exclamation.Play();
+            System.Windows.Forms.MessageBox.Show("Program został zakończony.", "Maszyna Pi");
         }
 
         // ======================= <  User Interface Methods > ================================= //
