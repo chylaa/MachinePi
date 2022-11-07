@@ -71,8 +71,11 @@ namespace MaszynaPi.MachineUI {
         protected void FormatItems() { 
             if(Items==null) return;
             if(Items.Count > 0) Items.Clear();
-            for (int i = 0; i < UnitMemory.Count; i++)
+            for (int i = 0; i < UnitMemory.Count; i++) {
+                MessageBox.Show("Test: " + i.ToString() + " -> " + UnitMemory[i].ToString()+"\nItems: "+Items.ToString());
                 Items.Add(CreateFormattedItem(i, UnitMemory[i]));
+
+            }
         }
 
         public override void Refresh() {
