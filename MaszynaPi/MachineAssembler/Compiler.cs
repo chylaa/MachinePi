@@ -46,36 +46,32 @@ namespace MaszynaPi.MachineAssembler {
             return (line.Contains(HEADER_LABEL_END) && (!line.Contains(HEADER_CONST_VAR)) && (!line.Contains(HEADER_MEM_ALLOC)));
         }
         static string GetLableName(string line) {
+            line = DeleteMultipleSpaces(line);
             return line.Replace(" ", "").Split(HEADER_LABEL_END[0])[POS_LABEL].Replace(HEADER_LABEL_END,"");
         }
 
-
-        // Creates dictionary of User Constants: key-pair -> Name-Value
-        static Dictionary<string, uint> GetUserConstans(List<string> codeLines) { 
-            Dictionary<string, uint> userConstans = new Dictionary<string, uint>();
-            foreach (string line in codeLines) {
-                if (line.Contains(HEADER_CONST_VAR)) {
-                    string templine = DeleteMultipleSpaces(line);
-                    string[] usrconst = templine.Split(' ');
-                    if (userConstans.ContainsKey(usrconst[POS_LABEL])) throw new CompilerException("[Syntax error] Duplicate Variable label: " + usrconst[POS_LABEL]);
-                    userConstans.Add(usrconst[POS_LABEL].Replace(HEADER_LABEL_END,""), (uint)int.Parse(usrconst[POS_VALUE]));
-                }
-            }
-            return userConstans;
-        }
-        // Creates dictionary of User Variables: key-pair -> Name-Address
-        static Dictionary<string, uint> GetUserVariables(List<string> codeLines, int programSize) { 
-            Dictionary<string, uint> userVars = new Dictionary<string, uint>();
+        // Creates dictionary of User Constants/Variables: key-pair -> Name-Address & Updates Variables values list
+        static Dictionary<string, uint> GetUserConstantsAndVariables(List<string> codeLines, List<uint> variablesValues, int programSize) {
+            Dictionary<string, uint> userConstsVars = new Dictionary<string, uint>();
             uint varAddress = (uint)programSize;
+
             foreach (string line in codeLines) {
-                if (line.Contains(HEADER_MEM_ALLOC)) {
-                    string varname = GetLableName(line);
-                    if (userVars.ContainsKey(varname)) throw new CompilerException("[Syntax error] Duplicate Variable label: " + varname);
-                    userVars.Add(varname, varAddress);
+                if (line.Contains(HEADER_CONST_VAR) || line.Contains(HEADER_MEM_ALLOC)) {
+                    string templine = DeleteMultipleSpaces(line);
+                    string[] usrDeclare = templine.Split(' ');
+
+                    if (userConstsVars.ContainsKey(usrDeclare[POS_LABEL])) throw new CompilerException("[Syntax error] Duplicate Variable label: " + usrDeclare[POS_LABEL]);
+                    userConstsVars.Add(usrDeclare[POS_LABEL].Replace(HEADER_LABEL_END, ""), varAddress);
                     varAddress++;
+
+                    if (line.Contains(HEADER_CONST_VAR)) {
+                        variablesValues.Add((uint)int.Parse(usrDeclare[POS_VALUE]));
+                    } else {
+                        variablesValues.Add(Defines.DEFAULT_MEM_VAL);
+                    }
                 }
             }
-            return userVars;
+            return userConstsVars;
         }
 
         static Dictionary<string, uint> GetProceduresLabes(List<string> codeLines) {
@@ -107,10 +103,11 @@ namespace MaszynaPi.MachineAssembler {
                 if (codeLines[i].Contains(HEADER_LABEL_END)) {
                     codeLines[i] = codeLines[i].Remove(0, codeLines[i].IndexOf(HEADER_LABEL_END)+1);
                 }
+                codeLines[i] = codeLines[i].Trim();
             }
             codeLines.RemoveAll(el => (el.Contains(HEADER_CONST_VAR) || el.Contains(HEADER_MEM_ALLOC)));
             codeLines.RemoveAll(string.IsNullOrEmpty);
-            codeLines.RemoveAll(string.IsNullOrWhiteSpace); 
+            codeLines.RemoveAll(string.IsNullOrWhiteSpace);
         }
 
         // returns program size without taking into account space for variables
@@ -125,21 +122,21 @@ namespace MaszynaPi.MachineAssembler {
             fromDict.ToList().ForEach(x => baseDict.Add(x.Key, x.Value));
         }
         /* |==============================================================================================+
-         TODO: BUG -> Program compiles and loads to memory but argumemts are invalid! ++++++++++++++++++++|
+         TODO: BUG -> Program compiles and loads to memory but user constans should be loaded the same as variables into end of memory! ++++++++++++++++++++|
            |==============================================================================================+
          */
         public static List<uint> CompileCode(List<string> codeLines) {
             int progSize = CalculateProgramSize(codeLines);
-            Dictionary<string, uint> userVariables = GetUserVariables(codeLines, progSize);
-            if (userVariables.Last().Value > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("Compilation Error: Too large program for current architecture settings. Increase address space!");
-            Dictionary<string, uint> userConstans = GetUserConstans(codeLines);
+            List<uint> varsValues = new List<uint>(); //append at the end of compilation to code
+            Dictionary<string, uint> userConstansVariables = GetUserConstantsAndVariables(codeLines, varsValues, progSize);
+            if (userConstansVariables.Last().Value > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("Compilation Error: Too large program for current architecture settings. Increase address space!");
+            
             var namesOpcodes = InstructionLoader.GetInstructionsNamesOpcodes();
             Dictionary<string, uint> userProcedures = GetProceduresLabes(codeLines);
 
             Dictionary<string, uint> LabelsAdresses = new Dictionary<string, uint>();
             try {
-                MergeDicts(baseDict: LabelsAdresses, fromDict: userVariables);
-                MergeDicts(baseDict: LabelsAdresses, fromDict: userConstans);
+                MergeDicts(baseDict: LabelsAdresses, fromDict: userConstansVariables);
                 MergeDicts(baseDict: LabelsAdresses, fromDict: userProcedures);
             } catch (Exception ex) {
                 throw new CompilerException("[Syntax error] Duplicate label of variable, constant or procedure. Details: " + ex.Message);
@@ -147,50 +144,35 @@ namespace MaszynaPi.MachineAssembler {
             
             ProgramNumeric.Clear();
             RemoveLabels(codeLines); // Remove all procedures, variables and const defines -> should only left instructions
-
+             
             foreach(string line in codeLines) {
-                //if (ContainsInstruction(line) == false) continue;
-                string instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => line.Contains(toCheck)); // TODO: Fix -> Make method 
-                string argument = LabelsAdresses.Keys.FirstOrDefault(toCheck => line.Contains(toCheck)); // TODO: Fix -> Make method
+                var instArg = line.Split(' ');
+                string argument = null;
                 
-                if (instruction == null) throw new CompilerException("[Syntax error] unknown instruction label in: " + line);
-                if (argument == null) {
-                    if (InstructionLoader.GetZeroArgInstructions().Contains(instruction)) {
-                        ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], 0));
-                        continue;
-                    }
-                    throw new CompilerException("[Syntax error] unknown argument label in: " + line);
+                string instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
+                if (instruction == null) throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
+
+                if (instArg.Length == 1) {
+                    if(InstructionLoader.GetZeroArgInstructions().Contains(instArg[0]) == false) 
+                        throw new CompilerException("[Syntax error] Missing argument for instruction " + line);
+                    ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], 0));
+                    continue;
                 }
-              
-                ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], LabelsAdresses[argument]));
+                if (instArg.Length == 2) {
+                    argument = LabelsAdresses.Keys.FirstOrDefault(toCheck => instArg[1].Equals(toCheck)); // TODO: Fix -> Make method
+                    if (argument == null) throw new CompilerException("[Syntax error] Unknown argument label in: " + line);
+                    ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], LabelsAdresses[argument]));
+                    continue;
+                }
+               
+                throw new CompilerException("[Syntax error] To many arguments in line: "+line);
+
             }
+            ProgramNumeric.AddRange(varsValues); //add to the ond of the list
             FLAG_COMPILED = true;
+
             return ProgramNumeric;
         } 
-
-        //static List<uint> GetProgramAsNumbers() {
-        //    if (FLAG_COMPILED) return ProgramNumeric;
-        //    else throw new CompilerException("Trying get not compiled code");
-        //}
-        //static List<List<string>> GetProgramAsSignals() {
-        //    if (FLAG_COMPILED) return ProgramSignals;
-        //    else throw new CompilerException("Trying get not compiled code");
-        //}
-
-        //static void ProcessCodeToNumeric(List<string> codeLines) {
-        //    var namesOpcodes = InstructionLoader.GetInstructionsNamesOpcodes();
-
-        //}
-        //static void ProcessCodeToSignals(List<string> codeLines) {
-        //    var opcodesSignals = InstructionLoader.GetInstructionSignalsMap();
-
-        //}
-
-        //public static void CompileCodeLines(List<string> codeLines) {
-        //    ProcessCodeToNumeric(new List<string>(codeLines));
-        //    ProcessCodeToSignals(new List<string>(codeLines));
-        //    FLAG_COMPILED = true;
-        //}
     }
 }
 
