@@ -15,8 +15,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public InstructionRegister(uint value = Defines.DEFAULT_REG_VAL) : base(value) {
             InstructionArgument = Defines.DEFAULT_REG_VAL;
         }
-        public uint getArgument() { return InstructionArgument; }
-        public uint getOpcode() { return InstructionOpcode; }
+        public uint GetArgument() { return InstructionArgument; }
+        public uint GetOpcode() { return InstructionOpcode; }
 
 
         public void DecodeInstruction() {

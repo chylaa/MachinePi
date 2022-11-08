@@ -39,12 +39,12 @@ namespace MaszynaPi.MachineLogic {
         //                                                                          i wrzucić jako atrybut CentralUnit???
 
         public Memory PaO { get; } // Operation Memory ("FLash"?)
-        public Bus MagA { get; }
-        public Bus MagS { get; } // BUSes
+        public Bus MagA { get; } // BUS
+        public Bus MagS { get; } // BUS
         public ArithmeticLogicUnit JAL { get; }
-        public Register A { get; }
-        public Register S {get;}
-        public Register AK {get;} // Address Register, Value Register, Accumulator
+        public Register A { get; }  // Address Register
+        public Register S {get; } // Value Register
+        public Register AK {get;}  // Accumulator
         public Register L; //Instruction Pointer
         public InstructionRegister I; // Instruction Register
 
@@ -72,25 +72,28 @@ namespace MaszynaPi.MachineLogic {
         public void il() { L.Value++; }
         public void wyl() { MagA.SetValue(L.Value); }
         public void wel() { L.Value = MagA.GetValue(); }
-        public void wyad() { MagA.SetValue(I.getArgument()); }
-
+        public void wyad() { MagA.SetValue(I.GetArgument()); }
+        public void wea() { A.Value = MagA.GetValue(); }
+        
         public void przep() { JAL.Nop(); }
         public void dod() { JAL.Add(); }
         public void ode() { JAL.Sub(); }
-        public void weak() { JAL.SetResult(); }
+        public void weak() { JAL.SetResultAndFlags(); }
         public void weja() { JAL.SetOperandB(MagS.GetValue()); }
         public void wyak() { MagS.SetValue(AK.Value); }
 
         public void stop() { return; }
         // . . . TODO
 
+        
+
         // ========================= <  Execution Methods > =================================== //
         void InitialazeSignalsMap() {
             var AllSignalsMap = new Dictionary<string, Action> {
                 { "czyt", czyt },{ "wyad", wyad },{ "pisz", pisz },{ "przep", przep },
-                { "wys", wys },{ "dod", dod },{ "wes", wes },{ "ode", ode },
-                { "wei", wei },{ "weak", weak },{ "il", il },{ "weja", weja },
-                { "wyl", wyl },{ "wyak", wyak },{ "wel", wel }, {"stop",stop }
+                { "wys", wys },{ "dod", dod },{ "wes", wes },{ "ode", ode },{ "wei", wei },
+                { "weak", weak },{ "il", il },{ "weja", weja },{ "wyl", wyl },
+                { "wyak", wyak },{"wea",wea},{ "wel", wel }, {"stop",stop }
             };
             //SignalsMap = AllSignalsMap
             //    .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
@@ -103,43 +106,99 @@ namespace MaszynaPi.MachineLogic {
             //MachineAssembler.Decoders.InstructionSetDecoder.
         }
 
-        private string GetSignalStatementArgument(List<string> signals) {
-            //return signals.fin
+        //Returns empty string if statement not foud (line just starts with label)
+        private string GetStatementJumpLabel(bool conditionalStatementResult, List<string> signals) {
+            if (conditionalStatementResult) {
+                int argPos = signals.IndexOf(Defines.SIGNAL_STATEMENT_THEN) + 1;
+                if (argPos == 0 || argPos >= signals.Count) throw new CentralUnitException("No statement jump label in line " + string.Join(" ", signals));
+                return signals[argPos];
+            } else {
+                int elsePos = signals.IndexOf(Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[1]);
+                if (elsePos > 0) return signals[elsePos + 1];
+            }
             return "";
         }
 
-        //===========< Machine Cycle >============
+        //Returns empty string if statement not foud (line just starts with label)
+        private string GetSignalStatementArgument(List<string> signals) {
+            int argPos = signals.IndexOf(Defines.SIGNAL_STATEMENT_IF) + 1;
+            if (argPos == 0 || argPos >= signals.Count) return "";
+            return signals[argPos];
+        }
+
+        private int GetJumpIndex(List<List<string>> instructionSignals, string label) {
+            if (label.Equals("")) return -1;
+            for(int i=0; i<instructionSignals.Count; i++) {
+                if (instructionSignals[i][0].Equals(label))
+                    return i;
+            }
+            return -1;
+        }
+
+        // ========================= <  Machine Cycle > =================================== //
         void LoadInstruction() {
             ActiveSignals = new List<string> { "czyt", "wys", "wei", "il" };
             ExecuteTick();
         }
 
         void ExecuteTick() {
+            //===?| DEBUGGING
+            string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.Value, S.Value, L.Value, I.Value, MagA.Value, MagS.Value, AK.Value);
+            Logger.Logger.Div(NL: true);
+            Logger.Logger.LogInfo(msg:state,NL:true);
+            Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
+            //===?| DEBUGGING
             MagA.SetEmpty(); MagS.SetEmpty();
             foreach (string signal in ActiveSignals) 
-                SignalsMap[signal]();
+                if(SignalsMap.ContainsKey(signal)) //skips conditional statements 
+                    SignalsMap[signal]();
         }
 
         void ExecuteInstruction() {
             LoadInstruction();
-            List<List<string>> instructionSignals = InstructionMap[I.getOpcode()]; // Tym musiała by zająć się klasa reprezentująca Dekoder Instrukcji
+            List<List<string>> instructionSignals = InstructionMap[I.GetOpcode()];
 
-            foreach (var signals in instructionSignals) {
-                if (signals.Any(signal => signal.Contains(Defines.SIGNAL_LABEL))) {
+            int INSTRUCTION_LD_SKIP = 1; // skipping czt,wys,wei,il because it is forced by LoadInstrucion() method on begining of each cycle
 
+            string statementArg = "";
+            string jumpLabel = "";
+            int jumpIndex = -1;
+// here if instruction microdoce is broken, machine can enter infinite loop -> can add "watchdog" that stops programm after X non-break iterations
+            for (int i = INSTRUCTION_LD_SKIP; i < instructionSignals.Count; i++) { 
+                if (jumpIndex > -1){
+                    i = jumpIndex;
+                    jumpIndex = -1;
                 }
-                ActiveSignals = new List<string>(signals);
+                if (instructionSignals[i].Any(signal => signal.Contains(Defines.SIGNAL_STATEMENT_IF))) {
+                    statementArg = GetSignalStatementArgument(instructionSignals[i]);
+                    jumpLabel = GetStatementJumpLabel(JAL.IsFlagSet(statementArg), instructionSignals[i]);
+                    jumpIndex = GetJumpIndex(instructionSignals, jumpLabel);
+                }
+                ActiveSignals = new List<string>(instructionSignals[i]);
                 ExecuteTick();
+                if (instructionSignals[i].Contains(Defines.SIGNAL_STATEMENT_END)) break;
             }
         }
         //========================================
         void ExecuteProgram() {
-            try { do { ExecuteInstruction(); } while (I.getOpcode() != 0); } 
-            catch (BusException ex) { throw new CentralUnitException(ex.Message); }
-            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction "+I.getOpcode().ToString()+". " + ex.Message); }
-            System.Media.SystemSounds.Exclamation.Play();
-            System.Windows.Forms.MessageBox.Show("Program został zakończony.", "Maszyna Pi");
+            MaszynaPi.Logger.Logger.EnableFileLog(additionalName:"_Program_Execution_Logs");
+            try { do { ExecuteInstruction(); } while (I.GetOpcode() != 0); } //here also can add watchdog if there is no STP instruction in programm 
+            catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: ("+ (L.Value-1).ToString()+") linia: "+string.Join(" ",ActiveSignals)); }
+            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.Value - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)+ "| " + ex.Message); }
+            
         }
+        //========================================
+        public void ResetRegisters() {
+            AK.Value = Defines.DEFAULT_ALU_VAL;
+            A.Value = Defines.DEFAULT_REG_VAL;
+            S.Value = Defines.DEFAULT_REG_VAL;
+            L.Value = Defines.DEFAULT_REG_VAL;
+            I.Value = Defines.DEFAULT_REG_VAL;
+            JAL.Reset();
+            MagA.SetValue(Defines.DEFAULT_BUS_VAL);
+            MagS.SetValue(Defines.DEFAULT_BUS_VAL);
+        }
+
 
         // ======================= <  User Interface Methods > ================================= //
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
@@ -148,7 +207,7 @@ namespace MaszynaPi.MachineLogic {
         public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetMemoryContent().GetRange((int)addr, (int)size); }
         public List<uint> GetWholeMemoryContent() { return PaO.GetMemoryContent(); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
-        public void ExpandAndClearMemory() { PaO.InitMemoryContent(); }
+        public void ResetMemory() { PaO.InitMemoryContent(); }
 
         public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }
         public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }

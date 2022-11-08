@@ -75,7 +75,7 @@ namespace MaszynaPi {
         private string GetErrorType(string errMsg) {
             int starttype = errMsg.IndexOf("[");
             int endtype = errMsg.IndexOf("]");
-            if (starttype != 0 && starttype < endtype) return errMsg.Substring(starttype + 1, endtype);
+            if (starttype != -1 && starttype < endtype) return errMsg.Substring(starttype + 1, endtype);
             return "Error";
         }
 
@@ -84,6 +84,7 @@ namespace MaszynaPi {
                 MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
                 List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
                 Machine.SetMemoryContent(code);
+                Machine.ResetRegisters();
                 MemoryControl.Refresh();
 
             } catch (CompilerException ex) {
@@ -98,6 +99,9 @@ namespace MaszynaPi {
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
                 Machine.ManualProgram();
+                MemoryControl.Refresh();
+                System.Media.SystemSounds.Exclamation.Play();
+                MessageBox.Show("Program został zakończony.", "Maszyna Pi");
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message),""), GetErrorType(cEx.Message));
             } catch (Exception ex) {

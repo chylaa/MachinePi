@@ -17,12 +17,12 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
     public class ArithmeticLogicUnit{
         uint OperandA, OperandB;
-        Register Accumulator; // Dostęp do wników tylko przez akumulator
+        public Register AK; // Dostęp do wyników tylko przez akumulator
         ALUFlags JALFlags { get; set; }
 
 
         public ArithmeticLogicUnit(Register ak, uint value=Defines.DEFAULT_ALU_VAL){
-            Accumulator = ak;
+            AK = ak;
             JALFlags = (ALUFlags)value;
             OperandA = value;
             OperandB = value;
@@ -38,14 +38,16 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public bool IsFlagSet(int flag) {
             return JALFlags.HasFlag((ALUFlags)flag);
         }
+
+        public void SetOperandB(uint value) { OperandB = value; }
         
         public void SetFlags() {
             JALFlags &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
-            if (Accumulator.Value < OperandA) JALFlags |= ALUFlags.Z;
-            if (Accumulator.Value == 0) JALFlags |= ALUFlags.ZAK;
+            if (AK.Value < OperandA) JALFlags |= ALUFlags.Z;
+            if (AK.Value == 0) JALFlags |= ALUFlags.ZAK;
         }
         public void SetResult() {
-            Accumulator.Value = Arithmetics.HandleOverflow(OperandA); // to keep result valid based on current architecture settings (Word Length)
+            AK.Value = Arithmetics.HandleOverflow(OperandA); // to keep result valid based on current architecture settings (Word Length)
         }
 
         public void SetResultAndFlags() {
@@ -53,9 +55,13 @@ namespace MaszynaPi.MachineLogic.Architecture {
             SetFlags();
         }
 
-        public void SetOperandB(uint value) { OperandB = value; }
+        public void Reset() {
+            OperandA = Defines.DEFAULT_ALU_VAL;
+            OperandB = Defines.DEFAULT_ALU_VAL;
+            AK.Value = Defines.DEFAULT_REG_VAL;
+        }
 
- 
+
         public void Nop() { OperandA = OperandB; }
         public void Inc() { --OperandA; }
         public void Dec() { ++OperandA; }

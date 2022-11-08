@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include=".Logger\Logger.cs" />
     <Compile Include="CommonOperations\Arithmetics.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
