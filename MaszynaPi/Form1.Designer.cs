@@ -29,10 +29,14 @@ namespace MaszynaPi {
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMem();
+            this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
             this.groupBoxDebugLevel = new System.Windows.Forms.GroupBox();
             this.radioButtonDebugTick = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugInstruction = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugProgram = new System.Windows.Forms.RadioButton();
+            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,10 +70,6 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
-            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
-            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.groupBoxDebugLevel.SuspendLayout();
@@ -109,10 +109,10 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.MemoryControl);
             this.MicrocontrollerPanel.Controls.Add(this.checkBoxManualDebug);
             this.MicrocontrollerPanel.Controls.Add(this.groupBoxDebugLevel);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterS);
-            this.MicrocontrollerPanel.Controls.Add(this.MemoryControl);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterA);
             this.MicrocontrollerPanel.Controls.Add(this.menuStrip1);
             this.MicrocontrollerPanel.Location = new System.Drawing.Point(1, 1);
@@ -120,6 +120,29 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
             this.MicrocontrollerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MicrocontrollerPanel_Paint);
+            // 
+            // MemoryControl
+            // 
+            this.MemoryControl.BackColor = System.Drawing.Color.White;
+            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.MemoryControl.Location = new System.Drawing.Point(551, 162);
+            this.MemoryControl.Multiline = true;
+            this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.ReadOnly = true;
+            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
+            this.MemoryControl.TabIndex = 8;
+            this.MemoryControl.WordWrap = false;
+            // 
+            // checkBoxManualDebug
+            // 
+            this.checkBoxManualDebug.AutoSize = true;
+            this.checkBoxManualDebug.Location = new System.Drawing.Point(445, 21);
+            this.checkBoxManualDebug.Name = "checkBoxManualDebug";
+            this.checkBoxManualDebug.Size = new System.Drawing.Size(114, 17);
+            this.checkBoxManualDebug.TabIndex = 7;
+            this.checkBoxManualDebug.Text = "Sterowanie ręczne";
+            this.checkBoxManualDebug.UseVisualStyleBackColor = true;
             // 
             // groupBoxDebugLevel
             // 
@@ -165,6 +188,29 @@ namespace MaszynaPi {
             this.radioButtonDebugProgram.TabStop = true;
             this.radioButtonDebugProgram.Text = "niski (program)";
             this.radioButtonDebugProgram.UseVisualStyleBackColor = true;
+            // 
+            // UserControlRegisterS
+            // 
+            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 393);
+            this.UserControlRegisterS.Name = "UserControlRegisterS";
+            this.UserControlRegisterS.ReadOnly = true;
+            this.UserControlRegisterS.RegisterName = "S";
+            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterS.TabIndex = 4;
+            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterA
+            // 
+            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterA.CausesValidation = false;
+            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 136);
+            this.UserControlRegisterA.Name = "UserControlRegisterA";
+            this.UserControlRegisterA.ReadOnly = true;
+            this.UserControlRegisterA.RegisterName = "A";
+            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterA.TabIndex = 2;
+            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // menuStrip1
             // 
@@ -429,48 +475,6 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
-            // checkBoxManualDebug
-            // 
-            this.checkBoxManualDebug.AutoSize = true;
-            this.checkBoxManualDebug.Location = new System.Drawing.Point(445, 21);
-            this.checkBoxManualDebug.Name = "checkBoxManualDebug";
-            this.checkBoxManualDebug.Size = new System.Drawing.Size(114, 17);
-            this.checkBoxManualDebug.TabIndex = 7;
-            this.checkBoxManualDebug.Text = "Sterowanie ręczne";
-            this.checkBoxManualDebug.UseVisualStyleBackColor = true;
-            // 
-            // UserControlRegisterS
-            // 
-            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 393);
-            this.UserControlRegisterS.Name = "UserControlRegisterS";
-            this.UserControlRegisterS.ReadOnly = true;
-            this.UserControlRegisterS.RegisterName = "S";
-            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterS.TabIndex = 4;
-            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterA
-            // 
-            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterA.CausesValidation = false;
-            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 136);
-            this.UserControlRegisterA.Name = "UserControlRegisterA";
-            this.UserControlRegisterA.ReadOnly = true;
-            this.UserControlRegisterA.RegisterName = "A";
-            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterA.TabIndex = 2;
-            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // MemoryControl
-            // 
-            this.MemoryControl.FormattingEnabled = true;
-            this.MemoryControl.Location = new System.Drawing.Point(551, 162);
-            this.MemoryControl.Name = "MemoryControl";
-            this.MemoryControl.ScrollAlwaysVisible = true;
-            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
-            this.MemoryControl.TabIndex = 3;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -546,7 +550,7 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem przerwijToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxManualDebug;
-        private MachineUI.UserControlMemory MemoryControl;
+        private MachineUI.UserControlMem MemoryControl;
     }
 }
 

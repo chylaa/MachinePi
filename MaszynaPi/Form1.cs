@@ -34,7 +34,7 @@ namespace MaszynaPi {
                 Close();
             }
             InitializeComponent();
-             
+            
             Machine = new ControlUnit();
             MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
             MemoryControl.Refresh();
@@ -47,7 +47,7 @@ namespace MaszynaPi {
             //this.Controls.Add(architectureControl);
             //architectureControl.Show();
             //architectureControl.Visible = true;
-            //MemoryControl.
+            //userControlMem1.
             
              
         }
@@ -57,8 +57,8 @@ namespace MaszynaPi {
         }
 
         private void UpdateMemoryContentView() {
-            //this.MemoryControl.Items.Clear();
-            //MemoryControl.Items.Add(Machine.GetWholeMemoryContent().ToArray());
+            //this.userControlMem1.Items.Clear();
+            //userControlMem1.Items.Add(Machine.GetWholeMemoryContent().ToArray());
             
         }
 
