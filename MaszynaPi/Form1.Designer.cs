@@ -70,6 +70,10 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.groupBoxDebugLevel.SuspendLayout();
@@ -77,6 +81,7 @@ namespace MaszynaPi {
             this.TopRightPanel.SuspendLayout();
             this.ProgramPanel.SuspendLayout();
             this.CodeEditorContextMenu.SuspendLayout();
+            this.unixCodeEditorMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomPanel
@@ -396,6 +401,7 @@ namespace MaszynaPi {
             this.ProgramPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProgramPanel.Controls.Add(this.unixCodeEditorMenuStrip);
             this.ProgramPanel.Controls.Add(this.CodeEditorTextBox);
             this.ProgramPanel.Location = new System.Drawing.Point(1, 2);
             this.ProgramPanel.Name = "ProgramPanel";
@@ -410,12 +416,12 @@ namespace MaszynaPi {
             this.CodeEditorTextBox.ContextMenuStrip = this.CodeEditorContextMenu;
             this.CodeEditorTextBox.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CodeEditorTextBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CodeEditorTextBox.Location = new System.Drawing.Point(16, 4);
+            this.CodeEditorTextBox.Location = new System.Drawing.Point(16, 27);
             this.CodeEditorTextBox.MaxLength = 65355;
             this.CodeEditorTextBox.Multiline = true;
             this.CodeEditorTextBox.Name = "CodeEditorTextBox";
             this.CodeEditorTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.CodeEditorTextBox.Size = new System.Drawing.Size(640, 480);
+            this.CodeEditorTextBox.Size = new System.Drawing.Size(640, 457);
             this.CodeEditorTextBox.TabIndex = 0;
             this.CodeEditorTextBox.WordWrap = false;
             // 
@@ -475,6 +481,40 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
+            // unixCodeEditorMenuStrip
+            // 
+            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kodToolStripMenuItem});
+            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
+            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(657, 24);
+            this.unixCodeEditorMenuStrip.TabIndex = 2;
+            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
+            // 
+            // kodToolStripMenuItem
+            // 
+            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kompilujToolStripMenuItem,
+            this.zapiszToolStripMenuItem1});
+            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
+            this.kodToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.kodToolStripMenuItem.Text = "Kod";
+            // 
+            // kompilujToolStripMenuItem
+            // 
+            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
+            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
+            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kompilujToolStripMenuItem.Text = "Kompiluj";
+            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
+            // 
+            // zapiszToolStripMenuItem1
+            // 
+            this.zapiszToolStripMenuItem1.Name = "zapiszToolStripMenuItem1";
+            this.zapiszToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.zapiszToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.zapiszToolStripMenuItem1.Text = "Zapisz";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -500,6 +540,8 @@ namespace MaszynaPi {
             this.ProgramPanel.ResumeLayout(false);
             this.ProgramPanel.PerformLayout();
             this.CodeEditorContextMenu.ResumeLayout(false);
+            this.unixCodeEditorMenuStrip.ResumeLayout(false);
+            this.unixCodeEditorMenuStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -551,6 +593,10 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxManualDebug;
         private MachineUI.UserControlMem MemoryControl;
+        private System.Windows.Forms.MenuStrip unixCodeEditorMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem kodToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kompilujToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zapiszToolStripMenuItem1;
     }
 }
 

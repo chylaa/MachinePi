@@ -44,10 +44,10 @@ namespace MaszynaPi {
             UserControlRegisterS.Refresh();
         }
         private void Form1_Load(object sender, EventArgs e) {
-            //this.Controls.Add(architectureControl);
-            //architectureControl.Show();
-            //architectureControl.Visible = true;
-            //userControlMem1.
+            if(Environment.OSVersion.Platform != PlatformID.Unix) {
+                unixCodeEditorMenuStrip.Enabled = false;
+                unixCodeEditorMenuStrip.Visible = false;
+            }
             
              
         }
@@ -71,6 +71,22 @@ namespace MaszynaPi {
 
         }
 
+        //=====================< Central Unit Manual Constrol >============================== 
+
+        private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                Machine.ManualProgram();
+                MemoryControl.Refresh();
+                System.Media.SystemSounds.Exclamation.Play();
+                MessageBox.Show("Program został zakończony.", "Maszyna Pi");
+            } catch (CentralUnitException cEx) {
+                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
+            } catch (Exception ex) {
+                MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+            }
+
+        }
+
         // ================ CodeEditor =======================================
         private string GetErrorType(string errMsg) {
             int starttype = errMsg.IndexOf("[");
@@ -79,7 +95,7 @@ namespace MaszynaPi {
             return "Error";
         }
 
-        private void CompileItemToolStrip_Click(object sender, EventArgs e) {
+        private void Compile() {
             try {
                 MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
                 List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
@@ -88,26 +104,18 @@ namespace MaszynaPi {
                 MemoryControl.Refresh();
 
             } catch (CompilerException ex) {
-                MessageBox.Show("Compiler Error: " + ex.Message);
-            } catch (Exception ex){ 
-                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: "+ex.StackTrace);
+                MessageBox.Show(ex.Message, GetErrorType(ex.Message));
+            } catch (Exception ex) {
+                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace);
             }
         }
 
-        //=====================< Central Unit Manual Constrol >============================== 
-        
-        private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
-                Machine.ManualProgram();
-                MemoryControl.Refresh();
-                System.Media.SystemSounds.Exclamation.Play();
-                MessageBox.Show("Program został zakończony.", "Maszyna Pi");
-            } catch (CentralUnitException cEx) {
-                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message),""), GetErrorType(cEx.Message));
-            } catch (Exception ex) {
-                MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
-            }
-
+        private void CompileItemToolStrip_Click(object sender, EventArgs e) {
+            Compile();
+        }
+        // Code Editor unix toolstrip
+        private void kompilujToolStripMenuItem_Click(object sender, EventArgs e) {
+            Compile();
         }
 
         private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Paste(); }
@@ -115,6 +123,7 @@ namespace MaszynaPi {
         private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
 
         private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut();}
+
 
     }
 }

@@ -126,7 +126,8 @@ namespace MaszynaPi.MachineAssembler {
             int progSize = CalculateProgramSize(codeLines);
             List<uint> varsValues = new List<uint>(); //append at the end of compilation to code
             Dictionary<string, uint> userConstansVariables = GetUserConstantsAndVariables(codeLines, varsValues, progSize);
-            if (userConstansVariables.Last().Value > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("Compilation Error: Too large program for current architecture settings. Increase address space!");
+            if (userConstansVariables.Count==0 || progSize == 0) throw new CompilerException("[Compilation Error] No syntax.");
+            if (userConstansVariables.Last().Value > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("[Compilation Error] Too large program for current architecture settings. Increase address space!");
             
             var namesOpcodes = InstructionLoader.GetInstructionsNamesOpcodes();
             Dictionary<string, uint> userProcedures = GetProceduresLabes(codeLines);
