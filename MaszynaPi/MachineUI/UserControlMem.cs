@@ -26,10 +26,10 @@ namespace MaszynaPi.MachineUI {
             BackColor = Color.White;
             ScrollBars = ScrollBars.Vertical;
             WordWrap = false;
-            Cursor = Cursors.Default;
+            ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox
             InitializeComponent();
             Enter += HideCursorSetOnEnter;
-            MouseClick += HandleItemClicked;
+            MouseDoubleClick += HandleDoubleItemClicked;
         }
 
         // Temporarily disabling and then re-enabling can disable the cursor the text box whenever it receives the focus
@@ -41,9 +41,10 @@ namespace MaszynaPi.MachineUI {
             UnitMemory = unitMemory;
         }
 
-        private void HandleItemClicked(object sender, MouseEventArgs args) {
+
+        private void HandleDoubleItemClicked(object sender, MouseEventArgs args) {
             try {
-                
+                if (args.Button != MouseButtons.Left) return;
                 SelectedIndex = GetLineFromCharIndex(GetCharIndexFromPosition(args.Location));
                 string response = UnitMemory[SelectedIndex].ToString();
                 Point location = PointToClient(this.Location);
@@ -52,7 +53,7 @@ namespace MaszynaPi.MachineUI {
                 if (response.Length != 0)
                     UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
                 SetLine(SelectedIndex,CreateFormattedItem(SelectedIndex));
-                SelectionLength = 0; //prevents selection bug in Rasbian
+                (sender as TextBox).SelectionLength = 0; //try to prevent selection bug in Rasbian
             } catch (Exception ex) { throw new Exception("Menu Item Handler Error: "+ex.Message); }
 
         }
