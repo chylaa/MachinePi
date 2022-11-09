@@ -26,7 +26,7 @@ namespace MaszynaPi.MachineUI {
             BackColor = Color.White;
             ScrollBars = ScrollBars.Vertical;
             WordWrap = false;
-            Cursor = Cursors.Arrow;
+            Cursor = Cursors.Default;
             InitializeComponent();
             Enter += HideCursorSetOnEnter;
             MouseClick += HandleItemClicked;
@@ -52,7 +52,8 @@ namespace MaszynaPi.MachineUI {
                 if (response.Length != 0)
                     UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
                 SetLine(SelectedIndex,CreateFormattedItem(SelectedIndex));
-            } catch { return; }
+                SelectionLength = 0; //prevents selection bug in Rasbian
+            } catch (Exception ex) { throw new Exception("Menu Item Handler Error: "+ex.Message); }
 
         }
         private void SetLine(int index, string text) {
