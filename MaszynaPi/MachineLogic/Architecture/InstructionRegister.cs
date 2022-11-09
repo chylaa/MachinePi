@@ -10,18 +10,19 @@ namespace MaszynaPi.MachineLogic.Architecture {
     /// CIR - Current instruction register. In classic Machine W named "I"
     /// </summary>
     public class InstructionRegister : Register {
-        uint InstructionArgument;
-        uint InstructionOpcode;
+        Register AD;  // InstructionArgument;
+        Register KOD; // InstructionOpcode;
         public InstructionRegister(uint value = Defines.DEFAULT_REG_VAL) : base(value) {
-            InstructionArgument = Defines.DEFAULT_REG_VAL;
+            AD = new Register();
+            KOD = new Register();
         }
-        public uint GetArgument() { return InstructionArgument; }
-        public uint GetOpcode() { return InstructionOpcode; }
+        public uint GetArgument() { return AD.Value; }
+        public uint GetOpcode() { return KOD.Value; }
 
 
         public void DecodeInstruction() {
-            InstructionArgument = Arithmetics.DecodeIntructionArgument(Value);
-            InstructionOpcode = Arithmetics.DecodeInstructionOpcode(Value);
+            AD.Value  = Arithmetics.DecodeIntructionArgument(Value);
+            KOD.Value = Arithmetics.DecodeInstructionOpcode(Value);
         }
 
     }

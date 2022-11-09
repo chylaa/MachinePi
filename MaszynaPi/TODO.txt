@@ -1,0 +1,55 @@
+﻿
+
+> Do wyboru w architekturach dodać do W, L, W+, EW opcję PI [Menu->Projekt->Opcje->Składniki]     
+
+                1)                                                          2)
+                                                                     +================+
+                                                                     |Architektura PI |
+ +---------------------------+                                       |       vs       |
+ |                           |                                       |   Istniejące   |
+ |    [] W         [] L      |                                       +================+
+ |          [] PI            |                   
+ |    [] W+        [] EW     |     [O]- Joistick            -> Przypisane Przerwania nr. 1, 2, 3, 4
+ |                           |     [N]- Matryca             -> Dodatkowy Rejestr   Adresowy Matrycy oraz Sygnał Zapalający
+ +---------------------------+     [N]- Akcelerometr        -> Dodatkowy Rejestr?  [Zakres pomiarowy, konfigurowalny:  +/-2 / 4 /8/ 16 g]
+ |                           |     [N]- Magnetometr         -> Dodatkowy Rejestr?  [Zakres pomiarowy, konfigurowalny:  +/-2 / 4 /8/ 16 gauss]
+ |        {Components}       |     [N]- Barometr            -> Dodatkowy Rejestr?  [Zakres pomiarowy:  od 260 do 1260 hPa]
+ |                           |     [N]- Czujnik temperatury -> Dodatkowy Rejestr?  [Zakres pomiarowy:  od 0 do + 65 °C]
+ +---------------------------+     [N]- Czujnik wilgotności -> Dodatkowy Rejestr?  [Zakres pomiarowy:  od 20 do + 80 %RH]             
+                                   [N]- Żyroskop            -> Dodatkowy Rejestr?  [Zakres pomiarowy, konfigurowalny:  +/- 245 / 500 / 2000 °/s]
+
+ 1)
+ | Do komponentów {Components}, poza zwykłym zestawem możlwe, że będzie trzeba
+ | - dodać te odpowiedzialne za rozszerzenia wynikające z architektury PI np. 
+ | - "obsługa matrycy"
+
+ 2)
+ | Ewentualnie w przypadku czujników zaimplememtować "Czarną skrzynkę" (jak JAL)
+ | - oraz dwa rejestry -> Adresowy (wybór czujnika) oraz drugi, pobierający dane 
+
+
+
+ > Kolejne komponenty zależą od wymaganej ilości bitów adresowych. Wyznaczyć
+   podział pomiędzy komponentami architektury PI oraz wymagane długości słowa.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

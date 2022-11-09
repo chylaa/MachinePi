@@ -43,7 +43,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         
         public void SetFlags() {
             JALFlags &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
-            if (AK.Value < OperandA) JALFlags |= ALUFlags.Z;
+            if (AK.Value < OperandA) JALFlags |= ALUFlags.Z; ///[???] From script: Najbardziej znaczący bit akumulatora nazwano bitem znaku liczby(Z)
             if (AK.Value == 0) JALFlags |= ALUFlags.ZAK;
         }
         public void SetResult() {
