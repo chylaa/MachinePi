@@ -22,23 +22,23 @@ namespace MaszynaPi.MachineLogic {
         public const uint DEFAULT_CODE_BITS = 3; //3
         public const uint DEFAULT_ADDR_BITS = 5; //5
 
-        //Enum represent different Machine architectures -> they are encoded as the sum of their base components ([Flag] enum Components) 
-        public enum Machines:int { MachineW=0, MachineWp=1, MachineL=1151, MachineEW=2047};
+        //Enum represent different Machine architectures -> they are encoded as the bit AND of their base components ([Flag] enum Components) 
+        public enum Machines:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047};
         public const Machines DEFAULT_MACHINE = Machines.MachineW;
 
         [Flags]
         public enum Components {
-            Basic = 0b_0000_0000_0000,               // 0
-            BusConnection = 0b_0000_0000_0001,       // 1
-            ALUIncrementations = 0b_0000_0000_0010,  // 2
-            ALULogical = 0b_0000_0000_0100,          // 4
-            ALUArythmetical = 0b_0000_0000_1000,     // 8
-            Stack = 0b_0000_0001_0000,               // 16
-            RegisterX = 0b_0000_0010_0000,           // 32
-            RegisterY = 0b_0000_0100_0000,           // 64
-            Interuptions = 0b_0001_0000_0000,        // 128
-            Input = 0b_0010_0000_0000,               // 256
-            Flags = 0b_0100_0000_0000                // 512
+            Basic = 0b_0000_0000_0001,               // 1
+            BusConnection = 0b_0000_0000_0010,       // 2
+            ALUIncrementations = 0b_0000_0000_0100,  // 4
+            ALULogical = 0b_0000_0000_1000,          // 8
+            ALUArythmetical = 0b_0000_0001_0000,     // 16
+            Stack = 0b_0000_0010_0000,               // 32
+            RegisterX = 0b_0000_0100_0000,           // 64
+            RegisterY = 0b_0000_1000_0000,           // 128
+            Interuptions = 0b_0001_0000_0000,        // 256
+            Input = 0b_0010_0000_0000,               // 512
+            Flags = 0b_0100_0000_0000                // 1024
         }
 
         /* If instruction list containing any signal from a given component is loaded, it must be activated -> related formats appear in GUI. 

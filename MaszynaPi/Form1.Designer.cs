@@ -62,6 +62,10 @@ namespace MaszynaPi {
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.TopRightPanel = new System.Windows.Forms.Panel();
             this.ProgramPanel = new System.Windows.Forms.Panel();
+            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeEditorTextBox = new System.Windows.Forms.TextBox();
             this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,18 +74,14 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zapiszToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.groupBoxDebugLevel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.TopRightPanel.SuspendLayout();
             this.ProgramPanel.SuspendLayout();
-            this.CodeEditorContextMenu.SuspendLayout();
             this.unixCodeEditorMenuStrip.SuspendLayout();
+            this.CodeEditorContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomPanel
@@ -315,6 +315,7 @@ namespace MaszynaPi {
             this.ładujListęRozkazówToolStripMenuItem.Name = "ładujListęRozkazówToolStripMenuItem";
             this.ładujListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.ładujListęRozkazówToolStripMenuItem.Text = "Ładuj listę rozkazów";
+            this.ładujListęRozkazówToolStripMenuItem.Click += new System.EventHandler(this.ładujListęRozkazówToolStripMenuItem_Click);
             // 
             // opcjeToolStripMenuItem
             // 
@@ -338,38 +339,38 @@ namespace MaszynaPi {
             // programToolStripMenuItem1
             // 
             this.programToolStripMenuItem1.Name = "programToolStripMenuItem1";
-            this.programToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.programToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.programToolStripMenuItem1.Text = "Program";
             this.programToolStripMenuItem1.Click += new System.EventHandler(this.programToolStripMenuItem1_Click);
             // 
             // rozkazToolStripMenuItem1
             // 
             this.rozkazToolStripMenuItem1.Name = "rozkazToolStripMenuItem1";
-            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.rozkazToolStripMenuItem1.Text = "Rozkaz";
             // 
             // taktToolStripMenuItem
             // 
             this.taktToolStripMenuItem.Name = "taktToolStripMenuItem";
-            this.taktToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.taktToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.taktToolStripMenuItem.Text = "Takt";
             // 
             // doKursoraToolStripMenuItem
             // 
             this.doKursoraToolStripMenuItem.Name = "doKursoraToolStripMenuItem";
-            this.doKursoraToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.doKursoraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.doKursoraToolStripMenuItem.Text = "Do kursora";
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             // 
             // przerwijToolStripMenuItem
             // 
             this.przerwijToolStripMenuItem.Name = "przerwijToolStripMenuItem";
-            this.przerwijToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.przerwijToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.przerwijToolStripMenuItem.Text = "Przerwij";
             // 
             // pomocToolStripMenuItem
@@ -407,6 +408,40 @@ namespace MaszynaPi {
             this.ProgramPanel.Name = "ProgramPanel";
             this.ProgramPanel.Size = new System.Drawing.Size(657, 487);
             this.ProgramPanel.TabIndex = 0;
+            // 
+            // unixCodeEditorMenuStrip
+            // 
+            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kodToolStripMenuItem});
+            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
+            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(657, 24);
+            this.unixCodeEditorMenuStrip.TabIndex = 2;
+            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
+            // 
+            // kodToolStripMenuItem
+            // 
+            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kompilujToolStripMenuItem,
+            this.zapiszToolStripMenuItem1});
+            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
+            this.kodToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.kodToolStripMenuItem.Text = "Kod";
+            // 
+            // kompilujToolStripMenuItem
+            // 
+            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
+            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
+            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.kompilujToolStripMenuItem.Text = "Kompiluj";
+            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
+            // 
+            // zapiszToolStripMenuItem1
+            // 
+            this.zapiszToolStripMenuItem1.Name = "zapiszToolStripMenuItem1";
+            this.zapiszToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.zapiszToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.zapiszToolStripMenuItem1.Text = "Zapisz";
             // 
             // CodeEditorTextBox
             // 
@@ -481,40 +516,6 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
-            // unixCodeEditorMenuStrip
-            // 
-            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kodToolStripMenuItem});
-            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
-            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(657, 24);
-            this.unixCodeEditorMenuStrip.TabIndex = 2;
-            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
-            // 
-            // kodToolStripMenuItem
-            // 
-            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kompilujToolStripMenuItem,
-            this.zapiszToolStripMenuItem1});
-            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
-            this.kodToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.kodToolStripMenuItem.Text = "Kod";
-            // 
-            // kompilujToolStripMenuItem
-            // 
-            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
-            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
-            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.kompilujToolStripMenuItem.Text = "Kompiluj";
-            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
-            // 
-            // zapiszToolStripMenuItem1
-            // 
-            this.zapiszToolStripMenuItem1.Name = "zapiszToolStripMenuItem1";
-            this.zapiszToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.zapiszToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.zapiszToolStripMenuItem1.Text = "Zapisz";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -539,9 +540,9 @@ namespace MaszynaPi {
             this.TopRightPanel.ResumeLayout(false);
             this.ProgramPanel.ResumeLayout(false);
             this.ProgramPanel.PerformLayout();
-            this.CodeEditorContextMenu.ResumeLayout(false);
             this.unixCodeEditorMenuStrip.ResumeLayout(false);
             this.unixCodeEditorMenuStrip.PerformLayout();
+            this.CodeEditorContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

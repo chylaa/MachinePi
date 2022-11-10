@@ -50,6 +50,14 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             LoadInstructionSet(baseInstructions.Split(separator).ToList());
         }
 
+        public static void LoadInstructionsFromFile(string filepath) {
+            if (File.Exists(filepath) == false) throw new InstructionLoaderException("Cannot load instruction file "+filepath+". File not exist.");
+            Encoding encoding = GetEncoding(filepath, Encoding.Default);
+            string instructions = File.ReadAllText(filepath, encoding);
+            var separator = Environment.NewLine.ToCharArray();
+            LoadInstructionSet(instructions.Split(separator).ToList());
+        }
+
         public static Dictionary<string, List<string>> GetInstructionsLines() {
             if (InstructionsLines.Count() > 0) return InstructionsLines;
             throw new InstructionLoaderException("Trying get empty Instructions View Dictionary (LoadInstructionSetFile() method not called?).");
@@ -75,19 +83,16 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             options.Remove(CODE_BITS_HEADER + codeBits.ToString());
             //--------------------------------------------------------------------------------------------------------------
             int componetsSet = 0;
-            for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= i; }
+            for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= (1<<i); }
             ArchitectureSettings.SetActiveComponents((Defines.Components)componetsSet);
         }
         private static void ClearLoadedInstructions() {
             InstructionsLines.Clear();
             InstructionSignalsMap.Clear();
             InstructionNamesOpcodes.Clear();
+            ZeroArgInstructions.Clear();
         }
-        public static void LoadInstructionSet(string filepath) {
-            List<string> lines = File.ReadAllLines(filepath).ToList();
-            for(int i=0; i<lines.Count;i++) lines[i] = lines[i].Replace("\n", "").Replace("\r", ""); 
-            LoadInstructionSet(lines);
-        }
+
 
         // Checks if instruction starts with czyt wys wei il; :)
         private static bool IsValidStartOfInstruction(List<string> instructionline) {
@@ -113,6 +118,7 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             return lines.ConvertAll(d => d.ToLower());
         }
 
+
         public static void LoadInstructionSet(List<string> lines) {
             lines = StandarizeLines(lines);
             //if (lines.IndexOf(OPTIONS_HEADER) < 0 || lines.IndexOf(INSTRUCTIONS_HEADER) < 0 || lines.IndexOf(ADDRESS_SPACE_HEADER) < 0) throw new InstructionLoaderException("Invalid format of instruction file."); //TODO: make checkFile() method as this
@@ -126,7 +132,7 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             if (!instructios[0].Contains(INSTRUCTION_NUMBER_HEADER)) {
                 throw new InstructionLoaderException("Invalid format of .lst file -> unknown symbol on this position '" + instructios[0] + "'");
             }
-            int instNum = int.Parse(instructios[0].LastOrDefault().ToString());
+            int instNum = int.Parse(instructios[0].Replace(INSTRUCTION_NUMBER_HEADER,""));
             
             for(int i=1; i <= instNum; i++) { // if not insruction[i].Conteins()'=' throw . . .
                 InstructionNamesOpcodes.Add(instructios[i].Split('=')[1], MAX_OPCODE); // Get instruction name (always after '=' char)
@@ -154,7 +160,7 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
                 List<string> signalsInLine = line.Replace(";","").Substring(line.IndexOf('=')+1).Split(' ').ToList();
 
                 if (IsStatementValid(signalsInLine) == false)
-                    throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine));
+                    throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine) +"\nCheck instruction file encoding (ANSI might not be supported)");
                 if (czytwysweiil) {
                     if (false == IsValidStartOfInstruction(signalsInLine)) 
                         throw new InstructionLoaderException("Critical error in defined instruction "+processInstruction+". Say after me! czyt, wys, wei, il [!]");
@@ -166,11 +172,24 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             }
         }
 
-/*      static void AddInstruction(List<List<string>> signals) {
-            MaxOpcode += (uint)Math.Pow(2, ArchitectureSettings.GetAddressSpace());
-            DecodedInstructionMap.Add(MaxOpcode, signals);
-        }*/
 
+        /// Determines a text file's encoding by analyzing its byte order mark (BOM).
+        /// Defaults set by "defaultEncoding" param when detection of the text file's endianness fails.
+        public static Encoding GetEncoding(string filename, Encoding defaultEncoding) {
+            var bom = new byte[4];
+            using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
+                file.Read(bom, 0, 4);
+            }
+            // Analyze the BOM
+            if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return Encoding.UTF7;
+            if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return Encoding.UTF8;
+            if (bom[0] == 0xff && bom[1] == 0xfe && bom[2] == 0 && bom[3] == 0) return Encoding.UTF32; //UTF-32LE
+            if (bom[0] == 0xff && bom[1] == 0xfe) return Encoding.Unicode; //UTF-16LE
+            if (bom[0] == 0xfe && bom[1] == 0xff) return Encoding.BigEndianUnicode; //UTF-16BE
+            if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff) return new UTF32Encoding(true, true);  //UTF-32BE
+            
+            return defaultEncoding;
+        }
 
 
 

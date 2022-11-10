@@ -34,7 +34,7 @@ namespace MaszynaPi {
                 Close();
             }
             InitializeComponent();
-            
+
             Machine = new ControlUnit();
             MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
             MemoryControl.Refresh();
@@ -44,22 +44,22 @@ namespace MaszynaPi {
             UserControlRegisterS.Refresh();
         }
         private void Form1_Load(object sender, EventArgs e) {
-            if(Environment.OSVersion.Platform != PlatformID.Unix) {
+            if (Environment.OSVersion.Platform != PlatformID.Unix) {
                 unixCodeEditorMenuStrip.Enabled = false;
                 unixCodeEditorMenuStrip.Visible = false;
             }
-            
-             
+
+
         }
 
         private void RefreshUserControls() {
-            
+
         }
 
         private void UpdateMemoryContentView() {
             //this.userControlMem1.Items.Clear();
             //userControlMem1.Items.Add(Machine.GetWholeMemoryContent().ToArray());
-            
+
         }
 
         private void LeftUpPanel_Paint(object sender, PaintEventArgs e) {
@@ -122,8 +122,23 @@ namespace MaszynaPi {
 
         private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
 
-        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut();}
+        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut(); }
 
+        // Menu Bar things
+        private void ładujListęRozkazówToolStripMenuItem_Click(object sender, EventArgs e) {
+            string filepath = "";
+            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+                openFileDialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+                openFileDialog.Filter = "pliki rozkazów (*.lst)|*.lst";
+                openFileDialog.RestoreDirectory = true;
 
+                if (openFileDialog.ShowDialog() == DialogResult.OK) 
+                    filepath = openFileDialog.FileName;
+            }
+            if (filepath.Length > 0) {
+                InstructionLoader.LoadInstructionsFromFile(filepath);
+                MemoryControl.Refresh();
+            }
+        }
     }
 }

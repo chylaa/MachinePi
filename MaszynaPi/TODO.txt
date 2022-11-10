@@ -34,9 +34,12 @@
 
 
 
-
-
-
+   _____________________________________________________________________________________________________________
+   Rzeczy do obczajenia odnśnie tworzenia struktury kodu pod rzeczywiste rozwiązania w architekturze procesorów:
+    
+    - Kontroler przerwań: [https://pl.wikipedia.org/wiki/Przerwanie#Kontroler_przerwa.C5.84]
+    -
+    -
 
 
 

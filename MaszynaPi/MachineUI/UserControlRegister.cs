@@ -36,7 +36,7 @@ namespace MaszynaPi.MachineUI {
             string response = UnitRegister.Value.ToString();
             Point location = PointToClient(this.Location);
             InputDialog.ShowInputDialog(ref response, title:"Rejestr "+RegisterName, subtitle:"Aktualna wartość", x:location.X, y:location.Y);
-            if(response.Length != 0)
+            if (response.Length != 0)
                 UnitRegister.Value = Arithmetics.HandleOverflow((uint)int.Parse(response));
             Refresh();
         }

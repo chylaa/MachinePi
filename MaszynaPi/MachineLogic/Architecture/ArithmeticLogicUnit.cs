@@ -47,7 +47,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
             if (AK.Value == 0) JALFlags |= ALUFlags.ZAK;
         }
         public void SetResult() {
-            AK.Value = Arithmetics.HandleOverflow(OperandA); // to keep result valid based on current architecture settings (Word Length)
+            AK.Value = (OperandA); // overflow handled in Register set method
         }
 
         public void SetResultAndFlags() {

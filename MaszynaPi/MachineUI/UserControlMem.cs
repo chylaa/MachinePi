@@ -26,7 +26,7 @@ namespace MaszynaPi.MachineUI {
             BackColor = Color.White;
             ScrollBars = ScrollBars.Vertical;
             WordWrap = false;
-            ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox
+            //ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox [errors in rasbian :c]
             InitializeComponent();
             Enter += HideCursorSetOnEnter;
             MouseDoubleClick += HandleDoubleItemClicked;
@@ -51,7 +51,7 @@ namespace MaszynaPi.MachineUI {
                 InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
                 if (response == null) MessageBox.Show("Response is null");
                 if (response.Length != 0)
-                    UnitMemory[SelectedIndex] = Arithmetics.ShrinkToWordLength((uint)int.Parse(response));
+                    UnitMemory[SelectedIndex] = Arithmetics.HandleOverflow((uint)int.Parse(response));
                 SetLine(SelectedIndex,CreateFormattedItem(SelectedIndex));
                 (sender as TextBox).SelectionLength = 0; //try to prevent selection bug in Rasbian
             } catch (Exception ex) { throw new Exception("Menu Item Handler Error: "+ex.Message); }
