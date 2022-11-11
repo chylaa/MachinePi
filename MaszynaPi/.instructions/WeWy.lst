@@ -1,5 +1,5 @@
 [Opcje]
-Po≈ÇƒÖczenie=1
+Po≥πczenie=1
 Inkrementacja=0
 Logiczne=0
 Arytmetyczne=1
@@ -7,7 +7,7 @@ Stos=1
 RejestrX=0
 RejestrY=0
 Przerwania=0
-Wej≈õcie=1
+Wejúcie=1
 Znaczniki=0
 Adres=6
 Kod=4
@@ -17,7 +17,7 @@ Nazwa1=stp
 Nazwa2=dod
 Nazwa3=ode
 Nazwa4=pob
-Nazwa5=≈Çad
+Nazwa5=≥ad
 Nazwa6=sob
 Nazwa7=som
 Nazwa8=soz
@@ -31,7 +31,7 @@ Nazwa15=wpr
 Nazwa16=wyp
 [stp]
 Linie=5
-Linia1=// zako≈Ñczenie programu
+Linia1=// zakoÒczenie programu
 Linia2=ROZKAZ STP;
 Linia3=Argumenty 0;
 Linia4=czyt wys wei il;
@@ -57,10 +57,10 @@ Linia2=ROZKAZ POB;
 Linia3=czyt wys wei il;
 Linia4=wyad wea;
 Linia5=czyt wys weja przep weak wyl wea;
-[≈Çad]
+[≥ad]
 Linie=5
 Linia1=// (Ak)->(Ad)
-Linia2=ROZKAZ ≈ÅAD;
+Linia2=ROZKAZ £AD;
 Linia3=czyt wys wei il;
 Linia4=wyad wea wyak wes;
 Linia5=pisz wyl wea;
@@ -76,7 +76,7 @@ Linie=6
 Linia1=// skok gdy (AK) < 0
 Linia2=ROZKAZ SOM;
 Linia3=czyt wys wei il;
-Linia4=JE≈ªELI Z TO @ujemne GDY NIE @dodatnie;
+Linia4=JEØELI Z TO @ujemne GDY NIE @dodatnie;
 Linia5=@ujemne wyad wea wel KONIEC;
 Linia6=@dodatnie wyl wea;
 [soz]
@@ -84,7 +84,7 @@ Linie=6
 Linia1=// skok gdy (AK) = 0
 Linia2=ROZKAZ SOZ;
 Linia3=czyt wys wei il;
-Linia4=JE≈ªELI zak TO @zero GDY NIE @niezero;
+Linia4=JEØELI zak TO @zero GDY NIE @niezero;
 Linia5=@zero wyad wea wel KONIEC;
 Linia6=@niezero wyl wea;
 [dns]
@@ -132,21 +132,21 @@ Linia4=czyt wys weja mno weak wyl wea;
 Linia5=
 [wpr]
 Linie=8
-Linia1=// wczytaj znak z urzƒÖdzenia zewnƒôtrznego
+Linia1=// wczytaj znak z urzπdzenia zewnÍtrznego
 Linia2=ROZKAZ WPR;
 Linia3=czyt wys wei il;
 Linia4=wyak weja ode weak start;
-Linia5=@czekaj wyg weja ode weak JE≈ªELI Z TO @gotowe GDY NIE @czekaj;
+Linia5=@czekaj wyg weja ode weak JEØELI Z TO @gotowe GDY NIE @czekaj;
 Linia6=@gotowe wyrb weja przep weak wyl wea;
 Linia7=
 Linia8=
 [wyp]
 Linie=8
-Linia1=// wyprowad≈∫ znak na urzƒÖdzenie zewnƒôtrzne
+Linia1=// wyprowadü znak na urzπdzenie zewnÍtrzne
 Linia2=ROZKAZ WYP;
 Linia3=czyt wys wei il;
 Linia4=wyak weja werb start;
 Linia5=wyak wes weja ode weak;
-Linia6=@czeka wyg weja ode weak je≈ºeli z to @gotowe gdy nie @czeka;
+Linia6=@czeka wyg weja ode weak jeøeli z to @gotowe gdy nie @czeka;
 Linia7=@gotowe wys weja przep weak wyl wea;
 Linia8=

@@ -33,11 +33,11 @@ namespace MaszynaPi.MachineUI {
         }
         
         private void ControlDoubleClick(object sender, MouseEventArgs args) {
-            string response = UnitRegister.Value.ToString();
+            string response = UnitRegister.GetValue().ToString();
             Point location = PointToClient(this.Location);
             InputDialog.ShowInputDialog(ref response, title:"Rejestr "+RegisterName, subtitle:"Aktualna wartość", x:location.X, y:location.Y);
             if (response.Length != 0)
-                UnitRegister.Value = Arithmetics.HandleOverflow((uint)int.Parse(response));
+                UnitRegister.SetValue((uint)int.Parse(response));
             Refresh();
         }
         protected override void OnPaint(PaintEventArgs e) {
@@ -45,7 +45,7 @@ namespace MaszynaPi.MachineUI {
             base.OnPaint(e);
         }
         public override void Refresh() {
-            Text = RegisterName + " " + DIVIDER + " " + UnitRegister.Value.ToString();
+            Text = RegisterName + " " + DIVIDER + " " + UnitRegister.GetValue().ToString();
             base.Refresh();
         }
 

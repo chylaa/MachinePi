@@ -28,6 +28,7 @@ namespace MaszynaPi.MachineLogic {
             CodeBits = newCodeBits;
         }
 
+        public static uint GetWordBits() { return CodeBits + AddressSpace; }
         public static uint GetMaxWord() {
             return (uint)Math.Pow(2, AddressSpace+CodeBits)-1;
         }

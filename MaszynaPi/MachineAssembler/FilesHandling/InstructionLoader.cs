@@ -46,16 +46,19 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./Podstawa.lst");
             else if (Environment.OSVersion.Platform == PlatformID.Win32NT) baseInstructions = Properties.Resources.Podstawa;
             else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
-
-            LoadInstructionSet(baseInstructions.Split(separator).ToList());
-        }
+            
+            try {  LoadInstructionSet(baseInstructions.Split(separator).ToList());
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Base instruction .lst file error: " + ex.Message);}
+          }
 
         public static void LoadInstructionsFromFile(string filepath) {
             if (File.Exists(filepath) == false) throw new InstructionLoaderException("Cannot load instruction file "+filepath+". File not exist.");
             Encoding encoding = GetEncoding(filepath, Encoding.Default);
             string instructions = File.ReadAllText(filepath, encoding);
             var separator = Environment.NewLine.ToCharArray();
-            LoadInstructionSet(instructions.Split(separator).ToList());
+
+            try { LoadInstructionSet(instructions.Split(separator).ToList());
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Base instruction .lst file error: " + ex.Message); }
         }
 
         public static Dictionary<string, List<string>> GetInstructionsLines() {

@@ -106,7 +106,7 @@ namespace MaszynaPi {
             } catch (CompilerException ex) {
                 MessageBox.Show(ex.Message, GetErrorType(ex.Message));
             } catch (Exception ex) {
-                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace);
+                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace, "Error");
             }
         }
 
@@ -136,8 +136,12 @@ namespace MaszynaPi {
                     filepath = openFileDialog.FileName;
             }
             if (filepath.Length > 0) {
-                InstructionLoader.LoadInstructionsFromFile(filepath);
-                MemoryControl.Refresh();
+                try {
+                    InstructionLoader.LoadInstructionsFromFile(filepath);
+                }catch(InstructionLoaderException ex) {
+                    MessageBox.Show("Error while loading .lst file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
+                }
+                    MemoryControl.Refresh();
             }
         }
     }

@@ -36,8 +36,10 @@ namespace MaszynaPi.CommonOperations {
         public static uint ShrinkToWordLength(uint value) {
             return Math.Min(value, ArchitectureSettings.GetMaxWord());
         }
-        // Defines how value should behave on overflow (based on word size) 
-        public static uint HandleOverflow(uint value) {
+        // Defines how value should behave on overflow
+        // (based on word size if second parameter == 0) 
+        public static uint HandleOverflow(uint value, uint bitsize=0) {
+            if(bitsize>0) return value & (uint)(Math.Pow(2,bitsize)-1);
             return value & ArchitectureSettings.GetMaxWord();
         }
 

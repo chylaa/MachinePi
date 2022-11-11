@@ -43,11 +43,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
         
         public void SetFlags() {
             JALFlags &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
-            if (AK.Value < OperandA) JALFlags |= ALUFlags.Z; ///[???] From script: Najbardziej znaczący bit akumulatora nazwano bitem znaku liczby(Z)
-            if (AK.Value == 0) JALFlags |= ALUFlags.ZAK;
+            if (AK.GetValue() < OperandA) JALFlags |= ALUFlags.Z; ///[???] From script: Najbardziej znaczący bit akumulatora nazwano bitem znaku liczby(Z)
+            if (AK.GetValue() == 0) JALFlags |= ALUFlags.ZAK;
         }
         public void SetResult() {
-            AK.Value = (OperandA); // overflow handled in Register set method
+            AK.SetValue(OperandA); // overflow handled in Register set method
         }
 
         public void SetResultAndFlags() {
@@ -58,7 +58,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public void Reset() {
             OperandA = Defines.DEFAULT_ALU_VAL;
             OperandB = Defines.DEFAULT_ALU_VAL;
-            AK.Value = Defines.DEFAULT_REG_VAL;
+            AK.SetValue(Defines.DEFAULT_REG_VAL);
         }
 
 
