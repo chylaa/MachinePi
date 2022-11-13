@@ -9,7 +9,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
     public class Register {
 
         uint Value;
-        public uint Bitsize { get; set; }
+        uint Bitsize;
         public Register(uint bitsize, uint value = Defines.DEFAULT_REG_VAL) { 
             Value=(value);
             Bitsize = bitsize;
@@ -17,6 +17,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         public void SetValue(uint value) { Value = Arithmetics.HandleOverflow(value, Bitsize); }
         public uint GetValue() { return Value; }
+
+        public virtual void SetBitsize(uint bitsize, uint instbitsize=0) { Bitsize=bitsize; }
+        public uint GetBitsize() { return Bitsize; }
+
+        public virtual void Reset() { SetValue(Defines.DEFAULT_ALU_VAL); }
 
     }
 

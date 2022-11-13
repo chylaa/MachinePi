@@ -27,6 +27,11 @@ namespace MaszynaPi.CommonOperations {
             return value &= ~(bit);
         }
 
+        public static bool IsSignBitSet(uint value, uint numberBitsize) {
+            if ((int)value >> (int)(numberBitsize - 1) == 1) return true;
+            return false;
+        }
+
         public static uint CreateBitMask(uint noOfZeroes, uint noOfOnes, bool zeroesFirst = true) {
             if (!zeroesFirst)
                 return (uint)(((int)(Math.Pow(2, noOfOnes) - 1) << (int)noOfZeroes));
@@ -39,7 +44,8 @@ namespace MaszynaPi.CommonOperations {
         // Defines how value should behave on overflow
         // (based on word size if second parameter == 0) 
         public static uint HandleOverflow(uint value, uint bitsize=0) {
-            if(bitsize>0) return value & (uint)(Math.Pow(2,bitsize)-1);
+            if(bitsize>0)
+                return (value & (uint)(Math.Pow(2,bitsize)-1));
             return value & ArchitectureSettings.GetMaxWord();
         }
 

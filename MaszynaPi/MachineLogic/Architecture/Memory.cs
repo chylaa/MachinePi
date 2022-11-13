@@ -37,6 +37,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
             return Content[(int)addr];
         }
 
+        public void Reset() { InitMemoryContent(); }
+
         // ======================= <  User Interface Methods > ================================= //
         public List<uint> GetMemoryContent() { return Content; }
     }

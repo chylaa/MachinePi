@@ -9,13 +9,13 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
     class BusException : Exception { public BusException(string message) : base(message) { } }
     public class Bus {
-        const int EMPTY = -1;
+        const int EMPTY = Defines.DEFAULT_BUS_VAL;
         uint Bitsize;
         int Value;
 
-        public Bus(uint bitsize, uint value = Defines.DEFAULT_BUS_VAL) {
-            Value = (int)(value);
+        public Bus(uint bitsize) {
             Bitsize = bitsize;
+            SetEmpty();
         }
 
         public uint GetValue() {
@@ -33,5 +33,13 @@ namespace MaszynaPi.MachineLogic.Architecture {
             if (Value == EMPTY) return true;
             return false;
         }
+
+        public void SetBitsize(uint bitsize) { Bitsize = bitsize; }
+        public uint GetBitsize() { return Bitsize; }
+
+        public void Reset() { SetEmpty(); }
+
+        // Only for logger
+        public int LoggerGet() { return Value; }
     }
 }

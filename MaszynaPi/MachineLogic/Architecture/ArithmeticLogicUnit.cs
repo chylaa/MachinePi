@@ -9,7 +9,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
     [Flags]
     // Flags are encoded as it's bitwise XOR of lowercase letters in ASCII -> for if-else statment in instruction signals 
     enum ALUFlags { 
-        Z   = 0b_0111_1010, // AK < 0
+        Z   = 0b_0111_1010, // AK < 0 (MSB == 1)
         V   = 0b_0111_0110, // 
         INT = (0b_0110_1001 ^ 0b_0110_1110 ^ 0b_0111_0100), // Interuption
         ZAK = (0b_0111_1010 ^ 0b_0110_0001 ^ 0b_0110_1011)  // AK = 0
@@ -43,7 +43,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         
         public void SetFlags() {
             JALFlags &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
-            if (AK.GetValue() < OperandA) JALFlags |= ALUFlags.Z; ///[???] From script: Najbardziej znaczący bit akumulatora nazwano bitem znaku liczby(Z)
+            if (Arithmetics.IsSignBitSet(AK.GetValue(),AK.GetBitsize())) JALFlags |= ALUFlags.Z; ///  From script: Najbardziej znaczący bit akumulatora nazwano bitem znaku liczby(Z)
             if (AK.GetValue() == 0) JALFlags |= ALUFlags.ZAK;
         }
         public void SetResult() {
@@ -58,7 +58,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public void Reset() {
             OperandA = Defines.DEFAULT_ALU_VAL;
             OperandB = Defines.DEFAULT_ALU_VAL;
-            AK.SetValue(Defines.DEFAULT_REG_VAL);
+            AK.Reset();
         }
 
 

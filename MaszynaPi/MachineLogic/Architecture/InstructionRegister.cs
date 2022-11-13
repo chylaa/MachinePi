@@ -13,19 +13,26 @@ namespace MaszynaPi.MachineLogic.Architecture {
         Register AD;  // InstructionArgument;
         Register KOD; // InstructionOpcode;
 
-        public InstructionRegister(uint addrbBitsize, uint opcodeBitsize,  uint value = Defines.DEFAULT_REG_VAL) : base(addrbBitsize + opcodeBitsize, value) {
-            AD = new Register(addrbBitsize);
+        public InstructionRegister(uint addrBitsize, uint opcodeBitsize,  uint value = Defines.DEFAULT_REG_VAL) : base(addrBitsize + opcodeBitsize, value) {
+            AD = new Register(addrBitsize);
             KOD = new Register(opcodeBitsize);
             SetValue(value);
         }
         public uint GetArgument() { return AD.GetValue(); }
         public uint GetOpcode() { return KOD.GetValue(); }
 
+        public override void SetBitsize(uint addrBitsize, uint opcodeBitsize) {
+            base.SetBitsize(addrBitsize+opcodeBitsize);
+            AD.SetBitsize(addrBitsize);
+            KOD.SetBitsize(opcodeBitsize);
+        }
 
         public void DecodeInstruction() {
             AD.SetValue(Arithmetics.DecodeIntructionArgument(this.GetValue()));
             KOD.SetValue(Arithmetics.DecodeInstructionOpcode(this.GetValue()));
         }
+
+        public override void Reset() { base.Reset(); AD.Reset(); KOD.Reset(); }
 
     }
 }

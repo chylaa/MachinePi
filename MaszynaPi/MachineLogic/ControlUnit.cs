@@ -43,7 +43,7 @@ namespace MaszynaPi.MachineLogic {
         public Memory PaO { get; private set; } // Operation Memory ("FLash"?)
         public Bus MagA { get; private set; } // BUS
         public Bus MagS { get; private set; } // BUS
-        public ArithmeticLogicUnit JAL { get; private set; }
+        public ArithmeticLogicUnit JAL { get; private set; } // Arithmetic Logic Unit
         public Register A { get; private set; }  // Address Register
         public Register S {get; private set; } // Value Register
         public Register AK { get; private set; }  // Accumulator
@@ -51,33 +51,41 @@ namespace MaszynaPi.MachineLogic {
         public InstructionRegister I { get; private set; }   // Instruction Register
         public Register X { get; private set; }
         public Register Y { get; private set; }
+        public Register WS { get; private set; } // Stack register
+        public Register RB { get; private set; }
+        public Register G { get; private set; }
 
         public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
             RzKDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(RzKDecoder.StatementArg); });
 
+            /// This whole section (bitsize defines) must be relocated into diff function (becouse some sizes depends on architecture)
             uint Aspace = ArchitectureSettings.GetAddressSpace();
             uint Cbits = ArchitectureSettings.GetCodeBits();
             uint Mword = ArchitectureSettings.GetWordBits();
             // Atchitecture W
             PaO = new Memory();
-            AK = new Register(Mword);
             A = new Register(Aspace);
             S = new Register(Mword);
-            L = new Register(Mword);
+            L = new Register(Aspace);
             I = new InstructionRegister(Aspace,Cbits);
+            AK = new Register(Mword);
             JAL = new ArithmeticLogicUnit(AK);
-            MagA = new Bus(Mword);
+            MagA = new Bus(Aspace);
             MagS = new Bus(Mword);
             // Architecture L
             X = new Register(Mword);
             Y = new Register(Mword);
+            WS = new Register(Aspace);
             // Architecture EW
+            RB = new Register(Defines.RB_REG_BIT_SIZE);
+            G = new Register(Defines.G_REG_BIT_SIZE);
 
             InitialazeMicroinstructionsMap();
         }
 
         // ========================== <  Signals Methods > ========--=========================== // (Microinstructions)
+        public void stop() { return; }
         // Architecture W
         public void czyt() { S.SetValue(PaO.GetValue(A.GetValue())); }
         public void pisz() { PaO.StoreValue(A.GetValue(), S.GetValue()); }
@@ -90,6 +98,31 @@ namespace MaszynaPi.MachineLogic {
         public void wyad() { MagA.SetValue(I.GetArgument()); }
         public void wea() { A.SetValue(MagA.GetValue()); }
         
+        // Architecture W+
+        public void _as() { MagS.SetValue(MagA.GetValue()); }
+        public void sa() { MagA.SetValue(MagS.GetValue()); }
+
+        // Architecture L
+        public void wyx() { MagS.SetValue(X.GetValue()); }
+        public void wex() { X.SetValue(MagS.GetValue()); }
+        public void wyy() { MagS.SetValue(Y.GetValue()); }
+        public void wey() { Y.SetValue(MagS.GetValue()); }
+        public void wyws() { MagA.SetValue(WS.GetValue()); }
+        public void wews() { WS.SetValue(MagA.GetValue()); }
+        public void iws() { WS.SetValue(WS.GetValue()+1); }
+        public void dws() { WS.SetValue(WS.GetValue()-1); }
+
+        // Architecture EW
+
+        public void wyrb() { MagS.SetValue(RB.GetValue()); }
+        public void werb() { RB.SetValue(MagS.GetValue()); }
+        public void wyg() { MagS.SetValue(G.GetValue()); }
+        public void start() { G.SetValue(MagS.GetValue()); }
+
+
+
+        // JAL
+        // Architecture W
         public void przep() { JAL.Nop(); }
         public void dod() { JAL.Add(); }
         public void ode() { JAL.Sub(); }
@@ -97,25 +130,24 @@ namespace MaszynaPi.MachineLogic {
         public void weja() { JAL.SetOperandB(MagS.GetValue()); }
         public void wyak() { MagS.SetValue(AK.GetValue()); }
 
-        public void stop() { return; }
+        // Architecture L
 
-        // Architecture W+
-        public void _as() { MagS.SetValue(MagA.GetValue()); }
-        public void sa() { MagA.SetValue(MagS.GetValue()); }
-
-        // Architecture EW
-        // . . . TODO
-
-        
+        public void iak() { JAL.Inc(); }
+        public void dak() { JAL.Dec(); }
+        public void mno() { JAL.Mul(); }
+        public void dziel() { JAL.Div(); }
+        public void shr() { JAL.Shr(); }
+        public void neg() { JAL.Not(); }
+        public void lub() { JAL.Or(); }
+        public void i() { JAL.And(); }
 
         // ========================= <  Execution Methods (Instruction Decoder?) > =================================== //
         void InitialazeMicroinstructionsMap() {
             var AllSignalsMap = new Dictionary<string, Action> {
-                { "czyt", czyt },{ "wyad", wyad },{ "pisz", pisz },{ "przep", przep },
-                { "wys", wys },{ "dod", dod },{ "wes", wes },{ "ode", ode },{ "wei", wei },
-                { "weak", weak },{ "il", il },{ "weja", weja },{ "wyl", wyl },
-                { "wyak", wyak },{"wea",wea},{ "wel", wel }, {"stop",stop },
-                { "as", _as}, { "sa", sa}
+                {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
+                { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
+                {"dak",dak},{"mno",mno}, {"dziel",dziel},{"shr",shr},{"neg",neg},{"lub",lub},{"i",i},{"wyx",wyx},{"wex",wex},{"wyy",wyy},{"wey",wey},
+                {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start}
             };
             //SignalsMap = AllSignalsMap
             //    .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
@@ -134,7 +166,7 @@ namespace MaszynaPi.MachineLogic {
         // Returns false if the instruction completion signal is hit (STATEMENT_END)
         bool ExecuteTick() {
             //===?| DEBUGGING
-            string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.GetValue(), MagS.GetValue(), AK.GetValue());
+            string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet(), AK.GetValue());
             Logger.Logger.Div(NL: true);
             Logger.Logger.LogInfo(msg:state,NL:true);
             Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
@@ -163,24 +195,11 @@ namespace MaszynaPi.MachineLogic {
         }
         //========================================
         void ExecuteProgram() {
-            MaszynaPi.Logger.Logger.EnableFileLog(additionalName:"_Program_Execution_Logs");
+            MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
             try { do { ExecuteInstructionCycle(); } while (I.GetOpcode() != 0); } //here also can add watchdog if there is no STP instruction in programm 
-            catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: ("+ (L.GetValue()-1).ToString()+") linia: "+string.Join(" ",ActiveSignals)); }
-            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)+ "| " + ex.Message); }
-            
-        }
-        //========================================
-        public void ResetRegisters() {
-            AK.SetValue(Defines.DEFAULT_ALU_VAL);
-            A.SetValue(Defines.DEFAULT_REG_VAL);
-            S.SetValue(Defines.DEFAULT_REG_VAL);
-            L.SetValue(Defines.DEFAULT_REG_VAL);
-            I.SetValue(Defines.DEFAULT_REG_VAL);
-            JAL.Reset();
-            MagA.SetValue(Defines.DEFAULT_BUS_VAL);
-            MagS.SetValue(Defines.DEFAULT_BUS_VAL);
-        }
+            catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)); } catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
 
+        }
 
         // ======================= <  User Interface Methods > ================================= //
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
@@ -189,7 +208,7 @@ namespace MaszynaPi.MachineLogic {
         public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetMemoryContent().GetRange((int)addr, (int)size); }
         public List<uint> GetWholeMemoryContent() { return PaO.GetMemoryContent(); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
-        public void ResetMemory() { PaO.InitMemoryContent(); }
+        public void ResetMemory() { PaO.Reset(); }
 
         public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }
         public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
@@ -198,6 +217,35 @@ namespace MaszynaPi.MachineLogic {
         public void ManualInstruction() { ExecuteInstructionCycle(); } // Not avaible if ManualControl signal active
         public void ManualProgram() {ExecuteProgram(); } // Not avaible if ManualControl signal active
 
+        //========================================
+        public void ResetRegisters() {
+            A.Reset();
+            S.Reset();
+            L.Reset();
+            I.Reset();
+            JAL.Reset();
+            MagA.Reset();
+            MagS.Reset();
+            X.Reset();
+            Y.Reset();
+            WS.Reset();
+        }
+
+        public void SetComponentsBitsizes() {
+            uint Aspace = ArchitectureSettings.GetAddressSpace();
+            uint Cbits = ArchitectureSettings.GetCodeBits();
+            uint Mword = ArchitectureSettings.GetWordBits();
+            A.SetBitsize(Aspace);
+            S.SetBitsize(Mword);
+            L.SetBitsize(Aspace);
+            I.SetBitsize(Aspace, Cbits);
+            AK.SetBitsize(Mword);
+            MagA.SetBitsize(Aspace);
+            MagS.SetBitsize(Mword);
+            X.SetBitsize(Mword);
+            Y.SetBitsize(Mword);
+            WS.SetBitsize(Aspace);
+        }
 
     }
 
