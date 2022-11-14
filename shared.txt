@@ -1,2 +1,5 @@
 Linux SO in Visual Studio:
 https://visualgdb.com/tutorials/linux/libraries/
+
+Code Lines counter: 
+https://linearb.io/blog/counting-lines-of-code/
