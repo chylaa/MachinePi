@@ -23,9 +23,9 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         public ArithmeticLogicUnit(Register ak, uint value=Defines.DEFAULT_ALU_VAL){
             AK = ak;
-            JALFlags = (ALUFlags)value;
             OperandA = value;
             OperandB = value;
+            SetFlags();
         }
 
         // returns true if JALFlags has set flag == encoded argument (see ALUFlags specification of encoding)

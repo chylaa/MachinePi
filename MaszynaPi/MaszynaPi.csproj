@@ -90,6 +90,8 @@
     <Compile Include="MachineLogic\Architecture\Bus.cs" />
     <Compile Include="MachineLogic\Architecture\InstructionDecoder.cs" />
     <Compile Include="MachineLogic\Architecture\InstructionRegister.cs" />
+    <Compile Include="MachineLogic\InputDevices\CharacterInput.cs" />
+    <Compile Include="MachineLogic\InputDevices\IODevice.cs" />
     <Compile Include="MachineLogic\Machines\MachineEW.cs" />
     <Compile Include="MachineLogic\Machines\MachineL.cs" />
     <Compile Include="MachineLogic\Machines\MachineW.cs" />

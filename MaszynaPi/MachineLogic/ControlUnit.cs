@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic.Architecture;
+using MaszynaPi.MachineLogic.InputDevices;
 //using MaszynaPi.MachineLogic.Machines;
 
 namespace MaszynaPi.MachineLogic {
@@ -20,22 +21,17 @@ namespace MaszynaPi.MachineLogic {
      The Instruction decoder is often considered to be a part of the Control Unit.
     */
     public class ControlUnit {
-        //protected static uint AddressSpace = Defines.DEFAULT_ADDR_BITS;
-        //protected static uint CodeBits = Defines.DEFAULT_CODE_BITS;
 
         // Always initialized when creating CentralUnit child class
         Dictionary<string, Action> SignalsMap;
         
-        
-        //For Central Unit View of signals
+        //Currently (in tick) executed microinstructions [Maybe for Central Unit View of signals]
         List<string> ActiveSignals;
 
-        // Compiler: "INSTRUCTION ARG" -> opcode&arg -> .hex to Memory
-        // CentralUnit: MachineCycle: LoadInstruction(Czyt wys we il) DecodeInstruction(), ExecuteInstruction() -> 
-        // CentralUnit: GetOpcode() from IR -> map{Opcode : Ticks} (ticks as List<List<string>>) -> perform Instruction (as ticks)
+        // [To implement in future] Map of IO Devices by pair Address <-> Device object (Addresses set in Projekt->Opcje->Adresy)
+        Dictionary<uint,IODevice> IODevices;
 
-        // U tutka assemblacją (wykonaniem programu) zajmuje się chyba osobny obiekt "Assembler" -> stworzyć taki (AssemblerUnit?)
-        //                                                                          i wrzucić jako atrybut CentralUnit???
+         
 
         // Others internal Components
         private InstructionDecoder RzKDecoder;
@@ -54,6 +50,10 @@ namespace MaszynaPi.MachineLogic {
         public Register WS { get; private set; } // Stack register
         public Register RB { get; private set; }
         public Register G { get; private set; }
+
+
+        // IO's
+        public CharacterInput TextInput;
 
         public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
@@ -81,6 +81,7 @@ namespace MaszynaPi.MachineLogic {
             RB = new Register(Defines.RB_REG_BIT_SIZE);
             G = new Register(Defines.G_REG_BIT_SIZE);
 
+            TextInput = new CharacterInput(G, RB);
             InitialazeMicroinstructionsMap();
         }
 
@@ -165,13 +166,14 @@ namespace MaszynaPi.MachineLogic {
 
         // Returns false if the instruction completion signal is hit (STATEMENT_END)
         bool ExecuteTick() {
-            //===?| DEBUGGING
-            string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet(), AK.GetValue());
-            Logger.Logger.Div(NL: true);
-            Logger.Logger.LogInfo(msg:state,NL:true);
-            Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
-            //===?| DEBUGGING
+            ////===?| DEBUGGING
+            //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet(), AK.GetValue());
+            //Logger.Logger.Div(NL: true);
+            //Logger.Logger.LogInfo(msg:state,NL:true);
+            //Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
+            ////===?| DEBUGGING
             MagA.SetEmpty(); MagS.SetEmpty();
+            // [ TODO: Check if there is value to be stored in RB register from any IO device ]
             foreach (string signal in ActiveSignals) {
                 if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return false;
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
@@ -247,6 +249,9 @@ namespace MaszynaPi.MachineLogic {
             WS.SetBitsize(Aspace);
         }
 
+        public void SetIODevices(System.Windows.Forms.TextBox textin) {
+            TextInput.SetTextInput(textin);
+        }
     }
 
 }
