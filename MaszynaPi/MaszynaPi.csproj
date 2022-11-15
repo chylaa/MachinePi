@@ -100,6 +100,12 @@
     <Compile Include="MachineLogic\Architecture\Register.cs" />
     <Compile Include="MachineLogic\ArchitectureSettings.cs" />
     <Compile Include="MachineUI\InputDialog.cs" />
+    <Compile Include="MachineUI\UserControlCharacterInput.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlCharacterInput.Designer.cs">
+      <DependentUpon>UserControlCharacterInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="MachineUI\UserControlMem.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -58,6 +58,18 @@ namespace MaszynaPi.MachineLogic {
 
         }
 
+        // Returns number of avaible IO devices based on current architecture
+        public static int GetNumberOfIODevices() {
+            if (ActiveComponents.HasFlag(Defines.Components.ExtendedIO)) return Defines.DEFAULT_IO_NUMBER + Defines.EXTENDED_IO_NUMBER;
+            return Defines.DEFAULT_IO_NUMBER;
+        }
+
+        // Returns how many bits there are needed to encode all IO Devices addresses
+        public static uint GetAddressSpaceForIO() {
+            int numOfIOs = GetNumberOfIODevices();
+            return (uint)Math.Ceiling(Math.Log(a: numOfIOs, newBase: 2));
+        }
+
     }
         
 }

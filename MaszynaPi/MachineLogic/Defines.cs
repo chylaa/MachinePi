@@ -25,8 +25,11 @@ namespace MaszynaPi.MachineLogic {
         public const uint RB_REG_BIT_SIZE = 8;
         public const uint G_REG_BIT_SIZE = 1;
 
+        public const int DEFAULT_IO_NUMBER = 2;
+        public const int EXTENDED_IO_NUMBER = 6; // Excluding default io's
+
         //Enum represent different Machine architectures -> they are encoded as the bit AND of their base components ([Flag] enum Components) 
-        public enum Machines:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047};
+        public enum Machines:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047, MachinePI=4095};
         public const Machines DEFAULT_MACHINE = Machines.MachineW;
 
         [Flags]
@@ -40,8 +43,9 @@ namespace MaszynaPi.MachineLogic {
             RegisterX = 0b_0000_0100_0000,           // 64
             RegisterY = 0b_0000_1000_0000,           // 128
             Interuptions = 0b_0001_0000_0000,        // 256
-            Input = 0b_0010_0000_0000,               // 512
-            Flags = 0b_0100_0000_0000                // 1024
+            IO = 0b_0010_0000_0000,                  // 512
+            Flags = 0b_0100_0000_0000,               // 1024
+            ExtendedIO = 0b_1000_0000_0000           // 2048
         }
 
 

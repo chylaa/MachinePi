@@ -123,11 +123,14 @@ namespace MaszynaPi.MachineAssembler {
         }
 
         public static List<uint> CompileCode(List<string> codeLines) {
+            bool usrConstVarEmpty = true;
             int progSize = CalculateProgramSize(codeLines);
             List<uint> varsValues = new List<uint>(); //append at the end of compilation to code
             Dictionary<string, uint> userConstansVariables = GetUserConstantsAndVariables(codeLines, varsValues, progSize);
-            if (userConstansVariables.Count==0 || progSize == 0) throw new CompilerException("[Compilation Error] No syntax.");
-            if (userConstansVariables.Last().Value > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("[Compilation Error] Too large program for current architecture settings. Increase address space!");
+            usrConstVarEmpty = (userConstansVariables.Count() == 0);
+            if (progSize == 0) throw new CompilerException("[Compilation Error] No syntax.");
+
+            if (!usrConstVarEmpty && userConstansVariables.Last().Value > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("[Compilation Error] Too large program for current architecture settings. Increase address space!");
             
             var namesOpcodes = InstructionLoader.GetInstructionsNamesOpcodes();
             Dictionary<string, uint> userProcedures = GetProceduresLabes(codeLines);
@@ -146,6 +149,7 @@ namespace MaszynaPi.MachineAssembler {
             foreach(string line in codeLines) {
                 var instArg = line.Split(' ');
                 string argument = null;
+                int arg = -1;
                 
                 string instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
                 if (instruction == null) throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
@@ -158,17 +162,19 @@ namespace MaszynaPi.MachineAssembler {
                 }
                 if (instArg.Length == 2) {
                     argument = LabelsAdresses.Keys.FirstOrDefault(toCheck => instArg[1].Equals(toCheck)); // TODO: Fix -> Make method
-                    if (argument == null) throw new CompilerException("[Syntax error] Unknown argument label in: " + line);
+                    if (argument == null) {
+                        if (int.TryParse(instArg[1], out arg) == false || arg < 0 || arg > ArchitectureSettings.GetMaxAddress())
+                            throw new CompilerException("[Syntax error] Unknown argument label in: " + line);
+                        ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], (uint)arg)); // Direct addressing (in orginal machine works)
+                        continue;
+                    }
                     ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], LabelsAdresses[argument]));
                     continue;
                 }
-               
                 throw new CompilerException("[Syntax error] To many arguments in line: "+line);
-
             }
             ProgramNumeric.AddRange(varsValues); //add to the ond of the list
             FLAG_COMPILED = true;
-
             return ProgramNumeric;
         } 
     }

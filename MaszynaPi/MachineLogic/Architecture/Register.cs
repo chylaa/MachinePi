@@ -18,10 +18,10 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public void SetValue(uint value) { Value = Arithmetics.HandleOverflow(value, Bitsize); }
         public uint GetValue() { return Value; }
 
-        public virtual void SetBitsize(uint bitsize, uint instbitsize=0) { Bitsize=bitsize; }
+        public virtual void SetBitsize(uint bitsize, uint instbitsize=0) { Bitsize=bitsize; } //instbizsize parameter for InstructionRegister class
         public uint GetBitsize() { return Bitsize; }
 
-        public virtual void Reset() { SetValue(Defines.DEFAULT_ALU_VAL); }
+        public virtual void Reset() { SetValue(Defines.DEFAULT_REG_VAL); }
 
     }
 

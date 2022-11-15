@@ -40,6 +40,6 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public void Reset() { InitMemoryContent(); }
 
         // ======================= <  User Interface Methods > ================================= //
-        public List<uint> GetMemoryContent() { return Content; }
+        public List<uint> GetContentHandle() { return Content; }
     }
 }

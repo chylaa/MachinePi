@@ -29,16 +29,16 @@ namespace MaszynaPi.MachineLogic {
         List<string> ActiveSignals;
 
         // [To implement in future] Map of IO Devices by pair Address <-> Device object (Addresses set in Projekt->Opcje->Adresy)
-        Dictionary<uint,IODevice> IODevices;
-
+        Dictionary<uint,IODevice> IODevices; // Maybe in InstructionDecoder?
+        int ActiveIODevice = -1;
          
 
         // Others internal Components
         private InstructionDecoder RzKDecoder;
         // Components visible in architecture view
         public Memory PaO { get; private set; } // Operation Memory ("FLash"?)
-        public Bus MagA { get; private set; } // BUS
-        public Bus MagS { get; private set; } // BUS
+        public Bus MagA { get; private set; } // Address BUS
+        public Bus MagS { get; private set; } // Data BUS
         public ArithmeticLogicUnit JAL { get; private set; } // Arithmetic Logic Unit
         public Register A { get; private set; }  // Address Register
         public Register S {get; private set; } // Value Register
@@ -48,8 +48,8 @@ namespace MaszynaPi.MachineLogic {
         public Register X { get; private set; }
         public Register Y { get; private set; }
         public Register WS { get; private set; } // Stack register
-        public Register RB { get; private set; }
-        public Register G { get; private set; }
+        public Register RB { get; private set; } // IO Devices Communication Register (Buffer)
+        public Register G { get; private set; } // IO Device Ready Register 
 
 
         // IO's
@@ -60,9 +60,10 @@ namespace MaszynaPi.MachineLogic {
             RzKDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(RzKDecoder.StatementArg); });
 
             /// This whole section (bitsize defines) must be relocated into diff function (becouse some sizes depends on architecture)
-            uint Aspace = ArchitectureSettings.GetAddressSpace();
-            uint Cbits = ArchitectureSettings.GetCodeBits();
-            uint Mword = ArchitectureSettings.GetWordBits();
+            uint Aspace  = ArchitectureSettings.GetAddressSpace();
+            uint Cbits   = ArchitectureSettings.GetCodeBits();
+            uint Mword   = ArchitectureSettings.GetWordBits();
+            uint IOspace = ArchitectureSettings.GetAddressSpaceForIO(); 
             // Atchitecture W
             PaO = new Memory();
             A = new Register(Aspace);
@@ -78,8 +79,8 @@ namespace MaszynaPi.MachineLogic {
             Y = new Register(Mword);
             WS = new Register(Aspace);
             // Architecture EW
-            RB = new Register(Defines.RB_REG_BIT_SIZE);
-            G = new Register(Defines.G_REG_BIT_SIZE);
+            RB = new Register(Mword); // In orginal machine size=Defines.RB_REG_BIT_SIZE (Only ASCII - 8bit)
+            G = new Register(Defines.G_REG_BIT_SIZE);  
 
             TextInput = new CharacterInput(G, RB);
             InitialazeMicroinstructionsMap();
@@ -207,8 +208,8 @@ namespace MaszynaPi.MachineLogic {
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
         public void SetMemoryContent(List<uint> values, uint offset=0) { for (uint i = offset; i < values.Count; i++) PaO.StoreValue(i, values[(int)i]); }
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
-        public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetMemoryContent().GetRange((int)addr, (int)size); }
-        public List<uint> GetWholeMemoryContent() { return PaO.GetMemoryContent(); }
+        public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetContentHandle().GetRange((int)addr, (int)size); }
+        public List<uint> GetMemoryContentHandle() { return PaO.GetContentHandle(); }
         public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
         public void ResetMemory() { PaO.Reset(); }
 
@@ -219,6 +220,7 @@ namespace MaszynaPi.MachineLogic {
         public void ManualInstruction() { ExecuteInstructionCycle(); } // Not avaible if ManualControl signal active
         public void ManualProgram() {ExecuteProgram(); } // Not avaible if ManualControl signal active
 
+        public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
         //========================================
         public void ResetRegisters() {
             A.Reset();
@@ -237,6 +239,7 @@ namespace MaszynaPi.MachineLogic {
             uint Aspace = ArchitectureSettings.GetAddressSpace();
             uint Cbits = ArchitectureSettings.GetCodeBits();
             uint Mword = ArchitectureSettings.GetWordBits();
+            uint IOspace = ArchitectureSettings.GetAddressSpaceForIO();
             A.SetBitsize(Aspace);
             S.SetBitsize(Mword);
             L.SetBitsize(Aspace);
@@ -247,11 +250,9 @@ namespace MaszynaPi.MachineLogic {
             X.SetBitsize(Mword);
             Y.SetBitsize(Mword);
             WS.SetBitsize(Aspace);
+            RB.SetBitsize(Mword);
         }
 
-        public void SetIODevices(System.Windows.Forms.TextBox textin) {
-            TextInput.SetTextInput(textin);
-        }
     }
 
 }

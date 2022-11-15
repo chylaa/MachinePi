@@ -8,28 +8,25 @@ using System.Windows.Forms;
 namespace MaszynaPi.MachineLogic.InputDevices {
     public class CharacterInput : IODevice {
 
-        TextBox TextInput; 
+        List<char> CharactersBuffer;
 
-        public CharacterInput(Register g, Register rb, IOType iOType = IOType.Input) : base(g, rb, iOType) {}
+        public CharacterInput(Register g, Register rb, IOType iOType = IOType.Input) : base(g, rb, iOType) { CharactersBuffer = new List<char>(); }
 
-        public void SetTextInput(TextBox input) {
-            TextInput = input;
-        }
+        public List<char> GetCharactersBufferHandle() { return CharactersBuffer; }
 
         // Gets first character as ASCII number from an input buffer and removes it 
         void GetChar() {
-            string input = TextInput.Text;
-            if (input.Length == 0) {
+            if (CharactersBuffer.Count == 0) {
                 SetReadyValue(IO_WAIT);
                 return;
             }
             SetReadyValue(IO_READY);
-            SetIOBufferValue(Encoding.ASCII.GetBytes(input)[0]);
-            TextInput.Text = input.Substring(1);
+            SetIOBufferValue(Encoding.ASCII.GetBytes(CharactersBuffer[0].ToString())[0]);
+            CharactersBuffer.RemoveAt(0);
         }
 
         public override void WriteToIOBuffer() {
-            if (TextInput == null) { throw new IODeviceException("TextBox Input of CharacterInput IODevice not set! (Use SetTextInput() method)"); }
+            if (CharactersBuffer == null) { throw new IODeviceException("CharactersBuffer of CharacterInput IODevice not set!"); }
             base.WriteToIOBuffer();
             GetChar();
         }

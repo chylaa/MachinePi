@@ -22,7 +22,8 @@ namespace MaszynaPi {
         //================================================================================================================================
 
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
-         *przekazywana do wykonania Maszynie (metoda ManualTick) (możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
+         *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
+         *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
         ControlUnit Machine;
 
         public Form1() {
@@ -36,12 +37,15 @@ namespace MaszynaPi {
             InitializeComponent();
 
             Machine = new ControlUnit();
-            MemoryControl.SetItemsValueSource(Machine.GetWholeMemoryContent());
+            MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
             MemoryControl.Refresh();
             UserControlRegisterA.SetSourceRegister(Machine.A);
             UserControlRegisterA.Refresh();
             UserControlRegisterS.SetSourceRegister(Machine.S);
             UserControlRegisterS.Refresh();
+
+            // IO's
+            UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle()) ;
         }
         private void Form1_Load(object sender, EventArgs e) {
             if (Environment.OSVersion.Platform != PlatformID.Unix) {

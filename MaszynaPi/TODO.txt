@@ -18,8 +18,9 @@
  +---------------------------+     [N]- Czujnik wilgotności -> Dodatkowy adres dla IO  [Zakres pomiarowy:  od 20 do + 80 %RH]             
                                    [N]- Żyroskop            -> Dodatkowy adres dla IO  [Zakres pomiarowy, konfigurowalny:  +/- 245 / 500 / 2000 °/s]
 
- 1)
- | Do komponentów {Components}, poza zwykłym zestawem możlwe, że będzie trzeba
+                                                                                              (Wykluczyć jedno dodatkowe IO)
+ 1)                                                                                            (żeby było 2+6 = 8 (G.size))
+ | Do komponentów {Components}, poza zwykłym zestawem możlwe, że będzie trzeba          [ NIEAKTUALNIE - G -> GOTOWY (rejestr gotowośći) ]
  | - dodać te odpowiedzialne za rozszerzenia wynikające z architektury PI np. 
  | - "obsługa matrycy"
 
@@ -35,12 +36,11 @@
    podział pomiędzy komponentami architektury PI oraz wymagane długości słowa.
    [ ! Orginał rejestr RB const 8 bit -> u mnie musi być ustawiany słowem (np adresowanie matrycy) ! ]
 
-
    _____________________________________________________________________________________________________________
    Rzeczy do obczajenia odnśnie tworzenia struktury kodu pod rzeczywiste rozwiązania w architekturze procesorów:
     
     - Kontroler przerwań: [https://pl.wikipedia.org/wiki/Przerwanie#Kontroler_przerwa.C5.84]
-    -
+    - Łączenie Python+C#: [https://stackoverflow.com/questions/42939357/communication-between-python-and-c-sharp]
     -
 
 
