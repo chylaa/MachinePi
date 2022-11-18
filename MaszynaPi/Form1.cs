@@ -141,7 +141,9 @@ namespace MaszynaPi {
             }
             if (filepath.Length > 0) {
                 try {
+                    uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
                     InstructionLoader.LoadInstructionsFromFile(filepath);
+                    Machine.ExpandMemory(oldAddressSpace);
                 }catch(InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading .lst file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
                 }

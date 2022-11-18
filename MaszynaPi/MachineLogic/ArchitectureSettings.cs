@@ -36,6 +36,9 @@ namespace MaszynaPi.MachineLogic {
         public static uint GetMaxAddress() {
             return (uint)Math.Pow(2, AddressSpace) - 1;
         }
+        public static uint GetMaxOpcode() {
+            return (uint)Math.Pow(2, CodeBits) - 1;
+        }
 
         public static void SetActiveComponents(Defines.Components active) { ActiveComponents = active; }
         public static Defines.Components GetActiveComponents() { return ActiveComponents; }

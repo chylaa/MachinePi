@@ -30,12 +30,12 @@
  
  | W zasadzie to w Projekt->Opcje->Adresy dodać do wyboru adresy poszczególnych 
    - dodanych urządzeń WE/WY oraz to je uruchamiać przy wykonywaniu rozkazów WPR/WYP 
-
-
- > Kolejne komponenty zależą od wymaganej ilości bitów adresowych. Wyznaczyć
-   podział pomiędzy komponentami architektury PI oraz wymagane długości słowa.
-   [ ! Orginał rejestr RB const 8 bit -> u mnie musi być ustawiany słowem (np adresowanie matrycy) ! ]
-
+                                                                                                                                           |
+                                                                                                                                           |  Więcej niżej !
+ > Kolejne komponenty zależą od wymaganej ilości bitów adresowych. Wyznaczyć                                                               |
+   podział pomiędzy komponentami architektury PI oraz wymagane długości słowa.                                                             |
+   [ ! Orginał rejestr RB const 8 bit -> u mnie musi być ustawiany słowem (np adresowanie matrycy) ! ]                                     |
+                                                                                                                                          \ /
    _____________________________________________________________________________________________________________
    Rzeczy do obczajenia odnśnie tworzenia struktury kodu pod rzeczywiste rozwiązania w architekturze procesorów:
     
@@ -45,9 +45,15 @@
 
 
 
-    
-    
-    
+    ____________________________________________________________________________________________________________
+    Rzeczy:
+
+    - Linux Bash odpowiednik polecenia Windows .bat CMD "where" (na pewno do znajdywnia python.exe ale może też uda się np Podstawa.lst albo Skrypty IO)
+        whereis - locate the binary, source, and manual page files for a command.
+            Commonly-Used Switches :
+            whereis -b packagename : Source for location of binaries.
+            whereis -m packagename : Source for location of manuals.
+            whereis -s packagename : Source for location of source code. 
     
     
 

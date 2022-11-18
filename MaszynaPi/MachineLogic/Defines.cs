@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace MaszynaPi.MachineLogic {
     public static class Defines {
-
-
         public const uint CODE_BITS_MIN = 3;
         public const uint CODE_BITS_MAX = 8;
 
@@ -19,14 +17,16 @@ namespace MaszynaPi.MachineLogic {
         public const int DEFAULT_BUS_VAL = -1;
         public const uint DEFAULT_ALU_VAL = 0;
 
-        public const uint DEFAULT_CODE_BITS = 3; //3
-        public const uint DEFAULT_ADDR_BITS = 5; //5
+        public const uint DEFAULT_CODE_BITS = 3;
+        public const uint DEFAULT_ADDR_BITS = 5;
 
         public const uint RB_REG_BIT_SIZE = 8;
         public const uint G_REG_BIT_SIZE = 1;
 
         public const int DEFAULT_IO_NUMBER = 2;
         public const int EXTENDED_IO_NUMBER = 6; // Excluding default io's
+
+        public const uint INTERRUPTIONS_NUM = 4;
 
         //Enum represent different Machine architectures -> they are encoded as the bit AND of their base components ([Flag] enum Components) 
         public enum Machines:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047, MachinePI=4095};

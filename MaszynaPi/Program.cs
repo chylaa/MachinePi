@@ -13,7 +13,12 @@ namespace MaszynaPi {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            try {
+                Application.Run(new Form1());
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message + " " + ex.StackTrace);
+                return;
+            }
         }
     }
 }

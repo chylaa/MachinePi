@@ -25,7 +25,8 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
         const string INSTRUCTION_LINES_HEADER = "linie=";
         const string INSTRUCTION_ARGSNUM_HEADER = "argumenty ";
         const string COMMENT = "//";
-        static uint MAX_OPCODE = 0;
+        
+        static int MAX_OPCODE=-1;
 
         readonly static List<string> INSTRUCTION_START = new List<string> { "czyt", "wys", "wei", "il" };
 
@@ -128,7 +129,7 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             List<string> options = lines.GetRange(lines.IndexOf(OPTIONS_HEADER)+1, (OPTIONS_LINES-lines.IndexOf(OPTIONS_HEADER)) );
             List<string> instructios = lines.GetRange(lines.IndexOf(INSTRUCTIONS_HEADER)+1, lines.Count-(lines.IndexOf(INSTRUCTIONS_HEADER)+1) );
 
-            MAX_OPCODE = 0;
+            MAX_OPCODE = -1;
             ClearLoadedInstructions();
             SetOptions(options);
 
@@ -138,11 +139,14 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             int instNum = int.Parse(instructios[0].Replace(INSTRUCTION_NUMBER_HEADER,""));
             
             for(int i=1; i <= instNum; i++) { // if not insruction[i].Conteins()'=' throw . . .
-                InstructionNamesOpcodes.Add(instructios[i].Split('=')[1], MAX_OPCODE); // Get instruction name (always after '=' char)
-                InstructionSignalsMap.Add(MAX_OPCODE, new List<List<string>>());
+                MAX_OPCODE += 1;
+                InstructionNamesOpcodes.Add(instructios[i].Split('=')[1], (uint)MAX_OPCODE); // Get instruction name (always after '=' char)
+                InstructionSignalsMap.Add((uint)MAX_OPCODE, new List<List<string>>());
                 InstructionsLines.Add(instructios[i].Split('=')[1], new List<string>());
-                MAX_OPCODE += 1;//(uint)Math.Pow(2, ArchitectureSettings.GetAddressSpace());
             }
+            if (MAX_OPCODE > ArchitectureSettings.GetMaxOpcode()) 
+                throw new InstructionLoaderException("Too many instructions for current architecture! Incerase Code Bits number in settings.");
+         
             instructios.RemoveRange(0, instNum+1);
             string processInstruction = "";
             bool czytwysweiil = false;
@@ -170,8 +174,6 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
                     czytwysweiil = false;
                 }
                 InstructionSignalsMap[InstructionNamesOpcodes[processInstruction]].Add(signalsInLine);
-                
-                
             }
         }
 

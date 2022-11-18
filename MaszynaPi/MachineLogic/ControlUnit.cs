@@ -45,12 +45,15 @@ namespace MaszynaPi.MachineLogic {
         public Register AK { get; private set; }  // Accumulator
         public Register L { get; private set; }   //Instruction Pointer
         public InstructionRegister I { get; private set; }   // Instruction Register
-        public Register X { get; private set; }
-        public Register Y { get; private set; }
+        public Register X { get; private set; } // Additional Register X
+        public Register Y { get; private set; } // Additional Register Y
         public Register WS { get; private set; } // Stack register
         public Register RB { get; private set; } // IO Devices Communication Register (Buffer)
-        public Register G { get; private set; } // IO Device Ready Register 
-
+        public Register G { get; private set; } // 1 bit IO Device Ready Register 
+        public Register RZ { get; private set; } // 4 bit Interrupt Report Register
+        public Register RM { get; private set; } // 4 bit Mask Register
+        public Register RP { get; private set; } // 4 bit Register of Accepted Interrupts 
+        public Register AP { get; private set; } // 5 bit  Interrupt Vector Register
 
         // IO's
         public CharacterInput TextInput;
@@ -80,9 +83,13 @@ namespace MaszynaPi.MachineLogic {
             WS = new Register(Aspace);
             // Architecture EW
             RB = new Register(Mword); // In orginal machine size=Defines.RB_REG_BIT_SIZE (Only ASCII - 8bit)
-            G = new Register(Defines.G_REG_BIT_SIZE);  
+            G = new Register(Defines.G_REG_BIT_SIZE);
+            RZ = new Register(Defines.INTERRUPTIONS_NUM);
+            RM = new Register(Defines.INTERRUPTIONS_NUM);
+            RP = new Register(Defines.INTERRUPTIONS_NUM);
+            AP = new Register(Defines.INTERRUPTIONS_NUM+1);
 
-            TextInput = new CharacterInput(G, RB);
+            TextInput = new CharacterInput(G, RB); // All IO Devices should be part of to some "IOUnit" class in Architecture namepaxce?
             InitialazeMicroinstructionsMap();
         }
 
@@ -120,6 +127,11 @@ namespace MaszynaPi.MachineLogic {
         public void werb() { RB.SetValue(MagS.GetValue()); }
         public void wyg() { MagS.SetValue(G.GetValue()); }
         public void start() { G.SetValue(MagS.GetValue()); }
+        public void wyrm() { MagA.SetValue(RM.GetValue()); }
+        public void werm() { RM.SetValue(MagA.GetValue()); }
+        public void wyap() { MagA.SetValue(AP.GetValue()); }
+        public void rint() { G.SetValue(MagS.GetValue()); }
+        public void eni() { G.SetValue(MagS.GetValue()); }
 
 
 
