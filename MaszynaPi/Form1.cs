@@ -41,15 +41,16 @@ namespace MaszynaPi {
 
             codeEditor = new CodeEditor(CodeEditorTextBox);
             Debugger = new Debugger(CodeEditorTextBox);       
-            Machine = new ControlUnit(Debugger);
+            Machine = new ControlUnit();
 
+            Machine.OnRefreshValues += RefreshMicrocontrolerControls; //Set method for refreshing components values on each tick
+            Machine.OnSetExecutedLine += Debugger.SetExecutedLine;
+            Machine.OnProgramEnd += EndOfProgram;
 
             MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
-            MemoryControl.Refresh();
             UserControlRegisterA.SetSourceRegister(Machine.A);
-            UserControlRegisterA.Refresh();
             UserControlRegisterS.SetSourceRegister(Machine.S);
-            UserControlRegisterS.Refresh();
+            RefreshMicrocontrolerControls();
 
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle()) ;
@@ -61,28 +62,52 @@ namespace MaszynaPi {
             }
 
         }
+        private void RefreshControls(Control control) {
+            control.Refresh();
+            if (control.HasChildren == false) return;
+            foreach (Control con in control.Controls)
+                RefreshControls(con);
+        }
+        private void RefreshMicrocontrolerControls() { 
+            RefreshControls(MicrocontrollerPanel);    
+        }
 
         private void RefreshAfterSet(uint oldAddressSpace) {
             Machine.SetComponentsBitsizes();
             Machine.ChangeMemorySize(oldAddressSpace);
-            MemoryControl.Refresh();
-            UserControlRegisterA.Refresh();
-            UserControlRegisterS.Refresh();
+            RefreshMicrocontrolerControls();
         }
 
         //=====================< Central Unit Manual Constrol >============================== 
 
+        private void EndOfProgram() {
+            System.Media.SystemSounds.Exclamation.Play();
+            MessageBox.Show("Program został zakończony.", "Maszyna Pi");
+        }
+
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
                 Machine.ManualProgram();
-                MemoryControl.Refresh();
-                System.Media.SystemSounds.Exclamation.Play();
-                MessageBox.Show("Program został zakończony.", "Maszyna Pi");
+                RefreshMicrocontrolerControls();
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
                 MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
             }
+
+        }
+        private void rozkazToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                Machine.ManualInstruction();
+                RefreshMicrocontrolerControls();
+            } catch (CentralUnitException cEx) {
+                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
+            } catch (Exception ex) {
+                MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+            }
+        }
+
+        private void taktToolStripMenuItem_Click(object sender, EventArgs e) {
 
         }
 
@@ -93,6 +118,8 @@ namespace MaszynaPi {
             if (starttype != -1 && starttype < endtype) return errMsg.Substring(starttype + 1, endtype);
             return "Error";
         }
+
+        
 
         private void Compile() {
             try { 
@@ -109,6 +136,9 @@ namespace MaszynaPi {
             }
         }
 
+        private void CompileItemToolStrip_Click(object sender, EventArgs e) { Compile(); }
+        // Code Editor unix toolstrip
+        private void kompilujToolStripMenuItem_Click(object sender, EventArgs e) { Compile(); }
 
 
         // Menu Bar things
@@ -141,9 +171,7 @@ namespace MaszynaPi {
             }
         }
 
-        private void CompileItemToolStrip_Click(object sender, EventArgs e) { Compile(); }
-        // Code Editor unix toolstrip
-        private void kompilujToolStripMenuItem_Click(object sender, EventArgs e) { Compile(); }
+
 
         private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Paste(); }
 
@@ -159,5 +187,12 @@ namespace MaszynaPi {
                 RefreshAfterSet(oldAddrSpace);
             }
         }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
+            Machine.ResetRegisters();
+        }
+
+
+
     }
 }

@@ -85,8 +85,6 @@ namespace MaszynaPi.MachineUI {
             Text = string.Join(Environment.NewLine, lines);
         }
 
-
-
         public override void Refresh() {
             try { FormatItems(); } catch (Exception ex) { MessageBox.Show("Error while formatting items: " + ex.Message + ". \nStack trace: " + ex.StackTrace); }
             base.Refresh();

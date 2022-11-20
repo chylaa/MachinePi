@@ -7,7 +7,7 @@ using MaszynaPi.FilesHandling;
 using System.Windows.Forms;
 using System.IO;
 namespace MaszynaPi.MachineAssembler.Editors{
-    class CodeEditor {
+    class CodeEditor {              /// TODO Rozbić na CodeEditor i UserControlCodeEditor 
         const string COMMENT = "//";
 
         public static List<string> CodeLines;

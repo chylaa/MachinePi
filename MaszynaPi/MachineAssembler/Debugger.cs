@@ -9,7 +9,7 @@ namespace MaszynaPi.MachineAssembler {
    public class Debugger {
 
         static Dictionary<uint, int> MemoryEditorMap = new Dictionary<uint, int>();
-        TextBox CodeEditorHandle;
+        TextBox CodeEditorHandle; //TODO: Wywalić to stąd, (CodeEditor będzie rozdzielony na Logic/UI) i zrobić obsługę za pomocą Action<> i Func<> (OnSmth)
 
         public Debugger(TextBox codeEditorHandle) {
             SetCodeEditorHandle(codeEditorHandle);
@@ -35,6 +35,7 @@ namespace MaszynaPi.MachineAssembler {
             if (lineEnd < 0) lineEnd = CodeEditorHandle.Text.Length;
             if (position < 0) return;
             CodeEditorHandle.Select(position, lineEnd - position);
+            CodeEditorHandle.Focus();
         }
             
     }

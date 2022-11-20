@@ -164,6 +164,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".programs\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

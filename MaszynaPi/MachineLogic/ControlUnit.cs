@@ -35,7 +35,6 @@ namespace MaszynaPi.MachineLogic {
 
 
         // Others internal Components
-        private Debugger CodeDebugger;
         private InstructionDecoder RzKDecoder;
         // Components visible in architecture view
         public Memory PaO { get; private set; } // Operation Memory ("FLash"?)
@@ -60,8 +59,7 @@ namespace MaszynaPi.MachineLogic {
         // IO's
         public CharacterInput TextInput;
 
-        public ControlUnit(Debugger debugger) {
-            CodeDebugger = debugger; //delete all debugger calls if changeing the UI (or add some sort of <check if null> as in Loggers)
+        public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
             RzKDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(RzKDecoder.StatementArg); });
 
@@ -158,7 +156,6 @@ namespace MaszynaPi.MachineLogic {
         public void lub() { JAL.Or(); }
         public void i() { JAL.And(); }
 
-        // ========================= <  Execution Methods (Instruction Decoder?) > =================================== //
         void InitialazeMicroinstructionsMap() {
             var AllSignalsMap = new Dictionary<string, Action> {
                 {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
@@ -172,7 +169,22 @@ namespace MaszynaPi.MachineLogic {
             SignalsMap = AllSignalsMap;
         }
 
+        // =========================< UI Related Actions > ================================== // 
+        // |Part which needs to be changed if another technology of UI creation is preffered|
 
+        public Action OnRefreshValues;
+        public Action<uint> OnSetExecutedLine;
+        public Action OnProgramEnd;
+        public void RefreshValues() {
+            OnRefreshValues();
+        }
+        public void SetExecutedLineInEditor(uint instructionMemAddress) {
+            OnSetExecutedLine(instructionMemAddress);
+        } 
+        public void ProgramEnd() {
+            if (I.GetOpcode() == 0)
+                OnProgramEnd();
+        }
 
         // ========================= <  Machine Cycle > =================================== //
         void FetchInstruction() {
@@ -195,6 +207,7 @@ namespace MaszynaPi.MachineLogic {
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
                     SignalsMap[signal]();
             }
+            RefreshValues();
             return true;
         }
 
@@ -202,7 +215,7 @@ namespace MaszynaPi.MachineLogic {
             const int INSTRUCTION_LD_SKIP = 1; // skipping czt,wys,wei,il because it is forced by LoadInstrucion() method on begining of each cycle
             
             FetchInstruction();
-            CodeDebugger.SetExecutedLine(memAddress:L.GetValue()-1); //select currently executed instruction on code editor
+            SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor
             
             uint opcode = I.GetOpcode();
             int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(opcode);
@@ -219,12 +232,13 @@ namespace MaszynaPi.MachineLogic {
             try { do {
                     System.Threading.Thread.Sleep(1000);
                     ExecuteInstructionCycle(); 
-                } while (I.GetOpcode() != 0); 
+                } while (I.GetOpcode() != 0);
             } //here also can add watchdog if there is no STP instruction in programm 
             catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)); } 
             catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
 
         }
+
 
         // ======================= <  User Interface Methods > ================================= //
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
@@ -242,12 +256,13 @@ namespace MaszynaPi.MachineLogic {
         public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }
         public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
 
-        public void ManualTick() { ExecuteTick(); }
-        public void ManualInstruction() { ExecuteInstructionCycle(); } // Not avaible if ManualControl signal active
-        public void ManualProgram() {ExecuteProgram(); } // Not avaible if ManualControl signal active
+        public void ManualTick() { ExecuteTick(); ProgramEnd(); }
+        public void ManualInstruction() { ExecuteInstructionCycle(); ProgramEnd(); } // Not avaible if ManualControl signal active
+        public void ManualProgram() {ExecuteProgram(); ProgramEnd(); } // Not avaible if ManualControl signal active
 
         public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
-        //========================================
+
+        // ========================= <  Properties Changed/Reset Methods  > =================================== //
         public void ResetRegisters() {
             A.Reset();
             S.Reset();
