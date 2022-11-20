@@ -26,10 +26,11 @@ namespace MaszynaPi {
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             this.BottomPanel = new System.Windows.Forms.Panel();
+            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
-            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMem();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
             this.groupBoxDebugLevel = new System.Windows.Forms.GroupBox();
             this.radioButtonDebugTick = new System.Windows.Forms.RadioButton();
@@ -74,7 +75,6 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.BottomPanel.SuspendLayout();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
@@ -95,6 +95,13 @@ namespace MaszynaPi {
             this.BottomPanel.Name = "BottomPanel";
             this.BottomPanel.Size = new System.Drawing.Size(1443, 180);
             this.BottomPanel.TabIndex = 0;
+            // 
+            // UserControlCharacterInput
+            // 
+            this.UserControlCharacterInput.Location = new System.Drawing.Point(12, 13);
+            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
+            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
+            this.UserControlCharacterInput.TabIndex = 0;
             // 
             // splitter1
             // 
@@ -127,7 +134,6 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
-            this.MicrocontrollerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MicrocontrollerPanel_Paint);
             // 
             // MemoryControl
             // 
@@ -252,7 +258,7 @@ namespace MaszynaPi {
             this.programToolStripMenuItem,
             this.rozkazToolStripMenuItem});
             this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
-            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nowyToolStripMenuItem.Text = "Nowy";
             // 
             // programToolStripMenuItem
@@ -270,25 +276,26 @@ namespace MaszynaPi {
             // otwórzToolStripMenuItem
             // 
             this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
-            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.otwórzToolStripMenuItem.Text = "Otwórz";
+            this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.otwórzToolStripMenuItem_Click);
             // 
             // zapiszToolStripMenuItem
             // 
             this.zapiszToolStripMenuItem.Name = "zapiszToolStripMenuItem";
-            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zapiszToolStripMenuItem.Text = "Zapisz";
             // 
             // zapiszJakoToolStripMenuItem
             // 
             this.zapiszJakoToolStripMenuItem.Name = "zapiszJakoToolStripMenuItem";
-            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zapiszJakoToolStripMenuItem.Text = "Zapisz jako";
             // 
             // wyjścieToolStripMenuItem
             // 
             this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
-            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.wyjścieToolStripMenuItem.Text = "Wyjście";
             // 
             // widokToolStripMenuItem
@@ -519,13 +526,6 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
-            // UserControlCharacterInput
-            // 
-            this.UserControlCharacterInput.Location = new System.Drawing.Point(12, 13);
-            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
-            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
-            this.UserControlCharacterInput.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -605,7 +605,7 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem przerwijToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxManualDebug;
-        private MachineUI.UserControlMem MemoryControl;
+        private MachineUI.UserControlMemory MemoryControl;
         private System.Windows.Forms.MenuStrip unixCodeEditorMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem kodToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kompilujToolStripMenuItem;

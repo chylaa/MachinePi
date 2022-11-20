@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic;
 using System.Text.RegularExpressions;
+using MaszynaPi.FilesHandling;
 
-namespace MaszynaPi.MachineAssembler.FilesHandling {
+namespace MaszynaPi.MachineAssembler {
     class InstructionLoaderException : Exception { public InstructionLoaderException(string message) : base(message) { } }
 
 
@@ -49,17 +50,13 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
             else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
             
             try {  LoadInstructionSet(baseInstructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Base instruction .lst file error: " + ex.Message);}
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Base instructions .lst file error: " + ex.Message);}
           }
 
-        public static void LoadInstructionsFromFile(string filepath) {
-            if (File.Exists(filepath) == false) throw new InstructionLoaderException("Cannot load instruction file "+filepath+". File not exist.");
-            Encoding encoding = GetEncoding(filepath, Encoding.Default);
-            string instructions = File.ReadAllText(filepath, encoding);
+        public static void LoadInstructions(string instructions) {
             var separator = Environment.NewLine.ToCharArray();
-
             try { LoadInstructionSet(instructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Base instruction .lst file error: " + ex.Message); }
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Instruction .lst file error: " + ex.Message); }
         }
 
         public static Dictionary<string, List<string>> GetInstructionsLines() {
@@ -176,28 +173,6 @@ namespace MaszynaPi.MachineAssembler.FilesHandling {
                 InstructionSignalsMap[InstructionNamesOpcodes[processInstruction]].Add(signalsInLine);
             }
         }
-
-
-        /// Determines a text file's encoding by analyzing its byte order mark (BOM).
-        /// Defaults set by "defaultEncoding" param when detection of the text file's endianness fails.
-        public static Encoding GetEncoding(string filename, Encoding defaultEncoding) {
-            var bom = new byte[4];
-            using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
-                file.Read(bom, 0, 4);
-            }
-            // Analyze the BOM
-            if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return Encoding.UTF7;
-            if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return Encoding.UTF8;
-            if (bom[0] == 0xff && bom[1] == 0xfe && bom[2] == 0 && bom[3] == 0) return Encoding.UTF32; //UTF-32LE
-            if (bom[0] == 0xff && bom[1] == 0xfe) return Encoding.Unicode; //UTF-16LE
-            if (bom[0] == 0xfe && bom[1] == 0xff) return Encoding.BigEndianUnicode; //UTF-16BE
-            if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff) return new UTF32Encoding(true, true);  //UTF-32BE
-            
-            return defaultEncoding;
-        }
-
-
-
 
 
     }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic.Architecture;
 using System.Windows.Forms;
-namespace MaszynaPi.MachineLogic.InputDevices {
+namespace MaszynaPi.MachineLogic.IODevices {
     public class CharacterInput : IODevice {
 
         List<char> CharactersBuffer;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic.Architecture;
 
-namespace MaszynaPi.MachineLogic.InputDevices {
+namespace MaszynaPi.MachineLogic.IODevices {
 
     public class IODeviceException : Exception { public IODeviceException(string message) : base(message) { } }
 

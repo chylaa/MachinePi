@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MaszynaPi.MachineAssembler;
 
 namespace MaszynaPi.MachineLogic.Architecture {
     class InstructionDecoder {
@@ -21,7 +22,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         }
 
         void LoadInstructionMap() {
-            InstructionMap = MachineAssembler.FilesHandling.InstructionLoader.GetInstructionSignalsMap();
+            InstructionMap = InstructionLoader.GetInstructionSignalsMap();
         }
 
         //Returns empty string if statement not foud (line just starts with label)

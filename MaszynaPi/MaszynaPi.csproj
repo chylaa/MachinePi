@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include=".Logger\Logger.cs" />
     <Compile Include="CommonOperations\Arithmetics.cs" />
+    <Compile Include="FilesHandling\FilesHandler.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,17 +86,14 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MachineAssembler\Compiler.cs" />
+    <Compile Include="MachineAssembler\Debugger.cs" />
     <Compile Include="MachineAssembler\Editors\InstructionEditor.cs" />
     <Compile Include="MachineLogic\Architecture\ArithmeticLogicUnit.cs" />
     <Compile Include="MachineLogic\Architecture\Bus.cs" />
     <Compile Include="MachineLogic\Architecture\InstructionDecoder.cs" />
     <Compile Include="MachineLogic\Architecture\InstructionRegister.cs" />
-    <Compile Include="MachineLogic\InputDevices\CharacterInput.cs" />
-    <Compile Include="MachineLogic\InputDevices\IODevice.cs" />
-    <Compile Include="MachineLogic\Machines\MachineEW.cs" />
-    <Compile Include="MachineLogic\Machines\MachineL.cs" />
-    <Compile Include="MachineLogic\Machines\MachineW.cs" />
-    <Compile Include="MachineLogic\Machines\MachineWp.cs" />
+    <Compile Include="MachineLogic\IODevices\CharacterInput.cs" />
+    <Compile Include="MachineLogic\IODevices\IODevice.cs" />
     <Compile Include="MachineLogic\Architecture\Memory.cs" />
     <Compile Include="MachineLogic\Architecture\Register.cs" />
     <Compile Include="MachineLogic\ArchitectureSettings.cs" />
@@ -105,12 +103,6 @@
     </Compile>
     <Compile Include="MachineUI\UserControlCharacterInput.Designer.cs">
       <DependentUpon>UserControlCharacterInput.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MachineUI\UserControlMem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="MachineUI\UserControlMem.Designer.cs">
-      <DependentUpon>UserControlMem.cs</DependentUpon>
     </Compile>
     <Compile Include="MachineUI\UserControlMemory.cs">
       <SubType>Component</SubType>
@@ -127,7 +119,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MachineAssembler\Editors\CodeEditor.cs" />
-    <Compile Include="MachineAssembler\FilesHandling\InstructionLoader.cs" />
+    <Compile Include="MachineAssembler\InstructionLoader.cs" />
     <Compile Include="MachineLogic\Defines.cs" />
     <Compile Include="MachineLogic\ControlUnit.cs" />
     <EmbeddedResource Include="Form1.resx">

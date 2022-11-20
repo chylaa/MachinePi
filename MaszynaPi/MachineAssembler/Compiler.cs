@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MaszynaPi.MachineLogic;
-using MaszynaPi.MachineAssembler.FilesHandling;
+using MaszynaPi.MachineAssembler;
 using MaszynaPi.CommonOperations;
 using System.Text.RegularExpressions;
 
@@ -34,6 +34,10 @@ namespace MaszynaPi.MachineAssembler {
 
         static List<uint> ProgramNumeric = new List<uint>();
         static List<List<string>> ProgramSignals;
+
+        // Dictionary that maps each address of code instruction in memory to line in editor
+        
+
 
         static string DeleteMultipleSpaces(string s) {
             return Regex.Replace(s, @"\s+", " ");
@@ -114,11 +118,19 @@ namespace MaszynaPi.MachineAssembler {
             ProgramNumeric.Clear();
             RemoveLabels(codeLines);
 
+            Debugger.ClearMemoryEditorMap();
+            uint memAddress = 0;
+
             foreach (string line in codeLines) {
                 var instArg = line.Split(' ');
                 string instruction = null;
                 string argument = null;
                 int arg = -1;
+
+                // Mapping to editor lines
+                Debugger.AddToMemoryEditorMap(memAddress,line);
+                memAddress++;
+                //------------------------
 
                 if (instArg.Length == 1) { // No argument instruction
                     if (IsVarDeclaration(line)) { ProgramNumeric.Add(Defines.DEFAULT_MEM_VAL); continue; } // memory allocation (RPA)

@@ -11,7 +11,8 @@ using System.Windows.Forms;
 using MaszynaPi.MachineLogic;
 using MaszynaPi.MachineAssembler;
 using MaszynaPi.MachineUI;
-using MaszynaPi.MachineAssembler.FilesHandling;
+using MaszynaPi.FilesHandling;
+using MaszynaPi.MachineAssembler.Editors;
 
 namespace MaszynaPi {
     public partial class Form1 : Form {
@@ -24,7 +25,9 @@ namespace MaszynaPi {
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
          *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
+        CodeEditor codeEditor;
         ControlUnit Machine;
+        Debugger Debugger;
 
         public Form1() {
 
@@ -36,7 +39,11 @@ namespace MaszynaPi {
             }
             InitializeComponent();
 
-            Machine = new ControlUnit();
+            codeEditor = new CodeEditor(CodeEditorTextBox);
+            Debugger = new Debugger(CodeEditorTextBox);       
+            Machine = new ControlUnit(Debugger);
+
+
             MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
             MemoryControl.Refresh();
             UserControlRegisterA.SetSourceRegister(Machine.A);
@@ -52,26 +59,6 @@ namespace MaszynaPi {
                 unixCodeEditorMenuStrip.Enabled = false;
                 unixCodeEditorMenuStrip.Visible = false;
             }
-
-
-        }
-
-        private void RefreshUserControls() {
-
-        }
-
-        private void UpdateMemoryContentView() {
-            //this.userControlMem1.Items.Clear();
-            //userControlMem1.Items.Add(Machine.GetWholeMemoryContent().ToArray());
-
-        }
-
-        private void LeftUpPanel_Paint(object sender, PaintEventArgs e) {
-
-        }
-
-
-        private void MicrocontrollerPanel_Paint(object sender, PaintEventArgs e) {
 
         }
 
@@ -100,9 +87,9 @@ namespace MaszynaPi {
         }
 
         private void Compile() {
-            try {
-                MachineAssembler.Editors.CodeEditor.CodeLines = CodeEditorTextBox.Text.Split(Environment.NewLine.ToCharArray()).ToList();
-                List<uint> code = Compiler.CompileCode(MachineAssembler.Editors.CodeEditor.FormatCodeForCompiler());
+            try { 
+                codeEditor.SetCodeLinesFromEditorContent();
+                List<uint> code = Compiler.CompileCode(codeEditor.FormatCodeForCompiler());
                 Machine.SetMemoryContent(code);
                 Machine.ResetRegisters();
                 MemoryControl.Refresh();
@@ -114,41 +101,46 @@ namespace MaszynaPi {
             }
         }
 
-        private void CompileItemToolStrip_Click(object sender, EventArgs e) {
-            Compile();
-        }
-        // Code Editor unix toolstrip
-        private void kompilujToolStripMenuItem_Click(object sender, EventArgs e) {
-            Compile();
-        }
 
-        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Paste(); }
-
-        private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
-
-        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut(); }
 
         // Menu Bar things
         private void ładujListęRozkazówToolStripMenuItem_Click(object sender, EventArgs e) {
             string filepath = "";
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
-                openFileDialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
-                openFileDialog.Filter = "pliki rozkazów (*.lst)|*.lst";
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK) 
-                    filepath = openFileDialog.FileName;
-            }
-            if (filepath.Length > 0) {
+            string lstFileContent = "";
+            string filter = "pliki rozkazów (*.lst)|*.lst";
+            if (FilesHandler.PointFileAndGetText(filter, out filepath, out lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
-                    InstructionLoader.LoadInstructionsFromFile(filepath);
+                    InstructionLoader.LoadInstructions(lstFileContent);
                     Machine.ExpandMemory(oldAddressSpace);
+                    Machine.SetComponentsBitsizes();
                 }catch(InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading .lst file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
                 }
                     MemoryControl.Refresh();
             }
         }
+
+        private void otwórzToolStripMenuItem_Click(object sender, EventArgs e) {
+            string filepath = "";
+            string fileContent = "";
+            string filer = "pliki rozkazów (*.rzk)|*.lst|pliki programów (*.prg)|*.prg|wszystkie pliki (*.*)|*.*";
+
+            if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) {
+                string ext = System.IO.Path.GetExtension(filepath);
+                if (ext == ".rzk") { return; } // TODO
+                if (ext == ".prg") { codeEditor.SetCodeEditorViewContent(fileContent); }
+            }
+        }
+
+        private void CompileItemToolStrip_Click(object sender, EventArgs e) { Compile(); }
+        // Code Editor unix toolstrip
+        private void kompilujToolStripMenuItem_Click(object sender, EventArgs e) { Compile(); }
+
+        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Paste(); }
+
+        private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
+
+        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut(); }
     }
 }
