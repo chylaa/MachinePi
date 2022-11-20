@@ -62,6 +62,14 @@ namespace MaszynaPi {
 
         }
 
+        private void RefreshAfterSet(uint oldAddressSpace) {
+            Machine.SetComponentsBitsizes();
+            Machine.ChangeMemorySize(oldAddressSpace);
+            MemoryControl.Refresh();
+            UserControlRegisterA.Refresh();
+            UserControlRegisterS.Refresh();
+        }
+
         //=====================< Central Unit Manual Constrol >============================== 
 
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -112,7 +120,7 @@ namespace MaszynaPi {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
                     InstructionLoader.LoadInstructions(lstFileContent);
-                    Machine.ExpandMemory(oldAddressSpace);
+                    Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();
                 }catch(InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading .lst file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
@@ -142,5 +150,14 @@ namespace MaszynaPi {
         private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
 
         private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut(); }
+
+        private void opcjeToolStripMenuItem_Click(object sender, EventArgs e) {
+            FormProjectOptions projectOptions = new FormProjectOptions();
+            var dialogResult = projectOptions.ShowDialog();
+            if (dialogResult.Equals(DialogResult.OK)) {
+                uint oldAddrSpace = projectOptions.GetOldAddressSpace();
+                RefreshAfterSet(oldAddrSpace);
+            }
+        }
     }
 }

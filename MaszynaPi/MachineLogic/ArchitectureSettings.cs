@@ -39,6 +39,9 @@ namespace MaszynaPi.MachineLogic {
         public static uint GetMaxOpcode() {
             return (uint)Math.Pow(2, CodeBits) - 1;
         }
+        public static uint ShrinkToWordLength(uint value) {
+            return Math.Min(value, GetMaxWord());
+        }
 
         public static void SetActiveComponents(Defines.Components active) { ActiveComponents = active; }
         public static Defines.Components GetActiveComponents() { return ActiveComponents; }

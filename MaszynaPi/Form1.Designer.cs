@@ -258,7 +258,7 @@ namespace MaszynaPi {
             this.programToolStripMenuItem,
             this.rozkazToolStripMenuItem});
             this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
-            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.nowyToolStripMenuItem.Text = "Nowy";
             // 
             // programToolStripMenuItem
@@ -276,26 +276,26 @@ namespace MaszynaPi {
             // otwórzToolStripMenuItem
             // 
             this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
-            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.otwórzToolStripMenuItem.Text = "Otwórz";
             this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.otwórzToolStripMenuItem_Click);
             // 
             // zapiszToolStripMenuItem
             // 
             this.zapiszToolStripMenuItem.Name = "zapiszToolStripMenuItem";
-            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.zapiszToolStripMenuItem.Text = "Zapisz";
             // 
             // zapiszJakoToolStripMenuItem
             // 
             this.zapiszJakoToolStripMenuItem.Name = "zapiszJakoToolStripMenuItem";
-            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.zapiszJakoToolStripMenuItem.Text = "Zapisz jako";
             // 
             // wyjścieToolStripMenuItem
             // 
             this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
-            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.wyjścieToolStripMenuItem.Text = "Wyjście";
             // 
             // widokToolStripMenuItem
@@ -332,6 +332,7 @@ namespace MaszynaPi {
             this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
             this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.opcjeToolStripMenuItem.Text = "Opcje . . .";
+            this.opcjeToolStripMenuItem.Click += new System.EventHandler(this.opcjeToolStripMenuItem_Click);
             // 
             // wykonajToolStripMenuItem
             // 

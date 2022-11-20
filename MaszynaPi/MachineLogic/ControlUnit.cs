@@ -232,7 +232,11 @@ namespace MaszynaPi.MachineLogic {
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
         public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetContentHandle().GetRange((int)addr, (int)size); }
         public List<uint> GetMemoryContentHandle() { return PaO.GetContentHandle(); }
-        public void ExpandMemory(uint oldAddrSpace) { PaO.ExpandMemory(oldAddrSpace); }
+        public void ChangeMemorySize(uint oldAddrSpace) {
+            if (oldAddrSpace < ArchitectureSettings.GetAddressSpace()) PaO.ExpandMemory(oldAddrSpace);
+            else PaO.ShrinkMemory(oldAddrSpace);
+        }
+
         public void ResetMemory() { PaO.Reset(); }
 
         public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }

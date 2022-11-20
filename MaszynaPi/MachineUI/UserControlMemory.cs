@@ -50,7 +50,7 @@ namespace MaszynaPi.MachineUI {
                 InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
                 if (response == null) MessageBox.Show("Response is null");
                 if (response.Length != 0)
-                    UnitMemory[SelectedIndex] = Arithmetics.HandleOverflow((uint)int.Parse(response));
+                    UnitMemory[SelectedIndex] = Bitwise.HandleOverflow((uint)int.Parse(response));
                 SetLine(SelectedIndex,CreateFormattedItem(SelectedIndex));
                 (sender as TextBox).SelectionLength = 0; //try to prevent selection bug in Rasbian
             } catch (Exception ex) { throw new Exception("Menu Item Handler Error: "+ex.Message); }
@@ -70,8 +70,8 @@ namespace MaszynaPi.MachineUI {
         }
         private string CreateFormattedItem(int i) {
             Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
-            uint opcode = Arithmetics.DecodeInstructionOpcode(UnitMemory[i]);
-            uint arg = Arithmetics.DecodeIntructionArgument(UnitMemory[i]);
+            uint opcode = Bitwise.DecodeInstructionOpcode(UnitMemory[i]);
+            uint arg = Bitwise.DecodeIntructionArgument(UnitMemory[i]);
             string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
             string formatted = CreateStringChunk(i.ToString()) + CreateStringChunk(UnitMemory[i].ToString()) + name + " " + arg;//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
             return formatted;

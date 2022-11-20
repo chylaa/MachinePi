@@ -140,7 +140,7 @@ namespace MaszynaPi.MachineAssembler {
                     if (InstructionLoader.GetZeroArgInstructions().Contains(instArg[0]) == false)
                         throw new CompilerException("[Syntax error] Missing argument for instruction " + line);
                    
-                    ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], 0)); // 0 arg instruction add
+                    ProgramNumeric.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], 0)); // 0 arg instruction add
                     continue;
                 }
                 if (instArg.Length == 2) { // one argument instruction (max)
@@ -156,14 +156,14 @@ namespace MaszynaPi.MachineAssembler {
                         instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
                         if (instruction == null)
                             throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
-                        ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], (uint)arg)); //Instruction and Number argument [Direct addressing (in orginal machine works)]
+                        ProgramNumeric.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], (uint)arg)); //Instruction and Number argument [Direct addressing (in orginal machine works)]
                         continue;
                     }
                     if (IsConstDeclaration(line)) { ProgramNumeric.Add(LabelsAddresses[argument]); continue; } // Variable (RST) define - argument is label
                     instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
                     if (instruction == null)
                         throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
-                    ProgramNumeric.Add(Arithmetics.EncodeInstruction(namesOpcodes[instruction], LabelsAddresses[argument])); // Instruction and Label argument 
+                    ProgramNumeric.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], LabelsAddresses[argument])); // Instruction and Label argument 
                     continue;
 
                 }

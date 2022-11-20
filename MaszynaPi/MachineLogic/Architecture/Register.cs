@@ -15,7 +15,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
             Bitsize = bitsize;
         }
 
-        public void SetValue(uint value) { Value = Arithmetics.HandleOverflow(value, Bitsize); }
+        public void SetValue(uint value) { Value = Bitwise.HandleOverflow(value, Bitsize); }
         public uint GetValue() { return Value; }
 
         public virtual void SetBitsize(uint bitsize, uint instbitsize=0) { Bitsize=bitsize; } //instbizsize parameter for InstructionRegister class

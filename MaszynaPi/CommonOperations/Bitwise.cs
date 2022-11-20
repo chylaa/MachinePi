@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 using MaszynaPi.MachineLogic;
 
 namespace MaszynaPi.CommonOperations {
-    public static class Arithmetics {
-        public static bool IsPowerOfTwo(int number) { return true; }
-        public static int PowersDifference(uint exp1, uint exp2, uint power = 2) {
-            return (int)(Math.Pow(power, exp1) - Math.Pow(power, exp2));
-        }
+    public static class Bitwise {
 
         public static bool IsBitSet(int b, int bitNumber) {
             return (((b >> bitNumber) & 1) != 0);
@@ -38,9 +34,7 @@ namespace MaszynaPi.CommonOperations {
             return (uint)(Math.Pow(2, noOfOnes) - 1);
         }
 
-        public static uint ShrinkToWordLength(uint value) {
-            return Math.Min(value, ArchitectureSettings.GetMaxWord());
-        }
+
         // Defines how value should behave on overflow
         // (based on word size if second parameter == 0) 
         public static uint HandleOverflow(uint value, uint bitsize=0) {

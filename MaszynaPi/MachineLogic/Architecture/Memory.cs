@@ -23,13 +23,19 @@ namespace MaszynaPi.MachineLogic.Architecture {
         }
         public void ExpandMemory(uint oldAddressSpace) {
             var newAddressSpace = ArchitectureSettings.GetAddressSpace();
-            for (int i=0; i < Arithmetics.PowersDifference(newAddressSpace,oldAddressSpace); i++)
+            for (int i=0; i < Arithmetic.PowersDifference(newAddressSpace,oldAddressSpace); i++)
                 Content.Add(Defines.DEFAULT_MEM_VAL);
+        }
+
+        public void ShrinkMemory(uint oldAddressSpace) {
+            var newAddressSpace = ArchitectureSettings.GetAddressSpace();
+            var toRemove = Arithmetic.PowersDifference(newAddressSpace, oldAddressSpace);
+            Content.RemoveRange(Content.Count-toRemove-1, toRemove);
         }
 
         public void StoreValue(uint addr, uint value) {
             if (Content.Count <= addr) throw new MemoryException("[Memory Overflow] Address store request greater than memory size");
-            Content[(int)addr] = Arithmetics.HandleOverflow(value);
+            Content[(int)addr] = Bitwise.HandleOverflow(value);
         }
 
         public uint GetValue(uint addr) {

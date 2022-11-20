@@ -28,8 +28,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
         }
 
         public void DecodeInstruction() {
-            AD.SetValue(Arithmetics.DecodeIntructionArgument(this.GetValue()));
-            KOD.SetValue(Arithmetics.DecodeInstructionOpcode(this.GetValue()));
+            AD.SetValue(Bitwise.DecodeIntructionArgument(this.GetValue()));
+            KOD.SetValue(Bitwise.DecodeInstructionOpcode(this.GetValue()));
         }
 
         public override void Reset() { base.Reset(); AD.Reset(); KOD.Reset(); }

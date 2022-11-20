@@ -22,7 +22,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
             if (!IsEmpty()) { return (uint)Value; } else { throw new BusException("Bus is empty!"); }
         }
         
-        public void SetValue(uint value) { Value = (int)Arithmetics.HandleOverflow(value, Bitsize); }
+        public void SetValue(uint value) { Value = (int)Bitwise.HandleOverflow(value, Bitsize); }
         public void SetValue(int value) {
             if (value == EMPTY) Value = value;
             else SetValue((uint)value); }

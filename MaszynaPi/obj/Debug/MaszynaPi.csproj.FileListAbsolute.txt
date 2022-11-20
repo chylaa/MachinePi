@@ -27,3 +27,4 @@ C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.c
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.exe
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.pdb
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.csprojAssemblyReference.cache
+C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.FormProjectOptions.resources
