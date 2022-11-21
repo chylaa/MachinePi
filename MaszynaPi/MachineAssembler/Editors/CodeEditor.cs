@@ -11,10 +11,20 @@ namespace MaszynaPi.MachineAssembler.Editors{
         const string COMMENT = "//";
 
         public static List<string> CodeLines;
+        //togui
         public TextBox CodeEditorHandle;
-
+        //AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
+        
         public CodeEditor(TextBox editorHandle) {
             SetCodeEditorHandle(editorHandle);
+            
+           // CodeEditorHandle.AutoCompleteMode = AutoCompleteMode.Append; //togui
+           // SetNewCodeEditorInstructionsAutocomplete();
+        }
+
+        public void SetNewCodeEditorInstructionsAutocomplete() { //togui
+           // collection.AddRange(InstructionLoader.GetAvaibleInstructions().ToArray());
+           // CodeEditorHandle.AutoCompleteCustomSource = collection;
         }
 
         public void SetCodeEditorHandle(TextBox editorHandle) {
@@ -37,6 +47,18 @@ namespace MaszynaPi.MachineAssembler.Editors{
             return new List<string>(CodeLines);
         }
 
+
+        public bool IsInstructionDefinition() {
+            string text = CodeEditorHandle.Text;
+            return (InstructionLoader.INSTRUCTION_START.Any(signal => text.ToLower().Contains(signal)) ||
+                    InstructionLoader.UPPER_WORDS.Any(signal => text.ToLower().Contains(signal)));
+        }
+        public bool IsProgram() {
+            string text = CodeEditorHandle.Text.ToLower();
+            return (text.Contains(Compiler.HEADER_CONST_VAR) || text.Contains(Compiler.HEADER_MEM_ALLOC)
+                    || InstructionLoader.GetAvaibleInstructionsNames().Any(inst => text.Contains(inst)));
+        }
+
         private string DeleteComment(string line) {
             if (line.Contains(COMMENT))
                 return line.Remove(line.IndexOf(COMMENT));
@@ -55,6 +77,13 @@ namespace MaszynaPi.MachineAssembler.Editors{
             List<string> codeLines = new List<string>(CodeLines);
             codeLines.RemoveAll(string.IsNullOrWhiteSpace); // for peace of mind
             ProcessCode(codeLines);
+            return codeLines;
+        }
+
+        public List<string> FormatMicroinstrructionsCode() {
+            List<string> codeLines = new List<string>(CodeLines);
+            codeLines.RemoveAll(string.IsNullOrWhiteSpace); // for peace of mind
+            for (int i = 0; i < codeLines.Count; i++) codeLines[i] = codeLines[i].ToLower();
             return codeLines;
         }
 

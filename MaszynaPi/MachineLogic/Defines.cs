@@ -77,5 +77,9 @@ namespace MaszynaPi.MachineLogic {
         public const string SIGNAL_STATEMENT_END = "koniec";
         public const int STATMENT_ARG_POSITION = 1;
 
+        public const string ALU_FLAG_Z   = "z";
+        public const string ALU_FLAG_V   = "v";
+        public const string ALU_FLAG_INT = "int";
+        public const string ALU_FLAG_ZAK = "zak";
     }
 }

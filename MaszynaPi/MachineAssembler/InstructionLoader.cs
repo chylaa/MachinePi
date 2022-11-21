@@ -14,9 +14,12 @@ namespace MaszynaPi.MachineAssembler {
 
     static class InstructionLoader {
         public const string BASE_INSTRUCTION_SET_FILENAME = "Podstawa"; // Podstawa.lst Embedded in Resources
+        public const string INSTRUCTION_FILE_EXTENSION = ".rzk";
         public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
         const string OPTIONS_HEADER = "[opcje]";
+        const string NO_ARGUMENT = "0";
         const string COMPONENT_ON = "1";
+        const char LINE_HEADER_SEPARATOR = '=';
         const string ADDRESS_SPACE_HEADER = "adres=";
         const string CODE_BITS_HEADER = "kod=";
         const byte OPTIONS_LINES = 12;
@@ -29,7 +32,9 @@ namespace MaszynaPi.MachineAssembler {
         
         static int MAX_OPCODE=-1;
 
-        readonly static List<string> INSTRUCTION_START = new List<string> { "czyt", "wys", "wei", "il" };
+        public readonly static List<string> UPPER_WORDS = new List<string> { INSTRUCTION_NAME_HEADER.Replace(" ",""), Defines.SIGNAL_STATEMENT_IF, Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[0], Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[1],
+                                                                        Defines.SIGNAL_STATEMENT_THEN, Defines.SIGNAL_STATEMENT_END, Defines.ALU_FLAG_INT, Defines.ALU_FLAG_Z, Defines.ALU_FLAG_V, Defines.ALU_FLAG_ZAK};
+        public readonly static List<string> INSTRUCTION_START = new List<string> { "czyt", "wys", "wei", "il" };
 
         //For instructions view panel:
         static Dictionary<string, List<string>> InstructionsLines = new Dictionary<string, List<string>>(); //{Name, filelines}
@@ -38,8 +43,12 @@ namespace MaszynaPi.MachineAssembler {
         static Dictionary<uint, List<List<string>>> InstructionSignalsMap = new Dictionary<uint, List<List<string>>>(); // {opcode, Lines of signals (Instruction)}
         
         static List<string> ZeroArgInstructions = new List<string>();
-        //static List<List<string>> ProgramSignals;
-        //static List<List<string>> GetProgramAsSignals() { if (FLAG_COMPILED) return ProgramSignals; else throw new InstructionDecoderException("Trying get not compiled signals code"); }
+       
+
+        // Returns names of all avaible (loaded/declared) instructions (NOT considering the currently set code bits value)
+        public static List<string> GetAvaibleInstructionsNames() {
+            return InstructionNamesOpcodes.Keys.ToList();
+        }
 
         public static void LoadBaseInstructions() {
             var separator = Environment.NewLine.ToCharArray();
@@ -50,14 +59,23 @@ namespace MaszynaPi.MachineAssembler {
             else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
             
             try {  LoadInstructionSet(baseInstructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Base instructions .lst file error: " + ex.Message);}
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Base instructions set "+INSTRUCTION_SET_FILE_EXTENSION+" file error: " + ex.Message);}
           }
 
-        public static void LoadInstructions(string instructions) {
+        public static void LoadInstructionsFile(string instructions) {
             var separator = Environment.NewLine.ToCharArray();
             try { LoadInstructionSet(instructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Instruction .lst file error: " + ex.Message); }
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Instruction Set " + INSTRUCTION_SET_FILE_EXTENSION + " file error: " + ex.Message); }
         }
+
+        public static bool LoadSingleInstructionFile(string instructions) {
+            var separator = Environment.NewLine.ToCharArray();
+            try {
+                return LoadSingleInstruction(instructions.Split(separator).ToList());
+            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Instruction " + INSTRUCTION_FILE_EXTENSION + " file error: " + ex.Message); }
+        }
+
+        //===========================================================================================================================================
 
         public static Dictionary<string, List<string>> GetInstructionsLines() {
             if (InstructionsLines.Count() > 0) return InstructionsLines;
@@ -73,6 +91,7 @@ namespace MaszynaPi.MachineAssembler {
         }
         public static List<string> GetZeroArgInstructions() { return ZeroArgInstructions; }
 
+        //===========================================================================================================================================
         private static void SetOptions(List<string> options) { //TODO wrzucić do osobnej funkcji z parametrem addrSpace/codeBits żeby nie powtarzać 2x kodu 
             bool asParse = int.TryParse(options.Find(el => el.Contains(ADDRESS_SPACE_HEADER)).Replace(ADDRESS_SPACE_HEADER, ""), out int addrSpace);
             bool cbParse = int.TryParse(options.Find(el => el.Contains(CODE_BITS_HEADER)).Replace(CODE_BITS_HEADER, ""), out int codeBits);
@@ -119,6 +138,25 @@ namespace MaszynaPi.MachineAssembler {
             return lines.ConvertAll(d => d.ToLower());
         }
 
+        /// Changes specific words to Upper/Lower (param) for displaing Avaible Instructions
+        private static void ChangeCapitalizationOfInstructionLines(bool toUpper = true) {
+            var refractoredLines = new Dictionary<string, List<string>>();
+            List<string> toReplace;
+            string line = "";
+            foreach (string name in InstructionsLines.Keys) {
+                refractoredLines.Add(name, new List<string>());
+                foreach (string item in InstructionsLines[name]) {
+                    toReplace = UPPER_WORDS.Intersect(item.Split(' ')).ToList();
+                    line = item;
+                    foreach (string word in toReplace) { line = line.Replace(word, (toUpper ? word.ToUpper() : word.ToLower())); }
+
+                    refractoredLines[name].Add(line);    
+                }
+            }
+            InstructionsLines.Clear();
+            InstructionsLines = new Dictionary<string, List<string>>(refractoredLines);
+        }
+
 
         public static void LoadInstructionSet(List<string> lines) {
             lines = StandarizeLines(lines);
@@ -137,9 +175,9 @@ namespace MaszynaPi.MachineAssembler {
             
             for(int i=1; i <= instNum; i++) { // if not insruction[i].Conteins()'=' throw . . .
                 MAX_OPCODE += 1;
-                InstructionNamesOpcodes.Add(instructios[i].Split('=')[1], (uint)MAX_OPCODE); // Get instruction name (always after '=' char)
+                InstructionNamesOpcodes.Add(instructios[i].Split(LINE_HEADER_SEPARATOR)[1], (uint)MAX_OPCODE); // Get instruction name (always after '=' char)
                 InstructionSignalsMap.Add((uint)MAX_OPCODE, new List<List<string>>());
-                InstructionsLines.Add(instructios[i].Split('=')[1], new List<string>());
+                InstructionsLines.Add(instructios[i].Split(LINE_HEADER_SEPARATOR)[1], new List<string>());
             }
             if (MAX_OPCODE > ArchitectureSettings.GetMaxOpcode()) 
                 throw new InstructionLoaderException("Too many instructions for current architecture! Incerase Code Bits number in settings.");
@@ -153,15 +191,18 @@ namespace MaszynaPi.MachineAssembler {
                     czytwysweiil = true;
                     continue;
                 }
+
                 if (line.Contains(INSTRUCTION_LINES_HEADER)) continue; // is instruction line number count
-                if (line.Contains(INSTRUCTION_ARGSNUM_HEADER)) { ZeroArgInstructions.Add(processInstruction); }
+                
+                InstructionsLines[processInstruction].Add(line.Substring(line.IndexOf(LINE_HEADER_SEPARATOR)+1));
+
+                if (line.Contains(INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) { ZeroArgInstructions.Add(processInstruction); }
                 if (line.Contains(COMMENT) || line.Contains(INSTRUCTION_NAME_HEADER) || line.Contains(INSTRUCTION_ARGSNUM_HEADER)) { // is not signals lines
-                    InstructionsLines[processInstruction].Add(line);
                     continue;
                 }
-                if (line.IndexOf('=') == line.Length - 1) continue;
+                if (line.IndexOf(LINE_HEADER_SEPARATOR) == line.Length - 1) continue; //empty line
 
-                List<string> signalsInLine = line.Replace(";","").Substring(line.IndexOf('=')+1).Split(' ').ToList();
+                List<string> signalsInLine = line.Replace(";","").Substring(line.IndexOf(LINE_HEADER_SEPARATOR) +1).Split(' ').ToList();
 
                 if (IsStatementValid(signalsInLine) == false)
                     throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine) +"\nCheck instruction file encoding (ANSI might not be supported)");
@@ -172,8 +213,51 @@ namespace MaszynaPi.MachineAssembler {
                 }
                 InstructionSignalsMap[InstructionNamesOpcodes[processInstruction]].Add(signalsInLine);
             }
+
+            ChangeCapitalizationOfInstructionLines(toUpper:true);
         }
 
+        //===========================================================================================================================================
+
+        public static void AddInstruction(string name, List<List<string>> signals) {
+            MAX_OPCODE++;
+            List<string> signalsLines = new List<string>();
+            foreach (var inLine in signals) signalsLines.Add(string.Join(" ", inLine));
+
+            InstructionsLines.Add(name, signalsLines);
+            InstructionNamesOpcodes.Add(name, (uint)MAX_OPCODE);
+            InstructionSignalsMap.Add((uint)MAX_OPCODE, signals);
+
+            ChangeCapitalizationOfInstructionLines(toUpper: true);
+        }
+
+        // Returns false if there is not enough space for the instruction
+        public static bool LoadSingleInstruction(List<string> lines) {
+            lines = StandarizeLines(lines);
+            string instructionName="";
+            bool noArgumentInstruction = false;
+            var signals = new List<List<string>>();
+
+            if (lines.Any(line => line.Contains(INSTRUCTION_NAME_HEADER))==false) 
+                throw new InstructionLoaderException("Invalid instruction define syntax: Instruction definition must begin with: " + INSTRUCTION_NAME_HEADER + " instruction_name");
+
+            foreach(string line in lines) {
+                if (line.Contains(INSTRUCTION_NAME_HEADER)) {
+                    instructionName = line.Replace(INSTRUCTION_NAME_HEADER, "").TrimEnd(" ;".ToCharArray());
+                }
+                if (lines[0].Contains(INSTRUCTION_ARGSNUM_HEADER)) {  
+                    noArgumentInstruction = line.Replace(INSTRUCTION_ARGSNUM_HEADER, "").TrimEnd(" ;".ToCharArray()).Equals(NO_ARGUMENT);
+                }
+                signals.Add(line.Split(' ').ToList());
+            }
+
+            AddInstruction(instructionName, signals);
+
+            if (MAX_OPCODE > ArchitectureSettings.GetMaxOpcode())
+               return false;
+            return true;
+
+        }
 
     }
 }

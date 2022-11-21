@@ -62,7 +62,7 @@ namespace MaszynaPi {
             this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
             this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zapiszToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszjakoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeEditorTextBox = new System.Windows.Forms.TextBox();
             this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,6 +71,21 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControlEditors = new System.Windows.Forms.TabControl();
+            this.tabPageCodeEditor = new System.Windows.Forms.TabPage();
+            this.tabPageInstructionList = new System.Windows.Forms.TabPage();
+            this.tabPageVariables = new System.Windows.Forms.TabPage();
+            this.tabControlOnBottomPanel = new System.Windows.Forms.TabControl();
+            this.tabPageIO = new System.Windows.Forms.TabPage();
+            this.plikProgramuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.plikRozkazuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.rozkazToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelInstructionsList = new System.Windows.Forms.Panel();
+            this.splitter3 = new System.Windows.Forms.Splitter();
+            this.panelInstructionsMicrocode = new System.Windows.Forms.Panel();
+            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
+            this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
             this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
@@ -84,12 +99,19 @@ namespace MaszynaPi {
             this.ProgramPanel.SuspendLayout();
             this.unixCodeEditorMenuStrip.SuspendLayout();
             this.CodeEditorContextMenu.SuspendLayout();
+            this.tabControlEditors.SuspendLayout();
+            this.tabPageCodeEditor.SuspendLayout();
+            this.tabPageInstructionList.SuspendLayout();
+            this.tabControlOnBottomPanel.SuspendLayout();
+            this.tabPageIO.SuspendLayout();
+            this.panelInstructionsList.SuspendLayout();
+            this.panelInstructionsMicrocode.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomPanel
             // 
             this.BottomPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.BottomPanel.Controls.Add(this.UserControlCharacterInput);
+            this.BottomPanel.Controls.Add(this.tabControlOnBottomPanel);
             this.BottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.BottomPanel.Location = new System.Drawing.Point(0, 494);
             this.BottomPanel.Name = "BottomPanel";
@@ -135,6 +157,7 @@ namespace MaszynaPi {
             this.checkBoxManualDebug.Name = "checkBoxManualDebug";
             this.checkBoxManualDebug.Size = new System.Drawing.Size(114, 17);
             this.checkBoxManualDebug.TabIndex = 7;
+            this.checkBoxManualDebug.TabStop = false;
             this.checkBoxManualDebug.Text = "Sterowanie ręczne";
             this.checkBoxManualDebug.UseVisualStyleBackColor = true;
             // 
@@ -157,7 +180,6 @@ namespace MaszynaPi {
             this.radioButtonDebugTick.Name = "radioButtonDebugTick";
             this.radioButtonDebugTick.Size = new System.Drawing.Size(84, 17);
             this.radioButtonDebugTick.TabIndex = 2;
-            this.radioButtonDebugTick.TabStop = true;
             this.radioButtonDebugTick.Text = "wysoki (takt)";
             this.radioButtonDebugTick.UseVisualStyleBackColor = true;
             // 
@@ -168,7 +190,6 @@ namespace MaszynaPi {
             this.radioButtonDebugInstruction.Name = "radioButtonDebugInstruction";
             this.radioButtonDebugInstruction.Size = new System.Drawing.Size(93, 17);
             this.radioButtonDebugInstruction.TabIndex = 1;
-            this.radioButtonDebugInstruction.TabStop = true;
             this.radioButtonDebugInstruction.Text = "średni (rozkaz)";
             this.radioButtonDebugInstruction.UseVisualStyleBackColor = true;
             // 
@@ -179,7 +200,6 @@ namespace MaszynaPi {
             this.radioButtonDebugProgram.Name = "radioButtonDebugProgram";
             this.radioButtonDebugProgram.Size = new System.Drawing.Size(93, 17);
             this.radioButtonDebugProgram.TabIndex = 0;
-            this.radioButtonDebugProgram.TabStop = true;
             this.radioButtonDebugProgram.Text = "niski (program)";
             this.radioButtonDebugProgram.UseVisualStyleBackColor = true;
             // 
@@ -308,7 +328,7 @@ namespace MaszynaPi {
             // 
             this.programToolStripMenuItem1.Name = "programToolStripMenuItem1";
             this.programToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.programToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.programToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
             this.programToolStripMenuItem1.Text = "Program";
             this.programToolStripMenuItem1.Click += new System.EventHandler(this.programToolStripMenuItem1_Click);
             // 
@@ -316,7 +336,7 @@ namespace MaszynaPi {
             // 
             this.rozkazToolStripMenuItem1.Name = "rozkazToolStripMenuItem1";
             this.rozkazToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
             this.rozkazToolStripMenuItem1.Text = "Rozkaz";
             this.rozkazToolStripMenuItem1.Click += new System.EventHandler(this.rozkazToolStripMenuItem1_Click);
             // 
@@ -324,28 +344,28 @@ namespace MaszynaPi {
             // 
             this.taktToolStripMenuItem.Name = "taktToolStripMenuItem";
             this.taktToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.taktToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.taktToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.taktToolStripMenuItem.Text = "Takt";
             this.taktToolStripMenuItem.Click += new System.EventHandler(this.taktToolStripMenuItem_Click);
             // 
             // doKursoraToolStripMenuItem
             // 
             this.doKursoraToolStripMenuItem.Name = "doKursoraToolStripMenuItem";
-            this.doKursoraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.doKursoraToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.doKursoraToolStripMenuItem.Text = "Do kursora";
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
             this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F2)));
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // przerwijToolStripMenuItem
             // 
             this.przerwijToolStripMenuItem.Name = "przerwijToolStripMenuItem";
-            this.przerwijToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.przerwijToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.przerwijToolStripMenuItem.Text = "Przerwij";
             // 
             // pomocToolStripMenuItem
@@ -377,20 +397,19 @@ namespace MaszynaPi {
             this.ProgramPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProgramPanel.Controls.Add(this.unixCodeEditorMenuStrip);
-            this.ProgramPanel.Controls.Add(this.CodeEditorTextBox);
-            this.ProgramPanel.Location = new System.Drawing.Point(1, 2);
+            this.ProgramPanel.Controls.Add(this.tabControlEditors);
+            this.ProgramPanel.Location = new System.Drawing.Point(-3, -2);
             this.ProgramPanel.Name = "ProgramPanel";
-            this.ProgramPanel.Size = new System.Drawing.Size(657, 487);
+            this.ProgramPanel.Size = new System.Drawing.Size(664, 490);
             this.ProgramPanel.TabIndex = 0;
             // 
             // unixCodeEditorMenuStrip
             // 
             this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.kodToolStripMenuItem});
-            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(3, 3);
             this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
-            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(657, 24);
+            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(650, 24);
             this.unixCodeEditorMenuStrip.TabIndex = 2;
             this.unixCodeEditorMenuStrip.Text = "menuStrip2";
             // 
@@ -398,7 +417,7 @@ namespace MaszynaPi {
             // 
             this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.kompilujToolStripMenuItem,
-            this.zapiszToolStripMenuItem1});
+            this.zapiszjakoToolStripMenuItem1});
             this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
             this.kodToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.kodToolStripMenuItem.Text = "Kod";
@@ -411,27 +430,26 @@ namespace MaszynaPi {
             this.kompilujToolStripMenuItem.Text = "Kompiluj";
             this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
             // 
-            // zapiszToolStripMenuItem1
+            // zapiszjakoToolStripMenuItem1
             // 
-            this.zapiszToolStripMenuItem1.Name = "zapiszToolStripMenuItem1";
-            this.zapiszToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.zapiszToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
-            this.zapiszToolStripMenuItem1.Text = "Zapisz";
+            this.zapiszjakoToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plikProgramuToolStripMenuItem,
+            this.plikRozkazuToolStripMenuItem});
+            this.zapiszjakoToolStripMenuItem1.Name = "zapiszjakoToolStripMenuItem1";
+            this.zapiszjakoToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.zapiszjakoToolStripMenuItem1.Text = "Zapisz jako";
             // 
             // CodeEditorTextBox
             // 
-            this.CodeEditorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.CodeEditorTextBox.ContextMenuStrip = this.CodeEditorContextMenu;
             this.CodeEditorTextBox.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CodeEditorTextBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CodeEditorTextBox.Location = new System.Drawing.Point(16, 27);
+            this.CodeEditorTextBox.Location = new System.Drawing.Point(10, 30);
             this.CodeEditorTextBox.MaxLength = 65355;
             this.CodeEditorTextBox.Multiline = true;
             this.CodeEditorTextBox.Name = "CodeEditorTextBox";
             this.CodeEditorTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.CodeEditorTextBox.Size = new System.Drawing.Size(640, 457);
+            this.CodeEditorTextBox.Size = new System.Drawing.Size(640, 431);
             this.CodeEditorTextBox.TabIndex = 0;
             this.CodeEditorTextBox.WordWrap = false;
             // 
@@ -457,10 +475,12 @@ namespace MaszynaPi {
             // 
             // SaveItemToolStrip
             // 
+            this.SaveItemToolStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.programToolStripMenuItem2,
+            this.rozkazToolStripMenuItem2});
             this.SaveItemToolStrip.Name = "SaveItemToolStrip";
-            this.SaveItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.SaveItemToolStrip.Size = new System.Drawing.Size(168, 22);
-            this.SaveItemToolStrip.Text = "Zapisz";
+            this.SaveItemToolStrip.Text = "Zapisz jako";
             // 
             // toolStripSeparator1
             // 
@@ -491,6 +511,165 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
+            // tabControlEditors
+            // 
+            this.tabControlEditors.Controls.Add(this.tabPageCodeEditor);
+            this.tabControlEditors.Controls.Add(this.tabPageInstructionList);
+            this.tabControlEditors.Controls.Add(this.tabPageVariables);
+            this.tabControlEditors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlEditors.HotTrack = true;
+            this.tabControlEditors.Location = new System.Drawing.Point(0, 0);
+            this.tabControlEditors.Name = "tabControlEditors";
+            this.tabControlEditors.RightToLeftLayout = true;
+            this.tabControlEditors.SelectedIndex = 0;
+            this.tabControlEditors.Size = new System.Drawing.Size(664, 490);
+            this.tabControlEditors.TabIndex = 3;
+            this.tabControlEditors.TabStop = false;
+            this.tabControlEditors.SelectedIndexChanged += new System.EventHandler(this.tabControlEditorsPanel_SelectedIndexChanged);
+            // 
+            // tabPageCodeEditor
+            // 
+            this.tabPageCodeEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageCodeEditor.Controls.Add(this.unixCodeEditorMenuStrip);
+            this.tabPageCodeEditor.Controls.Add(this.CodeEditorTextBox);
+            this.tabPageCodeEditor.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCodeEditor.Name = "tabPageCodeEditor";
+            this.tabPageCodeEditor.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCodeEditor.Size = new System.Drawing.Size(656, 464);
+            this.tabPageCodeEditor.TabIndex = 0;
+            this.tabPageCodeEditor.Text = "Edytor";
+            // 
+            // tabPageInstructionList
+            // 
+            this.tabPageInstructionList.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageInstructionList.Controls.Add(this.panelInstructionsMicrocode);
+            this.tabPageInstructionList.Controls.Add(this.splitter3);
+            this.tabPageInstructionList.Controls.Add(this.panelInstructionsList);
+            this.tabPageInstructionList.Location = new System.Drawing.Point(4, 22);
+            this.tabPageInstructionList.Name = "tabPageInstructionList";
+            this.tabPageInstructionList.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageInstructionList.Size = new System.Drawing.Size(656, 464);
+            this.tabPageInstructionList.TabIndex = 1;
+            this.tabPageInstructionList.Text = "Lista rozkazów";
+            // 
+            // tabPageVariables
+            // 
+            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
+            this.tabPageVariables.Name = "tabPageVariables";
+            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVariables.Size = new System.Drawing.Size(656, 464);
+            this.tabPageVariables.TabIndex = 2;
+            this.tabPageVariables.Text = "Zmienne";
+            // 
+            // tabControlOnBottomPanel
+            // 
+            this.tabControlOnBottomPanel.Controls.Add(this.tabPageIO);
+            this.tabControlOnBottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlOnBottomPanel.Location = new System.Drawing.Point(0, 0);
+            this.tabControlOnBottomPanel.Name = "tabControlOnBottomPanel";
+            this.tabControlOnBottomPanel.SelectedIndex = 0;
+            this.tabControlOnBottomPanel.Size = new System.Drawing.Size(1439, 176);
+            this.tabControlOnBottomPanel.TabIndex = 0;
+            this.tabControlOnBottomPanel.TabStop = false;
+            // 
+            // tabPageIO
+            // 
+            this.tabPageIO.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageIO.Controls.Add(this.UserControlCharacterInput);
+            this.tabPageIO.Location = new System.Drawing.Point(4, 22);
+            this.tabPageIO.Name = "tabPageIO";
+            this.tabPageIO.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageIO.Size = new System.Drawing.Size(1431, 150);
+            this.tabPageIO.TabIndex = 0;
+            this.tabPageIO.Text = "Konsola wejścia";
+            // 
+            // plikProgramuToolStripMenuItem
+            // 
+            this.plikProgramuToolStripMenuItem.Name = "plikProgramuToolStripMenuItem";
+            this.plikProgramuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.plikProgramuToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.plikProgramuToolStripMenuItem.Text = "Program";
+            // 
+            // plikRozkazuToolStripMenuItem
+            // 
+            this.plikRozkazuToolStripMenuItem.Name = "plikRozkazuToolStripMenuItem";
+            this.plikRozkazuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.plikRozkazuToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.plikRozkazuToolStripMenuItem.Text = "Rozkaz";
+            // 
+            // programToolStripMenuItem2
+            // 
+            this.programToolStripMenuItem2.Name = "programToolStripMenuItem2";
+            this.programToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.programToolStripMenuItem2.Size = new System.Drawing.Size(193, 22);
+            this.programToolStripMenuItem2.Text = "Program";
+            // 
+            // rozkazToolStripMenuItem2
+            // 
+            this.rozkazToolStripMenuItem2.Name = "rozkazToolStripMenuItem2";
+            this.rozkazToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.rozkazToolStripMenuItem2.Size = new System.Drawing.Size(193, 22);
+            this.rozkazToolStripMenuItem2.Text = "Rozkaz";
+            // 
+            // panelInstructionsList
+            // 
+            this.panelInstructionsList.Controls.Add(this.userControlInstructionList1);
+            this.panelInstructionsList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelInstructionsList.Location = new System.Drawing.Point(3, 3);
+            this.panelInstructionsList.Name = "panelInstructionsList";
+            this.panelInstructionsList.Size = new System.Drawing.Size(200, 458);
+            this.panelInstructionsList.TabIndex = 0;
+            // 
+            // splitter3
+            // 
+            this.splitter3.Location = new System.Drawing.Point(203, 3);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(3, 458);
+            this.splitter3.TabIndex = 1;
+            this.splitter3.TabStop = false;
+            // 
+            // panelInstructionsMicrocode
+            // 
+            this.panelInstructionsMicrocode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelInstructionsMicrocode.Controls.Add(this.userControlInstructionMicrocode1);
+            this.panelInstructionsMicrocode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInstructionsMicrocode.Location = new System.Drawing.Point(206, 3);
+            this.panelInstructionsMicrocode.Name = "panelInstructionsMicrocode";
+            this.panelInstructionsMicrocode.Size = new System.Drawing.Size(447, 458);
+            this.panelInstructionsMicrocode.TabIndex = 2;
+            // 
+            // userControlInstructionMicrocode1
+            // 
+            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
+            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
+            this.userControlInstructionMicrocode1.Multiline = true;
+            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
+            this.userControlInstructionMicrocode1.ReadOnly = true;
+            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(443, 454);
+            this.userControlInstructionMicrocode1.TabIndex = 0;
+            // 
+            // userControlInstructionList1
+            // 
+            this.userControlInstructionList1.BackColor = System.Drawing.Color.White;
+            this.userControlInstructionList1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.userControlInstructionList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlInstructionList1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlInstructionList1.Location = new System.Drawing.Point(0, 0);
+            this.userControlInstructionList1.Multiline = true;
+            this.userControlInstructionList1.Name = "userControlInstructionList1";
+            this.userControlInstructionList1.ReadOnly = true;
+            this.userControlInstructionList1.Size = new System.Drawing.Size(200, 458);
+            this.userControlInstructionList1.TabIndex = 0;
+            this.userControlInstructionList1.WordWrap = false;
+            // 
             // MemoryControl
             // 
             this.MemoryControl.BackColor = System.Drawing.Color.White;
@@ -502,6 +681,7 @@ namespace MaszynaPi {
             this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.MemoryControl.Size = new System.Drawing.Size(156, 225);
             this.MemoryControl.TabIndex = 8;
+            this.MemoryControl.TabStop = false;
             this.MemoryControl.WordWrap = false;
             // 
             // UserControlRegisterS
@@ -513,6 +693,7 @@ namespace MaszynaPi {
             this.UserControlRegisterS.RegisterName = "S";
             this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
             this.UserControlRegisterS.TabIndex = 4;
+            this.UserControlRegisterS.TabStop = false;
             this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // UserControlRegisterA
@@ -525,14 +706,16 @@ namespace MaszynaPi {
             this.UserControlRegisterA.RegisterName = "A";
             this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
             this.UserControlRegisterA.TabIndex = 2;
+            this.UserControlRegisterA.TabStop = false;
             this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // UserControlCharacterInput
             // 
-            this.UserControlCharacterInput.Location = new System.Drawing.Point(12, 13);
+            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
             this.UserControlCharacterInput.Name = "UserControlCharacterInput";
             this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
             this.UserControlCharacterInput.TabIndex = 0;
+            this.UserControlCharacterInput.TabStop = false;
             // 
             // Form1
             // 
@@ -549,7 +732,6 @@ namespace MaszynaPi {
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.BottomPanel.ResumeLayout(false);
-            this.BottomPanel.PerformLayout();
             this.TopLeftPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.PerformLayout();
@@ -559,10 +741,20 @@ namespace MaszynaPi {
             this.menuStrip1.PerformLayout();
             this.TopRightPanel.ResumeLayout(false);
             this.ProgramPanel.ResumeLayout(false);
-            this.ProgramPanel.PerformLayout();
             this.unixCodeEditorMenuStrip.ResumeLayout(false);
             this.unixCodeEditorMenuStrip.PerformLayout();
             this.CodeEditorContextMenu.ResumeLayout(false);
+            this.tabControlEditors.ResumeLayout(false);
+            this.tabPageCodeEditor.ResumeLayout(false);
+            this.tabPageCodeEditor.PerformLayout();
+            this.tabPageInstructionList.ResumeLayout(false);
+            this.tabControlOnBottomPanel.ResumeLayout(false);
+            this.tabPageIO.ResumeLayout(false);
+            this.tabPageIO.PerformLayout();
+            this.panelInstructionsList.ResumeLayout(false);
+            this.panelInstructionsList.PerformLayout();
+            this.panelInstructionsMicrocode.ResumeLayout(false);
+            this.panelInstructionsMicrocode.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -617,8 +809,23 @@ namespace MaszynaPi {
         private System.Windows.Forms.MenuStrip unixCodeEditorMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem kodToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kompilujToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem zapiszToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem zapiszjakoToolStripMenuItem1;
         private MachineUI.UserControlCharacterInput UserControlCharacterInput;
+        private System.Windows.Forms.TabControl tabControlEditors;
+        private System.Windows.Forms.TabPage tabPageCodeEditor;
+        private System.Windows.Forms.TabPage tabPageInstructionList;
+        private System.Windows.Forms.TabPage tabPageVariables;
+        private System.Windows.Forms.TabControl tabControlOnBottomPanel;
+        private System.Windows.Forms.TabPage tabPageIO;
+        private System.Windows.Forms.ToolStripMenuItem plikProgramuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem plikRozkazuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem programToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem rozkazToolStripMenuItem2;
+        private System.Windows.Forms.Panel panelInstructionsList;
+        private System.Windows.Forms.Panel panelInstructionsMicrocode;
+        private System.Windows.Forms.Splitter splitter3;
+        private MachineUI.UserControlInstructionMicrocode userControlInstructionMicrocode1;
+        private MachineUI.UserControlInstructionList userControlInstructionList1;
     }
 }
 

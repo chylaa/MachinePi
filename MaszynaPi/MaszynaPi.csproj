@@ -98,7 +98,6 @@
     </Compile>
     <Compile Include="MachineAssembler\Compiler.cs" />
     <Compile Include="MachineAssembler\Debugger.cs" />
-    <Compile Include="MachineAssembler\Editors\InstructionEditor.cs" />
     <Compile Include="MachineLogic\Architecture\ArithmeticLogicUnit.cs" />
     <Compile Include="MachineLogic\Architecture\Bus.cs" />
     <Compile Include="MachineLogic\Architecture\InstructionDecoder.cs" />
@@ -114,6 +113,18 @@
     </Compile>
     <Compile Include="MachineUI\UserControlCharacterInput.Designer.cs">
       <DependentUpon>UserControlCharacterInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MachineUI\UserControlInstructionList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlInstructionList.Designer.cs">
+      <DependentUpon>UserControlInstructionList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MachineUI\UserControlInstructionMicrocode.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlInstructionMicrocode.Designer.cs">
+      <DependentUpon>UserControlInstructionMicrocode.cs</DependentUpon>
     </Compile>
     <Compile Include="MachineUI\UserControlMemory.cs">
       <SubType>Component</SubType>

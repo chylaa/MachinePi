@@ -23,6 +23,7 @@ namespace MaszynaPi.MachineAssembler {
      *      2. Translated into a sequence of signals    [List<List<string>>] [OLD - UNUSED]
      */
     static class Compiler {
+        public const string PROGRAM_FILE_EXTENSION = "prg";
         public const string HEADER_MEM_ALLOC = "rpa";  // [Header] Allocate Memory - lowercase to standarize code
         public const string HEADER_CONST_VAR = "rst";  // [Header] Const Variable Def - lowercase to standarize code
         public const string HEADER_LABEL_END = ":";    // [Header] End of assembly label (foo) definition

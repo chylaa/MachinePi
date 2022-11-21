@@ -54,6 +54,9 @@ namespace MaszynaPi {
 
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle()) ;
+
+            userControlInstructionList1.SetMicrocodeViewHandle(userControlInstructionMicrocode1);
+            RefreshRightPanelControls();
         }
         private void Form1_Load(object sender, EventArgs e) {
             if (Environment.OSVersion.Platform != PlatformID.Unix) {
@@ -70,6 +73,13 @@ namespace MaszynaPi {
         }
         private void RefreshMicrocontrolerControls() { 
             RefreshControls(MicrocontrollerPanel);    
+        }
+
+        private void RefreshRightPanelControls() {
+            RefreshControls(TopRightPanel);
+        }
+        private void RefreshTabPanelControls() {
+            RefreshControls(tabControlEditors);
         }
 
         private void RefreshAfterSet(uint oldAddressSpace) {
@@ -119,16 +129,26 @@ namespace MaszynaPi {
             return "Error";
         }
 
-        
-
         private void Compile() {
-            try { 
+            try {
                 codeEditor.SetCodeLinesFromEditorContent();
-                List<uint> code = Compiler.CompileCode(codeEditor.FormatCodeForCompiler());
-                Machine.SetMemoryContent(code);
-                Machine.ResetRegisters();
-                MemoryControl.Refresh();
-
+                if (codeEditor.IsInstructionDefinition()) {
+                    bool isEnoughSpace =  InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstrructionsCode());
+                    System.Media.SystemSounds.Exclamation.Play();
+                    if (isEnoughSpace) MessageBox.Show("Rozkaz został dodany.", "Maszyna Pi");
+                    else MessageBox.Show("Rozkaz został dodany lecz nie będzie widoczny (zbyt mała ilość bitów kodu)", "Warning!");
+                    return;
+                }
+                if (codeEditor.IsProgram()) {
+                    List<uint> code = Compiler.CompileCode(codeEditor.FormatCodeForCompiler());
+                    Machine.SetMemoryContent(code);
+                    Machine.ResetRegisters();
+                    RefreshMicrocontrolerControls();
+                    System.Media.SystemSounds.Exclamation.Play();
+                    MessageBox.Show("Program został skompilowany.", "Maszyna Pi");
+                    return;
+                }
+                MessageBox.Show("Compilation Error: Unknown syntax type - not program or instruction definition.", "Error");
             } catch (CompilerException ex) {
                 MessageBox.Show(ex.Message, GetErrorType(ex.Message));
             } catch (Exception ex) {
@@ -143,32 +163,34 @@ namespace MaszynaPi {
 
         // Menu Bar things
         private void ładujListęRozkazówToolStripMenuItem_Click(object sender, EventArgs e) {
+            string lst = InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION;
             string filepath = "";
             string lstFileContent = "";
-            string filter = "pliki rozkazów (*.lst)|*.lst";
+            string filter = "pliki rozkazów (*"+lst+")|*"+lst;
             if (FilesHandler.PointFileAndGetText(filter, out filepath, out lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
-                    InstructionLoader.LoadInstructions(lstFileContent);
+                    InstructionLoader.LoadInstructionsFile(lstFileContent);
                     Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();
                 }catch(InstructionLoaderException ex) {
-                    MessageBox.Show("Error while loading .lst file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
+                    MessageBox.Show("Error while loading "+lst+" file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
                 }
-                    MemoryControl.Refresh();
+                RefreshMicrocontrolerControls();
+                RefreshControls(tabPageInstructionList);
             }
         }
 
         private void otwórzToolStripMenuItem_Click(object sender, EventArgs e) {
+            string prg = Compiler.PROGRAM_FILE_EXTENSION;
+            string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
             string filepath = "";
             string fileContent = "";
-            string filer = "pliki rozkazów (*.rzk)|*.lst|pliki programów (*.prg)|*.prg|wszystkie pliki (*.*)|*.*";
+            string filer = "pliki rozkazów (*"+rzk+")|*"+rzk+"|pliki programów (*"+prg+")|*"+prg+"|wszystkie pliki (*.*)|*.*";
 
-            if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) {
-                string ext = System.IO.Path.GetExtension(filepath);
-                if (ext == ".rzk") { return; } // TODO
-                if (ext == ".prg") { codeEditor.SetCodeEditorViewContent(fileContent); }
-            }
+            if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) 
+                codeEditor.SetCodeEditorViewContent(fileContent); 
+            
         }
 
 
@@ -194,5 +216,10 @@ namespace MaszynaPi {
 
 
 
+        // Non Machine-Related Interface Behaviour Methods
+
+        private void tabControlEditorsPanel_SelectedIndexChanged(object sender, EventArgs e) {
+            RefreshTabPanelControls();
+        }
     }
 }

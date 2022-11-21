@@ -57,6 +57,13 @@ namespace MaszynaPi.MachineLogic {
 
         }
 
+        // Returns names of avaible instructions considering the currently set code bits value
+        public static List<string> GetAvaibleInstructions() {
+            var allInstructions = MachineAssembler.InstructionLoader.GetAvaibleInstructionsNames();
+            int visible = Math.Min(allInstructions.Count, (int)GetMaxOpcode() + 1);
+            return allInstructions.GetRange(0,visible);
+        }
+
         public static Defines.Machines GetArchitecture() { return CurrentArchitecture; }
         public static void SetArchitecture(Defines.Machines machine) {
             CurrentArchitecture = machine;
