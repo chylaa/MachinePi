@@ -70,6 +70,8 @@ namespace MaszynaPi.MachineLogic {
                                                                             SignalsInput, SignalsFlags};
 
 
+        public static readonly List<string> FETCH_SIGNALS = new List<string> { "czyt", "wys", "wei", "il" };
+
         public const string SIGNAL_LABEL = "@";
         public const string SIGNAL_STATEMENT_IF = "jeżeli";
         public const string SIGNAL_STATEMENT_THEN = "to";

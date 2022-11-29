@@ -39,13 +39,21 @@ namespace MaszynaPi {
             }
             InitializeComponent();
 
-            codeEditor = new CodeEditor(CodeEditorTextBox);
-            Debugger = new Debugger(CodeEditorTextBox);       
+            codeEditor = new CodeEditor();
+            Debugger = new Debugger();       
             Machine = new ControlUnit();
+            
+            
+            Debugger.SetCodeEditorHandle(codeEditor.GetCodeLinesHandle());
+            Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
 
             Machine.OnRefreshValues += RefreshMicrocontrolerControls; //Set method for refreshing components values on each tick
             Machine.OnSetExecutedLine += Debugger.SetExecutedLine;
             Machine.OnProgramEnd += EndOfProgram;
+
+            // UI
+
+            UserControlCodeEditor.SetCodeLinesHandle(codeEditor.GetCodeLinesHandle());
 
             MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
             UserControlRegisterA.SetSourceRegister(Machine.A);
@@ -131,7 +139,7 @@ namespace MaszynaPi {
 
         private void Compile() {
             try {
-                codeEditor.SetCodeLinesFromEditorContent();
+                //codeEditor.SetCodeLinesFromEditorContent();
                 if (codeEditor.IsInstructionDefinition()) {
                     bool isEnoughSpace =  InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstrructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
@@ -141,6 +149,7 @@ namespace MaszynaPi {
                 }
                 if (codeEditor.IsProgram()) {
                     List<uint> code = Compiler.CompileCode(codeEditor.FormatCodeForCompiler());
+                    Debugger.FillMemoryLineNumberMap();
                     Machine.SetMemoryContent(code);
                     Machine.ResetRegisters();
                     RefreshMicrocontrolerControls();
@@ -170,10 +179,11 @@ namespace MaszynaPi {
             if (FilesHandler.PointFileAndGetText(filter, out filepath, out lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
-                    InstructionLoader.LoadInstructionsFile(lstFileContent);
+                    bool isEnoughSpace = InstructionLoader.LoadInstructionsFile(lstFileContent);
                     Machine.ChangeMemorySize(oldAddressSpace);
-                    Machine.SetComponentsBitsizes();
-                }catch(InstructionLoaderException ex) {
+                    Machine.SetComponentsBitsizes();                                //  \/ Shouldn't happen if .lst file created properly \/
+                    if (!isEnoughSpace) MessageBox.Show("Lista rozkazów załadowana lecz część rozkazów może nie być widoczna (zbyt mała ilość bitów kodu)", "Warning!"); 
+                } catch(InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading "+lst+" file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
                 }
                 RefreshMicrocontrolerControls();
@@ -189,17 +199,17 @@ namespace MaszynaPi {
             string filer = "pliki rozkazów (*"+rzk+")|*"+rzk+"|pliki programów (*"+prg+")|*"+prg+"|wszystkie pliki (*.*)|*.*";
 
             if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) 
-                codeEditor.SetCodeEditorViewContent(fileContent); 
+                UserControlCodeEditor.SetText(fileContent); 
             
         }
 
 
 
-        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Paste(); }
+        private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { UserControlCodeEditor.Paste(); }
 
-        private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Copy(); }
+        private void kopiujToolStripMenuItem_Click(object sender, EventArgs e) { UserControlCodeEditor.Copy(); }
 
-        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { CodeEditorTextBox.Cut(); }
+        private void wytnijToolStripMenuItem_Click(object sender, EventArgs e) { UserControlCodeEditor.Cut(); }
 
         private void opcjeToolStripMenuItem_Click(object sender, EventArgs e) {
             FormProjectOptions projectOptions = new FormProjectOptions();
@@ -212,6 +222,7 @@ namespace MaszynaPi {
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
             Machine.ResetRegisters();
+            RefreshMicrocontrolerControls();
         }
 
 

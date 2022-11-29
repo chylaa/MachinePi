@@ -36,9 +36,12 @@ namespace MaszynaPi.MachineAssembler {
         static List<uint> ProgramNumeric = new List<uint>();
         static List<List<string>> ProgramSignals;
 
-        // Dictionary that maps each address of code instruction in memory to line in editor
-        
+        // Dictionary that maps each address of code instruction in memory to line in editor (its content)
+        static Dictionary<uint, string> MemoryEditorMap = new Dictionary<uint, string>();
 
+        public static Dictionary<uint, string> GetMemoryEditorMap() {
+            return MemoryEditorMap;
+        }
 
         static string DeleteMultipleSpaces(string s) {
             return Regex.Replace(s, @"\s+", " ");
@@ -129,7 +132,7 @@ namespace MaszynaPi.MachineAssembler {
                 int arg = -1;
 
                 // Mapping to editor lines
-                Debugger.AddToMemoryEditorMap(memAddress,line);
+                MemoryEditorMap.Add(memAddress,line);
                 memAddress++;
                 //------------------------
 

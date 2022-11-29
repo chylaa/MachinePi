@@ -114,6 +114,12 @@
     <Compile Include="MachineUI\UserControlCharacterInput.Designer.cs">
       <DependentUpon>UserControlCharacterInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="MachineUI\UserControlCodeEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlCodeEditor.Designer.cs">
+      <DependentUpon>UserControlCodeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="MachineUI\UserControlInstructionList.cs">
       <SubType>Component</SubType>
     </Compile>
