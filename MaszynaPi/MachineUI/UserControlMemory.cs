@@ -27,7 +27,7 @@ namespace MaszynaPi.MachineUI {
             WordWrap = false;
             //ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox [errors in rasbian :c]
             InitializeComponent();
-            Enter += HideCursorSetOnEnter;
+            //Enter += HideCursorSetOnEnter; //Causes the scrollbar to "escape"(returns to its previous position)
             MouseDoubleClick += HandleDoubleItemClicked;
         }
 
@@ -45,6 +45,9 @@ namespace MaszynaPi.MachineUI {
             try {
                 if (args.Button != MouseButtons.Left) return;
                 SelectedIndex = GetLineFromCharIndex(GetCharIndexFromPosition(args.Location));
+                if (SelectedIndex < 0 || SelectedIndex > UnitMemory.Count) return;
+                if (Environment.OSVersion.Platform == PlatformID.Unix) SelectedIndex--;
+
                 string response = UnitMemory[SelectedIndex].ToString();
                 Point location = PointToClient(this.Location);
                 InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);

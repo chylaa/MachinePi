@@ -50,20 +50,21 @@ namespace MaszynaPi.MachineUI {
             SelectedInstructionName = InstructionLoader.GetInstructionsLines().Keys.ToList()[selectedIndex];
         }
 
-        private int GetLineIndexFromPosition(Point pos) {
-            var coordinates = this.PointToClient(Cursor.Position);
-            MessageBox.Show("MouseEventArgs Location: "+pos.ToString()+"\nPontToClient coords: "+coordinates.ToString());
-            return -1;
-        }
+        //private int GetLineIndexFromPosition(Point pos) {
+        //    var coordinates = this.PointToClient(Cursor.Position);
+        //    MessageBox.Show("MouseEventArgs Location: "+pos.ToString()+"\nPontToClient coords: "+coordinates.ToString());
+        //    return -1;
+        //}
 
 
         private void HandleItemClicked(object sender, MouseEventArgs args) {
             if (args.Button != MouseButtons.Left) return;
             if (microcodeViewHandle == null) throw new Exception("[UserControl - Instruction List - Error] Instructions Microcode view Handle not set!");
 
-            var selectedIndex = GetLineIndexFromPosition(args.Location);
-            if (selectedIndex == -1) return;
-            //var selectedIndex = GetLineFromCharIndex(GetCharIndexFromPosition(args.Location));
+            var selectedIndex = GetLineFromCharIndex(GetCharIndexFromPosition(args.Location));
+            if (selectedIndex < 0 || selectedIndex > InstructionLoader.GetAvaibleInstructionsNames().Count) return;
+            if (Environment.OSVersion.Platform == PlatformID.Unix) selectedIndex--;
+
             SetSelectedInstructionName(selectedIndex);
             DisplayAvaibleInstructionsList(selectedIndex);
             microcodeViewHandle.DisplaySelectedInstructionMicrocode(SelectedInstructionName);
