@@ -29,8 +29,8 @@ namespace MaszynaPi.MachineLogic {
         public const uint INTERRUPTIONS_NUM = 4;
 
         //Enum represent different Machine architectures -> they are encoded as the bit AND of their base components ([Flag] enum Components) 
-        public enum Machines:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047, MachinePI=4095};
-        public const Machines DEFAULT_MACHINE = Machines.MachineW;
+        public enum Architectures:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047, MachinePI=4095};
+        public const Architectures DEFAULT_ARCHITECTURE = Architectures.MachineW;
 
         [Flags]
         public enum Components {

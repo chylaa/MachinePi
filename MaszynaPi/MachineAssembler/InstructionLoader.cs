@@ -102,7 +102,7 @@ namespace MaszynaPi.MachineAssembler {
             options.Remove(CODE_BITS_HEADER + codeBits.ToString());
             //--------------------------------------------------------------------------------------------------------------
             int componetsSet = 0;
-            for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= (1<<i); }
+            for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= (1<<i+(int)Defines.Components.Basic); }
             ArchitectureSettings.SetActiveComponents((Defines.Components)componetsSet);
         }
         private static void ClearLoadedInstructions() {
@@ -164,10 +164,10 @@ namespace MaszynaPi.MachineAssembler {
 
             MAX_OPCODE = -1;
 
-            var instructionsLines = new Dictionary<string, List<string>>(InstructionsLines);
-            var instructionNamesOpcodes = new Dictionary<string, uint>(InstructionNamesOpcodes);
-            var instructionSignalsMap = new Dictionary<uint, List<List<string>>>(InstructionSignalsMap);
-            var zeroArgInstructions = new List<string>(ZeroArgInstructions); 
+            var instructionsLines = new Dictionary<string, List<string>>();//new Dictionary<string, List<string>>(InstructionsLines);
+            var instructionNamesOpcodes = new Dictionary<string, uint>();//new Dictionary<string, uint>(InstructionNamesOpcodes);
+            var instructionSignalsMap = new Dictionary<uint, List<List<string>>>();//new Dictionary<uint, List<List<string>>>(InstructionSignalsMap);
+            var zeroArgInstructions = new List<string>();//new List<string>(ZeroArgInstructions); 
 
             if (!instructios[0].Contains(INSTRUCTION_NUMBER_HEADER)) {
                 throw new InstructionLoaderException("Invalid format of .lst file -> unknown symbol on this position '" + instructios[0] + "'");

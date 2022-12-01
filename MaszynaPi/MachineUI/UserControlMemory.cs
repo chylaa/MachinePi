@@ -23,12 +23,13 @@ namespace MaszynaPi.MachineUI {
             Multiline = true;
             ReadOnly = true;
             BackColor = Color.White;
-            ScrollBars = ScrollBars.Vertical;
+            ScrollBars = ScrollBars.None;//ScrollBars = ScrollBars.Vertical;
             WordWrap = false;
             //ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox [errors in rasbian :c]
             InitializeComponent();
             //Enter += HideCursorSetOnEnter; //Causes the scrollbar to "escape"(returns to its previous position)
             MouseDoubleClick += HandleDoubleItemClicked;
+            //MouseClick += HandleDoubleItemClicked;
         }
 
         // Temporarily disabling and then re-enabling can disable the cursor the text box whenever it receives the focus
@@ -39,7 +40,6 @@ namespace MaszynaPi.MachineUI {
         public void SetItemsValueSource(List<uint> unitMemory) {
             UnitMemory = unitMemory;
         }
-
 
         private void HandleDoubleItemClicked(object sender, MouseEventArgs args) {
             try {

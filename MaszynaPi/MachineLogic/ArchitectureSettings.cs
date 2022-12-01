@@ -9,8 +9,8 @@ namespace MaszynaPi.MachineLogic {
     static class ArchitectureSettings {
         static uint AddressSpace = Defines.DEFAULT_ADDR_BITS;
         static uint CodeBits = Defines.DEFAULT_CODE_BITS;
-        static Defines.Machines CurrentArchitecture = Defines.DEFAULT_MACHINE;
-        static Defines.Components ActiveComponents = (Defines.Components)Defines.DEFAULT_MACHINE;
+        static Defines.Architectures CurrentArchitecture = Defines.DEFAULT_ARCHITECTURE;
+        static Defines.Components ActiveComponents = (Defines.Components)((int)Defines.DEFAULT_ARCHITECTURE);
         static List<string> AvaibleSignals = new List<string>();
 
         // Methods - ----------------------------------------------------------------------
@@ -47,8 +47,8 @@ namespace MaszynaPi.MachineLogic {
         public static Defines.Components GetActiveComponents() { return ActiveComponents; }
 
         public static List<string> GetAvaibleSignals() { return AvaibleSignals; }
-        public static void SetAvaibleSignals(Defines.Components active) {
-            SetActiveComponents(active);
+        public static void SetAvaibleSignals() {
+            //SetActiveComponents(active);
             AvaibleSignals.Clear();
             for (int i = 0; i < Defines.Signals.Count; i <<= 1) {
                 if (ActiveComponents.HasFlag((Defines.Components)i))
@@ -64,10 +64,10 @@ namespace MaszynaPi.MachineLogic {
             return allInstructions.GetRange(0,visible);
         }
 
-        public static Defines.Machines GetArchitecture() { return CurrentArchitecture; }
-        public static void SetArchitecture(Defines.Machines machine) {
+        public static Defines.Architectures GetArchitecture() { return CurrentArchitecture; }
+        public static void SetArchitecture(Defines.Architectures machine) {
             CurrentArchitecture = machine;
-            SetAvaibleSignals((Defines.Components)machine);
+            //SetAvaibleSignals((Defines.Components)machine);
 
         }
 

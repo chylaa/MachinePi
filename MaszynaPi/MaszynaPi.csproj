@@ -84,16 +84,28 @@
     <Compile Include="CommonOperations\Arithmetic.cs" />
     <Compile Include="CommonOperations\Bitwise.cs" />
     <Compile Include="FilesHandling\FilesHandler.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="UI\ArchitectureRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ArchitectureRadioButton.Designer.cs">
+      <DependentUpon>ArchitectureRadioButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentsCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentsCheckBox.Designer.cs">
+      <DependentUpon>ComponentsCheckBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="UI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormProjectOptions.cs">
+    <Compile Include="UI\FormProjectOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormProjectOptions.Designer.cs">
+    <Compile Include="UI\FormProjectOptions.Designer.cs">
       <DependentUpon>FormProjectOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="MachineAssembler\Compiler.cs" />
@@ -107,7 +119,7 @@
     <Compile Include="MachineLogic\Architecture\Memory.cs" />
     <Compile Include="MachineLogic\Architecture\Register.cs" />
     <Compile Include="MachineLogic\ArchitectureSettings.cs" />
-    <Compile Include="MachineUI\InputDialog.cs" />
+    <Compile Include="UI\InputDialog.cs" />
     <Compile Include="MachineUI\UserControlCharacterInput.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -150,10 +162,10 @@
     <Compile Include="MachineAssembler\InstructionLoader.cs" />
     <Compile Include="MachineLogic\Defines.cs" />
     <Compile Include="MachineLogic\ControlUnit.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormProjectOptions.resx">
+    <EmbeddedResource Include="UI\FormProjectOptions.resx">
       <DependentUpon>FormProjectOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -28,14 +28,18 @@ namespace MaszynaPi {
             this.BottomPanel = new System.Windows.Forms.Panel();
             this.tabControlOnBottomPanel = new System.Windows.Forms.TabControl();
             this.tabPageIO = new System.Windows.Forms.TabPage();
+            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
             this.groupBoxDebugLevel = new System.Windows.Forms.GroupBox();
             this.radioButtonDebugTick = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugInstruction = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugProgram = new System.Windows.Forms.RadioButton();
+            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,12 +67,7 @@ namespace MaszynaPi {
             this.ProgramPanel = new System.Windows.Forms.Panel();
             this.tabControlEditors = new System.Windows.Forms.TabControl();
             this.tabPageCodeEditor = new System.Windows.Forms.TabPage();
-            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zapiszjakoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.plikProgramuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.plikRozkazuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
             this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,18 +77,19 @@ namespace MaszynaPi {
             this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszjakoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.plikProgramuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.plikRozkazuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageInstructionList = new System.Windows.Forms.TabPage();
             this.panelInstructionsMicrocode = new System.Windows.Forms.Panel();
+            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.panelInstructionsList = new System.Windows.Forms.Panel();
-            this.tabPageVariables = new System.Windows.Forms.TabPage();
-            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
-            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
-            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
-            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
+            this.tabPageVariables = new System.Windows.Forms.TabPage();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageIO.SuspendLayout();
@@ -101,8 +101,8 @@ namespace MaszynaPi {
             this.ProgramPanel.SuspendLayout();
             this.tabControlEditors.SuspendLayout();
             this.tabPageCodeEditor.SuspendLayout();
-            this.unixCodeEditorMenuStrip.SuspendLayout();
             this.CodeEditorContextMenu.SuspendLayout();
+            this.unixCodeEditorMenuStrip.SuspendLayout();
             this.tabPageInstructionList.SuspendLayout();
             this.panelInstructionsMicrocode.SuspendLayout();
             this.panelInstructionsList.SuspendLayout();
@@ -140,6 +140,14 @@ namespace MaszynaPi {
             this.tabPageIO.TabIndex = 0;
             this.tabPageIO.Text = "Konsola wejścia";
             // 
+            // UserControlCharacterInput
+            // 
+            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
+            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
+            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
+            this.UserControlCharacterInput.TabIndex = 0;
+            this.UserControlCharacterInput.TabStop = false;
+            // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -171,6 +179,20 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(775, 487);
             this.MicrocontrollerPanel.TabIndex = 0;
+            // 
+            // MemoryControl
+            // 
+            this.MemoryControl.BackColor = System.Drawing.Color.White;
+            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.MemoryControl.Location = new System.Drawing.Point(551, 162);
+            this.MemoryControl.Multiline = true;
+            this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.ReadOnly = true;
+            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
+            this.MemoryControl.TabIndex = 8;
+            this.MemoryControl.TabStop = false;
+            this.MemoryControl.WordWrap = false;
             // 
             // checkBoxManualDebug
             // 
@@ -224,6 +246,31 @@ namespace MaszynaPi {
             this.radioButtonDebugProgram.TabIndex = 0;
             this.radioButtonDebugProgram.Text = "niski (program)";
             this.radioButtonDebugProgram.UseVisualStyleBackColor = true;
+            // 
+            // UserControlRegisterS
+            // 
+            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 393);
+            this.UserControlRegisterS.Name = "UserControlRegisterS";
+            this.UserControlRegisterS.ReadOnly = true;
+            this.UserControlRegisterS.RegisterName = "S";
+            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterS.TabIndex = 4;
+            this.UserControlRegisterS.TabStop = false;
+            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterA
+            // 
+            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterA.CausesValidation = false;
+            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 136);
+            this.UserControlRegisterA.Name = "UserControlRegisterA";
+            this.UserControlRegisterA.ReadOnly = true;
+            this.UserControlRegisterA.RegisterName = "A";
+            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterA.TabIndex = 2;
+            this.UserControlRegisterA.TabStop = false;
+            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // menuStrip1
             // 
@@ -453,57 +500,15 @@ namespace MaszynaPi {
             this.tabPageCodeEditor.TabIndex = 0;
             this.tabPageCodeEditor.Text = "Edytor";
             // 
-            // unixCodeEditorMenuStrip
+            // UserControlCodeEditor
             // 
-            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kodToolStripMenuItem});
-            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(3, 3);
-            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
-            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(650, 24);
-            this.unixCodeEditorMenuStrip.TabIndex = 2;
-            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
-            // 
-            // kodToolStripMenuItem
-            // 
-            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kompilujToolStripMenuItem,
-            this.zapiszjakoToolStripMenuItem1});
-            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
-            this.kodToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.kodToolStripMenuItem.Text = "Kod";
-            // 
-            // kompilujToolStripMenuItem
-            // 
-            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
-            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
-            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.kompilujToolStripMenuItem.Text = "Kompiluj";
-            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
-            // 
-            // zapiszjakoToolStripMenuItem1
-            // 
-            this.zapiszjakoToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.plikProgramuToolStripMenuItem,
-            this.plikRozkazuToolStripMenuItem});
-            this.zapiszjakoToolStripMenuItem1.Name = "zapiszjakoToolStripMenuItem1";
-            this.zapiszjakoToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
-            this.zapiszjakoToolStripMenuItem1.Text = "Zapisz jako";
-            // 
-            // plikProgramuToolStripMenuItem
-            // 
-            this.plikProgramuToolStripMenuItem.Name = "plikProgramuToolStripMenuItem";
-            this.plikProgramuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.P)));
-            this.plikProgramuToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.plikProgramuToolStripMenuItem.Text = "Program";
-            // 
-            // plikRozkazuToolStripMenuItem
-            // 
-            this.plikRozkazuToolStripMenuItem.Name = "plikRozkazuToolStripMenuItem";
-            this.plikRozkazuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.R)));
-            this.plikRozkazuToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.plikRozkazuToolStripMenuItem.Text = "Rozkaz";
+            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
+            this.UserControlCodeEditor.Location = new System.Drawing.Point(19, 34);
+            this.UserControlCodeEditor.Multiline = true;
+            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
+            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.UserControlCodeEditor.Size = new System.Drawing.Size(627, 424);
+            this.UserControlCodeEditor.TabIndex = 9;
             // 
             // CodeEditorContextMenu
             // 
@@ -579,6 +584,58 @@ namespace MaszynaPi {
             this.wklejToolStripMenuItem.Text = "Wklej";
             this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
             // 
+            // unixCodeEditorMenuStrip
+            // 
+            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kodToolStripMenuItem});
+            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(3, 3);
+            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
+            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(650, 24);
+            this.unixCodeEditorMenuStrip.TabIndex = 2;
+            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
+            // 
+            // kodToolStripMenuItem
+            // 
+            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kompilujToolStripMenuItem,
+            this.zapiszjakoToolStripMenuItem1});
+            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
+            this.kodToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.kodToolStripMenuItem.Text = "Kod";
+            // 
+            // kompilujToolStripMenuItem
+            // 
+            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
+            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
+            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.kompilujToolStripMenuItem.Text = "Kompiluj";
+            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
+            // 
+            // zapiszjakoToolStripMenuItem1
+            // 
+            this.zapiszjakoToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plikProgramuToolStripMenuItem,
+            this.plikRozkazuToolStripMenuItem});
+            this.zapiszjakoToolStripMenuItem1.Name = "zapiszjakoToolStripMenuItem1";
+            this.zapiszjakoToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.zapiszjakoToolStripMenuItem1.Text = "Zapisz jako";
+            // 
+            // plikProgramuToolStripMenuItem
+            // 
+            this.plikProgramuToolStripMenuItem.Name = "plikProgramuToolStripMenuItem";
+            this.plikProgramuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.plikProgramuToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.plikProgramuToolStripMenuItem.Text = "Program";
+            // 
+            // plikRozkazuToolStripMenuItem
+            // 
+            this.plikRozkazuToolStripMenuItem.Name = "plikRozkazuToolStripMenuItem";
+            this.plikRozkazuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.plikRozkazuToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.plikRozkazuToolStripMenuItem.Text = "Rozkaz";
+            // 
             // tabPageInstructionList
             // 
             this.tabPageInstructionList.BackColor = System.Drawing.SystemColors.Control;
@@ -602,6 +659,19 @@ namespace MaszynaPi {
             this.panelInstructionsMicrocode.Size = new System.Drawing.Size(447, 458);
             this.panelInstructionsMicrocode.TabIndex = 2;
             // 
+            // userControlInstructionMicrocode1
+            // 
+            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
+            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
+            this.userControlInstructionMicrocode1.Multiline = true;
+            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
+            this.userControlInstructionMicrocode1.ReadOnly = true;
+            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(443, 454);
+            this.userControlInstructionMicrocode1.TabIndex = 0;
+            // 
             // splitter3
             // 
             this.splitter3.Location = new System.Drawing.Point(203, 3);
@@ -619,39 +689,6 @@ namespace MaszynaPi {
             this.panelInstructionsList.Size = new System.Drawing.Size(200, 458);
             this.panelInstructionsList.TabIndex = 0;
             // 
-            // tabPageVariables
-            // 
-            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
-            this.tabPageVariables.Name = "tabPageVariables";
-            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageVariables.Size = new System.Drawing.Size(656, 464);
-            this.tabPageVariables.TabIndex = 2;
-            this.tabPageVariables.Text = "Zmienne";
-            // 
-            // UserControlCodeEditor
-            // 
-            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
-            this.UserControlCodeEditor.Location = new System.Drawing.Point(19, 34);
-            this.UserControlCodeEditor.Multiline = true;
-            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
-            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.UserControlCodeEditor.Size = new System.Drawing.Size(627, 424);
-            this.UserControlCodeEditor.TabIndex = 9;
-            // 
-            // userControlInstructionMicrocode1
-            // 
-            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
-            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
-            this.userControlInstructionMicrocode1.Multiline = true;
-            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
-            this.userControlInstructionMicrocode1.ReadOnly = true;
-            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(443, 454);
-            this.userControlInstructionMicrocode1.TabIndex = 0;
-            // 
             // userControlInstructionList1
             // 
             this.userControlInstructionList1.BackColor = System.Drawing.Color.White;
@@ -666,52 +703,15 @@ namespace MaszynaPi {
             this.userControlInstructionList1.TabIndex = 0;
             this.userControlInstructionList1.WordWrap = false;
             // 
-            // MemoryControl
+            // tabPageVariables
             // 
-            this.MemoryControl.BackColor = System.Drawing.Color.White;
-            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.MemoryControl.Location = new System.Drawing.Point(551, 162);
-            this.MemoryControl.Multiline = true;
-            this.MemoryControl.Name = "MemoryControl";
-            this.MemoryControl.ReadOnly = true;
-            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
-            this.MemoryControl.TabIndex = 8;
-            this.MemoryControl.TabStop = false;
-            this.MemoryControl.WordWrap = false;
-            // 
-            // UserControlRegisterS
-            // 
-            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterS.Location = new System.Drawing.Point(551, 393);
-            this.UserControlRegisterS.Name = "UserControlRegisterS";
-            this.UserControlRegisterS.ReadOnly = true;
-            this.UserControlRegisterS.RegisterName = "S";
-            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterS.TabIndex = 4;
-            this.UserControlRegisterS.TabStop = false;
-            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterA
-            // 
-            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterA.CausesValidation = false;
-            this.UserControlRegisterA.Location = new System.Drawing.Point(551, 136);
-            this.UserControlRegisterA.Name = "UserControlRegisterA";
-            this.UserControlRegisterA.ReadOnly = true;
-            this.UserControlRegisterA.RegisterName = "A";
-            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterA.TabIndex = 2;
-            this.UserControlRegisterA.TabStop = false;
-            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlCharacterInput
-            // 
-            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
-            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
-            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
-            this.UserControlCharacterInput.TabIndex = 0;
-            this.UserControlCharacterInput.TabStop = false;
+            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
+            this.tabPageVariables.Name = "tabPageVariables";
+            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVariables.Size = new System.Drawing.Size(656, 464);
+            this.tabPageVariables.TabIndex = 2;
+            this.tabPageVariables.Text = "Zmienne";
             // 
             // Form1
             // 
@@ -743,9 +743,9 @@ namespace MaszynaPi {
             this.tabControlEditors.ResumeLayout(false);
             this.tabPageCodeEditor.ResumeLayout(false);
             this.tabPageCodeEditor.PerformLayout();
+            this.CodeEditorContextMenu.ResumeLayout(false);
             this.unixCodeEditorMenuStrip.ResumeLayout(false);
             this.unixCodeEditorMenuStrip.PerformLayout();
-            this.CodeEditorContextMenu.ResumeLayout(false);
             this.tabPageInstructionList.ResumeLayout(false);
             this.panelInstructionsMicrocode.ResumeLayout(false);
             this.panelInstructionsMicrocode.PerformLayout();
