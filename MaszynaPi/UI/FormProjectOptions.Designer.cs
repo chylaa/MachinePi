@@ -35,26 +35,26 @@ namespace MaszynaPi {
             this.labelAdrBits = new System.Windows.Forms.Label();
             this.tabPageComponents = new System.Windows.Forms.TabPage();
             this.groupBoxComponents = new System.Windows.Forms.GroupBox();
-            this.componentsCheckBoxBusConnection = new MaszynaPi.ComponentsCheckBox();
             this.groupBoxArchitectureType = new System.Windows.Forms.GroupBox();
+            this.tabPageAdresses = new System.Windows.Forms.TabPage();
+            this.groupBoxIODevices = new System.Windows.Forms.GroupBox();
+            this.groupBoxINTProc = new System.Windows.Forms.GroupBox();
+            this.componentsCheckBoxExtendedIO = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxALUIncDec = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxALULogical = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxALUExtended = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxStack = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxRegisterX = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxRegisterY = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxINT = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxIO = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxBusConnection = new MaszynaPi.ComponentsCheckBox();
             this.architectureRadioButtonL = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonEW = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonPI = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonWp = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonW = new MaszynaPi.ArchitectureRadioButton();
-            this.tabPageAdresses = new System.Windows.Forms.TabPage();
-            this.groupBoxIODevices = new System.Windows.Forms.GroupBox();
-            this.groupBoxINTProc = new System.Windows.Forms.GroupBox();
-            this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxIO = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxINT = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxRegisterY = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxRegisterX = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxStack = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxALUExtended = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxALULogical = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxALUIncDec = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxExtendedIO = new MaszynaPi.ComponentsCheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageArchitecture.SuspendLayout();
             this.groupBoxMachineWord.SuspendLayout();
@@ -194,16 +194,6 @@ namespace MaszynaPi {
             this.groupBoxComponents.TabIndex = 1;
             this.groupBoxComponents.TabStop = false;
             // 
-            // componentsCheckBoxBusConnection
-            // 
-            this.componentsCheckBoxBusConnection.AutoSize = true;
-            this.componentsCheckBoxBusConnection.Location = new System.Drawing.Point(25, 27);
-            this.componentsCheckBoxBusConnection.Name = "componentsCheckBoxBusConnection";
-            this.componentsCheckBoxBusConnection.Size = new System.Drawing.Size(176, 17);
-            this.componentsCheckBoxBusConnection.TabIndex = 11;
-            this.componentsCheckBoxBusConnection.Text = "Połączenie międzymagistralowe";
-            this.componentsCheckBoxBusConnection.UseVisualStyleBackColor = true;
-            // 
             // groupBoxArchitectureType
             // 
             this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonL);
@@ -217,6 +207,146 @@ namespace MaszynaPi {
             this.groupBoxArchitectureType.TabIndex = 0;
             this.groupBoxArchitectureType.TabStop = false;
             this.groupBoxArchitectureType.Text = "Type";
+            // 
+            // tabPageAdresses
+            // 
+            this.tabPageAdresses.Controls.Add(this.groupBoxIODevices);
+            this.tabPageAdresses.Controls.Add(this.groupBoxINTProc);
+            this.tabPageAdresses.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAdresses.Name = "tabPageAdresses";
+            this.tabPageAdresses.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAdresses.Size = new System.Drawing.Size(498, 343);
+            this.tabPageAdresses.TabIndex = 2;
+            this.tabPageAdresses.Text = "Adresy";
+            this.tabPageAdresses.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxIODevices
+            // 
+            this.groupBoxIODevices.Location = new System.Drawing.Point(14, 175);
+            this.groupBoxIODevices.Name = "groupBoxIODevices";
+            this.groupBoxIODevices.Size = new System.Drawing.Size(465, 154);
+            this.groupBoxIODevices.TabIndex = 1;
+            this.groupBoxIODevices.TabStop = false;
+            this.groupBoxIODevices.Text = "Urządzenia We/Wy";
+            // 
+            // groupBoxINTProc
+            // 
+            this.groupBoxINTProc.Location = new System.Drawing.Point(16, 12);
+            this.groupBoxINTProc.Name = "groupBoxINTProc";
+            this.groupBoxINTProc.Size = new System.Drawing.Size(463, 144);
+            this.groupBoxINTProc.TabIndex = 0;
+            this.groupBoxINTProc.TabStop = false;
+            this.groupBoxINTProc.Text = "Procedury obsługi przerwań";
+            // 
+            // componentsCheckBoxExtendedIO
+            // 
+            this.componentsCheckBoxExtendedIO.AutoSize = true;
+            this.componentsCheckBoxExtendedIO.Location = new System.Drawing.Point(127, 152);
+            this.componentsCheckBoxExtendedIO.Name = "componentsCheckBoxExtendedIO";
+            this.componentsCheckBoxExtendedIO.Size = new System.Drawing.Size(212, 17);
+            this.componentsCheckBoxExtendedIO.TabIndex = 21;
+            this.componentsCheckBoxExtendedIO.Text = "Dodatkowe urządzenia wejścia/wyjścia";
+            this.componentsCheckBoxExtendedIO.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxALUIncDec
+            // 
+            this.componentsCheckBoxALUIncDec.AutoSize = true;
+            this.componentsCheckBoxALUIncDec.Location = new System.Drawing.Point(25, 50);
+            this.componentsCheckBoxALUIncDec.Name = "componentsCheckBoxALUIncDec";
+            this.componentsCheckBoxALUIncDec.Size = new System.Drawing.Size(232, 17);
+            this.componentsCheckBoxALUIncDec.TabIndex = 20;
+            this.componentsCheckBoxALUIncDec.Text = "Inkrementacja i dekrementacja akumulatora";
+            this.componentsCheckBoxALUIncDec.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxALULogical
+            // 
+            this.componentsCheckBoxALULogical.AutoSize = true;
+            this.componentsCheckBoxALULogical.Location = new System.Drawing.Point(25, 73);
+            this.componentsCheckBoxALULogical.Name = "componentsCheckBoxALULogical";
+            this.componentsCheckBoxALULogical.Size = new System.Drawing.Size(143, 17);
+            this.componentsCheckBoxALULogical.TabIndex = 19;
+            this.componentsCheckBoxALULogical.Text = "Operacje logiczne w JAL";
+            this.componentsCheckBoxALULogical.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxALUExtended
+            // 
+            this.componentsCheckBoxALUExtended.AutoSize = true;
+            this.componentsCheckBoxALUExtended.Location = new System.Drawing.Point(25, 96);
+            this.componentsCheckBoxALUExtended.Name = "componentsCheckBoxALUExtended";
+            this.componentsCheckBoxALUExtended.Size = new System.Drawing.Size(220, 17);
+            this.componentsCheckBoxALUExtended.TabIndex = 18;
+            this.componentsCheckBoxALUExtended.Text = "Rozszerzone operacje arytmetczne wJAL";
+            this.componentsCheckBoxALUExtended.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxStack
+            // 
+            this.componentsCheckBoxStack.AutoSize = true;
+            this.componentsCheckBoxStack.Location = new System.Drawing.Point(25, 119);
+            this.componentsCheckBoxStack.Name = "componentsCheckBoxStack";
+            this.componentsCheckBoxStack.Size = new System.Drawing.Size(95, 17);
+            this.componentsCheckBoxStack.TabIndex = 17;
+            this.componentsCheckBoxStack.Text = "Obsługa stosu";
+            this.componentsCheckBoxStack.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxRegisterX
+            // 
+            this.componentsCheckBoxRegisterX.AutoSize = true;
+            this.componentsCheckBoxRegisterX.Location = new System.Drawing.Point(329, 27);
+            this.componentsCheckBoxRegisterX.Name = "componentsCheckBoxRegisterX";
+            this.componentsCheckBoxRegisterX.Size = new System.Drawing.Size(69, 17);
+            this.componentsCheckBoxRegisterX.TabIndex = 16;
+            this.componentsCheckBoxRegisterX.Text = "Rejestr X";
+            this.componentsCheckBoxRegisterX.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxRegisterY
+            // 
+            this.componentsCheckBoxRegisterY.AutoSize = true;
+            this.componentsCheckBoxRegisterY.Location = new System.Drawing.Point(329, 50);
+            this.componentsCheckBoxRegisterY.Name = "componentsCheckBoxRegisterY";
+            this.componentsCheckBoxRegisterY.Size = new System.Drawing.Size(69, 17);
+            this.componentsCheckBoxRegisterY.TabIndex = 15;
+            this.componentsCheckBoxRegisterY.Text = "Rejestr Y";
+            this.componentsCheckBoxRegisterY.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxINT
+            // 
+            this.componentsCheckBoxINT.AutoSize = true;
+            this.componentsCheckBoxINT.Location = new System.Drawing.Point(329, 73);
+            this.componentsCheckBoxINT.Name = "componentsCheckBoxINT";
+            this.componentsCheckBoxINT.Size = new System.Drawing.Size(78, 17);
+            this.componentsCheckBoxINT.TabIndex = 14;
+            this.componentsCheckBoxINT.Text = "Przerwania";
+            this.componentsCheckBoxINT.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxIO
+            // 
+            this.componentsCheckBoxIO.AutoSize = true;
+            this.componentsCheckBoxIO.Location = new System.Drawing.Point(329, 96);
+            this.componentsCheckBoxIO.Name = "componentsCheckBoxIO";
+            this.componentsCheckBoxIO.Size = new System.Drawing.Size(106, 17);
+            this.componentsCheckBoxIO.TabIndex = 13;
+            this.componentsCheckBoxIO.Text = "Wejście/Wyjście";
+            this.componentsCheckBoxIO.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxExtendedFlags
+            // 
+            this.componentsCheckBoxExtendedFlags.AutoSize = true;
+            this.componentsCheckBoxExtendedFlags.Location = new System.Drawing.Point(329, 119);
+            this.componentsCheckBoxExtendedFlags.Name = "componentsCheckBoxExtendedFlags";
+            this.componentsCheckBoxExtendedFlags.Size = new System.Drawing.Size(128, 17);
+            this.componentsCheckBoxExtendedFlags.TabIndex = 12;
+            this.componentsCheckBoxExtendedFlags.Text = "Dodatkowe znaczniki";
+            this.componentsCheckBoxExtendedFlags.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxBusConnection
+            // 
+            this.componentsCheckBoxBusConnection.AutoSize = true;
+            this.componentsCheckBoxBusConnection.Location = new System.Drawing.Point(25, 27);
+            this.componentsCheckBoxBusConnection.Name = "componentsCheckBoxBusConnection";
+            this.componentsCheckBoxBusConnection.Size = new System.Drawing.Size(176, 17);
+            this.componentsCheckBoxBusConnection.TabIndex = 11;
+            this.componentsCheckBoxBusConnection.Text = "Połączenie międzymagistralowe";
+            this.componentsCheckBoxBusConnection.UseVisualStyleBackColor = true;
             // 
             // architectureRadioButtonL
             // 
@@ -272,136 +402,6 @@ namespace MaszynaPi {
             this.architectureRadioButtonW.TabStop = true;
             this.architectureRadioButtonW.Text = "W";
             this.architectureRadioButtonW.UseVisualStyleBackColor = true;
-            // 
-            // tabPageAdresses
-            // 
-            this.tabPageAdresses.Controls.Add(this.groupBoxIODevices);
-            this.tabPageAdresses.Controls.Add(this.groupBoxINTProc);
-            this.tabPageAdresses.Location = new System.Drawing.Point(4, 22);
-            this.tabPageAdresses.Name = "tabPageAdresses";
-            this.tabPageAdresses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAdresses.Size = new System.Drawing.Size(498, 343);
-            this.tabPageAdresses.TabIndex = 2;
-            this.tabPageAdresses.Text = "Adresy";
-            this.tabPageAdresses.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxIODevices
-            // 
-            this.groupBoxIODevices.Location = new System.Drawing.Point(14, 175);
-            this.groupBoxIODevices.Name = "groupBoxIODevices";
-            this.groupBoxIODevices.Size = new System.Drawing.Size(465, 154);
-            this.groupBoxIODevices.TabIndex = 1;
-            this.groupBoxIODevices.TabStop = false;
-            this.groupBoxIODevices.Text = "Urządzenia We/Wy";
-            // 
-            // groupBoxINTProc
-            // 
-            this.groupBoxINTProc.Location = new System.Drawing.Point(16, 12);
-            this.groupBoxINTProc.Name = "groupBoxINTProc";
-            this.groupBoxINTProc.Size = new System.Drawing.Size(463, 144);
-            this.groupBoxINTProc.TabIndex = 0;
-            this.groupBoxINTProc.TabStop = false;
-            this.groupBoxINTProc.Text = "Procedury obsługi przerwań";
-            // 
-            // componentsCheckBoxExtendedFlags
-            // 
-            this.componentsCheckBoxExtendedFlags.AutoSize = true;
-            this.componentsCheckBoxExtendedFlags.Location = new System.Drawing.Point(329, 119);
-            this.componentsCheckBoxExtendedFlags.Name = "componentsCheckBoxExtendedFlags";
-            this.componentsCheckBoxExtendedFlags.Size = new System.Drawing.Size(128, 17);
-            this.componentsCheckBoxExtendedFlags.TabIndex = 12;
-            this.componentsCheckBoxExtendedFlags.Text = "Dodatkowe znaczniki";
-            this.componentsCheckBoxExtendedFlags.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxIO
-            // 
-            this.componentsCheckBoxIO.AutoSize = true;
-            this.componentsCheckBoxIO.Location = new System.Drawing.Point(329, 96);
-            this.componentsCheckBoxIO.Name = "componentsCheckBoxIO";
-            this.componentsCheckBoxIO.Size = new System.Drawing.Size(106, 17);
-            this.componentsCheckBoxIO.TabIndex = 13;
-            this.componentsCheckBoxIO.Text = "Wejście/Wyjście";
-            this.componentsCheckBoxIO.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxINT
-            // 
-            this.componentsCheckBoxINT.AutoSize = true;
-            this.componentsCheckBoxINT.Location = new System.Drawing.Point(329, 73);
-            this.componentsCheckBoxINT.Name = "componentsCheckBoxINT";
-            this.componentsCheckBoxINT.Size = new System.Drawing.Size(78, 17);
-            this.componentsCheckBoxINT.TabIndex = 14;
-            this.componentsCheckBoxINT.Text = "Przerwania";
-            this.componentsCheckBoxINT.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxRegisterY
-            // 
-            this.componentsCheckBoxRegisterY.AutoSize = true;
-            this.componentsCheckBoxRegisterY.Location = new System.Drawing.Point(329, 50);
-            this.componentsCheckBoxRegisterY.Name = "componentsCheckBoxRegisterY";
-            this.componentsCheckBoxRegisterY.Size = new System.Drawing.Size(69, 17);
-            this.componentsCheckBoxRegisterY.TabIndex = 15;
-            this.componentsCheckBoxRegisterY.Text = "Rejestr Y";
-            this.componentsCheckBoxRegisterY.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxRegisterX
-            // 
-            this.componentsCheckBoxRegisterX.AutoSize = true;
-            this.componentsCheckBoxRegisterX.Location = new System.Drawing.Point(329, 27);
-            this.componentsCheckBoxRegisterX.Name = "componentsCheckBoxRegisterX";
-            this.componentsCheckBoxRegisterX.Size = new System.Drawing.Size(69, 17);
-            this.componentsCheckBoxRegisterX.TabIndex = 16;
-            this.componentsCheckBoxRegisterX.Text = "Rejestr X";
-            this.componentsCheckBoxRegisterX.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxStack
-            // 
-            this.componentsCheckBoxStack.AutoSize = true;
-            this.componentsCheckBoxStack.Location = new System.Drawing.Point(25, 119);
-            this.componentsCheckBoxStack.Name = "componentsCheckBoxStack";
-            this.componentsCheckBoxStack.Size = new System.Drawing.Size(95, 17);
-            this.componentsCheckBoxStack.TabIndex = 17;
-            this.componentsCheckBoxStack.Text = "Obsługa stosu";
-            this.componentsCheckBoxStack.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxALUExtended
-            // 
-            this.componentsCheckBoxALUExtended.AutoSize = true;
-            this.componentsCheckBoxALUExtended.Location = new System.Drawing.Point(25, 96);
-            this.componentsCheckBoxALUExtended.Name = "componentsCheckBoxALUExtended";
-            this.componentsCheckBoxALUExtended.Size = new System.Drawing.Size(220, 17);
-            this.componentsCheckBoxALUExtended.TabIndex = 18;
-            this.componentsCheckBoxALUExtended.Text = "Rozszerzone operacje arytmetczne wJAL";
-            this.componentsCheckBoxALUExtended.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxALULogical
-            // 
-            this.componentsCheckBoxALULogical.AutoSize = true;
-            this.componentsCheckBoxALULogical.Location = new System.Drawing.Point(25, 73);
-            this.componentsCheckBoxALULogical.Name = "componentsCheckBoxALULogical";
-            this.componentsCheckBoxALULogical.Size = new System.Drawing.Size(143, 17);
-            this.componentsCheckBoxALULogical.TabIndex = 19;
-            this.componentsCheckBoxALULogical.Text = "Operacje logiczne w JAL";
-            this.componentsCheckBoxALULogical.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxALUIncDec
-            // 
-            this.componentsCheckBoxALUIncDec.AutoSize = true;
-            this.componentsCheckBoxALUIncDec.Location = new System.Drawing.Point(25, 50);
-            this.componentsCheckBoxALUIncDec.Name = "componentsCheckBoxALUIncDec";
-            this.componentsCheckBoxALUIncDec.Size = new System.Drawing.Size(232, 17);
-            this.componentsCheckBoxALUIncDec.TabIndex = 20;
-            this.componentsCheckBoxALUIncDec.Text = "Inkrementacja i dekrementacja akumulatora";
-            this.componentsCheckBoxALUIncDec.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxExtendedIO
-            // 
-            this.componentsCheckBoxExtendedIO.AutoSize = true;
-            this.componentsCheckBoxExtendedIO.Location = new System.Drawing.Point(127, 152);
-            this.componentsCheckBoxExtendedIO.Name = "componentsCheckBoxExtendedIO";
-            this.componentsCheckBoxExtendedIO.Size = new System.Drawing.Size(212, 17);
-            this.componentsCheckBoxExtendedIO.TabIndex = 21;
-            this.componentsCheckBoxExtendedIO.Text = "Dodatkowe urządzenia wejścia/wyjścia";
-            this.componentsCheckBoxExtendedIO.UseVisualStyleBackColor = true;
             // 
             // FormProjectOptions
             // 

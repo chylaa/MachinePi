@@ -101,7 +101,7 @@ namespace MaszynaPi.MachineAssembler {
             options.Remove(ADDRESS_SPACE_HEADER+addrSpace.ToString()); 
             options.Remove(CODE_BITS_HEADER + codeBits.ToString());
             //--------------------------------------------------------------------------------------------------------------
-            int componetsSet = 0;
+            int componetsSet = (int)Defines.Components.Basic;
             for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= (1<<i+(int)Defines.Components.Basic); }
             ArchitectureSettings.SetActiveComponents((Defines.Components)componetsSet);
         }

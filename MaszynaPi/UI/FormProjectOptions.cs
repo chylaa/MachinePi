@@ -4,8 +4,12 @@ using System.Windows.Forms;
 
 namespace MaszynaPi {
     public partial class FormProjectOptions : Form {
+        private bool BLOCK_RADIOBTN_UPDATE = false;
+        private bool BLOCK_CHECKBOX_UPDATE = false;
 
         private uint OldAddressSpace;
+        private Defines.Components SelectedComponents;
+        private Defines.Architectures SelectedArchitecture;
 
         public FormProjectOptions() {
             InitializeComponent();
@@ -21,24 +25,51 @@ namespace MaszynaPi {
             InitializeChecksArchitectures();
             InitializeChecksComponents();
 
-            Defines.Components activeComponents = ArchitectureSettings.GetActiveComponents();
-            Defines.Architectures currentArchitecture = ArchitectureSettings.GetArchitecture();
+            SelectedComponents = ArchitectureSettings.GetActiveComponents();
+            SelectedArchitecture = ArchitectureSettings.GetArchitecture();
 
-            foreach (object checkBox in groupBoxComponents.Controls) {
-                if (typeof(ComponentsCheckBox) == checkBox.GetType())
-                    if (activeComponents.HasFlag((checkBox as ComponentsCheckBox).Component))
-                        (checkBox as ComponentsCheckBox).Checked = true;
-            }
+            UpdateComponentsCheckBoxes();
+            UpdateArchitecureTypeRadioButtons();
+           
+        }
 
+        private void UpdateArchitecureTypeRadioButtons() {
             foreach (object radioButton in groupBoxArchitectureType.Controls) {
-                if (typeof(ArchitectureRadioButton) == radioButton.GetType())
-                    if ((int)activeComponents == (int)(radioButton as ArchitectureRadioButton).Architecture)
+                if (typeof(ArchitectureRadioButton) == radioButton.GetType()) {
+                    (radioButton as ArchitectureRadioButton).Checked = false;
+                    if ((int)SelectedComponents == (int)(radioButton as ArchitectureRadioButton).Architecture)
                         (radioButton as ArchitectureRadioButton).Checked = true; //set Architecture radio button only if  coressponding componens set
+                }
             }
+        }
+
+        private void UpdateComponentsCheckBoxes() {
+            foreach (object checkBox in groupBoxComponents.Controls) {
+                if (typeof(ComponentsCheckBox) == checkBox.GetType()) {
+                    (checkBox as ComponentsCheckBox).Checked = false;
+                    if (SelectedComponents.HasFlag((checkBox as ComponentsCheckBox).Component))
+                        (checkBox as ComponentsCheckBox).Checked = true;
+                }
+            }
+        }
+
+        private void UpdateComponentsOnArchitectureChanged(object sender, EventArgs e) {
+            if (BLOCK_CHECKBOX_UPDATE) return;
+            SelectedArchitecture = (sender as ArchitectureRadioButton).Architecture;
+            SelectedComponents = (Defines.Components)SelectedArchitecture;
             
+            BLOCK_RADIOBTN_UPDATE = true;
+            UpdateComponentsCheckBoxes();
+            BLOCK_RADIOBTN_UPDATE = false;
+        }
 
+        private void UpdateArchitectureOnComponentChanged(object sender, EventArgs e) {
+            if (BLOCK_RADIOBTN_UPDATE) return;
+            SetComponents();
 
-
+            BLOCK_CHECKBOX_UPDATE = true;
+            UpdateArchitecureTypeRadioButtons();
+            BLOCK_CHECKBOX_UPDATE = false;
         }
 
         public uint GetOldAddressSpace() { return OldAddressSpace; }
@@ -49,23 +80,23 @@ namespace MaszynaPi {
         }
 
         private void SetComponents() {
-            Defines.Components activatedComponents = 0;
+            SelectedComponents = Defines.Components.Basic;
             foreach(object checkBox in groupBoxComponents.Controls) {
                 if (typeof(ComponentsCheckBox) == checkBox.GetType())
                     if((checkBox as ComponentsCheckBox).Checked)
-                        activatedComponents |= (checkBox as ComponentsCheckBox).Component;
+                        SelectedComponents |= (checkBox as ComponentsCheckBox).Component;
             }
-            ArchitectureSettings.SetActiveComponents(activatedComponents);
+            ArchitectureSettings.SetActiveComponents(SelectedComponents);
         }
 
         private void SetArchitectures() {
-            Defines.Architectures activatedArchitecture = 0;
+            SelectedArchitecture = 0;
             foreach (object radioButton in groupBoxArchitectureType.Controls) {
                 if (typeof(ArchitectureRadioButton) == radioButton.GetType())
                     if ((radioButton as ArchitectureRadioButton).Checked)
-                        activatedArchitecture |= (radioButton as ArchitectureRadioButton).Architecture;
+                        SelectedArchitecture |= (radioButton as ArchitectureRadioButton).Architecture;
             }
-            ArchitectureSettings.SetArchitecture(activatedArchitecture);
+            ArchitectureSettings.SetArchitecture(SelectedArchitecture);
         }
 
 
@@ -84,6 +115,11 @@ namespace MaszynaPi {
             componentsCheckBoxExtendedFlags.Component = Defines.Components.Flags;
             componentsCheckBoxExtendedIO.Component = Defines.Components.ExtendedIO;
 
+            foreach (object checkBox in groupBoxComponents.Controls) {
+                if (typeof(ComponentsCheckBox) == checkBox.GetType())
+                    (checkBox as ComponentsCheckBox).CheckedChanged += UpdateArchitectureOnComponentChanged;
+            }
+
         }
         private void InitializeChecksArchitectures() {
             architectureRadioButtonW.Architecture = Defines.Architectures.MachineW;
@@ -91,7 +127,15 @@ namespace MaszynaPi {
             architectureRadioButtonL.Architecture = Defines.Architectures.MachineL;
             architectureRadioButtonEW.Architecture = Defines.Architectures.MachineEW;
             architectureRadioButtonPI.Architecture = Defines.Architectures.MachinePI;
+
+            foreach (object radioButton in groupBoxArchitectureType.Controls) {
+                if (typeof(ArchitectureRadioButton) == radioButton.GetType())
+                    (radioButton as ArchitectureRadioButton).CheckedChanged += UpdateComponentsOnArchitectureChanged;
+            }
         }
+
+
+
 
         private void buttonOK_Click(object sender, EventArgs e) {
             SetArchitectureSettings();
