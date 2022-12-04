@@ -11,14 +11,18 @@ namespace MaszynaPi.MachineAssembler {
         // Dictionary of pairs memory_address - number of code line in editor 
         static Dictionary<uint, int> MemoryLineNumberMap = new Dictionary<uint, int>();
         List<string> CodeLinesHandle;
+        List<string> InstructionLinesHandle;
 
         public Debugger() {
         }
 
-        static public void ClearMemoryEditorMap() { MemoryLineNumberMap.Clear(); }
+        void ClearMemoryEditorMap() { MemoryLineNumberMap.Clear(); }
 
         public void SetCodeEditorHandle(List<string> handle) {
             CodeLinesHandle = handle;
+        }
+        public void SetInstructionListHandle(List<string> handle) {
+            InstructionLinesHandle = handle;
         }
 
         string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLinesHandle); }
@@ -49,6 +53,7 @@ namespace MaszynaPi.MachineAssembler {
 
         // To be called after compilation
         public void FillMemoryLineNumberMap() {
+            ClearMemoryEditorMap();
             foreach(var pair in Compiler.GetMemoryEditorMap())
                 MemoryLineNumberMap.Add(pair.Key, FindLineNumber(pair.Key, pair.Value));
         }
@@ -67,7 +72,8 @@ namespace MaszynaPi.MachineAssembler {
         }
         
         
-        public Action<int, int> OnSetExecutedLine;
+        public Action<int, string> OnSetExecutedLine;
+        public Action<uint, List<string>> OnSetExecutedMicroinstructions;
 
         public void SetExecutedLine(uint memAddress) {
             if (MemoryLineNumberMap.Count == 0) return;
@@ -75,13 +81,17 @@ namespace MaszynaPi.MachineAssembler {
             if (MemoryLineNumberMap[memAddress] == -1) return;
 
             int position = GetFirstCharIndexFromLine(MemoryLineNumberMap[memAddress]);
-            int lineEnd = CodeLinesToString().IndexOf(Environment.NewLine, position);
-            if (lineEnd < 0) lineEnd = GetCodeLength();
+            //int lineEnd = CodeLinesToString().IndexOf(Environment.NewLine, position);
+            //if (lineEnd < 0) lineEnd = GetCodeLength();
             if (position < 0) return;
 
-            OnSetExecutedLine(position, lineEnd);
+            OnSetExecutedLine(position, Compiler.GetMemoryEditorMap()[memAddress]);
         }
 
+
+        public void SetExecutedMicronstructions(uint opcode, List<string> activeSignals) {
+            OnSetExecutedMicroinstructions(opcode, activeSignals);
+        }
 
     }
 }

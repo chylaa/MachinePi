@@ -122,7 +122,7 @@ namespace MaszynaPi.MachineAssembler {
             ProgramNumeric.Clear();
             RemoveLabels(codeLines);
 
-            Debugger.ClearMemoryEditorMap();
+            MemoryEditorMap.Clear();
             uint memAddress = 0;
 
             foreach (string line in codeLines) {

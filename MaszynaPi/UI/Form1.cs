@@ -46,9 +46,11 @@ namespace MaszynaPi {
             
             Debugger.SetCodeEditorHandle(codeEditor.GetCodeLinesHandle());
             Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
+            Debugger.OnSetExecutedMicroinstructions += userControlInstructionList1.SelectCurrentAciveInstruction;
 
             Machine.OnRefreshValues += RefreshMicrocontrolerControls; //Set method for refreshing components values on each tick
             Machine.OnSetExecutedLine += Debugger.SetExecutedLine;
+            Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
 
             // UI
@@ -230,6 +232,7 @@ namespace MaszynaPi {
         // Non Machine-Related Interface Behaviour Methods
 
         private void tabControlEditorsPanel_SelectedIndexChanged(object sender, EventArgs e) {
+            UserControlCodeEditor.ClearSelected();
             RefreshTabPanelControls();
         }
     }

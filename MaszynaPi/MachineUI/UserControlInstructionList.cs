@@ -70,6 +70,14 @@ namespace MaszynaPi.MachineUI {
             microcodeViewHandle.DisplaySelectedInstructionMicrocode(SelectedInstructionName);
 
         }
+        //For Debugger
+        public void SelectCurrentAciveInstruction(uint opcode, List<string> active) {
+            SetSelectedInstructionName((int)opcode);
+            DisplayAvaibleInstructionsList((int)opcode);
+            microcodeViewHandle.DisplaySelectedInstructionMicrocode(SelectedInstructionName);
+            Refresh();
+            microcodeViewHandle.SelectActiveMicroinstructions(active);
+        }
 
         public override void Refresh() {
             try {

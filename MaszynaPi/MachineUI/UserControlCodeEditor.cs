@@ -11,6 +11,10 @@ using MaszynaPi.MachineAssembler;
 
 namespace MaszynaPi.MachineUI {
     public partial class UserControlCodeEditor : TextBox {
+        const string SELECT_LEFT = "< ";
+        const string SELECT_RIGHT = " >";
+
+        bool BLOCK_ACTUALIZE = false;
 
         List<string> CodeLines;
 
@@ -22,12 +26,13 @@ namespace MaszynaPi.MachineUI {
         }
 
         void CodeLinesChanged(object sender, EventArgs e) {
-            ActualizeCodeLines();
+            if(BLOCK_ACTUALIZE==false) ActualizeCodeLines();
         }
 
         void ActualizeCodeLines() {
             CodeLines.Clear();
             CodeLines.AddRange(Text.Split(Environment.NewLine.ToCharArray()).ToList());
+            ClearSelected();
         }
 
         public void SetCodeLinesHandle(List<string> editorHandle) {
@@ -38,9 +43,31 @@ namespace MaszynaPi.MachineUI {
             Text = content;
         }
 
-        public void SetExecutedLine(int position, int lineEnd) {
-            Select(position, lineEnd - position);
+        public void ClearSelected() {
+            Text=Text.Replace(SELECT_LEFT, "");
+            Text=Text.Replace(SELECT_RIGHT, "");
+            //SelectionLength = 0;
+        }
+
+        public void SelectText( int pos = -1, string text="") {
+            if (pos >= 0) {
+                //Select(pos, text.Length);
+                var Begining = Text.Substring(0, pos);
+                var Selected = Text.Substring(pos).Replace(text, SELECT_LEFT + text + SELECT_RIGHT);
+                Text = Begining + Selected;
+            } else {
+                ClearSelected();
+            }
+
+        }
+
+        public void SetExecutedLine(int position, string line) {
+            BLOCK_ACTUALIZE = true;
+            ClearSelected();
+            SelectText(position, line);
+            Refresh();
             Focus();
+            BLOCK_ACTUALIZE = false;
         }
     }
 }

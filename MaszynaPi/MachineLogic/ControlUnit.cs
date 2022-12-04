@@ -22,6 +22,7 @@ namespace MaszynaPi.MachineLogic {
      The Instruction decoder is often considered to be a part of the Control Unit.
     */
     public class ControlUnit {
+        const int INSTRUCTION_FETCH_ORDER = 0; // In which Tick number in single instruction, Instruction Fetch must be performed
 
         // Always initialized when creating CentralUnit child class
         Dictionary<string, Action> SignalsMap;
@@ -33,7 +34,7 @@ namespace MaszynaPi.MachineLogic {
         Dictionary<uint,IODevice> IODevices; // Maybe in InstructionDecoder?
         int ActiveIODevice = -1;
 
-
+        private int LastTick = -1;
         // Others internal Components
         private InstructionDecoder RzKDecoder;
         // Components visible in architecture view
@@ -85,6 +86,7 @@ namespace MaszynaPi.MachineLogic {
             // Architecture EW
             RB = new Register(Mword); // In orginal machine size=Defines.RB_REG_BIT_SIZE (Only ASCII - 8bit)
             G = new Register(Defines.G_REG_BIT_SIZE);
+
             RZ = new Register(Defines.INTERRUPTIONS_NUM);
             RM = new Register(Defines.INTERRUPTIONS_NUM);
             RP = new Register(Defines.INTERRUPTIONS_NUM);
@@ -174,13 +176,17 @@ namespace MaszynaPi.MachineLogic {
 
         public Action OnRefreshValues;
         public Action<uint> OnSetExecutedLine;
+        public Action<uint, List<string>> OnSetExecutedMicroinstruction;
         public Action OnProgramEnd;
         public void RefreshValues() {
             OnRefreshValues();
         }
         public void SetExecutedLineInEditor(uint instructionMemAddress) {
             OnSetExecutedLine(instructionMemAddress);
-        } 
+        }
+        public void SetExecutedMicroinstructions() {
+            OnSetExecutedMicroinstruction(I.GetOpcode(), ActiveSignals);
+        }
         public void ProgramEnd() {
             if (I.GetOpcode() == 0)
                 OnProgramEnd();
@@ -189,41 +195,58 @@ namespace MaszynaPi.MachineLogic {
         // ========================= <  Machine Cycle > =================================== //
         void FetchInstruction() {
             ActiveSignals = new List<string> { "czyt", "wys", "wei", "il" };
-            ExecuteTick();
         }
 
         // Returns false if the instruction completion signal is hit (STATEMENT_END)
-        bool ExecuteTick() {
+ // Parameter "i" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
+        int ExecuteTick(int i=INSTRUCTION_FETCH_ORDER) {
             ////===?| DEBUGGING
-            //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet(), AK.GetValue());
+            //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet()); /// AK.GetValue()
             //Logger.Logger.Div(NL: true);
             //Logger.Logger.LogInfo(msg:state,NL:true);
             //Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
             ////===?| DEBUGGING
-            MagA.SetEmpty(); MagS.SetEmpty();
+            int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(I.GetOpcode());
+            if (i > ticksNum) i %= ticksNum; // Protection from manual tick execution
+
+            SetExecutedLineInEditor(L.GetValue() - 1); //select currently executed instruction on code editor (DEBUGGER)
+
+            if (i == INSTRUCTION_FETCH_ORDER) { // Not neccesary if? DecodeActiveSignals will fetch czyt;wys;wei;il whatsoever (param i)?
+                FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method
+            } else {
+                i = RzKDecoder.GetJumpIndex(tick: i);
+                ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
+            }
+            
+
             // [ TODO: Check if there is value to be stored in RB register from any IO device ]
             foreach (string signal in ActiveSignals) {
-                if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return false;
+                if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return -1;
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
                     SignalsMap[signal]();
             }
+            MagA.SetEmpty(); MagS.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
+            
             RefreshValues();
-            return true;
+            SetExecutedMicroinstructions();
+            return i;
         }
 
-        void ExecuteInstructionCycle() {
-            const int INSTRUCTION_LD_SKIP = 1; // skipping czt,wys,wei,il because it is forced by LoadInstrucion() method on begining of each cycle
+        //TODO: Add parameter that specifies if last tick was forced by user and substract LastTick from ticksNum
+        void ExecuteInstructionCycle(bool wasForcedTick=false) {
             
             FetchInstruction();
-            SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor
-            
+            ExecuteTick();
+
             uint opcode = I.GetOpcode();
             int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(opcode);
+
+            if (wasForcedTick && LastTick>0) ticksNum = ticksNum - LastTick;
             // here if instruction microdoce is broken, machine can enter infinite loop -> can add "watchdog" that stops programm after X non-break iterations
-            for (int i = INSTRUCTION_LD_SKIP; i < ticksNum; i++) {
-                i = RzKDecoder.GetJumpIndex(tick:i);
-                ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode:I.GetOpcode(), tick:i);
-                if (!ExecuteTick()) break;
+            for (int i = INSTRUCTION_FETCH_ORDER+1; i < ticksNum; i++) {
+                i = ExecuteTick(i);
+                LastTick = i;
+                if (i<0) break;
             }
         }
         //========================================
@@ -256,8 +279,8 @@ namespace MaszynaPi.MachineLogic {
         public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }
         public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
 
-        public void ManualTick() { ExecuteTick(); ProgramEnd(); }
-        public void ManualInstruction() { ExecuteInstructionCycle(); ProgramEnd(); } // Not avaible if ManualControl signal active
+        //public void ManualTick() { ExecuteTick(); ProgramEnd(); } // TODO: Change to work  with parameter 
+        public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: true); ProgramEnd(); } // Not avaible if ManualControl signal active
         public void ManualProgram() {ExecuteProgram(); ProgramEnd(); } // Not avaible if ManualControl signal active
 
         public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }

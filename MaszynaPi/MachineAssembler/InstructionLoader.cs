@@ -29,6 +29,7 @@ namespace MaszynaPi.MachineAssembler {
         const string INSTRUCTION_LINES_HEADER = "linie=";
         const string INSTRUCTION_ARGSNUM_HEADER = "argumenty ";
         const string COMMENT = "//";
+        public const string LINE_END = ";";
         
         static int MAX_OPCODE=-1;
 
@@ -201,7 +202,7 @@ namespace MaszynaPi.MachineAssembler {
                 }
                 if (line.IndexOf(LINE_HEADER_SEPARATOR) == line.Length - 1) continue; //empty line
 
-                List<string> signalsInLine = line.Replace(";","").Substring(line.IndexOf(LINE_HEADER_SEPARATOR) +1).Split(' ').ToList();
+                List<string> signalsInLine = line.Replace(LINE_END,"").Substring(line.IndexOf(LINE_HEADER_SEPARATOR) +1).Split(' ').ToList();
 
                 if (IsStatementValid(signalsInLine) == false)
                     throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine) +"\nCheck instruction file encoding (ANSI might not be supported)");
@@ -254,10 +255,10 @@ namespace MaszynaPi.MachineAssembler {
 
             foreach(string line in lines) {
                 if (line.Contains(INSTRUCTION_NAME_HEADER)) {
-                    instructionName = line.Replace(INSTRUCTION_NAME_HEADER, "").TrimEnd(" ;".ToCharArray());
+                    instructionName = line.Replace(INSTRUCTION_NAME_HEADER, "").TrimEnd((" "+LINE_END).ToCharArray());
                 }
                 if (lines[0].Contains(INSTRUCTION_ARGSNUM_HEADER)) {  
-                    noArgumentInstruction = line.Replace(INSTRUCTION_ARGSNUM_HEADER, "").TrimEnd(" ;".ToCharArray()).Equals(NO_ARGUMENT);
+                    noArgumentInstruction = line.Replace(INSTRUCTION_ARGSNUM_HEADER, "").TrimEnd((" " + LINE_END).ToCharArray()).Equals(NO_ARGUMENT);
                 }
                 signals.Add(line.Split(' ').ToList());
             }
