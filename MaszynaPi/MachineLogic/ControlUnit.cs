@@ -211,14 +211,13 @@ namespace MaszynaPi.MachineLogic {
 
             SetExecutedLineInEditor(L.GetValue() - 1); //select currently executed instruction on code editor (DEBUGGER)
 
-            if (i == INSTRUCTION_FETCH_ORDER) { // Not neccesary if? DecodeActiveSignals will fetch czyt;wys;wei;il whatsoever (param i)?
-                FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method
-            } else {
-                i = RzKDecoder.GetJumpIndex(tick: i);
-                ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
-            }
+            //if (i == INSTRUCTION_FETCH_ORDER) { // Not neccesary if? DecodeActiveSignals will fetch czyt;wys;wei;il whatsoever (param i)?
+            //    FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method
+            //} else {
+            i = RzKDecoder.GetJumpIndex(tick: i);
+            ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
+            //}
             
-
             // [ TODO: Check if there is value to be stored in RB register from any IO device ]
             foreach (string signal in ActiveSignals) {
                 if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return -1;
@@ -234,16 +233,18 @@ namespace MaszynaPi.MachineLogic {
 
         //TODO: Add parameter that specifies if last tick was forced by user and substract LastTick from ticksNum
         void ExecuteInstructionCycle(bool wasForcedTick=false) {
-            
+            int uInstructionBlock = INSTRUCTION_FETCH_ORDER;
+
             FetchInstruction();
             ExecuteTick();
+            uInstructionBlock++;
 
             uint opcode = I.GetOpcode();
             int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(opcode);
 
             if (wasForcedTick && LastTick>0) ticksNum = ticksNum - LastTick;
             // here if instruction microdoce is broken, machine can enter infinite loop -> can add "watchdog" that stops programm after X non-break iterations
-            for (int i = INSTRUCTION_FETCH_ORDER+1; i < ticksNum; i++) {
+            for (int i = uInstructionBlock; i < ticksNum; i++) {
                 i = ExecuteTick(i);
                 LastTick = i;
                 if (i<0) break;

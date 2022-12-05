@@ -235,5 +235,6 @@ namespace MaszynaPi {
             UserControlCodeEditor.ClearSelected();
             RefreshTabPanelControls();
         }
+
     }
 }

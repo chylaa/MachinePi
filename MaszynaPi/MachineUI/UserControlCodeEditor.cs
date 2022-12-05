@@ -23,15 +23,23 @@ namespace MaszynaPi.MachineUI {
             ScrollBars = ScrollBars.Both;
             Multiline = true;
             TextChanged += CodeLinesChanged;
+            GotFocus += CodeLinesChanged;
         }
 
         void CodeLinesChanged(object sender, EventArgs e) {
             if(BLOCK_ACTUALIZE==false) ActualizeCodeLines();
         }
 
+        void UpperContent() {
+            int caretPosition = SelectionStart;
+            Text = Text.ToUpper();
+            SelectionStart = caretPosition++;
+        }
+
         void ActualizeCodeLines() {
             CodeLines.Clear();
             CodeLines.AddRange(Text.Split(Environment.NewLine.ToCharArray()).ToList());
+            UpperContent();
             ClearSelected();
         }
 
@@ -46,7 +54,7 @@ namespace MaszynaPi.MachineUI {
         public void ClearSelected() {
             Text=Text.Replace(SELECT_LEFT, "");
             Text=Text.Replace(SELECT_RIGHT, "");
-            //SelectionLength = 0;
+            SelectionLength = 0;
         }
 
         public void SelectText( int pos = -1, string text="") {
@@ -66,7 +74,6 @@ namespace MaszynaPi.MachineUI {
             ClearSelected();
             SelectText(position, line);
             Refresh();
-            Focus();
             BLOCK_ACTUALIZE = false;
         }
     }
