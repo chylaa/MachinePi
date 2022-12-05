@@ -209,7 +209,7 @@ namespace MaszynaPi.MachineLogic {
             int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(I.GetOpcode());
             if (i > ticksNum) i %= ticksNum; // Protection from manual tick execution
 
-            SetExecutedLineInEditor(L.GetValue() - 1); //select currently executed instruction on code editor (DEBUGGER)
+            SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
 
             //if (i == INSTRUCTION_FETCH_ORDER) { // Not neccesary if? DecodeActiveSignals will fetch czyt;wys;wei;il whatsoever (param i)?
             //    FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method

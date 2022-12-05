@@ -44,9 +44,10 @@ namespace MaszynaPi.MachineAssembler {
         }
         // Gets line index of nearest line (forward from 'start' praram) which contains specific string
         public int FindLineNumber(uint start, string content) {
+            content = content.ToLower();
             var codelines = RemoveExcessiveEmptyStrings(CodeLinesHandle);
             for (uint i = start; i < codelines.Count; i++)
-                if (codelines[(int)i].Contains(content))
+                if (codelines[(int)i].ToLower().Contains(content))
                     return (int)i;
             return -1;
         }

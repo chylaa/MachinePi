@@ -30,16 +30,9 @@ namespace MaszynaPi.MachineUI {
             if(BLOCK_ACTUALIZE==false) ActualizeCodeLines();
         }
 
-        void UpperContent() {
-            int caretPosition = SelectionStart;
-            Text = Text.ToUpper();
-            SelectionStart = caretPosition++;
-        }
-
         void ActualizeCodeLines() {
             CodeLines.Clear();
             CodeLines.AddRange(Text.Split(Environment.NewLine.ToCharArray()).ToList());
-            UpperContent();
             ClearSelected();
         }
 
@@ -61,7 +54,13 @@ namespace MaszynaPi.MachineUI {
             if (pos >= 0) {
                 //Select(pos, text.Length);
                 var Begining = Text.Substring(0, pos);
-                var Selected = Text.Substring(pos).Replace(text, SELECT_LEFT + text + SELECT_RIGHT);
+                var Selected = Text.Substring(pos);
+
+                int selectLeftPos = Selected.IndexOf(text, StringComparison.OrdinalIgnoreCase);
+                int selectRightPos = selectLeftPos + text.Length + SELECT_LEFT.Length;
+
+                Selected = Selected.Insert(selectLeftPos, SELECT_LEFT).Insert(selectRightPos, SELECT_RIGHT);
+                //var Selected = Text.Substring(pos).ToLower().Replace(text, SELECT_LEFT + text + SELECT_RIGHT);
                 Text = Begining + Selected;
             } else {
                 ClearSelected();

@@ -25,7 +25,7 @@ namespace MaszynaPi.MachineAssembler.Editors{
             return new List<string>(CodeLines);
         }
 
-        string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLines); }
+        string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLines).ToLower(); }
 
         public bool IsInstructionDefinition() {
             string text = CodeLinesToString();
