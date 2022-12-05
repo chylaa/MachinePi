@@ -32,12 +32,15 @@ namespace MaszynaPi.MachineAssembler {
         List<string> RemoveExcessiveEmptyStrings(List<string> codelines) {
             List<string> newlines = new List<string>();
             bool wasNotEmpty = false;
+            MaszynaPi.Logger.Logger.LogInfo("RemoveExcessiveEmptyStrings codelines: " + string.Join(", ", codelines));
             foreach (var line in codelines) {
                 if (wasNotEmpty || line.Length == 0) {
+                    MaszynaPi.Logger.Logger.LogInfo("(wasNotEmpty || line.Length == 0) Line: "+line);
                     wasNotEmpty = false;
                     continue;
                 }
                 wasNotEmpty = true;
+                MaszynaPi.Logger.Logger.LogInfo("(was empty) Line: "+line);
                 newlines.Add(line);
             }
             return newlines;
