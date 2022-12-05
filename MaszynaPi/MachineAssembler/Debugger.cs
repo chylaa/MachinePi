@@ -27,9 +27,12 @@ namespace MaszynaPi.MachineAssembler {
 
         string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLinesHandle); }
 
-        // Removes one empty string between each string of len>0 (if exist) (leftovers from code-to-List<string> processing) 
+        // Removes one empty string between each string of len>0 (if exist) (leftovers from code-to-List<string> processing on win) 
         // ["xx","","yy","","","zz"] -> ["xx","yy","","zz"]
         List<string> RemoveExcessiveEmptyStrings(List<string> codelines) {
+            var everyOtherElement = codelines.Where((x, i) => i % 2 == 1);
+            if(everyOtherElement.All(item => item.Length==0)) return codelines;
+
             List<string> newlines = new List<string>();
             bool wasNotEmpty = false;
             MaszynaPi.Logger.Logger.LogInfo("RemoveExcessiveEmptyStrings codelines: " + string.Join(", ", codelines));
