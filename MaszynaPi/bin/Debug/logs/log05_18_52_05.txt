@@ -1,0 +1,56 @@
+Memory Editor Map: [0, pob a], [1, dod b], [2, ład c], [3, stp], [4, rst 2], [5, rst 23], [6, rpa]
+Content pob a
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content dod b
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content ład c
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content stp
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content rst 2
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content rst 23
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content rpa
+findLineNumber CodeLines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+SetExecutedLine()
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 0
+ | LeftPos : 0 | RightPos: 7
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 0
+ | LeftPos : 0 | RightPos: 7
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 0
+ | LeftPos : 0 | RightPos: 7
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 5
+ | LeftPos : 2 | RightPos: 9
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 5
+ | LeftPos : 2 | RightPos: 9
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 5
+ | LeftPos : 2 | RightPos: 9
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 5
+ | LeftPos : 10 | RightPos: 17
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 5
+ | LeftPos : 10 | RightPos: 17
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 5
+ | LeftPos : 10 | RightPos: 17
+SetExecutedLine()
+MemoryLineNumberMap: [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]
+pos: 11
+ | LeftPos : 11 | RightPos: 16

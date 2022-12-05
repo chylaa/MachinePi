@@ -46,6 +46,9 @@ namespace MaszynaPi.MachineAssembler {
         public int FindLineNumber(uint start, string content) {
             content = content.ToLower();
             var codelines = RemoveExcessiveEmptyStrings(CodeLinesHandle);
+            MaszynaPi.Logger.Logger.LogInfo("Content " + content);
+            MaszynaPi.Logger.Logger.LogInfo("findLineNumber codelines: " + string.Join(", ", codelines));
+            MaszynaPi.Logger.Logger.LogInfo(" findLineNumber CodeLinesHandle: " + string.Join(", ", CodeLinesHandle));
             for (uint i = start; i < codelines.Count; i++)
                 if (codelines[(int)i].ToLower().Contains(content))
                     return (int)i;
@@ -55,7 +58,8 @@ namespace MaszynaPi.MachineAssembler {
         // To be called after compilation
         public void FillMemoryLineNumberMap() {
             ClearMemoryEditorMap();
-            foreach(var pair in Compiler.GetMemoryEditorMap())
+            MaszynaPi.Logger.Logger.LogInfo("Memory Editor Map: "+ string.Join(", ",Compiler.GetMemoryEditorMap()));
+            foreach (var pair in Compiler.GetMemoryEditorMap())
                 MemoryLineNumberMap.Add(pair.Key, FindLineNumber(pair.Key, pair.Value));
         }
 
