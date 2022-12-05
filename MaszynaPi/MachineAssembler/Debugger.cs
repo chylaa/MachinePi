@@ -31,7 +31,7 @@ namespace MaszynaPi.MachineAssembler {
         // ["xx","","yy","","","zz"] -> ["xx","yy","","zz"]
         List<string> RemoveExcessiveEmptyStrings(List<string> codelines) {
             var everyOtherElement = codelines.Where((x, i) => i % 2 == 1);
-            if(everyOtherElement.All(item => item.Length==0)) return codelines;
+            if(everyOtherElement.All(item => item.Length==0)==false) return codelines;
 
             List<string> newlines = new List<string>();
             bool wasNotEmpty = false;

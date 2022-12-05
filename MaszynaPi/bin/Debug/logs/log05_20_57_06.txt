@@ -1,0 +1,1 @@
+Memory Editor Map: [0, pob a], [1, dod b], [2, ład c], [3, stp], [4, rst 2], [5, rst 23], [6, rpa]

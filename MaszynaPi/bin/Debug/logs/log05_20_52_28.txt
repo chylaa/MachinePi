@@ -1,0 +1,7 @@
+Memory Editor Map: [0, pob a], [1, dod b], [2, ład c], [3, stp], [4, rst 2], [5, rst 23], [6, rpa]
+Content pob a
+findLineNumber codelines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+ findLineNumber CodeLinesHandle: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+Content dod b
+findLineNumber codelines: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
+ findLineNumber CodeLinesHandle: pob a, , dod b , , ład c, , stp, , , , a: rst 2, , b: rst 23, , c: rpa
