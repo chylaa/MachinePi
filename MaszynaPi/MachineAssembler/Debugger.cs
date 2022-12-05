@@ -77,13 +77,19 @@ namespace MaszynaPi.MachineAssembler {
         public Action<uint, List<string>> OnSetExecutedMicroinstructions;
 
         public void SetExecutedLine(uint memAddress) {
+
+            MaszynaPi.Logger.Logger.LogInfo("SetExecutedLine()");
+
             if (MemoryLineNumberMap.Count == 0) return;
             if (MemoryLineNumberMap.ContainsKey(memAddress) == false) return;
             if (MemoryLineNumberMap[memAddress] == -1) return;
 
+
             int position = GetFirstCharIndexFromLine(MemoryLineNumberMap[memAddress]);
             //int lineEnd = CodeLinesToString().IndexOf(Environment.NewLine, position);
             //if (lineEnd < 0) lineEnd = GetCodeLength();
+            MaszynaPi.Logger.Logger.LogInfo("MemoryLineNumberMap: " + string.Join(", ", MemoryLineNumberMap));
+
             if (position < 0) return;
 
             OnSetExecutedLine(position, Compiler.GetMemoryEditorMap()[memAddress]);
