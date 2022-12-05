@@ -24,8 +24,6 @@ namespace MaszynaPi.MachineUI {
             Multiline = true;
             TextChanged += CodeLinesChanged;
             GotFocus += CodeLinesChanged;
-
-            MaszynaPi.Logger.Logger.EnableAll();
         }
 
         void CodeLinesChanged(object sender, EventArgs e) {
@@ -53,7 +51,6 @@ namespace MaszynaPi.MachineUI {
         }
 
         public void SelectText( int pos = -1, string text="") {
-            MaszynaPi.Logger.Logger.LogInfo("pos: " + pos.ToString());
             if (pos >= 0) {
                 //Select(pos, text.Length);
                 var Begining = Text.Substring(0, pos);
@@ -61,8 +58,6 @@ namespace MaszynaPi.MachineUI {
 
                 int selectLeftPos = Selected.IndexOf(text, StringComparison.OrdinalIgnoreCase);
                 int selectRightPos = selectLeftPos + text.Length + SELECT_LEFT.Length;
-
-                MaszynaPi.Logger.Logger.LogInfo( " | LeftPos : " + selectLeftPos.ToString() + " | RightPos: "+selectRightPos.ToString()) ;
 
                 Selected = Selected.Insert(selectLeftPos, SELECT_LEFT).Insert(selectRightPos, SELECT_RIGHT);
                 //var Selected = Text.Substring(pos).ToLower().Replace(text, SELECT_LEFT + text + SELECT_RIGHT);

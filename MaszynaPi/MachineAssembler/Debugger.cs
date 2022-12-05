@@ -35,15 +35,12 @@ namespace MaszynaPi.MachineAssembler {
 
             List<string> newlines = new List<string>();
             bool wasNotEmpty = false;
-            MaszynaPi.Logger.Logger.LogInfo("RemoveExcessiveEmptyStrings codelines: " + string.Join(", ", codelines));
             foreach (var line in codelines) {
                 if (wasNotEmpty || line.Length == 0) {
-                    MaszynaPi.Logger.Logger.LogInfo("(wasNotEmpty || line.Length == 0) Line: "+line);
                     wasNotEmpty = false;
                     continue;
                 }
                 wasNotEmpty = true;
-                MaszynaPi.Logger.Logger.LogInfo("(was empty) Line: "+line);
                 newlines.Add(line);
             }
             return newlines;
@@ -52,9 +49,6 @@ namespace MaszynaPi.MachineAssembler {
         public int FindLineNumber(uint start, string content) {
             content = content.ToLower();
             var codelines = RemoveExcessiveEmptyStrings(CodeLinesHandle);
-            MaszynaPi.Logger.Logger.LogInfo("Content " + content);
-            MaszynaPi.Logger.Logger.LogInfo("findLineNumber codelines: " + string.Join(", ", codelines));
-            MaszynaPi.Logger.Logger.LogInfo(" findLineNumber CodeLinesHandle: " + string.Join(", ", CodeLinesHandle));
             for (uint i = start; i < codelines.Count; i++)
                 if (codelines[(int)i].ToLower().Contains(content))
                     return (int)i;
@@ -64,7 +58,6 @@ namespace MaszynaPi.MachineAssembler {
         // To be called after compilation
         public void FillMemoryLineNumberMap() {
             ClearMemoryEditorMap();
-            MaszynaPi.Logger.Logger.LogInfo("Memory Editor Map: "+ string.Join(", ",Compiler.GetMemoryEditorMap()));
             foreach (var pair in Compiler.GetMemoryEditorMap())
                 MemoryLineNumberMap.Add(pair.Key, FindLineNumber(pair.Key, pair.Value));
         }
@@ -87,19 +80,13 @@ namespace MaszynaPi.MachineAssembler {
         public Action<uint, List<string>> OnSetExecutedMicroinstructions;
 
         public void SetExecutedLine(uint memAddress) {
-
-            MaszynaPi.Logger.Logger.LogInfo("SetExecutedLine()");
-
             if (MemoryLineNumberMap.Count == 0) return;
             if (MemoryLineNumberMap.ContainsKey(memAddress) == false) return;
             if (MemoryLineNumberMap[memAddress] == -1) return;
 
-
             int position = GetFirstCharIndexFromLine(MemoryLineNumberMap[memAddress]);
             //int lineEnd = CodeLinesToString().IndexOf(Environment.NewLine, position);
             //if (lineEnd < 0) lineEnd = GetCodeLength();
-            MaszynaPi.Logger.Logger.LogInfo("MemoryLineNumberMap: " + string.Join(", ", MemoryLineNumberMap));
-
             if (position < 0) return;
 
             OnSetExecutedLine(position, Compiler.GetMemoryEditorMap()[memAddress]);
