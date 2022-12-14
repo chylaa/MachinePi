@@ -28,14 +28,34 @@ namespace MaszynaPi {
             this.BottomPanel = new System.Windows.Forms.Panel();
             this.tabControlOnBottomPanel = new System.Windows.Forms.TabControl();
             this.tabPageIO = new System.Windows.Forms.TabPage();
+            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.userControlBusAS = new MaszynaPi.MachineUI.UserControlBus();
+            this.UserControlRegisterRM = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterAP = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterRP = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterRZ = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterWS = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterX = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterY = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterRB = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterG = new MaszynaPi.MachineUI.UserControlRegister();
+            this.panelALUView = new System.Windows.Forms.Panel();
+            this.UserControlRegisterAK = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterL = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterI = new MaszynaPi.MachineUI.UserControlRegister();
+            this.userControlBusAddress = new MaszynaPi.MachineUI.UserControlBus();
+            this.userControlBusData = new MaszynaPi.MachineUI.UserControlBus();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
             this.groupBoxDebugLevel = new System.Windows.Forms.GroupBox();
             this.radioButtonDebugTick = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugInstruction = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugProgram = new System.Windows.Forms.RadioButton();
+            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,6 +82,7 @@ namespace MaszynaPi {
             this.ProgramPanel = new System.Windows.Forms.Panel();
             this.tabControlEditors = new System.Windows.Forms.TabControl();
             this.tabPageCodeEditor = new System.Windows.Forms.TabPage();
+            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
             this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.saveContexMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,22 +96,15 @@ namespace MaszynaPi {
             this.saveUnixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageInstructionList = new System.Windows.Forms.TabPage();
             this.panelInstructionsMicrocode = new System.Windows.Forms.Panel();
+            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.panelInstructionsList = new System.Windows.Forms.Panel();
-            this.tabPageVariables = new System.Windows.Forms.TabPage();
-            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
-            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
-            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
-            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
-            this.userControlBusData = new MaszynaPi.MachineUI.UserControlBus();
-            this.userControlBusAddress = new MaszynaPi.MachineUI.UserControlBus();
-            this.UserControlRegisterI = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterL = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterAK = new MaszynaPi.MachineUI.UserControlRegister();
-            this.panelALUView = new System.Windows.Forms.Panel();
+            this.tabPageVariables = new System.Windows.Forms.TabPage();
+            this.userControlIntButton1 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageIO.SuspendLayout();
@@ -141,6 +155,14 @@ namespace MaszynaPi {
             this.tabPageIO.TabIndex = 0;
             this.tabPageIO.Text = "Konsola wejścia";
             // 
+            // UserControlCharacterInput
+            // 
+            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
+            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
+            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
+            this.UserControlCharacterInput.TabIndex = 0;
+            this.UserControlCharacterInput.TabStop = false;
+            // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -157,11 +179,25 @@ namespace MaszynaPi {
             this.TopLeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.TopLeftPanel.Location = new System.Drawing.Point(0, 0);
             this.TopLeftPanel.Name = "TopLeftPanel";
-            this.TopLeftPanel.Size = new System.Drawing.Size(779, 532);
+            this.TopLeftPanel.Size = new System.Drawing.Size(826, 532);
             this.TopLeftPanel.TabIndex = 2;
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton4);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton3);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton2);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton1);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlBusAS);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterRM);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterAP);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterRP);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterRZ);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterWS);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterX);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterY);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterRB);
+            this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterG);
             this.MicrocontrollerPanel.Controls.Add(this.panelALUView);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterAK);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterL);
@@ -176,13 +212,213 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Controls.Add(this.menuStrip1);
             this.MicrocontrollerPanel.Location = new System.Drawing.Point(1, 1);
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
-            this.MicrocontrollerPanel.Size = new System.Drawing.Size(776, 532);
+            this.MicrocontrollerPanel.Size = new System.Drawing.Size(826, 532);
             this.MicrocontrollerPanel.TabIndex = 0;
+            // 
+            // userControlBusAS
+            // 
+            this.userControlBusAS.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusAS.Location = new System.Drawing.Point(249, 123);
+            this.userControlBusAS.Multiline = true;
+            this.userControlBusAS.Name = "userControlBusAS";
+            this.userControlBusAS.ReadOnly = true;
+            this.userControlBusAS.Size = new System.Drawing.Size(5, 348);
+            this.userControlBusAS.TabIndex = 24;
+            // 
+            // UserControlRegisterRM
+            // 
+            this.UserControlRegisterRM.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRM.Location = new System.Drawing.Point(26, 71);
+            this.UserControlRegisterRM.Name = "UserControlRegisterRM";
+            this.UserControlRegisterRM.ReadOnly = true;
+            this.UserControlRegisterRM.RegisterName = "RM";
+            this.UserControlRegisterRM.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRM.TabIndex = 23;
+            this.UserControlRegisterRM.TabStop = false;
+            this.UserControlRegisterRM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterAP
+            // 
+            this.UserControlRegisterAP.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterAP.Location = new System.Drawing.Point(217, 71);
+            this.UserControlRegisterAP.Name = "UserControlRegisterAP";
+            this.UserControlRegisterAP.ReadOnly = true;
+            this.UserControlRegisterAP.RegisterName = "AP";
+            this.UserControlRegisterAP.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterAP.TabIndex = 22;
+            this.UserControlRegisterAP.TabStop = false;
+            this.UserControlRegisterAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterRP
+            // 
+            this.UserControlRegisterRP.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRP.Location = new System.Drawing.Point(217, 39);
+            this.UserControlRegisterRP.Name = "UserControlRegisterRP";
+            this.UserControlRegisterRP.ReadOnly = true;
+            this.UserControlRegisterRP.RegisterName = "RP";
+            this.UserControlRegisterRP.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRP.TabIndex = 21;
+            this.UserControlRegisterRP.TabStop = false;
+            this.UserControlRegisterRP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterRZ
+            // 
+            this.UserControlRegisterRZ.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRZ.Location = new System.Drawing.Point(26, 39);
+            this.UserControlRegisterRZ.Name = "UserControlRegisterRZ";
+            this.UserControlRegisterRZ.ReadOnly = true;
+            this.UserControlRegisterRZ.RegisterName = "RZ";
+            this.UserControlRegisterRZ.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRZ.TabIndex = 20;
+            this.UserControlRegisterRZ.TabStop = false;
+            this.UserControlRegisterRZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterWS
+            // 
+            this.UserControlRegisterWS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterWS.Location = new System.Drawing.Point(341, 158);
+            this.UserControlRegisterWS.Name = "UserControlRegisterWS";
+            this.UserControlRegisterWS.ReadOnly = true;
+            this.UserControlRegisterWS.RegisterName = "WS";
+            this.UserControlRegisterWS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterWS.TabIndex = 19;
+            this.UserControlRegisterWS.TabStop = false;
+            this.UserControlRegisterWS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterX
+            // 
+            this.UserControlRegisterX.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterX.Location = new System.Drawing.Point(45, 503);
+            this.UserControlRegisterX.Name = "UserControlRegisterX";
+            this.UserControlRegisterX.ReadOnly = true;
+            this.UserControlRegisterX.RegisterName = "X";
+            this.UserControlRegisterX.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterX.TabIndex = 18;
+            this.UserControlRegisterX.TabStop = false;
+            this.UserControlRegisterX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterY
+            // 
+            this.UserControlRegisterY.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterY.Location = new System.Drawing.Point(249, 503);
+            this.UserControlRegisterY.Name = "UserControlRegisterY";
+            this.UserControlRegisterY.ReadOnly = true;
+            this.UserControlRegisterY.RegisterName = "Y";
+            this.UserControlRegisterY.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterY.TabIndex = 17;
+            this.UserControlRegisterY.TabStop = false;
+            this.UserControlRegisterY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterRB
+            // 
+            this.UserControlRegisterRB.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRB.Location = new System.Drawing.Point(507, 503);
+            this.UserControlRegisterRB.Name = "UserControlRegisterRB";
+            this.UserControlRegisterRB.ReadOnly = true;
+            this.UserControlRegisterRB.RegisterName = "RB";
+            this.UserControlRegisterRB.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRB.TabIndex = 16;
+            this.UserControlRegisterRB.TabStop = false;
+            this.UserControlRegisterRB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterG
+            // 
+            this.UserControlRegisterG.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterG.Location = new System.Drawing.Point(711, 504);
+            this.UserControlRegisterG.Name = "UserControlRegisterG";
+            this.UserControlRegisterG.ReadOnly = true;
+            this.UserControlRegisterG.RegisterName = "G";
+            this.UserControlRegisterG.Size = new System.Drawing.Size(51, 20);
+            this.UserControlRegisterG.TabIndex = 15;
+            this.UserControlRegisterG.TabStop = false;
+            this.UserControlRegisterG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // panelALUView
+            // 
+            this.panelALUView.BackColor = System.Drawing.Color.White;
+            this.panelALUView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelALUView.Location = new System.Drawing.Point(317, 289);
+            this.panelALUView.Name = "panelALUView";
+            this.panelALUView.Size = new System.Drawing.Size(156, 146);
+            this.panelALUView.TabIndex = 14;
+            // 
+            // UserControlRegisterAK
+            // 
+            this.UserControlRegisterAK.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterAK.CausesValidation = false;
+            this.UserControlRegisterAK.Location = new System.Drawing.Point(317, 267);
+            this.UserControlRegisterAK.Name = "UserControlRegisterAK";
+            this.UserControlRegisterAK.ReadOnly = true;
+            this.UserControlRegisterAK.RegisterName = "AK";
+            this.UserControlRegisterAK.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterAK.TabIndex = 13;
+            this.UserControlRegisterAK.TabStop = false;
+            this.UserControlRegisterAK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterL
+            // 
+            this.UserControlRegisterL.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterL.CausesValidation = false;
+            this.UserControlRegisterL.Location = new System.Drawing.Point(26, 158);
+            this.UserControlRegisterL.Name = "UserControlRegisterL";
+            this.UserControlRegisterL.ReadOnly = true;
+            this.UserControlRegisterL.RegisterName = "L";
+            this.UserControlRegisterL.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterL.TabIndex = 12;
+            this.UserControlRegisterL.TabStop = false;
+            this.UserControlRegisterL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterI
+            // 
+            this.UserControlRegisterI.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterI.CausesValidation = false;
+            this.UserControlRegisterI.Location = new System.Drawing.Point(63, 415);
+            this.UserControlRegisterI.Name = "UserControlRegisterI";
+            this.UserControlRegisterI.ReadOnly = true;
+            this.UserControlRegisterI.RegisterName = "I";
+            this.UserControlRegisterI.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterI.TabIndex = 11;
+            this.UserControlRegisterI.TabStop = false;
+            this.UserControlRegisterI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // userControlBusAddress
+            // 
+            this.userControlBusAddress.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusAddress.Location = new System.Drawing.Point(9, 117);
+            this.userControlBusAddress.Multiline = true;
+            this.userControlBusAddress.Name = "userControlBusAddress";
+            this.userControlBusAddress.ReadOnly = true;
+            this.userControlBusAddress.Size = new System.Drawing.Size(800, 5);
+            this.userControlBusAddress.TabIndex = 10;
+            // 
+            // userControlBusData
+            // 
+            this.userControlBusData.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusData.Location = new System.Drawing.Point(9, 472);
+            this.userControlBusData.Multiline = true;
+            this.userControlBusData.Name = "userControlBusData";
+            this.userControlBusData.ReadOnly = true;
+            this.userControlBusData.Size = new System.Drawing.Size(799, 5);
+            this.userControlBusData.TabIndex = 9;
+            // 
+            // MemoryControl
+            // 
+            this.MemoryControl.BackColor = System.Drawing.Color.White;
+            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.MemoryControl.Location = new System.Drawing.Point(606, 184);
+            this.MemoryControl.Multiline = true;
+            this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.ReadOnly = true;
+            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
+            this.MemoryControl.TabIndex = 8;
+            this.MemoryControl.TabStop = false;
+            this.MemoryControl.WordWrap = false;
             // 
             // checkBoxManualDebug
             // 
             this.checkBoxManualDebug.AutoSize = true;
-            this.checkBoxManualDebug.Location = new System.Drawing.Point(445, 21);
+            this.checkBoxManualDebug.Location = new System.Drawing.Point(522, 22);
             this.checkBoxManualDebug.Name = "checkBoxManualDebug";
             this.checkBoxManualDebug.Size = new System.Drawing.Size(114, 17);
             this.checkBoxManualDebug.TabIndex = 7;
@@ -195,7 +431,7 @@ namespace MaszynaPi {
             this.groupBoxDebugLevel.Controls.Add(this.radioButtonDebugTick);
             this.groupBoxDebugLevel.Controls.Add(this.radioButtonDebugInstruction);
             this.groupBoxDebugLevel.Controls.Add(this.radioButtonDebugProgram);
-            this.groupBoxDebugLevel.Location = new System.Drawing.Point(435, 39);
+            this.groupBoxDebugLevel.Location = new System.Drawing.Point(512, 40);
             this.groupBoxDebugLevel.Name = "groupBoxDebugLevel";
             this.groupBoxDebugLevel.Size = new System.Drawing.Size(174, 72);
             this.groupBoxDebugLevel.TabIndex = 5;
@@ -232,6 +468,31 @@ namespace MaszynaPi {
             this.radioButtonDebugProgram.Text = "niski (program)";
             this.radioButtonDebugProgram.UseVisualStyleBackColor = true;
             // 
+            // UserControlRegisterS
+            // 
+            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterS.Location = new System.Drawing.Point(606, 415);
+            this.UserControlRegisterS.Name = "UserControlRegisterS";
+            this.UserControlRegisterS.ReadOnly = true;
+            this.UserControlRegisterS.RegisterName = "S";
+            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterS.TabIndex = 4;
+            this.UserControlRegisterS.TabStop = false;
+            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterA
+            // 
+            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterA.CausesValidation = false;
+            this.UserControlRegisterA.Location = new System.Drawing.Point(606, 158);
+            this.UserControlRegisterA.Name = "UserControlRegisterA";
+            this.UserControlRegisterA.ReadOnly = true;
+            this.UserControlRegisterA.RegisterName = "A";
+            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterA.TabIndex = 2;
+            this.UserControlRegisterA.TabStop = false;
+            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -242,7 +503,7 @@ namespace MaszynaPi {
             this.pomocToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(776, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(826, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -400,7 +661,7 @@ namespace MaszynaPi {
             // 
             // splitter2
             // 
-            this.splitter2.Location = new System.Drawing.Point(779, 0);
+            this.splitter2.Location = new System.Drawing.Point(826, 0);
             this.splitter2.Name = "splitter2";
             this.splitter2.Size = new System.Drawing.Size(3, 532);
             this.splitter2.TabIndex = 3;
@@ -411,9 +672,9 @@ namespace MaszynaPi {
             this.TopRightPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.TopRightPanel.Controls.Add(this.ProgramPanel);
             this.TopRightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TopRightPanel.Location = new System.Drawing.Point(782, 0);
+            this.TopRightPanel.Location = new System.Drawing.Point(829, 0);
             this.TopRightPanel.Name = "TopRightPanel";
-            this.TopRightPanel.Size = new System.Drawing.Size(661, 532);
+            this.TopRightPanel.Size = new System.Drawing.Size(614, 532);
             this.TopRightPanel.TabIndex = 4;
             // 
             // ProgramPanel
@@ -424,7 +685,7 @@ namespace MaszynaPi {
             this.ProgramPanel.Controls.Add(this.tabControlEditors);
             this.ProgramPanel.Location = new System.Drawing.Point(-3, -2);
             this.ProgramPanel.Name = "ProgramPanel";
-            this.ProgramPanel.Size = new System.Drawing.Size(664, 531);
+            this.ProgramPanel.Size = new System.Drawing.Size(617, 531);
             this.ProgramPanel.TabIndex = 0;
             // 
             // tabControlEditors
@@ -438,7 +699,7 @@ namespace MaszynaPi {
             this.tabControlEditors.Name = "tabControlEditors";
             this.tabControlEditors.RightToLeftLayout = true;
             this.tabControlEditors.SelectedIndex = 0;
-            this.tabControlEditors.Size = new System.Drawing.Size(664, 531);
+            this.tabControlEditors.Size = new System.Drawing.Size(617, 531);
             this.tabControlEditors.TabIndex = 3;
             this.tabControlEditors.TabStop = false;
             this.tabControlEditors.SelectedIndexChanged += new System.EventHandler(this.tabControlEditorsPanel_SelectedIndexChanged);
@@ -451,9 +712,22 @@ namespace MaszynaPi {
             this.tabPageCodeEditor.Location = new System.Drawing.Point(4, 22);
             this.tabPageCodeEditor.Name = "tabPageCodeEditor";
             this.tabPageCodeEditor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCodeEditor.Size = new System.Drawing.Size(656, 505);
+            this.tabPageCodeEditor.Size = new System.Drawing.Size(609, 505);
             this.tabPageCodeEditor.TabIndex = 0;
             this.tabPageCodeEditor.Text = "Edytor";
+            // 
+            // UserControlCodeEditor
+            // 
+            this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
+            this.UserControlCodeEditor.Location = new System.Drawing.Point(17, 34);
+            this.UserControlCodeEditor.Multiline = true;
+            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
+            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.UserControlCodeEditor.Size = new System.Drawing.Size(589, 450);
+            this.UserControlCodeEditor.TabIndex = 9;
             // 
             // CodeEditorContextMenu
             // 
@@ -518,7 +792,7 @@ namespace MaszynaPi {
             this.kodToolStripMenuItem});
             this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(3, 3);
             this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
-            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(650, 24);
+            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(603, 24);
             this.unixCodeEditorMenuStrip.TabIndex = 2;
             this.unixCodeEditorMenuStrip.Text = "menuStrip2";
             // 
@@ -556,7 +830,7 @@ namespace MaszynaPi {
             this.tabPageInstructionList.Location = new System.Drawing.Point(4, 22);
             this.tabPageInstructionList.Name = "tabPageInstructionList";
             this.tabPageInstructionList.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInstructionList.Size = new System.Drawing.Size(656, 464);
+            this.tabPageInstructionList.Size = new System.Drawing.Size(609, 505);
             this.tabPageInstructionList.TabIndex = 1;
             this.tabPageInstructionList.Text = "Lista rozkazów";
             // 
@@ -567,47 +841,8 @@ namespace MaszynaPi {
             this.panelInstructionsMicrocode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelInstructionsMicrocode.Location = new System.Drawing.Point(206, 3);
             this.panelInstructionsMicrocode.Name = "panelInstructionsMicrocode";
-            this.panelInstructionsMicrocode.Size = new System.Drawing.Size(447, 458);
+            this.panelInstructionsMicrocode.Size = new System.Drawing.Size(400, 499);
             this.panelInstructionsMicrocode.TabIndex = 2;
-            // 
-            // splitter3
-            // 
-            this.splitter3.Location = new System.Drawing.Point(203, 3);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(3, 458);
-            this.splitter3.TabIndex = 1;
-            this.splitter3.TabStop = false;
-            // 
-            // panelInstructionsList
-            // 
-            this.panelInstructionsList.Controls.Add(this.userControlInstructionList1);
-            this.panelInstructionsList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelInstructionsList.Location = new System.Drawing.Point(3, 3);
-            this.panelInstructionsList.Name = "panelInstructionsList";
-            this.panelInstructionsList.Size = new System.Drawing.Size(200, 458);
-            this.panelInstructionsList.TabIndex = 0;
-            // 
-            // tabPageVariables
-            // 
-            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
-            this.tabPageVariables.Name = "tabPageVariables";
-            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageVariables.Size = new System.Drawing.Size(656, 464);
-            this.tabPageVariables.TabIndex = 2;
-            this.tabPageVariables.Text = "Zmienne";
-            // 
-            // UserControlCodeEditor
-            // 
-            this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
-            this.UserControlCodeEditor.Location = new System.Drawing.Point(19, 34);
-            this.UserControlCodeEditor.Multiline = true;
-            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
-            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.UserControlCodeEditor.Size = new System.Drawing.Size(627, 450);
-            this.UserControlCodeEditor.TabIndex = 9;
             // 
             // userControlInstructionMicrocode1
             // 
@@ -619,8 +854,25 @@ namespace MaszynaPi {
             this.userControlInstructionMicrocode1.Multiline = true;
             this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
             this.userControlInstructionMicrocode1.ReadOnly = true;
-            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(443, 454);
+            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(396, 495);
             this.userControlInstructionMicrocode1.TabIndex = 0;
+            // 
+            // splitter3
+            // 
+            this.splitter3.Location = new System.Drawing.Point(203, 3);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(3, 499);
+            this.splitter3.TabIndex = 1;
+            this.splitter3.TabStop = false;
+            // 
+            // panelInstructionsList
+            // 
+            this.panelInstructionsList.Controls.Add(this.userControlInstructionList1);
+            this.panelInstructionsList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelInstructionsList.Location = new System.Drawing.Point(3, 3);
+            this.panelInstructionsList.Name = "panelInstructionsList";
+            this.panelInstructionsList.Size = new System.Drawing.Size(200, 499);
+            this.panelInstructionsList.TabIndex = 0;
             // 
             // userControlInstructionList1
             // 
@@ -632,124 +884,67 @@ namespace MaszynaPi {
             this.userControlInstructionList1.Multiline = true;
             this.userControlInstructionList1.Name = "userControlInstructionList1";
             this.userControlInstructionList1.ReadOnly = true;
-            this.userControlInstructionList1.Size = new System.Drawing.Size(200, 458);
+            this.userControlInstructionList1.Size = new System.Drawing.Size(200, 499);
             this.userControlInstructionList1.TabIndex = 0;
             this.userControlInstructionList1.WordWrap = false;
             // 
-            // MemoryControl
+            // tabPageVariables
             // 
-            this.MemoryControl.BackColor = System.Drawing.Color.White;
-            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.MemoryControl.Location = new System.Drawing.Point(542, 188);
-            this.MemoryControl.Multiline = true;
-            this.MemoryControl.Name = "MemoryControl";
-            this.MemoryControl.ReadOnly = true;
-            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.MemoryControl.Size = new System.Drawing.Size(156, 225);
-            this.MemoryControl.TabIndex = 8;
-            this.MemoryControl.TabStop = false;
-            this.MemoryControl.WordWrap = false;
+            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
+            this.tabPageVariables.Name = "tabPageVariables";
+            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVariables.Size = new System.Drawing.Size(609, 505);
+            this.tabPageVariables.TabIndex = 2;
+            this.tabPageVariables.Text = "Zmienne";
             // 
-            // UserControlRegisterS
+            // userControlIntButton1
             // 
-            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterS.Location = new System.Drawing.Point(542, 419);
-            this.UserControlRegisterS.Name = "UserControlRegisterS";
-            this.UserControlRegisterS.ReadOnly = true;
-            this.UserControlRegisterS.RegisterName = "S";
-            this.UserControlRegisterS.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterS.TabIndex = 4;
-            this.UserControlRegisterS.TabStop = false;
-            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.userControlIntButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton1.InterruptPriority = ((uint)(8u));
+            this.userControlIntButton1.Location = new System.Drawing.Point(26, 22);
+            this.userControlIntButton1.Name = "userControlIntButton1";
+            this.userControlIntButton1.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton1.TabIndex = 25;
+            this.userControlIntButton1.Text = "1";
+            this.userControlIntButton1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton1.UseVisualStyleBackColor = true;
             // 
-            // UserControlRegisterA
+            // userControlIntButton2
             // 
-            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterA.CausesValidation = false;
-            this.UserControlRegisterA.Location = new System.Drawing.Point(542, 162);
-            this.UserControlRegisterA.Name = "UserControlRegisterA";
-            this.UserControlRegisterA.ReadOnly = true;
-            this.UserControlRegisterA.RegisterName = "A";
-            this.UserControlRegisterA.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterA.TabIndex = 2;
-            this.UserControlRegisterA.TabStop = false;
-            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.userControlIntButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton2.InterruptPriority = ((uint)(4u));
+            this.userControlIntButton2.Location = new System.Drawing.Point(66, 22);
+            this.userControlIntButton2.Name = "userControlIntButton2";
+            this.userControlIntButton2.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton2.TabIndex = 26;
+            this.userControlIntButton2.Text = "2";
+            this.userControlIntButton2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton2.UseVisualStyleBackColor = true;
             // 
-            // UserControlCharacterInput
+            // userControlIntButton3
             // 
-            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
-            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
-            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
-            this.UserControlCharacterInput.TabIndex = 0;
-            this.UserControlCharacterInput.TabStop = false;
+            this.userControlIntButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton3.InterruptPriority = ((uint)(2u));
+            this.userControlIntButton3.Location = new System.Drawing.Point(107, 22);
+            this.userControlIntButton3.Name = "userControlIntButton3";
+            this.userControlIntButton3.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton3.TabIndex = 27;
+            this.userControlIntButton3.Text = "3";
+            this.userControlIntButton3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton3.UseVisualStyleBackColor = true;
             // 
-            // userControlBusData
+            // userControlIntButton4
             // 
-            this.userControlBusData.BackColor = System.Drawing.SystemColors.Control;
-            this.userControlBusData.Location = new System.Drawing.Point(9, 472);
-            this.userControlBusData.Multiline = true;
-            this.userControlBusData.Name = "userControlBusData";
-            this.userControlBusData.ReadOnly = true;
-            this.userControlBusData.Size = new System.Drawing.Size(753, 5);
-            this.userControlBusData.TabIndex = 9;
-            // 
-            // userControlBusAddress
-            // 
-            this.userControlBusAddress.BackColor = System.Drawing.SystemColors.Control;
-            this.userControlBusAddress.Location = new System.Drawing.Point(9, 117);
-            this.userControlBusAddress.Multiline = true;
-            this.userControlBusAddress.Name = "userControlBusAddress";
-            this.userControlBusAddress.ReadOnly = true;
-            this.userControlBusAddress.Size = new System.Drawing.Size(753, 5);
-            this.userControlBusAddress.TabIndex = 10;
-            // 
-            // UserControlRegisterI
-            // 
-            this.UserControlRegisterI.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterI.CausesValidation = false;
-            this.UserControlRegisterI.Location = new System.Drawing.Point(63, 419);
-            this.UserControlRegisterI.Name = "UserControlRegisterI";
-            this.UserControlRegisterI.ReadOnly = true;
-            this.UserControlRegisterI.RegisterName = "I";
-            this.UserControlRegisterI.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterI.TabIndex = 11;
-            this.UserControlRegisterI.TabStop = false;
-            this.UserControlRegisterI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterL
-            // 
-            this.UserControlRegisterL.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterL.CausesValidation = false;
-            this.UserControlRegisterL.Location = new System.Drawing.Point(26, 162);
-            this.UserControlRegisterL.Name = "UserControlRegisterL";
-            this.UserControlRegisterL.ReadOnly = true;
-            this.UserControlRegisterL.RegisterName = "L";
-            this.UserControlRegisterL.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterL.TabIndex = 12;
-            this.UserControlRegisterL.TabStop = false;
-            this.UserControlRegisterL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterAK
-            // 
-            this.UserControlRegisterAK.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterAK.CausesValidation = false;
-            this.UserControlRegisterAK.Location = new System.Drawing.Point(253, 271);
-            this.UserControlRegisterAK.Name = "UserControlRegisterAK";
-            this.UserControlRegisterAK.ReadOnly = true;
-            this.UserControlRegisterAK.RegisterName = "AK";
-            this.UserControlRegisterAK.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterAK.TabIndex = 13;
-            this.UserControlRegisterAK.TabStop = false;
-            this.UserControlRegisterAK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // panelALUView
-            // 
-            this.panelALUView.BackColor = System.Drawing.Color.White;
-            this.panelALUView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelALUView.Location = new System.Drawing.Point(253, 293);
-            this.panelALUView.Name = "panelALUView";
-            this.panelALUView.Size = new System.Drawing.Size(156, 146);
-            this.panelALUView.TabIndex = 14;
+            this.userControlIntButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton4.InterruptPriority = ((uint)(1u));
+            this.userControlIntButton4.Location = new System.Drawing.Point(146, 22);
+            this.userControlIntButton4.Name = "userControlIntButton4";
+            this.userControlIntButton4.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton4.TabIndex = 28;
+            this.userControlIntButton4.Text = "4";
+            this.userControlIntButton4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton4.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -861,6 +1056,20 @@ namespace MaszynaPi {
         private MachineUI.UserControlRegister UserControlRegisterAK;
         private MachineUI.UserControlRegister UserControlRegisterL;
         private MachineUI.UserControlRegister UserControlRegisterI;
+        private MachineUI.UserControlBus userControlBusAS;
+        private MachineUI.UserControlRegister UserControlRegisterRM;
+        private MachineUI.UserControlRegister UserControlRegisterAP;
+        private MachineUI.UserControlRegister UserControlRegisterRP;
+        private MachineUI.UserControlRegister UserControlRegisterRZ;
+        private MachineUI.UserControlRegister UserControlRegisterWS;
+        private MachineUI.UserControlRegister UserControlRegisterX;
+        private MachineUI.UserControlRegister UserControlRegisterY;
+        private MachineUI.UserControlRegister UserControlRegisterRB;
+        private MachineUI.UserControlRegister UserControlRegisterG;
+        private MachineUI.UserControlIntButton userControlIntButton4;
+        private MachineUI.UserControlIntButton userControlIntButton3;
+        private MachineUI.UserControlIntButton userControlIntButton2;
+        private MachineUI.UserControlIntButton userControlIntButton1;
     }
 }
 

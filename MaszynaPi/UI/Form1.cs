@@ -55,9 +55,10 @@ namespace MaszynaPi {
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
 
-            // UI
+            // uC UI
 
             UserControlCodeEditor.SetCodeLinesHandle(codeEditor.GetCodeLinesHandle());
+            UserControlIntButton.OnSetRequestValue += RefreshMicrocontrolerControls;
 
             SetMachineComponentsViewHandles();
             RefreshMicrocontrolerControls();
@@ -65,8 +66,10 @@ namespace MaszynaPi {
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
 
+            // GUI
             userControlInstructionList1.SetMicrocodeViewHandle(userControlInstructionMicrocode1);
             RefreshRightPanelControls();
+
         }
         private void Form1_Load(object sender, EventArgs e) {
             if (Environment.OSVersion.Platform != PlatformID.Unix) {
@@ -83,8 +86,22 @@ namespace MaszynaPi {
             UserControlRegisterI.SetSourceRegister(Machine.I);
             UserControlRegisterL.SetSourceRegister(Machine.L);
             UserControlRegisterAK.SetSourceRegister(Machine.AK);
+            UserControlRegisterX.SetSourceRegister(Machine.X);
+            UserControlRegisterY.SetSourceRegister(Machine.Y);
+            UserControlRegisterRB.SetSourceRegister(Machine.RB);
+            UserControlRegisterG.SetSourceRegister(Machine.G);
+            UserControlRegisterWS.SetSourceRegister(Machine.WS);
+            UserControlRegisterRZ.SetSourceRegister(Machine.RZ);
+            UserControlRegisterRM.SetSourceRegister(Machine.RM);
+            UserControlRegisterRP.SetSourceRegister(Machine.RP);
+            UserControlRegisterAP.SetSourceRegister(Machine.AP);
             userControlBusData.SetSourceBus(Machine.MagS);
             userControlBusAddress.SetSourceBus(Machine.MagA);
+
+            userControlIntButton1.SetIntRequestRegisterHandle(Machine.RZ);
+            userControlIntButton2.SetIntRequestRegisterHandle(Machine.RZ);
+            userControlIntButton3.SetIntRequestRegisterHandle(Machine.RZ);
+            userControlIntButton4.SetIntRequestRegisterHandle(Machine.RZ);
         }
 
         private void RefreshControls(Control control) {

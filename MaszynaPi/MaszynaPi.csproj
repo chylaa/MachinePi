@@ -91,6 +91,12 @@
     <Compile Include="MachineUI\UserControlBus.Designer.cs">
       <DependentUpon>UserControlBus.cs</DependentUpon>
     </Compile>
+    <Compile Include="MachineUI\UserControlIntButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlIntButton.Designer.cs">
+      <DependentUpon>UserControlIntButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="MachineUI\UserControlSignalWire.cs">
       <SubType>Component</SubType>
     </Compile>
