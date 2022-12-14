@@ -84,6 +84,19 @@
     <Compile Include="CommonOperations\Arithmetic.cs" />
     <Compile Include="CommonOperations\Bitwise.cs" />
     <Compile Include="FilesHandling\FilesHandler.cs" />
+    <Compile Include="MachineLogic\Architecture\InterruptionController.cs" />
+    <Compile Include="MachineUI\UserControlBus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlBus.Designer.cs">
+      <DependentUpon>UserControlBus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MachineUI\UserControlSignalWire.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlSignalWire.Designer.cs">
+      <DependentUpon>UserControlSignalWire.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ArchitectureRadioButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -197,6 +210,14 @@
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".images\SignalWireArrow.png" />
+    <None Include=".images\SignalWireArrowL.png" />
+    <None Include=".images\SignalWireArrowU.png" />
+    <None Include=".images\SignalWireD.png" />
+    <None Include=".images\SignalWireL.png" />
+    <None Include=".images\SignalWireR.png" />
+    <None Include=".images\SignalWireU.png" />
+    <None Include=".images\SignalWireArrowD.png" />
     <Content Include=".instructions\Podstawa.lst" />
     <Content Include=".instructions\Przerwania.lst" />
     <Content Include=".instructions\Stos.lst" />

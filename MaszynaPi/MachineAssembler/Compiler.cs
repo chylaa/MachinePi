@@ -23,7 +23,7 @@ namespace MaszynaPi.MachineAssembler {
      *      2. Translated into a sequence of signals    [List<List<string>>] [OLD - UNUSED]
      */
     static class Compiler {
-        public const string PROGRAM_FILE_EXTENSION = "prg";
+        public const string PROGRAM_FILE_EXTENSION = ".prg";
         public const string HEADER_MEM_ALLOC = "rpa";  // [Header] Allocate Memory - lowercase to standarize code
         public const string HEADER_CONST_VAR = "rst";  // [Header] Const Variable Def - lowercase to standarize code
         public const string HEADER_LABEL_END = ":";    // [Header] End of assembly label (foo) definition
@@ -150,8 +150,8 @@ namespace MaszynaPi.MachineAssembler {
                 if (instArg.Length == 2) { // one argument instruction (max)
                     argument = LabelsAddresses.Keys.FirstOrDefault(toCheck => instArg[1].Equals(toCheck));
                     if (argument == null) { // argument is not defined label
-                        if (int.TryParse(instArg[1], out arg) == false || arg < 0) // Is argument a number?
-                            throw new CompilerException("[Syntax error] Unknown argument label in: " + line); // no.
+                        if (int.TryParse(instArg[1], out arg) == false) // Is argument a number?
+                            throw new CompilerException("[Syntax error] Invalid argument in: " + line); // no.
                         if (arg > ArchitectureSettings.GetMaxWord())
                             throw new CompilerException("[Syntax error] Argument bigger than curretly maximum value define by machine word. Line: " + line);
 

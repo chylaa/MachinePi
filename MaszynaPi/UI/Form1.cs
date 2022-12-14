@@ -22,6 +22,8 @@ namespace MaszynaPi {
         //public static extern int GetJoystickState();
         //================================================================================================================================
 
+        string LastUsedFilepath;
+
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
          *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
@@ -40,10 +42,10 @@ namespace MaszynaPi {
             InitializeComponent();
 
             codeEditor = new CodeEditor();
-            Debugger = new Debugger();       
+            Debugger = new Debugger();
             Machine = new ControlUnit();
-            
-            
+
+
             Debugger.SetCodeEditorHandle(codeEditor.GetCodeLinesHandle());
             Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
             Debugger.OnSetExecutedMicroinstructions += userControlInstructionList1.SelectCurrentAciveInstruction;
@@ -57,13 +59,11 @@ namespace MaszynaPi {
 
             UserControlCodeEditor.SetCodeLinesHandle(codeEditor.GetCodeLinesHandle());
 
-            MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
-            UserControlRegisterA.SetSourceRegister(Machine.A);
-            UserControlRegisterS.SetSourceRegister(Machine.S);
+            SetMachineComponentsViewHandles();
             RefreshMicrocontrolerControls();
 
             // IO's
-            UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle()) ;
+            UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
 
             userControlInstructionList1.SetMicrocodeViewHandle(userControlInstructionMicrocode1);
             RefreshRightPanelControls();
@@ -75,14 +75,26 @@ namespace MaszynaPi {
             }
 
         }
+
+        private void SetMachineComponentsViewHandles() {
+            MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
+            UserControlRegisterA.SetSourceRegister(Machine.A);
+            UserControlRegisterS.SetSourceRegister(Machine.S);
+            UserControlRegisterI.SetSourceRegister(Machine.I);
+            UserControlRegisterL.SetSourceRegister(Machine.L);
+            UserControlRegisterAK.SetSourceRegister(Machine.AK);
+            userControlBusData.SetSourceBus(Machine.MagS);
+            userControlBusAddress.SetSourceBus(Machine.MagA);
+        }
+
         private void RefreshControls(Control control) {
             control.Refresh();
             if (control.HasChildren == false) return;
             foreach (Control con in control.Controls)
                 RefreshControls(con);
         }
-        private void RefreshMicrocontrolerControls() { 
-            RefreshControls(MicrocontrollerPanel);    
+        private void RefreshMicrocontrolerControls() {
+            RefreshControls(MicrocontrollerPanel);
         }
 
         private void RefreshRightPanelControls() {
@@ -143,7 +155,7 @@ namespace MaszynaPi {
             try {
                 //codeEditor.SetCodeLinesFromEditorContent();
                 if (codeEditor.IsInstructionDefinition()) {
-                    bool isEnoughSpace =  InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstrructionsCode());
+                    bool isEnoughSpace = InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
                     if (isEnoughSpace) MessageBox.Show("Rozkaz został dodany.", "Maszyna Pi");
                     else MessageBox.Show("Rozkaz został dodany lecz nie będzie widoczny (zbyt mała ilość bitów kodu)", "Warning!");
@@ -177,16 +189,16 @@ namespace MaszynaPi {
             string lst = InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION;
             string filepath = "";
             string lstFileContent = "";
-            string filter = "pliki rozkazów (*"+lst+")|*"+lst;
+            string filter = "pliki rozkazów (*" + lst + ")|*" + lst;
             if (FilesHandler.PointFileAndGetText(filter, out filepath, out lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
                     bool isEnoughSpace = InstructionLoader.LoadInstructionsFile(lstFileContent);
                     Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();                                //  \/ Shouldn't happen if .lst file created properly \/
-                    if (!isEnoughSpace) MessageBox.Show("Lista rozkazów załadowana lecz część rozkazów może nie być widoczna (zbyt mała ilość bitów kodu)", "Warning!"); 
-                } catch(InstructionLoaderException ex) {
-                    MessageBox.Show("Error while loading "+lst+" file "+filepath+"\n"+ex.Message,"Instruction Loader Error");
+                    if (!isEnoughSpace) MessageBox.Show("Lista rozkazów załadowana lecz część rozkazów może nie być widoczna (zbyt mała ilość bitów kodu)", "Warning!");
+                } catch (InstructionLoaderException ex) {
+                    MessageBox.Show("Error while loading " + lst + " file " + filepath + "\n" + ex.Message, "Instruction Loader Error");
                 }
                 RefreshMicrocontrolerControls();
                 RefreshControls(tabPageInstructionList);
@@ -198,11 +210,13 @@ namespace MaszynaPi {
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
             string filepath = "";
             string fileContent = "";
-            string filer = "pliki rozkazów (*"+rzk+")|*"+rzk+"|pliki programów (*"+prg+")|*"+prg+"|wszystkie pliki (*.*)|*.*";
+            string filer = "pliki rozkazów (*" + rzk + ")|*" + rzk + "|pliki programów (*" + prg + ")|*" + prg + "|wszystkie pliki (*.*)|*.*";
 
-            if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) 
-                UserControlCodeEditor.SetText(fileContent); 
-            
+            if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) {
+                UserControlCodeEditor.SetText(fileContent);
+                LastUsedFilepath = filepath;
+            }
+
         }
 
 
@@ -228,7 +242,6 @@ namespace MaszynaPi {
         }
 
 
-
         // Non Machine-Related Interface Behaviour Methods
 
         private void tabControlEditorsPanel_SelectedIndexChanged(object sender, EventArgs e) {
@@ -236,5 +249,25 @@ namespace MaszynaPi {
             RefreshTabPanelControls();
         }
 
+
+        private void SaveToFile() {
+            if (LastUsedFilepath != null) {
+                FilesHandler.OverwriteOrCreateFile(codeEditor.GetCodeLinesCopy(), LastUsedFilepath);
+                return;
+            }
+            string prg = Compiler.PROGRAM_FILE_EXTENSION;
+            string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
+            string filepath = "";
+            string filter = "pliki rozkazów (*" + rzk + ")|*" + rzk + "|pliki programów (*" + prg + ")|*" + prg + "|wszystkie pliki (*.*)|*.*";
+
+            if (FilesHandler.PointToOvervriteFileOrCreateNew(filter, out filepath)) {
+                LastUsedFilepath = filepath;
+                FilesHandler.OverwriteOrCreateFile(codeEditor.GetCodeLinesCopy(), LastUsedFilepath);
+            }
+
+        }
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
+        private void saveUnixToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
+        private void saveContexMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
     }
 }

@@ -37,6 +37,7 @@ namespace MaszynaPi.MachineLogic {
         private int LastTick = -1;
         // Others internal Components
         private InstructionDecoder RzKDecoder;
+        private InterruptionController IntController;
         // Components visible in architecture view
         public Memory PaO { get; private set; } // Operation Memory ("FLash"?)
         public Bus MagA { get; private set; } // Address BUS
@@ -55,7 +56,7 @@ namespace MaszynaPi.MachineLogic {
         public Register RZ { get; private set; } // 4 bit Interrupt Report Register
         public Register RM { get; private set; } // 4 bit Mask Register
         public Register RP { get; private set; } // 4 bit Register of Accepted Interrupts 
-        public Register AP { get; private set; } // 5 bit  Interrupt Vector Register
+        public Register AP { get; private set; } // (CodeBits) Interrupt Vector Register
 
         // IO's
         public CharacterInput TextInput;
@@ -64,7 +65,7 @@ namespace MaszynaPi.MachineLogic {
             RzKDecoder = new InstructionDecoder();
             RzKDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(RzKDecoder.StatementArg); });
 
-            /// This whole section (bitsize defines) must be relocated into diff function (becouse some sizes depends on architecture)
+            ///! Whole section of bitsize defines must be relocated into separate function (some sizes depends on architecture)
             uint Aspace  = ArchitectureSettings.GetAddressSpace();
             uint Cbits   = ArchitectureSettings.GetCodeBits();
             uint Mword   = ArchitectureSettings.GetWordBits();
@@ -90,7 +91,8 @@ namespace MaszynaPi.MachineLogic {
             RZ = new Register(Defines.INTERRUPTIONS_NUM);
             RM = new Register(Defines.INTERRUPTIONS_NUM);
             RP = new Register(Defines.INTERRUPTIONS_NUM);
-            AP = new Register(Defines.INTERRUPTIONS_NUM+1);
+            AP = new Register(Cbits);
+            IntController = new InterruptionController(RZ, RM, RP, AP);
 
             TextInput = new CharacterInput(G, RB); // All IO Devices should be part of to some "IOUnit" class in Architecture namepaxce?
             InitialazeMicroinstructionsMap();
@@ -133,10 +135,8 @@ namespace MaszynaPi.MachineLogic {
         public void wyrm() { MagA.SetValue(RM.GetValue()); }
         public void werm() { RM.SetValue(MagA.GetValue()); }
         public void wyap() { MagA.SetValue(AP.GetValue()); }
-        public void rint() { G.SetValue(MagS.GetValue()); }
-        public void eni() { G.SetValue(MagS.GetValue()); }
-
-
+        public void rint() { IntController.ClearMSBOfAcceptedINTs(); }
+        public void eni()  { IntController.SetAcceptedAndINTVectorRegister(); JAL.SetFlags(ALUFlags.INT); }
 
         // JAL
         // Architecture W
@@ -159,16 +159,23 @@ namespace MaszynaPi.MachineLogic {
         public void i() { JAL.And(); }
 
         void InitialazeMicroinstructionsMap() {
-            var AllSignalsMap = new Dictionary<string, Action> {
+            var AllPLSignalsMap = new Dictionary<string, Action> {
                 {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
                 { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
                 {"dak",dak},{"mno",mno}, {"dziel",dziel},{"shr",shr},{"neg",neg},{"lub",lub},{"i",i},{"wyx",wyx},{"wex",wex},{"wyy",wyy},{"wey",wey},
-                {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start}
+                {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start},{"wyrm",wyrm},{"werm",werm},
+                {"wyap",wyap},{"rint",rint },{"eni",eni}
             };
+            //var AllENGSignalsMap = new Dictionary<string, Action> {
+            //     {"rd",czyt},{"oa",wyad},{"wr",pisz},{"wracc",przep},{"od",wys},{"add",dod},{"id",wes},{"sub",ode},{"iins",wei},{"wracc",weak},
+            //    { "it", il },{ "ialu", weja },{ "oit", wyl },{ "oacc", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
+            //    {"dak",dak},{"mno",mno}, {"dziel",dziel},{"shr",shr},{"neg",neg},{"lub",lub},{"i",i},{"wyx",wyx},{"wex",wex},{"wyy",wyy},{"wey",wey},
+            //    {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start}
+            //}
             //SignalsMap = AllSignalsMap
             //    .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
             //    .ToDictionary(item => item.Key, item => item.Value);
-            SignalsMap = AllSignalsMap;
+            SignalsMap = AllPLSignalsMap;
         }
 
         // =========================< UI Related Actions > ================================== // 
@@ -194,7 +201,7 @@ namespace MaszynaPi.MachineLogic {
 
         // ========================= <  Machine Cycle > =================================== //
         void FetchInstruction() {
-            ActiveSignals = new List<string> { "czyt", "wys", "wei", "il" };
+            ActiveSignals = new List<string>(Defines.FETCH_SIGNALS);
         }
 
         // Returns false if the instruction completion signal is hit (STATEMENT_END)

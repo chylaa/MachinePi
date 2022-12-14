@@ -25,12 +25,13 @@ namespace MaszynaPi.MachineAssembler.Editors{
             return new List<string>(CodeLines);
         }
 
-        string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLines).ToLower(); }
+        public string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLines).ToLower(); }
 
         public bool IsInstructionDefinition() {
             string text = CodeLinesToString();
-            return (Defines.FETCH_SIGNALS.Any(signal => text.ToLower().Contains(signal)) ||
-                    InstructionLoader.UPPER_WORDS.Any(signal => text.ToLower().Contains(signal)));
+            return (text.Contains(string.Join(" ", Defines.FETCH_SIGNALS)));
+           // return (Defines.FETCH_SIGNALS.Any(signal => text.ToLower().Contains(signal)) ||
+           //        InstructionLoader.UPPER_WORDS.Any(signal => text.ToLower().Contains(signal)));
         }
         public bool IsProgram() {
             string text = CodeLinesToString();
@@ -59,7 +60,7 @@ namespace MaszynaPi.MachineAssembler.Editors{
             return codeLines;
         }
 
-        public List<string> FormatMicroinstrructionsCode() {
+        public List<string> FormatMicroinstructionsCode() {
             List<string> codeLines = new List<string>(CodeLines);
             codeLines.RemoveAll(string.IsNullOrWhiteSpace); // for peace of mind
             for (int i = 0; i < codeLines.Count; i++) codeLines[i] = codeLines[i].ToLower();

@@ -24,6 +24,60 @@ namespace MaszynaPi.FilesHandling {
             if (filepath.Length > 0) return true;
             return false;
         }
+
+        public static bool PointToOvervriteFileOrCreateNew(string dialogFilter, out string filepath) {
+            filepath = "";
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog()) {
+                saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+                saveFileDialog.Filter = dialogFilter;
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.AddExtension = true;
+                saveFileDialog.DefaultExt = MaszynaPi.MachineAssembler.Compiler.PROGRAM_FILE_EXTENSION;
+                saveFileDialog.CheckPathExists = true;
+                saveFileDialog.CheckFileExists = true;
+                saveFileDialog.ValidateNames = false;
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    filepath = saveFileDialog.FileName;
+            }
+            if (filepath.Length > 0) return true;
+            return false;
+        }
+
+        public static void OverwriteOrCreateFile(object content, string filepath) {
+            if (File.Exists(filepath) == false) File.Create(filepath);
+            using (StreamWriter outputFile = new StreamWriter(filepath, false, Encoding.GetEncoding("ISO-8859-1"))) // ISO-8859-2
+           {
+                if (content is List<string>)
+                    content = RemoveExcessiveEmptyStrings(content as List<string>);
+                    foreach (string line in content as List<string>)
+                        outputFile.WriteLine(line);           
+                
+                if (content is string) 
+                    outputFile.Write(content as string);
+                
+                outputFile.Close();
+            }
+        }
+
+        // Removes one empty string between each string of len>0 (if exist) (leftovers from code-to-List<string> processing on win) 
+        // ["xx","","yy","","","zz"] -> ["xx","yy","","zz"]
+        public static List<string> RemoveExcessiveEmptyStrings(List<string> lines) {
+            var everyOtherElement = lines.Where((x, i) => i % 2 == 1);
+            if (everyOtherElement.All(item => item.Length == 0) == false) return lines;
+
+            List<string> newlines = new List<string>();
+            bool wasNotEmpty = false;
+            foreach (var line in lines) {
+                if (wasNotEmpty || line.Length == 0) {
+                    wasNotEmpty = false;
+                    continue;
+                }
+                wasNotEmpty = true;
+                newlines.Add(line);
+            }
+            return newlines;
+        }
+
         public static bool PointFileAndGetText(string dialogFilter, out string filepath, out string fileContent) {
             fileContent = "";
             if(PointFileAndGetPath(dialogFilter,out filepath)) {

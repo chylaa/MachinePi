@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MaszynaPi.FilesHandling;
 
 namespace MaszynaPi.MachineAssembler {
    public class Debugger {
@@ -27,28 +28,11 @@ namespace MaszynaPi.MachineAssembler {
 
         string CodeLinesToString() { return string.Join(Environment.NewLine, CodeLinesHandle); }
 
-        // Removes one empty string between each string of len>0 (if exist) (leftovers from code-to-List<string> processing on win) 
-        // ["xx","","yy","","","zz"] -> ["xx","yy","","zz"]
-        List<string> RemoveExcessiveEmptyStrings(List<string> codelines) {
-            var everyOtherElement = codelines.Where((x, i) => i % 2 == 1);
-            if(everyOtherElement.All(item => item.Length==0)==false) return codelines;
 
-            List<string> newlines = new List<string>();
-            bool wasNotEmpty = false;
-            foreach (var line in codelines) {
-                if (wasNotEmpty || line.Length == 0) {
-                    wasNotEmpty = false;
-                    continue;
-                }
-                wasNotEmpty = true;
-                newlines.Add(line);
-            }
-            return newlines;
-        }
         // Gets line index of nearest line (forward from 'start' praram) which contains specific string
         public int FindLineNumber(uint start, string content) {
             content = content.ToLower();
-            var codelines = RemoveExcessiveEmptyStrings(CodeLinesHandle);
+            var codelines = FilesHandler.RemoveExcessiveEmptyStrings(CodeLinesHandle);
             for (uint i = start; i < codelines.Count; i++)
                 if (codelines[(int)i].ToLower().Contains(content))
                     return (int)i;

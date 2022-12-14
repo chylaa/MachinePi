@@ -23,6 +23,11 @@ namespace MaszynaPi.CommonOperations {
             return value &= ~(bit);
         }
 
+        // Returns min amout of bits that are required to represent number as binary
+        public static int GetBitsAmount(int number) {
+            return (int)Math.Log(number, 2) + 1;
+        }
+
         public static bool IsSignBitSet(uint value, uint numberBitsize) {
             if ((int)value >> (int)(numberBitsize - 1) == 1) return true;
             return false;

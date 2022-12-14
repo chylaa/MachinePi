@@ -95,12 +95,92 @@ namespace MaszynaPi.Properties {
         ///Linie=4
         ///Linia1=ROZKAZ DOD;
         ///Linia2=czyt wys wei il;
-        ///Linia3=wyad wea eni
-        ///Linia4=czyt wys weja dod weak w [obcięto pozostałą część ciągu]&quot;;.
+        ///Linia3=wyad wea;
+        ///Linia4=czyt wys weja dod weak wyl  [obcięto pozostałą część ciągu]&quot;;.
         /// </summary>
         public static string Podstawa {
             get {
                 return ResourceManager.GetString("Podstawa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireArrow {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireArrowD {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireArrowD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireArrowL {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireArrowL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireArrowU {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireArrowU", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireD {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireL {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireR {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SignalWireU {
+            get {
+                object obj = ResourceManager.GetObject("SignalWireU", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
