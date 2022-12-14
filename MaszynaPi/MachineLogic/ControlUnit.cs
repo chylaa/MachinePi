@@ -178,6 +178,7 @@ namespace MaszynaPi.MachineLogic {
             SignalsMap = AllPLSignalsMap;
         }
 
+
         // =========================< UI Related Actions > ================================== // 
         // |Part which needs to be changed if another technology of UI creation is preffered|
 

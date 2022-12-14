@@ -35,10 +35,6 @@ namespace MaszynaPi {
             this.labelAdrBits = new System.Windows.Forms.Label();
             this.tabPageComponents = new System.Windows.Forms.TabPage();
             this.groupBoxComponents = new System.Windows.Forms.GroupBox();
-            this.groupBoxArchitectureType = new System.Windows.Forms.GroupBox();
-            this.tabPageAdresses = new System.Windows.Forms.TabPage();
-            this.groupBoxIODevices = new System.Windows.Forms.GroupBox();
-            this.groupBoxINTProc = new System.Windows.Forms.GroupBox();
             this.componentsCheckBoxExtendedIO = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxALUIncDec = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxALULogical = new MaszynaPi.ComponentsCheckBox();
@@ -50,11 +46,25 @@ namespace MaszynaPi {
             this.componentsCheckBoxIO = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxBusConnection = new MaszynaPi.ComponentsCheckBox();
+            this.groupBoxArchitectureType = new System.Windows.Forms.GroupBox();
             this.architectureRadioButtonL = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonEW = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonPI = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonWp = new MaszynaPi.ArchitectureRadioButton();
             this.architectureRadioButtonW = new MaszynaPi.ArchitectureRadioButton();
+            this.tabPageAdresses = new System.Windows.Forms.TabPage();
+            this.groupBoxIODevices = new System.Windows.Forms.GroupBox();
+            this.groupBoxINTProc = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBoxINT1Addr = new System.Windows.Forms.TextBox();
+            this.textBoxINT2Addr = new System.Windows.Forms.TextBox();
+            this.textBoxINT3Addr = new System.Windows.Forms.TextBox();
+            this.textBoxINT4Addr = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPageArchitecture.SuspendLayout();
             this.groupBoxMachineWord.SuspendLayout();
@@ -64,6 +74,7 @@ namespace MaszynaPi {
             this.groupBoxComponents.SuspendLayout();
             this.groupBoxArchitectureType.SuspendLayout();
             this.tabPageAdresses.SuspendLayout();
+            this.groupBoxINTProc.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -194,50 +205,6 @@ namespace MaszynaPi {
             this.groupBoxComponents.TabIndex = 1;
             this.groupBoxComponents.TabStop = false;
             // 
-            // groupBoxArchitectureType
-            // 
-            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonL);
-            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonEW);
-            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonPI);
-            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonWp);
-            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonW);
-            this.groupBoxArchitectureType.Location = new System.Drawing.Point(14, 17);
-            this.groupBoxArchitectureType.Name = "groupBoxArchitectureType";
-            this.groupBoxArchitectureType.Size = new System.Drawing.Size(468, 110);
-            this.groupBoxArchitectureType.TabIndex = 0;
-            this.groupBoxArchitectureType.TabStop = false;
-            this.groupBoxArchitectureType.Text = "Type";
-            // 
-            // tabPageAdresses
-            // 
-            this.tabPageAdresses.Controls.Add(this.groupBoxIODevices);
-            this.tabPageAdresses.Controls.Add(this.groupBoxINTProc);
-            this.tabPageAdresses.Location = new System.Drawing.Point(4, 22);
-            this.tabPageAdresses.Name = "tabPageAdresses";
-            this.tabPageAdresses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAdresses.Size = new System.Drawing.Size(498, 343);
-            this.tabPageAdresses.TabIndex = 2;
-            this.tabPageAdresses.Text = "Adresy";
-            this.tabPageAdresses.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxIODevices
-            // 
-            this.groupBoxIODevices.Location = new System.Drawing.Point(14, 175);
-            this.groupBoxIODevices.Name = "groupBoxIODevices";
-            this.groupBoxIODevices.Size = new System.Drawing.Size(465, 154);
-            this.groupBoxIODevices.TabIndex = 1;
-            this.groupBoxIODevices.TabStop = false;
-            this.groupBoxIODevices.Text = "Urządzenia We/Wy";
-            // 
-            // groupBoxINTProc
-            // 
-            this.groupBoxINTProc.Location = new System.Drawing.Point(16, 12);
-            this.groupBoxINTProc.Name = "groupBoxINTProc";
-            this.groupBoxINTProc.Size = new System.Drawing.Size(463, 144);
-            this.groupBoxINTProc.TabIndex = 0;
-            this.groupBoxINTProc.TabStop = false;
-            this.groupBoxINTProc.Text = "Procedury obsługi przerwań";
-            // 
             // componentsCheckBoxExtendedIO
             // 
             this.componentsCheckBoxExtendedIO.AutoSize = true;
@@ -348,6 +315,20 @@ namespace MaszynaPi {
             this.componentsCheckBoxBusConnection.Text = "Połączenie międzymagistralowe";
             this.componentsCheckBoxBusConnection.UseVisualStyleBackColor = true;
             // 
+            // groupBoxArchitectureType
+            // 
+            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonL);
+            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonEW);
+            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonPI);
+            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonWp);
+            this.groupBoxArchitectureType.Controls.Add(this.architectureRadioButtonW);
+            this.groupBoxArchitectureType.Location = new System.Drawing.Point(14, 17);
+            this.groupBoxArchitectureType.Name = "groupBoxArchitectureType";
+            this.groupBoxArchitectureType.Size = new System.Drawing.Size(468, 110);
+            this.groupBoxArchitectureType.TabIndex = 0;
+            this.groupBoxArchitectureType.TabStop = false;
+            this.groupBoxArchitectureType.Text = "Type";
+            // 
             // architectureRadioButtonL
             // 
             this.architectureRadioButtonL.AutoSize = true;
@@ -403,6 +384,136 @@ namespace MaszynaPi {
             this.architectureRadioButtonW.Text = "W";
             this.architectureRadioButtonW.UseVisualStyleBackColor = true;
             // 
+            // tabPageAdresses
+            // 
+            this.tabPageAdresses.Controls.Add(this.groupBoxIODevices);
+            this.tabPageAdresses.Controls.Add(this.groupBoxINTProc);
+            this.tabPageAdresses.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAdresses.Name = "tabPageAdresses";
+            this.tabPageAdresses.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAdresses.Size = new System.Drawing.Size(498, 343);
+            this.tabPageAdresses.TabIndex = 2;
+            this.tabPageAdresses.Text = "Adresy";
+            this.tabPageAdresses.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxIODevices
+            // 
+            this.groupBoxIODevices.Location = new System.Drawing.Point(14, 175);
+            this.groupBoxIODevices.Name = "groupBoxIODevices";
+            this.groupBoxIODevices.Size = new System.Drawing.Size(465, 154);
+            this.groupBoxIODevices.TabIndex = 1;
+            this.groupBoxIODevices.TabStop = false;
+            this.groupBoxIODevices.Text = "Urządzenia We/Wy";
+            // 
+            // groupBoxINTProc
+            // 
+            this.groupBoxINTProc.Controls.Add(this.textBoxINT4Addr);
+            this.groupBoxINTProc.Controls.Add(this.textBoxINT3Addr);
+            this.groupBoxINTProc.Controls.Add(this.textBoxINT2Addr);
+            this.groupBoxINTProc.Controls.Add(this.textBoxINT1Addr);
+            this.groupBoxINTProc.Controls.Add(this.label7);
+            this.groupBoxINTProc.Controls.Add(this.label6);
+            this.groupBoxINTProc.Controls.Add(this.label5);
+            this.groupBoxINTProc.Controls.Add(this.label4);
+            this.groupBoxINTProc.Controls.Add(this.label3);
+            this.groupBoxINTProc.Controls.Add(this.label1);
+            this.groupBoxINTProc.Location = new System.Drawing.Point(16, 12);
+            this.groupBoxINTProc.Name = "groupBoxINTProc";
+            this.groupBoxINTProc.Size = new System.Drawing.Size(463, 144);
+            this.groupBoxINTProc.TabIndex = 0;
+            this.groupBoxINTProc.TabStop = false;
+            this.groupBoxINTProc.Text = "Procedury obsługi przerwań";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(34, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Przerwanie";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(154, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Adres w pamięci";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(58, 50);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(58, 72);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(13, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "2";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(58, 95);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "3";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(58, 117);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(13, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "4";
+            // 
+            // textBoxINT1Addr
+            // 
+            this.textBoxINT1Addr.Location = new System.Drawing.Point(156, 47);
+            this.textBoxINT1Addr.Name = "textBoxINT1Addr";
+            this.textBoxINT1Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT1Addr.TabIndex = 6;
+            this.textBoxINT1Addr.Text = "1";
+            this.textBoxINT1Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxINT2Addr
+            // 
+            this.textBoxINT2Addr.Location = new System.Drawing.Point(156, 70);
+            this.textBoxINT2Addr.Name = "textBoxINT2Addr";
+            this.textBoxINT2Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT2Addr.TabIndex = 7;
+            this.textBoxINT2Addr.Text = "2";
+            this.textBoxINT2Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxINT3Addr
+            // 
+            this.textBoxINT3Addr.Location = new System.Drawing.Point(156, 93);
+            this.textBoxINT3Addr.Name = "textBoxINT3Addr";
+            this.textBoxINT3Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT3Addr.TabIndex = 8;
+            this.textBoxINT3Addr.Text = "3";
+            this.textBoxINT3Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxINT4Addr
+            // 
+            this.textBoxINT4Addr.Location = new System.Drawing.Point(156, 115);
+            this.textBoxINT4Addr.Name = "textBoxINT4Addr";
+            this.textBoxINT4Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT4Addr.TabIndex = 9;
+            this.textBoxINT4Addr.Text = "4";
+            this.textBoxINT4Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // FormProjectOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -430,6 +541,8 @@ namespace MaszynaPi {
             this.groupBoxArchitectureType.ResumeLayout(false);
             this.groupBoxArchitectureType.PerformLayout();
             this.tabPageAdresses.ResumeLayout(false);
+            this.groupBoxINTProc.ResumeLayout(false);
+            this.groupBoxINTProc.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -467,5 +580,15 @@ namespace MaszynaPi {
         private ComponentsCheckBox componentsCheckBoxINT;
         private ComponentsCheckBox componentsCheckBoxIO;
         private ComponentsCheckBox componentsCheckBoxExtendedFlags;
+        private System.Windows.Forms.TextBox textBoxINT4Addr;
+        private System.Windows.Forms.TextBox textBoxINT3Addr;
+        private System.Windows.Forms.TextBox textBoxINT2Addr;
+        private System.Windows.Forms.TextBox textBoxINT1Addr;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
     }
 }

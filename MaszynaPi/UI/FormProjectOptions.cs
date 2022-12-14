@@ -1,5 +1,6 @@
 ﻿using MaszynaPi.MachineLogic;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace MaszynaPi {
@@ -11,8 +12,17 @@ namespace MaszynaPi {
         private Defines.Components SelectedComponents;
         private Defines.Architectures SelectedArchitecture;
 
+        List<Control> textBoxesINTAddr; 
+
         public FormProjectOptions() {
             InitializeComponent();
+            textBoxINT1Addr.KeyPress += HandleInput;
+            textBoxINT2Addr.KeyPress += HandleInput;
+            textBoxINT3Addr.KeyPress += HandleInput;
+            textBoxINT4Addr.KeyPress += HandleInput;
+            textBoxesINTAddr = new List<Control> { textBoxINT1Addr, textBoxINT2Addr, textBoxINT3Addr, textBoxINT4Addr };
+
+
             numericUpDownAddresBits.Maximum = (decimal)Defines.ADDRESS_BITS_MAX;
             numericUpDownAddresBits.Minimum = (decimal)Defines.ADDRESS_BITS_MIN;
             numericUpDownCodeBits.Maximum = (decimal)Defines.CODE_BITS_MAX;
@@ -30,6 +40,8 @@ namespace MaszynaPi {
 
             UpdateComponentsCheckBoxes();
             UpdateArchitecureTypeRadioButtons();
+
+            InitializeAdresses();
            
         }
 
@@ -100,7 +112,15 @@ namespace MaszynaPi {
         }
 
 
-        private void SetAdresses() { }
+        private void SetAdresses() {
+            Dictionary<uint,uint> newIntVector = new Dictionary<uint, uint>();
+            uint i = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
+            foreach (var textBox in textBoxesINTAddr) {
+                newIntVector.Add(i, uint.Parse(textBox.Text));
+                i >>= 1;
+            }
+            ArchitectureSettings.SetInterruptVector(newIntVector);
+        }
 
         private void InitializeChecksComponents() {
             componentsCheckBoxBusConnection.Component = Defines.Components.BusConnection;
@@ -134,6 +154,16 @@ namespace MaszynaPi {
             }
         }
 
+        private void InitializeAdresses() {
+            var intVector = ArchitectureSettings.GetInterruptVector();
+            uint i = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
+            foreach (var textBox in textBoxesINTAddr) {
+                textBox.Text = intVector[i].ToString();
+                i >>= 1;
+            }
+            // TODO IO Adresses
+        }
+
 
 
 
@@ -149,6 +179,11 @@ namespace MaszynaPi {
         private void buttonCancel_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        /*Allows to only write numbers*/
+        private static void HandleInput(object sender, KeyPressEventArgs e) {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
     }

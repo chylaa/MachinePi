@@ -12,27 +12,20 @@ namespace MaszynaPi.MachineLogic.Architecture {
         Register RP;  // 4 bit Register of Accepted Interrupts 
         Register AP;  // (CodeBits) Interrupt Vector Register
 
-        Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); // Pairs of <INT bit, Mem Address>
-
         public InterruptionController(Register rz, Register rm, Register rp, Register ap) {
             RZ = rz; RM = rm; RP = rp; AP = ap;
-            InitializeInterruptVector();
         }
 
-        void InitializeInterruptVector() {
-            for(uint i=0; i<Defines.INTERRUPTIONS_NUM; i++)
-                InterruptVector.Add(i, i);
-        }
 
 
         //On eni() put the interrupt bit with the highest priority from register RZ to RP (if not masked)
         public void SetAcceptedAndINTVectorRegister() {
             uint mask = RM.GetValue();
-            for (uint bit = RZ.GetBitsize(); bit>0; bit >>= 1) {
+            for (uint intBit = RZ.GetBitsize(); intBit>0; intBit >>= 1) {
                 uint rzVal = RZ.GetValue();
-                if(( (rzVal & bit) != 0) && ( (bit & mask) == 0)) {
-                    RP.SetValue(bit);
-                    AP.SetValue(InterruptVector[bit]);
+                if(( (rzVal & intBit) != 0) && ( (intBit & mask) == 0)) {
+                    RP.SetValue(intBit);
+                    AP.SetValue(ArchitectureSettings.GetInterruptVector()[intBit]);
                 }
             }
         }

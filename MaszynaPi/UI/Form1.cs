@@ -55,6 +55,8 @@ namespace MaszynaPi {
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
 
+            InitializeInterruptVector();
+
             // uC UI
 
             UserControlCodeEditor.SetCodeLinesHandle(codeEditor.GetCodeLinesHandle());
@@ -77,6 +79,16 @@ namespace MaszynaPi {
                 unixCodeEditorMenuStrip.Visible = false;
             }
 
+        }
+
+        void InitializeInterruptVector() {
+            Dictionary<uint, uint> baseIntVect = new Dictionary<uint, uint>();
+            uint intBit = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
+            for (uint i = 1; i <= Defines.INTERRUPTIONS_NUM; i++) {
+                baseIntVect.Add(intBit, i);
+                intBit >>= 1;
+            }
+            MaszynaPi.MachineLogic.ArchitectureSettings.SetInterruptVector(baseIntVect);
         }
 
         private void SetMachineComponentsViewHandles() {
@@ -103,6 +115,7 @@ namespace MaszynaPi {
             userControlIntButton3.SetIntRequestRegisterHandle(Machine.RZ);
             userControlIntButton4.SetIntRequestRegisterHandle(Machine.RZ);
         }
+
 
         private void RefreshControls(Control control) {
             control.Refresh();

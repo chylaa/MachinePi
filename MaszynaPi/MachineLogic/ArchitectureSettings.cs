@@ -12,7 +12,7 @@ namespace MaszynaPi.MachineLogic {
         static Defines.Architectures CurrentArchitecture = Defines.DEFAULT_ARCHITECTURE;
         static Defines.Components ActiveComponents = (Defines.Components)((int)Defines.DEFAULT_ARCHITECTURE);
         static List<string> AvaibleSignals = new List<string>();
-
+        static Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); // Pairs of <INT bit, Mem Address>
         // Methods - ----------------------------------------------------------------------
         public static uint GetAddressSpace() { return AddressSpace; }
         public static void SetAddressSpace(uint newAddressSpace) {
@@ -69,6 +69,13 @@ namespace MaszynaPi.MachineLogic {
             CurrentArchitecture = machine;
             //SetAvaibleSignals((Defines.Components)machine);
 
+        }
+
+        public static Dictionary<uint,uint> GetInterruptVector() {
+            return InterruptVector;
+        }
+        public static void SetInterruptVector(Dictionary<uint, uint> newVector) {
+            InterruptVector = new Dictionary<uint, uint>(newVector);
         }
 
         // Returns number of avaible IO devices based on current architecture
