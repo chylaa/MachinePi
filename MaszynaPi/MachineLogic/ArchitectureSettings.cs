@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
- 
+
 namespace MaszynaPi.MachineLogic {
 
     static class ArchitectureSettings {
@@ -12,7 +12,9 @@ namespace MaszynaPi.MachineLogic {
         static Defines.Architectures CurrentArchitecture = Defines.DEFAULT_ARCHITECTURE;
         static Defines.Components ActiveComponents = (Defines.Components)((int)Defines.DEFAULT_ARCHITECTURE);
         static List<string> AvaibleSignals = new List<string>();
+
         static Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); // Pairs of <INT bit, Mem Address>
+        static Dictionary<uint, uint> IODevices = new Dictionary<uint, uint> { { 1,1} }; // Map of IO Devices by pair Address <-> DeviceID (Addresses set in Projekt->Opcje->Adresy)
         // Methods - ----------------------------------------------------------------------
         public static uint GetAddressSpace() { return AddressSpace; }
         public static void SetAddressSpace(uint newAddressSpace) {
@@ -30,7 +32,7 @@ namespace MaszynaPi.MachineLogic {
 
         public static uint GetWordBits() { return CodeBits + AddressSpace; }
         public static uint GetMaxWord() {
-            return (uint)Math.Pow(2, AddressSpace+CodeBits)-1;
+            return (uint)Math.Pow(2, AddressSpace + CodeBits) - 1;
         }
 
         public static uint GetMaxAddress() {
@@ -61,7 +63,7 @@ namespace MaszynaPi.MachineLogic {
         public static List<string> GetAvaibleInstructions() {
             var allInstructions = MachineAssembler.InstructionLoader.GetAvaibleInstructionsNames();
             int visible = Math.Min(allInstructions.Count, (int)GetMaxOpcode() + 1);
-            return allInstructions.GetRange(0,visible);
+            return allInstructions.GetRange(0, visible);
         }
 
         public static Defines.Architectures GetArchitecture() { return CurrentArchitecture; }
@@ -71,7 +73,7 @@ namespace MaszynaPi.MachineLogic {
 
         }
 
-        public static Dictionary<uint,uint> GetInterruptVector() {
+        public static Dictionary<uint, uint> GetInterruptVector() {
             return InterruptVector;
         }
         public static void SetInterruptVector(Dictionary<uint, uint> newVector) {
@@ -89,6 +91,18 @@ namespace MaszynaPi.MachineLogic {
             int numOfIOs = GetNumberOfIODevices();
             return (uint)Math.Ceiling(Math.Log(a: numOfIOs, newBase: 2));
         }
+
+        public static uint GetIODeviceID(uint IOAddress) {
+            if (IODevices.ContainsKey(IOAddress) == false) throw new Exception("No Input/Output Device with address: {" + IOAddress.ToString() + "}");
+            return IODevices[IOAddress];
+        }
+
+        public static void SetIODevicesAddresses(Dictionary<uint, uint> DevicesAddresses) {
+            IODevices.Clear();
+            foreach (var pair in DevicesAddresses)
+                IODevices.Add(pair.Key, pair.Value);
+        }
+            
 
     }
         

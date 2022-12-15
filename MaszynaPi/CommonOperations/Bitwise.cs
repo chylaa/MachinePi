@@ -12,7 +12,7 @@ namespace MaszynaPi.CommonOperations {
             return (((b >> bitNumber) & 1) != 0);
         }
 
-        public static uint negateBits(int value) {
+        public static uint NegateBits(int value) {
             return ~(uint)value;
         }
 
@@ -47,6 +47,7 @@ namespace MaszynaPi.CommonOperations {
                 return (value & (uint)(Math.Pow(2,bitsize)-1));
             return value & ArchitectureSettings.GetMaxWord();
         }
+
 
         public static uint DecodeIntructionArgument(uint Value) {
             return (Value & CreateBitMask(noOfZeroes: ArchitectureSettings.GetCodeBits(), noOfOnes: ArchitectureSettings.GetAddressSpace(), zeroesFirst: true));

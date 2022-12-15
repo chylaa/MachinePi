@@ -71,6 +71,7 @@ namespace MaszynaPi.MachineLogic {
 
 
         public static readonly List<string> FETCH_SIGNALS = new List<string> { "czyt", "wys", "wei", "il" };
+        public const string SIGNAL_TEST_IO_READY = "start";
 
         public const string SIGNAL_LABEL = "@";
         public const string SIGNAL_STATEMENT_IF = "jeżeli";

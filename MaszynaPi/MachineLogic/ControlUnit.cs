@@ -30,14 +30,13 @@ namespace MaszynaPi.MachineLogic {
         //Currently (in tick) executed microinstructions [Maybe for Central Unit View of signals]
         List<string> ActiveSignals;
 
-        // [To implement in future] Map of IO Devices by pair Address <-> Device object (Addresses set in Projekt->Opcje->Adresy)
-        Dictionary<uint,IODevice> IODevices; // Maybe in InstructionDecoder?
-        int ActiveIODevice = -1;
+
 
         private int LastTick = -1;
         // Others internal Components
         private InstructionDecoder RzKDecoder;
         private InterruptionController IntController;
+        private IODevicesController IOController;
         // Components visible in architecture view
         public Memory PaO { get; private set; } // Operation Memory ("FLash"?)
         public Bus MagA { get; private set; } // Address BUS
@@ -64,7 +63,7 @@ namespace MaszynaPi.MachineLogic {
         public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
             RzKDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(RzKDecoder.StatementArg); });
-
+            
             ///! Whole section of bitsize defines must be relocated into separate function (some sizes depends on architecture)
             uint Aspace  = ArchitectureSettings.GetAddressSpace();
             uint Cbits   = ArchitectureSettings.GetCodeBits();
@@ -94,7 +93,9 @@ namespace MaszynaPi.MachineLogic {
             AP = new Register(Cbits);
             IntController = new InterruptionController(RZ, RM, RP, AP);
 
-            TextInput = new CharacterInput(G, RB); // All IO Devices should be part of to some "IOUnit" class in Architecture namepaxce?
+            TextInput = new CharacterInput(G, RB); 
+            IOController = new IODevicesController(TextInput);
+
             InitialazeMicroinstructionsMap();
         }
 
@@ -131,7 +132,7 @@ namespace MaszynaPi.MachineLogic {
         public void wyrb() { MagS.SetValue(RB.GetValue()); }
         public void werb() { RB.SetValue(MagS.GetValue()); }
         public void wyg() { MagS.SetValue(G.GetValue()); }
-        public void start() { G.SetValue(MagS.GetValue()); }
+        public void start() { IOController.HandleIOOnStartSignal(I.GetArgument()); } 
         public void wyrm() { MagA.SetValue(RM.GetValue()); }
         public void werm() { RM.SetValue(MagA.GetValue()); }
         public void wyap() { MagA.SetValue(AP.GetValue()); }

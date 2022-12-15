@@ -85,6 +85,7 @@
     <Compile Include="CommonOperations\Bitwise.cs" />
     <Compile Include="FilesHandling\FilesHandler.cs" />
     <Compile Include="MachineLogic\Architecture\InterruptionController.cs" />
+    <Compile Include="MachineLogic\Architecture\IODevicesController.cs" />
     <Compile Include="MachineUI\UserControlBus.cs">
       <SubType>Component</SubType>
     </Compile>

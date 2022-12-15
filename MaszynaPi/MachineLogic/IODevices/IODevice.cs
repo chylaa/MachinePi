@@ -9,35 +9,40 @@ namespace MaszynaPi.MachineLogic.IODevices {
 
     public class IODeviceException : Exception { public IODeviceException(string message) : base(message) { } }
 
-    public enum IOType { Input, Output, InputOutput };
+    public enum IOType { Input, Output, InputOutput };  
 
     public abstract class IODevice {
 
         public const uint IO_WAIT = 0;
         public const uint IO_READY = 1;
 
+        protected uint DeviceID;
         protected IOType Type; 
+        
 
         protected bool START_FLAG;
         protected Register Ready;
         protected Register IOBuffer;
-        protected IODevice(Register g, Register rb, IOType iOType) {
+        protected IODevice(Register g, Register rb, uint id, IOType iOType) {
             Ready = g;
             IOBuffer = rb;
-            START_FLAG = false;
             Type = iOType;
+            DeviceID = id;
+       //     START_FLAG = false;
         }
 
-        public void SetStartFlag(bool set = true) { START_FLAG = set; }
-        public void ClearStartFlag() { START_FLAG = false; }
-        public bool IsStartFlagSet() { return START_FLAG; }
-        public uint GetReadyValue() { return Ready.GetValue(); }
-        public void SetReadyValue(uint value) { Ready.SetValue(value); }
+        // public void SetStartFlag(bool set = true) { START_FLAG = set; }
+        // public void ClearStartFlag() { START_FLAG = false; }
+       // public bool IsStartFlagSet() { return START_FLAG; }
+        protected uint GetReadyValue() { return Ready.GetValue(); }
+        protected  void SetReadyValue(uint value) { Ready.SetValue(value); }
 
         // For microinstructions get; set;
-        public uint GetIOtBufferValue() { return IOBuffer.GetValue(); }
-        public void SetIOBufferValue(uint value) { IOBuffer.SetValue(value); }
+        protected uint GetIOtBufferValue() { return IOBuffer.GetValue(); }
+        protected void SetIOBufferValue(uint value) { IOBuffer.SetValue(value); }
 
+        public IOType GetIOType() { return Type; }
+        public uint GetID() { return DeviceID; }
 
         //For external devices:  Buffer -> IO
         public virtual void ReadFromIOBuffer() {

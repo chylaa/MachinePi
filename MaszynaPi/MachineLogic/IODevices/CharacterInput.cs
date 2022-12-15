@@ -7,10 +7,12 @@ using MaszynaPi.MachineLogic.Architecture;
 using System.Windows.Forms;
 namespace MaszynaPi.MachineLogic.IODevices {
     public class CharacterInput : IODevice {
-
+        const uint ID = 1;
         List<char> CharactersBuffer;
 
-        public CharacterInput(Register g, Register rb, IOType iOType = IOType.Input) : base(g, rb, iOType) { CharactersBuffer = new List<char>(); }
+        public CharacterInput(Register g, Register rb, uint id = ID, IOType iOType = IOType.Input) : base(g, rb, id, iOType) {
+            CharactersBuffer = new List<char>();
+        }
 
         public List<char> GetCharactersBufferHandle() { return CharactersBuffer; }
 

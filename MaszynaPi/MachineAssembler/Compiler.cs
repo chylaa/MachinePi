@@ -27,6 +27,7 @@ namespace MaszynaPi.MachineAssembler {
         public const string HEADER_MEM_ALLOC = "rpa";  // [Header] Allocate Memory - lowercase to standarize code
         public const string HEADER_CONST_VAR = "rst";  // [Header] Const Variable Def - lowercase to standarize code
         public const string HEADER_LABEL_END = ":";    // [Header] End of assembly label (foo) definition
+        const string CHAR_SYMBOL = "'"; 
 
         const int POS_LABEL = 0;
         const int POS_VALUE = 2;
@@ -150,10 +151,16 @@ namespace MaszynaPi.MachineAssembler {
                 if (instArg.Length == 2) { // one argument instruction (max)
                     argument = LabelsAddresses.Keys.FirstOrDefault(toCheck => instArg[1].Equals(toCheck));
                     if (argument == null) { // argument is not defined label
-                        if (int.TryParse(instArg[1], out arg) == false) // Is argument a number?
-                            throw new CompilerException("[Syntax error] Invalid argument in: " + line); // no.
-                        if (arg > ArchitectureSettings.GetMaxWord())
-                            throw new CompilerException("[Syntax error] Argument bigger than curretly maximum value define by machine word. Line: " + line);
+                        if (instArg[1].StartsWith(CHAR_SYMBOL) && instArg[1].EndsWith(CHAR_SYMBOL)) { // If argument is "char" type 
+                            if (instArg[1].Length > 3) throw new CompilerException("[Syntax Error] RST type of 'char' can be only one character long!");
+                            arg = Encoding.ASCII.GetBytes(instArg[1].Replace(CHAR_SYMBOL, ""))[0];
+                        } else {
+                            if (int.TryParse(instArg[1], out arg) == false) // Is argument a number?
+                                throw new CompilerException("[Syntax error] Invalid argument in: " + line); // no.
+                        }
+                        //if (arg > ArchitectureSettings.GetMaxWord())
+                        //    throw new CompilerException("[Syntax error] Argument bigger than curretly maximum value define by machine word. Line: " + line);
+                        arg = (int)(arg & ArchitectureSettings.GetMaxWord()); // Handle Overflow instead throwing exception
 
                         if (IsConstDeclaration(line)) { ProgramNumeric.Add((uint)arg); continue; } // Variable (RST) define - argument is number
 
