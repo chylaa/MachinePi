@@ -16,6 +16,8 @@ namespace MaszynaPi.MachineLogic.IODevices {
 
         public List<char> GetCharactersBufferHandle() { return CharactersBuffer; }
 
+        public Action OnCharacterFetched;
+
         // Gets first character as ASCII number from an input buffer and removes it 
         void GetChar() {
             if (CharactersBuffer.Count == 0) {
@@ -25,6 +27,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
             SetReadyValue(IO_READY);
             SetIOBufferValue(Encoding.ASCII.GetBytes(CharactersBuffer[0].ToString())[0]);
             CharactersBuffer.RemoveAt(0);
+            OnCharacterFetched();
         }
 
         public override void WriteToIOBuffer() {

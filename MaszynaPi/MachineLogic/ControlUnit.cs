@@ -187,6 +187,10 @@ namespace MaszynaPi.MachineLogic {
         public Action<uint> OnSetExecutedLine;
         public Action<uint, List<string>> OnSetExecutedMicroinstruction;
         public Action OnProgramEnd;
+
+        public void SetOnFetchCharAction(Action characterFetched) {
+            TextInput.OnCharacterFetched = characterFetched;
+        }
         public void RefreshValues() {
             OnRefreshValues();
         }
@@ -249,11 +253,11 @@ namespace MaszynaPi.MachineLogic {
             uInstructionBlock++;
 
             uint opcode = I.GetOpcode();
-            int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(opcode);
+            int requiredTicks = RzKDecoder.GetNumberOfTicksInInstruction(opcode);
 
-            if (wasForcedTick && LastTick>0) ticksNum = ticksNum - LastTick;
+            if (wasForcedTick && LastTick>0) requiredTicks = requiredTicks - LastTick;
             // here if instruction microdoce is broken, machine can enter infinite loop -> can add "watchdog" that stops programm after X non-break iterations
-            for (int i = uInstructionBlock; i < ticksNum; i++) {
+            for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i);
                 LastTick = i;
                 if (i<0) break;
@@ -263,7 +267,7 @@ namespace MaszynaPi.MachineLogic {
         void ExecuteProgram() {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
             try { do {
-                    System.Threading.Thread.Sleep(1000);
+                    //System.Threading.Thread.Sleep(1000);
                     ExecuteInstructionCycle(); 
                 } while (I.GetOpcode() != 0);
             } //here also can add watchdog if there is no STP instruction in programm 
@@ -290,7 +294,7 @@ namespace MaszynaPi.MachineLogic {
         public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
 
         //public void ManualTick() { ExecuteTick(); ProgramEnd(); } // TODO: Change to work  with parameter 
-        public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: true); ProgramEnd(); } // Not avaible if ManualControl signal active
+        public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: false); ProgramEnd(); } // Not avaible if ManualControl signal active
         public void ManualProgram() {ExecuteProgram(); ProgramEnd(); } // Not avaible if ManualControl signal active
 
         public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
@@ -309,6 +313,10 @@ namespace MaszynaPi.MachineLogic {
             WS.Reset();
             RB.Reset();
             G.Reset();
+            RZ.Reset();
+            RM.Reset();
+            RP.Reset();
+            AP.Reset();
         }
 
         public void SetComponentsBitsizes() {
@@ -327,6 +335,11 @@ namespace MaszynaPi.MachineLogic {
             Y.SetBitsize(Mword);
             WS.SetBitsize(Aspace);
             RB.SetBitsize(Mword);
+
+            RZ.SetBitsize(Defines.INTERRUPTIONS_NUM);
+            RM.SetBitsize(Defines.INTERRUPTIONS_NUM);
+            RP.SetBitsize(Defines.INTERRUPTIONS_NUM);
+            AP.SetBitsize(Cbits);
         }
 
     }

@@ -20,10 +20,21 @@ namespace MaszynaPi.MachineUI {
         public void SetCharactersBufferSource(List<char> charBuffer) {
             CharactersBuffer = charBuffer;
         }
-        public override void Refresh() {
-            if (CharactersBuffer == null) throw new Exception("Character buffer source in UserControlCharacerInput not set. Use SetCharacterBufferSource() method.");
-            Text = string.Join("",CharactersBuffer);
-            base.Refresh();
+
+        public void OnCharacterFetched() {
+            Text = string.Join("", CharactersBuffer);
         }
+
+        private void UpdateCharactersBuffer() {
+            if (CharactersBuffer == null) throw new Exception("Character buffer source in UserControlCharacerInput not set. Use SetCharacterBufferSource() method.");
+            CharactersBuffer.Clear();
+            CharactersBuffer.AddRange(Text.Select(c => c).ToList());
+        }
+
+        protected override void OnTextChanged(EventArgs e) {
+            base.OnTextChanged(e);
+            UpdateCharactersBuffer();
+        }
+
     }
 }

@@ -67,6 +67,7 @@ namespace MaszynaPi {
 
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
+            Machine.SetOnFetchCharAction(UserControlCharacterInput.OnCharacterFetched);
 
             // GUI
             userControlInstructionList1.SetMicrocodeViewHandle(userControlInstructionMicrocode1);

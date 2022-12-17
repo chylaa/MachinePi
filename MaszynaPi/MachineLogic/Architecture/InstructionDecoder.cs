@@ -9,7 +9,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
     class InstructionDecoder {
         const int JUMP_INDEX_NOT_SET = -1;
         //Loaded from .lst file
-        Dictionary<uint, List<List<string>>> InstructionMap; //(opcode: list of ticks) -> ticks = list of signals
+        //Dictionary<uint, List<List<string>>> InstructionMap; //(opcode: list of ticks) -> ticks = list of signals
         string JumpLabel; 
         int JumpIndex;
         public string StatementArg { get; set; } 
@@ -18,11 +18,6 @@ namespace MaszynaPi.MachineLogic.Architecture {
             StatementArg = "";
             JumpLabel = "";
             JumpIndex = JUMP_INDEX_NOT_SET;
-            LoadInstructionMap();
-        }
-
-        void LoadInstructionMap() {
-            InstructionMap = InstructionLoader.GetInstructionSignalsMap();
         }
 
         //Returns empty string if statement not foud (line just starts with label)
@@ -55,7 +50,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         }
 
         public int GetNumberOfTicksInInstruction(uint instructionOpcode) {
-            return InstructionMap[instructionOpcode].Count;
+            return InstructionLoader.GetInstructionSignalsMap()[instructionOpcode].Count;
         }
 
         public Func<string,bool> OnRequestALUFlagState;
@@ -66,7 +61,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         }
 
         public List<string> DecodeActiveSignals(uint instructionOpcode, int tick) {
-            List<List<string>> instructionSignals = InstructionMap[instructionOpcode];
+            List<List<string>> instructionSignals = InstructionLoader.GetInstructionSignalsMap()[instructionOpcode];
 
             if (instructionSignals[tick].Any(signal => signal.Contains(Defines.SIGNAL_STATEMENT_IF))) {
                 StatementArg = GetSignalStatementArgument(instructionSignals[tick]);

@@ -148,7 +148,12 @@ namespace MaszynaPi.MachineAssembler {
                 foreach (string item in InstructionsLines[name]) {
                     toReplace = UPPER_WORDS.Intersect(item.Split(' ')).ToList();
                     line = item;
-                    foreach (string word in toReplace) { line = line.Replace(word, (toUpper ? word.ToUpper() : word.ToLower())); }
+                    if (line.StartsWith(COMMENT)) { refractoredLines[name].Add(line); continue; }
+
+                    foreach (string word in toReplace) {
+                        string toreplace = " " + word + " ";
+                        line = line.Replace(toreplace, (toUpper ? toreplace.ToUpper() : toreplace.ToLower())); 
+                    }
 
                     refractoredLines[name].Add(line);    
                 }
