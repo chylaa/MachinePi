@@ -14,7 +14,7 @@ namespace MaszynaPi.MachineLogic {
         static List<string> AvaibleSignals = new List<string>();
 
         static Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); // Pairs of <INT bit, Mem Address>
-        static Dictionary<uint, uint> IODevices = new Dictionary<uint, uint> { { 1,1} }; // Map of IO Devices by pair Address <-> DeviceID (Addresses set in Projekt->Opcje->Adresy)
+        static Dictionary<uint, uint> IODevices = new Dictionary<uint, uint>(); // Map of IO Devices by pair Address <-> DeviceID (Addresses set in Projekt->Opcje->Adresy)
         // Methods - ----------------------------------------------------------------------
         public static uint GetAddressSpace() { return AddressSpace; }
         public static void SetAddressSpace(uint newAddressSpace) {
@@ -76,14 +76,27 @@ namespace MaszynaPi.MachineLogic {
         public static Dictionary<uint, uint> GetInterruptVector() {
             return InterruptVector;
         }
+
+        public static void InitializeInterruptVector() {
+            Dictionary<uint, uint> baseIntVect = new Dictionary<uint, uint>();
+            uint intBit = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
+            for (uint i = 1; i <= Defines.INTERRUPTIONS_NUM; i++) {
+                baseIntVect.Add(intBit, i);
+                intBit >>= 1;
+            }
+            MaszynaPi.MachineLogic.ArchitectureSettings.SetInterruptVector(baseIntVect);
+        }
+
         public static void SetInterruptVector(Dictionary<uint, uint> newVector) {
             InterruptVector = new Dictionary<uint, uint>(newVector);
         }
 
+
         // Returns number of avaible IO devices based on current architecture
         public static int GetNumberOfIODevices() {
-            if (ActiveComponents.HasFlag(Defines.Components.ExtendedIO)) return Defines.DEFAULT_IO_NUMBER + Defines.EXTENDED_IO_NUMBER;
-            return Defines.DEFAULT_IO_NUMBER;
+            return Defines.DEFAULT_IO_NUMBER + Defines.EXTENDED_IO_NUMBER;
+            //if (ActiveComponents.HasFlag(Defines.Components.ExtendedIO)) return Defines.DEFAULT_IO_NUMBER + Defines.EXTENDED_IO_NUMBER;
+            //return Defines.DEFAULT_IO_NUMBER;
         }
 
         // Returns how many bits there are needed to encode all IO Devices addresses
@@ -95,6 +108,14 @@ namespace MaszynaPi.MachineLogic {
         public static uint GetIODeviceID(uint IOAddress) {
             if (IODevices.ContainsKey(IOAddress) == false) throw new Exception("No Input/Output Device with address: {" + IOAddress.ToString() + "}");
             return IODevices[IOAddress];
+        }
+
+        public static void InitializeIODevicesAddresses() {
+            Dictionary<uint, uint> baseIOAddr = new Dictionary<uint, uint>();
+            for (uint i = 1; i <= (Defines.EXTENDED_IO_NUMBER+Defines.DEFAULT_IO_NUMBER); i++) {
+                baseIOAddr.Add(i, i);
+            }
+            SetIODevicesAddresses(baseIOAddr);
         }
 
         public static void SetIODevicesAddresses(Dictionary<uint, uint> DevicesAddresses) {

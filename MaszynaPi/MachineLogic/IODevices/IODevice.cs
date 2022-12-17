@@ -38,7 +38,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         protected  void SetReadyValue(uint value) { Ready.SetValue(value); }
 
         // For microinstructions get; set;
-        protected uint GetIOtBufferValue() { return IOBuffer.GetValue(); }
+        protected uint GetIOBufferValue() { return IOBuffer.GetValue(); }
         protected void SetIOBufferValue(uint value) { IOBuffer.SetValue(value); }
 
         public IOType GetIOType() { return Type; }

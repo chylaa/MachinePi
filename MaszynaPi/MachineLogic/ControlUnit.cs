@@ -59,6 +59,7 @@ namespace MaszynaPi.MachineLogic {
 
         // IO's
         public CharacterInput TextInput;
+        public CharacterOutput TextOutput;
 
         public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
@@ -94,7 +95,8 @@ namespace MaszynaPi.MachineLogic {
             IntController = new InterruptionController(RZ, RM, RP, AP);
 
             TextInput = new CharacterInput(G, RB); 
-            IOController = new IODevicesController(TextInput);
+            TextOutput = new CharacterOutput(G, RB);
+            IOController = new IODevicesController(TextInput, TextOutput);
 
             InitialazeMicroinstructionsMap();
         }
@@ -188,9 +190,6 @@ namespace MaszynaPi.MachineLogic {
         public Action<uint, List<string>> OnSetExecutedMicroinstruction;
         public Action OnProgramEnd;
 
-        public void SetOnFetchCharAction(Action characterFetched) {
-            TextInput.OnCharacterFetched = characterFetched;
-        }
         public void RefreshValues() {
             OnRefreshValues();
         }
@@ -298,6 +297,10 @@ namespace MaszynaPi.MachineLogic {
         public void ManualProgram() {ExecuteProgram(); ProgramEnd(); } // Not avaible if ManualControl signal active
 
         public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
+        public void SetOnFetchCharAction(Action characterFetched) { TextInput.OnCharacterFetched = characterFetched;}
+        public List<char> GetTextOutputBufferHandle() { return TextOutput.GetCharactersBufferHandle(); }
+
+        public void SetOnPushCharAction(Action characterPushed) { TextOutput.OnCharacterPushed = characterPushed; }
 
         // ========================= <  Properties Changed/Reset Methods  > =================================== //
         public void ResetRegisters() {

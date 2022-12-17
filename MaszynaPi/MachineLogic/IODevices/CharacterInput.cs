@@ -8,9 +8,11 @@ using System.Windows.Forms;
 namespace MaszynaPi.MachineLogic.IODevices {
     public class CharacterInput : IODevice {
         const uint ID = 1;
+        const IOType TYPE = IOType.Input;
+
         List<char> CharactersBuffer;
 
-        public CharacterInput(Register g, Register rb, uint id = ID, IOType iOType = IOType.Input) : base(g, rb, id, iOType) {
+        public CharacterInput(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             CharactersBuffer = new List<char>();
         }
 
@@ -31,7 +33,6 @@ namespace MaszynaPi.MachineLogic.IODevices {
         }
 
         public override void WriteToIOBuffer() {
-            if (CharactersBuffer == null) { throw new IODeviceException("CharactersBuffer of CharacterInput IODevice not set!"); }
             base.WriteToIOBuffer();
             GetChar();
         }

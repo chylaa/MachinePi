@@ -55,8 +55,8 @@ namespace MaszynaPi {
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
 
-            InitializeInterruptVector();
-
+            ArchitectureSettings.InitializeInterruptVector();
+            ArchitectureSettings.InitializeIODevicesAddresses();
             // uC UI
 
             UserControlCodeEditor.SetCodeLinesHandle(codeEditor.GetCodeLinesHandle());
@@ -68,6 +68,8 @@ namespace MaszynaPi {
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
             Machine.SetOnFetchCharAction(UserControlCharacterInput.OnCharacterFetched);
+            UserControlCharacterOutput.SetCharactersBufferSource(Machine.GetTextOutputBufferHandle());
+            Machine.SetOnPushCharAction(UserControlCharacterOutput.OnCharacterPushed);
 
             // GUI
             userControlInstructionList1.SetMicrocodeViewHandle(userControlInstructionMicrocode1);
@@ -82,15 +84,6 @@ namespace MaszynaPi {
 
         }
 
-        void InitializeInterruptVector() {
-            Dictionary<uint, uint> baseIntVect = new Dictionary<uint, uint>();
-            uint intBit = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
-            for (uint i = 1; i <= Defines.INTERRUPTIONS_NUM; i++) {
-                baseIntVect.Add(intBit, i);
-                intBit >>= 1;
-            }
-            MaszynaPi.MachineLogic.ArchitectureSettings.SetInterruptVector(baseIntVect);
-        }
 
         private void SetMachineComponentsViewHandles() {
             MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
@@ -150,8 +143,9 @@ namespace MaszynaPi {
 
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
-                Machine.ManualProgram();
-                RefreshMicrocontrolerControls();
+                Task task = Task.Run(() => Machine.ManualProgram());
+                //Machine.ManualProgram();
+                //RefreshMicrocontrolerControls();
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
@@ -172,6 +166,11 @@ namespace MaszynaPi {
 
         private void taktToolStripMenuItem_Click(object sender, EventArgs e) {
 
+        }
+
+
+        private void clearOutputConsoleToolStripMenuItem_Click(object sender, EventArgs e) {
+            UserControlCharacterOutput.Reset();
         }
 
         // ================ CodeEditor =======================================
@@ -269,6 +268,7 @@ namespace MaszynaPi {
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
             Machine.ResetRegisters();
+            UserControlCharacterOutput.Reset();
             RefreshMicrocontrolerControls();
         }
 
@@ -300,5 +300,6 @@ namespace MaszynaPi {
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
         private void saveUnixToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
         private void saveContexMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
+
     }
 }

@@ -86,11 +86,18 @@
     <Compile Include="FilesHandling\FilesHandler.cs" />
     <Compile Include="MachineLogic\Architecture\InterruptionController.cs" />
     <Compile Include="MachineLogic\Architecture\IODevicesController.cs" />
+    <Compile Include="MachineLogic\IODevices\CharacterOutput.cs" />
     <Compile Include="MachineUI\UserControlBus.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MachineUI\UserControlBus.Designer.cs">
       <DependentUpon>UserControlBus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MachineUI\UserControlCharacterOutput.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MachineUI\UserControlCharacterOutput.Designer.cs">
+      <DependentUpon>UserControlCharacterOutput.cs</DependentUpon>
     </Compile>
     <Compile Include="MachineUI\UserControlIntButton.cs">
       <SubType>Component</SubType>

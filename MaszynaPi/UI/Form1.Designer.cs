@@ -27,11 +27,17 @@ namespace MaszynaPi {
             this.components = new System.ComponentModel.Container();
             this.BottomPanel = new System.Windows.Forms.Panel();
             this.tabControlOnBottomPanel = new System.Windows.Forms.TabControl();
-            this.tabPageIO = new System.Windows.Forms.TabPage();
+            this.tabPageInput = new System.Windows.Forms.TabPage();
             this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
+            this.tabPageOutput = new System.Windows.Forms.TabPage();
+            this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton1 = new MaszynaPi.MachineUI.UserControlIntButton();
             this.userControlBusAS = new MaszynaPi.MachineUI.UserControlBus();
             this.UserControlRegisterRM = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterAP = new MaszynaPi.MachineUI.UserControlRegister();
@@ -101,13 +107,11 @@ namespace MaszynaPi {
             this.panelInstructionsList = new System.Windows.Forms.Panel();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
             this.tabPageVariables = new System.Windows.Forms.TabPage();
-            this.userControlIntButton1 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.clearOutputConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
-            this.tabPageIO.SuspendLayout();
+            this.tabPageInput.SuspendLayout();
+            this.tabPageOutput.SuspendLayout();
             this.TopLeftPanel.SuspendLayout();
             this.MicrocontrollerPanel.SuspendLayout();
             this.groupBoxDebugLevel.SuspendLayout();
@@ -135,7 +139,8 @@ namespace MaszynaPi {
             // 
             // tabControlOnBottomPanel
             // 
-            this.tabControlOnBottomPanel.Controls.Add(this.tabPageIO);
+            this.tabControlOnBottomPanel.Controls.Add(this.tabPageInput);
+            this.tabControlOnBottomPanel.Controls.Add(this.tabPageOutput);
             this.tabControlOnBottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlOnBottomPanel.Location = new System.Drawing.Point(0, 0);
             this.tabControlOnBottomPanel.Name = "tabControlOnBottomPanel";
@@ -144,16 +149,16 @@ namespace MaszynaPi {
             this.tabControlOnBottomPanel.TabIndex = 0;
             this.tabControlOnBottomPanel.TabStop = false;
             // 
-            // tabPageIO
+            // tabPageInput
             // 
-            this.tabPageIO.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageIO.Controls.Add(this.UserControlCharacterInput);
-            this.tabPageIO.Location = new System.Drawing.Point(4, 22);
-            this.tabPageIO.Name = "tabPageIO";
-            this.tabPageIO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageIO.Size = new System.Drawing.Size(1431, 109);
-            this.tabPageIO.TabIndex = 0;
-            this.tabPageIO.Text = "Konsola wejścia";
+            this.tabPageInput.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageInput.Controls.Add(this.UserControlCharacterInput);
+            this.tabPageInput.Location = new System.Drawing.Point(4, 22);
+            this.tabPageInput.Name = "tabPageInput";
+            this.tabPageInput.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageInput.Size = new System.Drawing.Size(1431, 109);
+            this.tabPageInput.TabIndex = 0;
+            this.tabPageInput.Text = "Konsola wejścia";
             // 
             // UserControlCharacterInput
             // 
@@ -162,6 +167,28 @@ namespace MaszynaPi {
             this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
             this.UserControlCharacterInput.TabIndex = 0;
             this.UserControlCharacterInput.TabStop = false;
+            // 
+            // tabPageOutput
+            // 
+            this.tabPageOutput.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageOutput.Controls.Add(this.UserControlCharacterOutput);
+            this.tabPageOutput.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOutput.Name = "tabPageOutput";
+            this.tabPageOutput.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOutput.Size = new System.Drawing.Size(1431, 109);
+            this.tabPageOutput.TabIndex = 1;
+            this.tabPageOutput.Text = "Output console";
+            // 
+            // UserControlCharacterOutput
+            // 
+            this.UserControlCharacterOutput.BackColor = System.Drawing.Color.White;
+            this.UserControlCharacterOutput.Location = new System.Drawing.Point(11, 9);
+            this.UserControlCharacterOutput.Multiline = true;
+            this.UserControlCharacterOutput.Name = "UserControlCharacterOutput";
+            this.UserControlCharacterOutput.ReadOnly = true;
+            this.UserControlCharacterOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.UserControlCharacterOutput.Size = new System.Drawing.Size(1414, 94);
+            this.UserControlCharacterOutput.TabIndex = 0;
             // 
             // splitter1
             // 
@@ -214,6 +241,54 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(826, 532);
             this.MicrocontrollerPanel.TabIndex = 0;
+            // 
+            // userControlIntButton4
+            // 
+            this.userControlIntButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton4.InterruptPriority = ((uint)(1u));
+            this.userControlIntButton4.Location = new System.Drawing.Point(146, 22);
+            this.userControlIntButton4.Name = "userControlIntButton4";
+            this.userControlIntButton4.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton4.TabIndex = 28;
+            this.userControlIntButton4.Text = "4";
+            this.userControlIntButton4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton4.UseVisualStyleBackColor = true;
+            // 
+            // userControlIntButton3
+            // 
+            this.userControlIntButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton3.InterruptPriority = ((uint)(2u));
+            this.userControlIntButton3.Location = new System.Drawing.Point(107, 22);
+            this.userControlIntButton3.Name = "userControlIntButton3";
+            this.userControlIntButton3.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton3.TabIndex = 27;
+            this.userControlIntButton3.Text = "3";
+            this.userControlIntButton3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton3.UseVisualStyleBackColor = true;
+            // 
+            // userControlIntButton2
+            // 
+            this.userControlIntButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton2.InterruptPriority = ((uint)(4u));
+            this.userControlIntButton2.Location = new System.Drawing.Point(66, 22);
+            this.userControlIntButton2.Name = "userControlIntButton2";
+            this.userControlIntButton2.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton2.TabIndex = 26;
+            this.userControlIntButton2.Text = "2";
+            this.userControlIntButton2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton2.UseVisualStyleBackColor = true;
+            // 
+            // userControlIntButton1
+            // 
+            this.userControlIntButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton1.InterruptPriority = ((uint)(8u));
+            this.userControlIntButton1.Location = new System.Drawing.Point(26, 22);
+            this.userControlIntButton1.Name = "userControlIntButton1";
+            this.userControlIntButton1.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton1.TabIndex = 25;
+            this.userControlIntButton1.Text = "1";
+            this.userControlIntButton1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton1.UseVisualStyleBackColor = true;
             // 
             // userControlBusAS
             // 
@@ -562,6 +637,8 @@ namespace MaszynaPi {
             // 
             // widokToolStripMenuItem
             // 
+            this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearOutputConsoleToolStripMenuItem});
             this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
             this.widokToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.widokToolStripMenuItem.Text = "Widok";
@@ -898,53 +975,12 @@ namespace MaszynaPi {
             this.tabPageVariables.TabIndex = 2;
             this.tabPageVariables.Text = "Zmienne";
             // 
-            // userControlIntButton1
+            // clearOutputConsoleToolStripMenuItem
             // 
-            this.userControlIntButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton1.InterruptPriority = ((uint)(8u));
-            this.userControlIntButton1.Location = new System.Drawing.Point(26, 22);
-            this.userControlIntButton1.Name = "userControlIntButton1";
-            this.userControlIntButton1.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton1.TabIndex = 25;
-            this.userControlIntButton1.Text = "1";
-            this.userControlIntButton1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton1.UseVisualStyleBackColor = true;
-            // 
-            // userControlIntButton2
-            // 
-            this.userControlIntButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton2.InterruptPriority = ((uint)(4u));
-            this.userControlIntButton2.Location = new System.Drawing.Point(66, 22);
-            this.userControlIntButton2.Name = "userControlIntButton2";
-            this.userControlIntButton2.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton2.TabIndex = 26;
-            this.userControlIntButton2.Text = "2";
-            this.userControlIntButton2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton2.UseVisualStyleBackColor = true;
-            // 
-            // userControlIntButton3
-            // 
-            this.userControlIntButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton3.InterruptPriority = ((uint)(2u));
-            this.userControlIntButton3.Location = new System.Drawing.Point(107, 22);
-            this.userControlIntButton3.Name = "userControlIntButton3";
-            this.userControlIntButton3.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton3.TabIndex = 27;
-            this.userControlIntButton3.Text = "3";
-            this.userControlIntButton3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton3.UseVisualStyleBackColor = true;
-            // 
-            // userControlIntButton4
-            // 
-            this.userControlIntButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton4.InterruptPriority = ((uint)(1u));
-            this.userControlIntButton4.Location = new System.Drawing.Point(146, 22);
-            this.userControlIntButton4.Name = "userControlIntButton4";
-            this.userControlIntButton4.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton4.TabIndex = 28;
-            this.userControlIntButton4.Text = "4";
-            this.userControlIntButton4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton4.UseVisualStyleBackColor = true;
+            this.clearOutputConsoleToolStripMenuItem.Name = "clearOutputConsoleToolStripMenuItem";
+            this.clearOutputConsoleToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.clearOutputConsoleToolStripMenuItem.Text = "Clear output console";
+            this.clearOutputConsoleToolStripMenuItem.Click += new System.EventHandler(this.clearOutputConsoleToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -962,8 +998,10 @@ namespace MaszynaPi {
             this.Load += new System.EventHandler(this.Form1_Load);
             this.BottomPanel.ResumeLayout(false);
             this.tabControlOnBottomPanel.ResumeLayout(false);
-            this.tabPageIO.ResumeLayout(false);
-            this.tabPageIO.PerformLayout();
+            this.tabPageInput.ResumeLayout(false);
+            this.tabPageInput.PerformLayout();
+            this.tabPageOutput.ResumeLayout(false);
+            this.tabPageOutput.PerformLayout();
             this.TopLeftPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.ResumeLayout(false);
             this.MicrocontrollerPanel.PerformLayout();
@@ -1041,7 +1079,7 @@ namespace MaszynaPi {
         private System.Windows.Forms.TabPage tabPageInstructionList;
         private System.Windows.Forms.TabPage tabPageVariables;
         private System.Windows.Forms.TabControl tabControlOnBottomPanel;
-        private System.Windows.Forms.TabPage tabPageIO;
+        private System.Windows.Forms.TabPage tabPageInput;
         private System.Windows.Forms.Panel panelInstructionsList;
         private System.Windows.Forms.Panel panelInstructionsMicrocode;
         private System.Windows.Forms.Splitter splitter3;
@@ -1070,6 +1108,9 @@ namespace MaszynaPi {
         private MachineUI.UserControlIntButton userControlIntButton3;
         private MachineUI.UserControlIntButton userControlIntButton2;
         private MachineUI.UserControlIntButton userControlIntButton1;
+        private System.Windows.Forms.TabPage tabPageOutput;
+        private MachineUI.UserControlCharacterOutput UserControlCharacterOutput;
+        private System.Windows.Forms.ToolStripMenuItem clearOutputConsoleToolStripMenuItem;
     }
 }
 
