@@ -27,6 +27,7 @@ namespace MaszynaPi.MachineUI {
 
         public void OnCharacterPushed() {
             Text = string.Join("", CharactersBuffer);
+            Refresh();
         }
 
         public void Reset() {

@@ -30,7 +30,7 @@ namespace MaszynaPi.MachineLogic {
         //Currently (in tick) executed microinstructions [Maybe for Central Unit View of signals]
         List<string> ActiveSignals;
 
-
+        private bool USE_DEBUGGER = true;
 
         private int LastTick = -1;
         // Others internal Components
@@ -60,6 +60,7 @@ namespace MaszynaPi.MachineLogic {
         // IO's
         public CharacterInput TextInput;
         public CharacterOutput TextOutput;
+        public TemperatureSensor TemperatureInput;
 
         public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
@@ -96,7 +97,8 @@ namespace MaszynaPi.MachineLogic {
 
             TextInput = new CharacterInput(G, RB); 
             TextOutput = new CharacterOutput(G, RB);
-            IOController = new IODevicesController(TextInput, TextOutput);
+            TemperatureInput = new TemperatureSensor(G, RB); 
+            IOController = new IODevicesController(TextInput, TextOutput, TemperatureInput);
 
             InitialazeMicroinstructionsMap();
         }
@@ -221,7 +223,8 @@ namespace MaszynaPi.MachineLogic {
             int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(I.GetOpcode());
             if (i > ticksNum) i %= ticksNum; // Protection from manual tick execution
 
-            SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
+            if(USE_DEBUGGER)
+                SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
 
             //if (i == INSTRUCTION_FETCH_ORDER) { // Not neccesary if? DecodeActiveSignals will fetch czyt;wys;wei;il whatsoever (param i)?
             //    FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method
@@ -237,9 +240,11 @@ namespace MaszynaPi.MachineLogic {
                     SignalsMap[signal]();
             }
             MagA.SetEmpty(); MagS.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
-            
             RefreshValues();
-            SetExecutedMicroinstructions();
+            
+            if (USE_DEBUGGER)
+                SetExecutedMicroinstructions(); //select currently executed microinstructions in list of instructions (DEBUGGER)
+            
             return i;
         }
 
@@ -265,10 +270,13 @@ namespace MaszynaPi.MachineLogic {
         //========================================
         void ExecuteProgram() {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
-            try { do {
+            try {
+                USE_DEBUGGER = false;
+                do {
                     //System.Threading.Thread.Sleep(1000);
                     ExecuteInstructionCycle(); 
                 } while (I.GetOpcode() != 0);
+                USE_DEBUGGER = true;
             } //here also can add watchdog if there is no STP instruction in programm 
             catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)); } 
             catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }

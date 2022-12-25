@@ -143,9 +143,8 @@ namespace MaszynaPi {
 
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
-                Task task = Task.Run(() => Machine.ManualProgram());
-                //Machine.ManualProgram();
-                //RefreshMicrocontrolerControls();
+                Machine.ManualProgram();
+                RefreshMicrocontrolerControls();
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {

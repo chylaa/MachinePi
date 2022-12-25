@@ -84,5 +84,7 @@ namespace MaszynaPi.MachineLogic {
         public const string ALU_FLAG_V   = "v";
         public const string ALU_FLAG_INT = "int";
         public const string ALU_FLAG_ZAK = "zak";
+
+        public static readonly Dictionary<string, uint> JOYSTICK_INTERRUPTS = new Dictionary<string, uint> { { "left", 1 }, { "right", 2 }, { "up", 3 }, { "down", 4 } };
     }
 }

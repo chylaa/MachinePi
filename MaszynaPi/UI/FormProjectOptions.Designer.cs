@@ -44,7 +44,6 @@ namespace MaszynaPi {
             this.componentsCheckBoxRegisterY = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxINT = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxIO = new MaszynaPi.ComponentsCheckBox();
-            this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxBusConnection = new MaszynaPi.ComponentsCheckBox();
             this.groupBoxArchitectureType = new System.Windows.Forms.GroupBox();
             this.architectureRadioButtonL = new MaszynaPi.ArchitectureRadioButton();
@@ -55,16 +54,17 @@ namespace MaszynaPi {
             this.tabPageAdresses = new System.Windows.Forms.TabPage();
             this.groupBoxIODevices = new System.Windows.Forms.GroupBox();
             this.groupBoxINTProc = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBoxINT1Addr = new System.Windows.Forms.TextBox();
-            this.textBoxINT2Addr = new System.Windows.Forms.TextBox();
-            this.textBoxINT3Addr = new System.Windows.Forms.TextBox();
             this.textBoxINT4Addr = new System.Windows.Forms.TextBox();
+            this.textBoxINT3Addr = new System.Windows.Forms.TextBox();
+            this.textBoxINT2Addr = new System.Windows.Forms.TextBox();
+            this.textBoxINT1Addr = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageArchitecture.SuspendLayout();
             this.groupBoxMachineWord.SuspendLayout();
@@ -97,7 +97,7 @@ namespace MaszynaPi {
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(109, 23);
             this.buttonCancel.TabIndex = 1;
-            this.buttonCancel.Text = "Anuluj";
+            this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
@@ -123,7 +123,7 @@ namespace MaszynaPi {
             this.tabPageArchitecture.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageArchitecture.Size = new System.Drawing.Size(498, 343);
             this.tabPageArchitecture.TabIndex = 0;
-            this.tabPageArchitecture.Text = "Architektura";
+            this.tabPageArchitecture.Text = "Architecture";
             this.tabPageArchitecture.UseVisualStyleBackColor = true;
             // 
             // groupBoxMachineWord
@@ -137,7 +137,7 @@ namespace MaszynaPi {
             this.groupBoxMachineWord.Size = new System.Drawing.Size(421, 103);
             this.groupBoxMachineWord.TabIndex = 0;
             this.groupBoxMachineWord.TabStop = false;
-            this.groupBoxMachineWord.Text = "Słowo maszynowe";
+            this.groupBoxMachineWord.Text = "Computer word";
             // 
             // numericUpDownCodeBits
             // 
@@ -159,20 +159,20 @@ namespace MaszynaPi {
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 68);
+            this.label2.Location = new System.Drawing.Point(55, 64);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.Size = new System.Drawing.Size(51, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Liczba bitów kodu";
+            this.label2.Text = "Code bits";
             // 
             // labelAdrBits
             // 
             this.labelAdrBits.AutoSize = true;
-            this.labelAdrBits.Location = new System.Drawing.Point(27, 34);
+            this.labelAdrBits.Location = new System.Drawing.Point(55, 33);
             this.labelAdrBits.Name = "labelAdrBits";
-            this.labelAdrBits.Size = new System.Drawing.Size(126, 13);
+            this.labelAdrBits.Size = new System.Drawing.Size(64, 13);
             this.labelAdrBits.TabIndex = 0;
-            this.labelAdrBits.Text = "Liczba bitów adresowych";
+            this.labelAdrBits.Text = "Address bits";
             // 
             // tabPageComponents
             // 
@@ -183,7 +183,7 @@ namespace MaszynaPi {
             this.tabPageComponents.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageComponents.Size = new System.Drawing.Size(498, 343);
             this.tabPageComponents.TabIndex = 1;
-            this.tabPageComponents.Text = "Składniki";
+            this.tabPageComponents.Text = "Components";
             this.tabPageComponents.UseVisualStyleBackColor = true;
             // 
             // groupBoxComponents
@@ -210,9 +210,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxExtendedIO.AutoSize = true;
             this.componentsCheckBoxExtendedIO.Location = new System.Drawing.Point(127, 152);
             this.componentsCheckBoxExtendedIO.Name = "componentsCheckBoxExtendedIO";
-            this.componentsCheckBoxExtendedIO.Size = new System.Drawing.Size(212, 17);
+            this.componentsCheckBoxExtendedIO.Size = new System.Drawing.Size(172, 17);
             this.componentsCheckBoxExtendedIO.TabIndex = 21;
-            this.componentsCheckBoxExtendedIO.Text = "Dodatkowe urządzenia wejścia/wyjścia";
+            this.componentsCheckBoxExtendedIO.Text = "Extended input/output devices";
             this.componentsCheckBoxExtendedIO.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxALUIncDec
@@ -220,9 +220,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxALUIncDec.AutoSize = true;
             this.componentsCheckBoxALUIncDec.Location = new System.Drawing.Point(25, 50);
             this.componentsCheckBoxALUIncDec.Name = "componentsCheckBoxALUIncDec";
-            this.componentsCheckBoxALUIncDec.Size = new System.Drawing.Size(232, 17);
+            this.componentsCheckBoxALUIncDec.Size = new System.Drawing.Size(254, 17);
             this.componentsCheckBoxALUIncDec.TabIndex = 20;
-            this.componentsCheckBoxALUIncDec.Text = "Inkrementacja i dekrementacja akumulatora";
+            this.componentsCheckBoxALUIncDec.Text = "Accumulator incrementation and decrementation";
             this.componentsCheckBoxALUIncDec.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxALULogical
@@ -230,9 +230,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxALULogical.AutoSize = true;
             this.componentsCheckBoxALULogical.Location = new System.Drawing.Point(25, 73);
             this.componentsCheckBoxALULogical.Name = "componentsCheckBoxALULogical";
-            this.componentsCheckBoxALULogical.Size = new System.Drawing.Size(143, 17);
+            this.componentsCheckBoxALULogical.Size = new System.Drawing.Size(134, 17);
             this.componentsCheckBoxALULogical.TabIndex = 19;
-            this.componentsCheckBoxALULogical.Text = "Operacje logiczne w JAL";
+            this.componentsCheckBoxALULogical.Text = "Logic operators in ALU";
             this.componentsCheckBoxALULogical.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxALUExtended
@@ -240,9 +240,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxALUExtended.AutoSize = true;
             this.componentsCheckBoxALUExtended.Location = new System.Drawing.Point(25, 96);
             this.componentsCheckBoxALUExtended.Name = "componentsCheckBoxALUExtended";
-            this.componentsCheckBoxALUExtended.Size = new System.Drawing.Size(220, 17);
+            this.componentsCheckBoxALUExtended.Size = new System.Drawing.Size(206, 17);
             this.componentsCheckBoxALUExtended.TabIndex = 18;
-            this.componentsCheckBoxALUExtended.Text = "Rozszerzone operacje arytmetczne wJAL";
+            this.componentsCheckBoxALUExtended.Text = "Extended arithmetic operations in ALU";
             this.componentsCheckBoxALUExtended.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxStack
@@ -250,9 +250,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxStack.AutoSize = true;
             this.componentsCheckBoxStack.Location = new System.Drawing.Point(25, 119);
             this.componentsCheckBoxStack.Name = "componentsCheckBoxStack";
-            this.componentsCheckBoxStack.Size = new System.Drawing.Size(95, 17);
+            this.componentsCheckBoxStack.Size = new System.Drawing.Size(97, 17);
             this.componentsCheckBoxStack.TabIndex = 17;
-            this.componentsCheckBoxStack.Text = "Obsługa stosu";
+            this.componentsCheckBoxStack.Text = "Stack handling";
             this.componentsCheckBoxStack.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxRegisterX
@@ -260,9 +260,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxRegisterX.AutoSize = true;
             this.componentsCheckBoxRegisterX.Location = new System.Drawing.Point(329, 27);
             this.componentsCheckBoxRegisterX.Name = "componentsCheckBoxRegisterX";
-            this.componentsCheckBoxRegisterX.Size = new System.Drawing.Size(69, 17);
+            this.componentsCheckBoxRegisterX.Size = new System.Drawing.Size(75, 17);
             this.componentsCheckBoxRegisterX.TabIndex = 16;
-            this.componentsCheckBoxRegisterX.Text = "Rejestr X";
+            this.componentsCheckBoxRegisterX.Text = "Register X";
             this.componentsCheckBoxRegisterX.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxRegisterY
@@ -270,9 +270,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxRegisterY.AutoSize = true;
             this.componentsCheckBoxRegisterY.Location = new System.Drawing.Point(329, 50);
             this.componentsCheckBoxRegisterY.Name = "componentsCheckBoxRegisterY";
-            this.componentsCheckBoxRegisterY.Size = new System.Drawing.Size(69, 17);
+            this.componentsCheckBoxRegisterY.Size = new System.Drawing.Size(75, 17);
             this.componentsCheckBoxRegisterY.TabIndex = 15;
-            this.componentsCheckBoxRegisterY.Text = "Rejestr Y";
+            this.componentsCheckBoxRegisterY.Text = "Register Y";
             this.componentsCheckBoxRegisterY.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxINT
@@ -280,9 +280,9 @@ namespace MaszynaPi {
             this.componentsCheckBoxINT.AutoSize = true;
             this.componentsCheckBoxINT.Location = new System.Drawing.Point(329, 73);
             this.componentsCheckBoxINT.Name = "componentsCheckBoxINT";
-            this.componentsCheckBoxINT.Size = new System.Drawing.Size(78, 17);
+            this.componentsCheckBoxINT.Size = new System.Drawing.Size(84, 17);
             this.componentsCheckBoxINT.TabIndex = 14;
-            this.componentsCheckBoxINT.Text = "Przerwania";
+            this.componentsCheckBoxINT.Text = "Interruptions";
             this.componentsCheckBoxINT.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxIO
@@ -290,29 +290,19 @@ namespace MaszynaPi {
             this.componentsCheckBoxIO.AutoSize = true;
             this.componentsCheckBoxIO.Location = new System.Drawing.Point(329, 96);
             this.componentsCheckBoxIO.Name = "componentsCheckBoxIO";
-            this.componentsCheckBoxIO.Size = new System.Drawing.Size(106, 17);
+            this.componentsCheckBoxIO.Size = new System.Drawing.Size(87, 17);
             this.componentsCheckBoxIO.TabIndex = 13;
-            this.componentsCheckBoxIO.Text = "Wejście/Wyjście";
+            this.componentsCheckBoxIO.Text = "Input/Output";
             this.componentsCheckBoxIO.UseVisualStyleBackColor = true;
-            // 
-            // componentsCheckBoxExtendedFlags
-            // 
-            this.componentsCheckBoxExtendedFlags.AutoSize = true;
-            this.componentsCheckBoxExtendedFlags.Location = new System.Drawing.Point(329, 119);
-            this.componentsCheckBoxExtendedFlags.Name = "componentsCheckBoxExtendedFlags";
-            this.componentsCheckBoxExtendedFlags.Size = new System.Drawing.Size(128, 17);
-            this.componentsCheckBoxExtendedFlags.TabIndex = 12;
-            this.componentsCheckBoxExtendedFlags.Text = "Dodatkowe znaczniki";
-            this.componentsCheckBoxExtendedFlags.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxBusConnection
             // 
             this.componentsCheckBoxBusConnection.AutoSize = true;
             this.componentsCheckBoxBusConnection.Location = new System.Drawing.Point(25, 27);
             this.componentsCheckBoxBusConnection.Name = "componentsCheckBoxBusConnection";
-            this.componentsCheckBoxBusConnection.Size = new System.Drawing.Size(176, 17);
+            this.componentsCheckBoxBusConnection.Size = new System.Drawing.Size(124, 17);
             this.componentsCheckBoxBusConnection.TabIndex = 11;
-            this.componentsCheckBoxBusConnection.Text = "Połączenie międzymagistralowe";
+            this.componentsCheckBoxBusConnection.Text = "Inter-Bus connection";
             this.componentsCheckBoxBusConnection.UseVisualStyleBackColor = true;
             // 
             // groupBoxArchitectureType
@@ -393,7 +383,7 @@ namespace MaszynaPi {
             this.tabPageAdresses.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageAdresses.Size = new System.Drawing.Size(498, 343);
             this.tabPageAdresses.TabIndex = 2;
-            this.tabPageAdresses.Text = "Adresy";
+            this.tabPageAdresses.Text = "Addresses";
             this.tabPageAdresses.UseVisualStyleBackColor = true;
             // 
             // groupBoxIODevices
@@ -403,7 +393,7 @@ namespace MaszynaPi {
             this.groupBoxIODevices.Size = new System.Drawing.Size(465, 154);
             this.groupBoxIODevices.TabIndex = 1;
             this.groupBoxIODevices.TabStop = false;
-            this.groupBoxIODevices.Text = "Urządzenia We/Wy";
+            this.groupBoxIODevices.Text = "IO Devices";
             // 
             // groupBoxINTProc
             // 
@@ -422,79 +412,16 @@ namespace MaszynaPi {
             this.groupBoxINTProc.Size = new System.Drawing.Size(463, 144);
             this.groupBoxINTProc.TabIndex = 0;
             this.groupBoxINTProc.TabStop = false;
-            this.groupBoxINTProc.Text = "Procedury obsługi przerwań";
+            this.groupBoxINTProc.Text = "Interrupt Handlers";
             // 
-            // label1
+            // textBoxINT4Addr
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Przerwanie";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(154, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Adres w pamięci";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(58, 50);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(13, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "1";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(58, 72);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(13, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "2";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(58, 95);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(13, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "3";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(58, 117);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(13, 13);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "4";
-            // 
-            // textBoxINT1Addr
-            // 
-            this.textBoxINT1Addr.Location = new System.Drawing.Point(156, 47);
-            this.textBoxINT1Addr.Name = "textBoxINT1Addr";
-            this.textBoxINT1Addr.Size = new System.Drawing.Size(82, 20);
-            this.textBoxINT1Addr.TabIndex = 6;
-            this.textBoxINT1Addr.Text = "1";
-            this.textBoxINT1Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxINT2Addr
-            // 
-            this.textBoxINT2Addr.Location = new System.Drawing.Point(156, 70);
-            this.textBoxINT2Addr.Name = "textBoxINT2Addr";
-            this.textBoxINT2Addr.Size = new System.Drawing.Size(82, 20);
-            this.textBoxINT2Addr.TabIndex = 7;
-            this.textBoxINT2Addr.Text = "2";
-            this.textBoxINT2Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxINT4Addr.Location = new System.Drawing.Point(156, 115);
+            this.textBoxINT4Addr.Name = "textBoxINT4Addr";
+            this.textBoxINT4Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT4Addr.TabIndex = 9;
+            this.textBoxINT4Addr.Text = "4";
+            this.textBoxINT4Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxINT3Addr
             // 
@@ -505,14 +432,87 @@ namespace MaszynaPi {
             this.textBoxINT3Addr.Text = "3";
             this.textBoxINT3Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBoxINT4Addr
+            // textBoxINT2Addr
             // 
-            this.textBoxINT4Addr.Location = new System.Drawing.Point(156, 115);
-            this.textBoxINT4Addr.Name = "textBoxINT4Addr";
-            this.textBoxINT4Addr.Size = new System.Drawing.Size(82, 20);
-            this.textBoxINT4Addr.TabIndex = 9;
-            this.textBoxINT4Addr.Text = "4";
-            this.textBoxINT4Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxINT2Addr.Location = new System.Drawing.Point(156, 70);
+            this.textBoxINT2Addr.Name = "textBoxINT2Addr";
+            this.textBoxINT2Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT2Addr.TabIndex = 7;
+            this.textBoxINT2Addr.Text = "2";
+            this.textBoxINT2Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxINT1Addr
+            // 
+            this.textBoxINT1Addr.Location = new System.Drawing.Point(156, 47);
+            this.textBoxINT1Addr.Name = "textBoxINT1Addr";
+            this.textBoxINT1Addr.Size = new System.Drawing.Size(82, 20);
+            this.textBoxINT1Addr.TabIndex = 6;
+            this.textBoxINT1Addr.Text = "1";
+            this.textBoxINT1Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(58, 117);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(13, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "4";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(58, 95);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "3";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(58, 72);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(13, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "2";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(58, 50);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "1";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(154, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Memory address";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(34, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Interruption";
+            // 
+            // componentsCheckBoxExtendedFlags
+            // 
+            this.componentsCheckBoxExtendedFlags.AutoSize = true;
+            this.componentsCheckBoxExtendedFlags.Location = new System.Drawing.Point(329, 119);
+            this.componentsCheckBoxExtendedFlags.Name = "componentsCheckBoxExtendedFlags";
+            this.componentsCheckBoxExtendedFlags.Size = new System.Drawing.Size(97, 17);
+            this.componentsCheckBoxExtendedFlags.TabIndex = 12;
+            this.componentsCheckBoxExtendedFlags.Text = "Additional flags";
+            this.componentsCheckBoxExtendedFlags.UseVisualStyleBackColor = true;
             // 
             // FormProjectOptions
             // 
@@ -527,7 +527,7 @@ namespace MaszynaPi {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormProjectOptions";
-            this.Text = "Opcje Projektu";
+            this.Text = "Project Options";
             this.TopMost = true;
             this.tabControl.ResumeLayout(false);
             this.tabPageArchitecture.ResumeLayout(false);
@@ -579,7 +579,6 @@ namespace MaszynaPi {
         private ComponentsCheckBox componentsCheckBoxRegisterY;
         private ComponentsCheckBox componentsCheckBoxINT;
         private ComponentsCheckBox componentsCheckBoxIO;
-        private ComponentsCheckBox componentsCheckBoxExtendedFlags;
         private System.Windows.Forms.TextBox textBoxINT4Addr;
         private System.Windows.Forms.TextBox textBoxINT3Addr;
         private System.Windows.Forms.TextBox textBoxINT2Addr;
@@ -590,5 +589,6 @@ namespace MaszynaPi {
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
+        private ComponentsCheckBox componentsCheckBoxExtendedFlags;
     }
 }
