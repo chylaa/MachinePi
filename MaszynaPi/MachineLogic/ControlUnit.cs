@@ -58,9 +58,12 @@ namespace MaszynaPi.MachineLogic {
         public Register AP { get; private set; } // (CodeBits) Interrupt Vector Register
 
         // IO's
-        public CharacterInput TextInput;
-        public CharacterOutput TextOutput;
-        public TemperatureSensor TemperatureInput;
+        CharacterInput TextInput;
+        CharacterOutput TextOutput;
+        TemperatureSensor TemperatureInput;
+        HumiditySensor HumidityInput;
+        PressureSensor PressureInput;
+        MatrixLED MatrixOutput;
 
         public ControlUnit() {
             RzKDecoder = new InstructionDecoder();
@@ -97,8 +100,11 @@ namespace MaszynaPi.MachineLogic {
 
             TextInput = new CharacterInput(G, RB); 
             TextOutput = new CharacterOutput(G, RB);
-            TemperatureInput = new TemperatureSensor(G, RB); 
-            IOController = new IODevicesController(TextInput, TextOutput, TemperatureInput);
+            TemperatureInput = new TemperatureSensor(G, RB);
+            HumidityInput = new HumiditySensor(G, RB);
+            PressureInput = new PressureSensor(G, RB);
+            MatrixOutput = new MatrixLED(G, RB);
+            IOController = new IODevicesController(TextInput, TextOutput, TemperatureInput, HumidityInput, PressureInput, MatrixOutput);
 
             InitialazeMicroinstructionsMap();
         }

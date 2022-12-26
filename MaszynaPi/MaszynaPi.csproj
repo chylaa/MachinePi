@@ -87,6 +87,9 @@
     <Compile Include="MachineLogic\Architecture\InterruptionController.cs" />
     <Compile Include="MachineLogic\Architecture\IODevicesController.cs" />
     <Compile Include="MachineLogic\IODevices\CharacterOutput.cs" />
+    <Compile Include="MachineLogic\IODevices\HumiditySensor.cs" />
+    <Compile Include="MachineLogic\IODevices\MatrixLED.cs" />
+    <Compile Include="MachineLogic\IODevices\PressureSensor.cs" />
     <Compile Include="MachineLogic\IODevices\TemperatureSensor.cs" />
     <Compile Include="MachineUI\UserControlBus.cs">
       <SubType>Component</SubType>

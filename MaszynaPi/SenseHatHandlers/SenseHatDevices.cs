@@ -14,6 +14,7 @@ namespace MaszynaPi.SenseHatHandlers {
         const string SENSOR_HUMIDITY = "humidity";
 
         const string SENSOR_SCRIPT = "scripts/GetSensor.py";
+        const string MATRIX_SCRIPT = "scripts/MatrixPrint.py";
 
         public static readonly string JOYSTICK_POS_PRESS = "middle";
         public readonly static Dictionary<string, uint> JoystickPosIntMap = new Dictionary<string, uint>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
@@ -26,7 +27,7 @@ namespace MaszynaPi.SenseHatHandlers {
         }
 
         // To be called in thread
-        public string GetData(string cmd) {
+        string GetData(string cmd) {
             using (Process proc = new Process()) {
                 proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
                     Arguments = cmd,
@@ -34,7 +35,7 @@ namespace MaszynaPi.SenseHatHandlers {
                     RedirectStandardError = true,
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    WorkingDirectory = Environment.CurrentDirectory,
+                    WorkingDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
 
                 };
                 try {
@@ -49,6 +50,24 @@ namespace MaszynaPi.SenseHatHandlers {
             return ReceivedData;
         }
 
+        void SendData(string cmd) {
+            using (Process proc = new Process()) {
+                proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
+                    Arguments = cmd,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WorkingDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+
+                };
+                try {
+                    proc.Start();
+                    ReceivedData = proc.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
+                    proc.WaitForExit();
+                } catch (Exception e) {
+                    throw new Exception("Error while sending data to SenseHat Device. Details: " + e.Data);
+                }
+            }
+        }
 
         // Should be CentralUnit method for settings proper interuption
         public Action<uint> OnDataReceived;
@@ -60,12 +79,21 @@ namespace MaszynaPi.SenseHatHandlers {
             return temp;
         }
         public uint GetHumidityData() {
+            GetData(SENSOR_SCRIPT + " " + SENSOR_HUMIDITY);
+            uint temp = (uint)float.Parse(ReceivedData);
+            return temp;
 
-            return 0;
         }
         public uint GetPressureData() {
-            return 0;
+            GetData(SENSOR_SCRIPT + " " + SENSOR_PRESSURE);
+            uint temp = (uint)float.Parse(ReceivedData);
+            return temp;
         }
+
+        public void MatrixPrint(uint value, string mode) {
+            SendData(MATRIX_SCRIPT + " " + value.ToString() + " " + mode);
+        }
+
         public uint GetDataAsInterruption() {
             return 0;
         }
