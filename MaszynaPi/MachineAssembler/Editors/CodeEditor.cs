@@ -35,7 +35,7 @@ namespace MaszynaPi.MachineAssembler.Editors{
         }
         public bool IsProgram() {
             string text = CodeLinesToString();
-            return (text.Contains(Compiler.HEADER_CONST_VAR) || text.Contains(Compiler.HEADER_MEM_ALLOC)
+            return (text.Contains(Defines.HEADER_CONST_VAR) || text.Contains(Defines.HEADER_MEM_ALLOC)
                     || InstructionLoader.GetAvaibleInstructionsNames().Any(inst => text.Contains(inst)));
         }
 

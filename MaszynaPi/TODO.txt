@@ -41,9 +41,11 @@
     
     - Kontroler przerwań: [https://pl.wikipedia.org/wiki/Przerwanie#Kontroler_przerwa.C5.84]
     - Łączenie Python+C#: [https://stackoverflow.com/questions/42939357/communication-between-python-and-c-sharp]
-    -
+    - Przerwania wektor:  [https://en.wikipedia.org/wiki/Interrupt_vector_table]
 
-
+    Tłumaczenie rejestrów
+    interrupt control register, or ICR
+    RZ -> IRQ interrupt requests
 
     ____________________________________________________________________________________________________________
     Rzeczy:

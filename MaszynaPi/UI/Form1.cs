@@ -35,11 +35,13 @@ namespace MaszynaPi {
 
             //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
-                MessageBox.Show("Failed to load base instruction set. " + InstructionLoader.BASE_INSTRUCTION_SET_FILENAME + InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION
+                MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
                     + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
                 Close();
+                return;
             }
             InitializeComponent();
+            
 
             codeEditor = new CodeEditor();
             Debugger = new Debugger();

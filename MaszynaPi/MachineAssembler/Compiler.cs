@@ -24,14 +24,12 @@ namespace MaszynaPi.MachineAssembler {
      */
     static class Compiler {
         public const string PROGRAM_FILE_EXTENSION = ".prg";
-        public const string HEADER_MEM_ALLOC = "rpa";  // [Header] Allocate Memory - lowercase to standarize code
-        public const string HEADER_CONST_VAR = "rst";  // [Header] Const Variable Def - lowercase to standarize code
         public const string HEADER_LABEL_END = ":";    // [Header] End of assembly label (foo) definition
         const string CHAR_SYMBOL = "'"; 
 
         const int POS_LABEL = 0;
         const int POS_VALUE = 2;
-
+        
         static bool FLAG_COMPILED = false;
 
         static List<uint> ProgramNumeric = new List<uint>();
@@ -53,14 +51,14 @@ namespace MaszynaPi.MachineAssembler {
         }
 
         public static bool IsVarDeclaration(string line) {
-            return line.Contains(HEADER_MEM_ALLOC);
+            return line.Contains(Defines.HEADER_MEM_ALLOC);
         }
         public static bool IsConstDeclaration(string line) {
-            return line.Contains(HEADER_CONST_VAR);
+            return line.Contains(Defines.HEADER_CONST_VAR);
         }
 
         static bool ContainsProcedureLabel(string line) {
-            return (line.Contains(HEADER_LABEL_END) && (!line.Contains(HEADER_CONST_VAR)) && (!line.Contains(HEADER_MEM_ALLOC)));
+            return (line.Contains(HEADER_LABEL_END) && (!line.Contains(Defines.HEADER_CONST_VAR)) && (!line.Contains(Defines.HEADER_MEM_ALLOC)));
         }
         static string GetLableName(string line) {
             line = DeleteMultipleSpaces(line);

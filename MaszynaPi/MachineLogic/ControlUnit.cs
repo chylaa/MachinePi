@@ -133,6 +133,7 @@ namespace MaszynaPi.MachineLogic {
 
         // Architecture EW
 
+        public void wyls() { MagS.SetValue(L.GetValue()); }
         public void wyrb() { MagS.SetValue(RB.GetValue()); }
         public void werb() { RB.SetValue(MagS.GetValue()); }
         public void wyg() { MagS.SetValue(G.GetValue()); }
@@ -169,18 +170,23 @@ namespace MaszynaPi.MachineLogic {
                 { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
                 {"dak",dak},{"mno",mno}, {"dziel",dziel},{"shr",shr},{"neg",neg},{"lub",lub},{"i",i},{"wyx",wyx},{"wex",wex},{"wyy",wyy},{"wey",wey},
                 {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start},{"wyrm",wyrm},{"werm",werm},
-                {"wyap",wyap},{"rint",rint },{"eni",eni}
+                {"wyls",wyls},{"wyap",wyap},{"rint",rint },{"eni",eni}
             };
-            //var AllENGSignalsMap = new Dictionary<string, Action> {
-            //     {"rd",czyt},{"oa",wyad},{"wr",pisz},{"wracc",przep},{"od",wys},{"add",dod},{"id",wes},{"sub",ode},{"iins",wei},{"wracc",weak},
-            //    { "it", il },{ "ialu", weja },{ "oit", wyl },{ "oacc", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
-            //    {"dak",dak},{"mno",mno}, {"dziel",dziel},{"shr",shr},{"neg",neg},{"lub",lub},{"i",i},{"wyx",wyx},{"wex",wex},{"wyy",wyy},{"wey",wey},
-            //    {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start}
-            //}
+            var AllENGSignalsMap = new Dictionary<string, Action> { 
+                { "start", start },{ "stop", stop }, { "rd", czyt }, { "wr", pisz }, { "ia", wea }, { "od", wys }, { "id", wes }, { "ialu", weja }, { "add", dod },
+                { "sub", ode }, { "wracc", przep }, { "iacc", weak }, { "oacc", wyak }, { "iins", wei }, { "oa", wyad }, { "oit", wyl }, { "iit", wel }, { "icit", il },
+                { "ad", _as }, { "da", sa }, { "oitd", wyls }, { "osp", wyws }, { "isp", wews }, { "icsp", iws }, { "dcsp", dws }, { "mul", mno }, { "div", dziel },
+                { "shr", shr }, { "icacc", iak }, { "dcacc", dak }, { "not", neg }, { "or", lub }, { "and", i }, { "oim", wyrm }, { "iim", werm }, { "oiv", wyap },
+                { "yx", wyx }, { "ix", wex }, { "oy", wyy }, { "iy", wey }, { "obuf", wyrb }, { "ibuf", werb }, { "ord", wyg } ,{"rint",rint },{"eni",eni}
+            };
             //SignalsMap = AllSignalsMap
             //    .Where(item => ArchitectureSettings.GetAvaibleSignals().Contains(item.Key))
             //    .ToDictionary(item => item.Key, item => item.Value);
-            SignalsMap = AllPLSignalsMap;
+            if (Defines.LangInUse == Defines.Lang.PL) {
+                SignalsMap = AllPLSignalsMap;
+            } else {
+                SignalsMap = AllENGSignalsMap;
+            }
         }
 
 

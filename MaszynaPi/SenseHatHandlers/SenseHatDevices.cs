@@ -21,33 +21,29 @@ namespace MaszynaPi.SenseHatHandlers {
         public readonly static Dictionary<string, uint> JoystickPosIntMap = new Dictionary<string, uint>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
 
         // Python Scripts for reading SenseHat states
-        public static readonly string GetJStatePythonSctipt = @"import sys
-                                                                from sense_hat import SenseHat
-                                                                sense = SenseHat()
-                                                                while True:
-                                                                    for e in sense.stick.get_events():
-                                                                        if e.action=='pressed': 
-                                                                            print(str(e.direction))
-                                                                            sys.stdout.flush()";
+        public static readonly string GetJStatePythonSctipt = "import sys\nfrom sense_hat import SenseHat\nsense = SenseHat()\nwhile True:\n    for e in sense.stick.get_events():\n        if e.action==\"pressed\": \n          print(str(e.direction))\n           sys.stdout.flush()";
         
         public static readonly string GetTemperaturePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_TEMPERATURE);
         public static readonly string GetPressurePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_PRESSURE);
         public static readonly string GetHumidityPythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_HUMIDITY);
 
-        string PythonPath;
+        static readonly string StartPythonCMD = "python3 -c $"; //execute programm passed as string
 
         string ReceivedData;
 
         public SenseHatDevice() {
-            PythonPath = "python3";
+        }
+
+        static public string CreatePythonScriptCommand(string cmd) {
+            return (StartPythonCMD + "'" +cmd+ "'");
         }
 
 
         // To be called in thread
         public void GetData(string cmd) {
             using (Process proc = new Process()) {
-                proc.StartInfo = new ProcessStartInfo(PythonPath) { 
-                    Arguments = cmd,
+                proc.StartInfo = new ProcessStartInfo(cmd) {
+                    //Arguments = cmd,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,

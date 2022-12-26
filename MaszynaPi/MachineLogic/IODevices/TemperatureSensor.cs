@@ -17,14 +17,14 @@ namespace MaszynaPi.MachineLogic.IODevices {
         public TemperatureSensor(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             Sensor = new SenseHatDevice();
         }
-
         public Action OnCharacterFetched;
 
         // Temperature get in mili-celcius
         void GetValue() {
             SetReadyValue(IO_READY);
-           
-            Sensor.GetData(SenseHatDevice.GetTemperaturePythonSctipt);
+
+            string cmd = SenseHatDevice.CreatePythonScriptCommand(SenseHatDevice.GetTemperaturePythonSctipt);
+            Sensor.GetData(cmd);
             uint data = Sensor.GetDataAsTemperature();
             SetIOBufferValue(data);
         }

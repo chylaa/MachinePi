@@ -1,0 +1,173 @@
+[Opcje]
+Poczenie=1
+Inkrementacja=1
+Logiczne=0
+Arytmetyczne=1
+Stos=1
+RejestrX=0
+RejestrY=0
+Przerwania=1
+Wejcie=1
+Znaczniki=1
+Adres=6
+Kod=4
+[Rozkazy]
+Liczba=16
+Nazwa1=stp
+Nazwa2=stord
+Nazwa3=sub
+Nazwa4=load
+Nazwa5=stor
+Nazwa6=jmp
+Nazwa7=blz
+Nazwa8=bez
+Nazwa9=iord
+Nazwa10=iowr
+Nazwa11=psh
+Nazwa12=ret
+Nazwa13=pop
+Nazwa14=mas
+Nazwa15=msk
+Nazwa16=rdm
+[stp]
+Linie=5
+Linia1=// zakoczenie programu
+Linia2=INSTRUCTION STP;
+Linia3=Arguments 0;
+Linia4=rd od iins icit;
+Linia5=stop;
+[add]
+Linie=10
+Linia1=INSTRUCTION ADD;
+Linia2=rd od iins icit;
+Linia3=oa ia eni
+Linia4=IF INT THEN @przerw IF ELSE @norm;
+Linia5=@norm rd od ialu add iacc oit ia END;
+Linia6=@przerw rd od ialu add iacc dcsp;
+Linia7=oits id osp ia;
+Linia8=wr oiv iit ia rint;
+Linia9=
+Linia10=
+[sub]
+Linie=10
+Linia1=INSTRUCTION SUB;
+Linia2=rd od iins icit;
+Linia3=oa ia eni
+Linia4=IF INT THEN @przerw IF ELSE @norm;
+Linia5=@norm rd od ialu sub iacc oit ia END;
+Linia6=@przerw rd od ialu sub iacc dcsp;
+Linia7=oits id osp ia;
+Linia8=wr oiv iit ia rint;
+Linia9=
+Linia10=
+[load]
+Linie=10
+Linia1=INSTRUCTION LOAD;
+Linia2=rd od iins icit;
+Linia3=oa ia eni
+Linia4=IF INT THEN @przerw IF ELSE @norm;
+Linia5=@norm rd od ialu wracc iacc oit ia END;
+Linia6=@przerw rd od ialu wracc iacc dcsp;
+Linia7=oits id osp ia;
+Linia8=wr oiv iit ia rint;
+Linia9=
+Linia10=
+[stor]
+Linie=10
+Linia1=// (Ak)->(Ad)
+Linia2=INSTRUCTION STOR;
+Linia3=rd od iins icit;
+Linia4=oa ia oacc id eni
+Linia5=IF INT THEN @przerw IF ELSE @norm;
+Linia6=@norm wr oit ia END;
+Linia7=@przerw wr dcsp;
+Linia8=oits id osp ia;
+Linia9=wr oiv ia iit rint;
+Linia10=
+[jmp]
+Linie=5
+Linia1=// skok bezwarunkowy
+Linia2=INSTRUCTION JMP;
+Linia3=Arguments 1;
+Linia4=rd od iins icit;
+Linia5=oa ia iit;
+[blz]
+Linie=6
+Linia1=// skok gdy (AK) < 0
+Linia2=INSTRUCTION BLZ;
+Linia3=rd od iins icit;
+Linia4=IF Z THEN @ujemne IF ELSE @dodatnie;
+Linia5=@ujemne oa ia iit END;
+Linia6=@dodatnie oit ia;
+[bez]
+Linie=6
+Linia1=// skok gdy (AK) = 0
+Linia2=INSTRUCTION BEZ;
+Linia3=rd od iins icit;
+Linia4=IF zak THEN @zero IF ELSE @niezero;
+Linia5=@zero oa ia iit END;
+Linia6=@niezero oit ia;
+[iord]
+Linie=7
+Linia1=// wczytanie znaku z UZ o numerze podanym jako argument rozkazu
+Linia2=INSTRUCTION IORD;
+Linia3=rd od iins icit;
+Linia4=start oacc ialu sub iacc;
+Linia5=@czekaj ord ialu sub iacc IF Z then @dalej IF ELSE @czekaj;
+Linia6=@dalej obuf ialu wracc iacc oit ia;
+Linia7=
+[iowr]
+Linie=8
+Linia1=// wypisanie znaku znajdujcego si w akumulatorze na UZ o numerze podanym jako argument rozkazu
+Linia2=INSTRUCTION IOWR;
+Linia3=rd od iins icit;
+Linia4=oacc ialu sub iacc id ibuf start;
+Linia5=@czekaj ord ialu sub iacc IF Z then @dalej IF ELSE @czekaj;
+Linia6=@dalej od ialu wracc iacc oit ia;
+Linia7=
+Linia8=
+[psh]
+Linie=6
+Linia1=instruction psh;
+Linia2=arguments 0;
+Linia3=rd od iins icit;
+Linia4=dcsp;
+Linia5=osp ia oacc id;
+Linia6=wr oit ia;
+[ret]
+Linie=5
+Linia1=instruction ret;
+Linia2=arguments 0;
+Linia3=rd od iins icit;
+Linia4=osp ia icsp;
+Linia5=rd od stor ia iit;
+[pop]
+Linie=5
+Linia1=instruction pop;
+Linia2=arguments 0;
+Linia3=rd od iins icit;
+Linia4=osp ia icsp;
+Linia5=rd od ialu wracc iacc oit ia;
+[mas]
+Linie=5
+Linia1=// Rozkaz maskowania adresowanie natychmiastowe
+Linia2=INSTRUCTION MAS;
+Linia3=rd od iins icit;
+Linia4=oa iim;
+Linia5=oit ia;
+[msk]
+Linie=6
+Linia1=// Rozkaz maskowania adresowanie bezporednie
+Linia2=INSTRUCTION MSK;
+Linia3=rd od iins icit;
+Linia4=oa ia;
+Linia5=rd od da iim;
+Linia6=oit ia;
+[rdm]
+Linie=6
+Linia1=// Odczyt rejestru maski
+Linia2=INSTRUCTION RDM;
+Linia3=rd od iins icit;
+Linia4=oa ia;
+Linia5=oim da id;
+Linia6=wr oit ia;

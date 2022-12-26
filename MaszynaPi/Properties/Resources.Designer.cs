@@ -77,6 +77,50 @@ namespace MaszynaPi.Properties {
         ///[Rozkazy]
         ///Liczba=8
         ///Nazwa1=stp
+        ///Nazwa2=add
+        ///Nazwa3=sub
+        ///Nazwa4=load
+        ///Nazwa5=stor
+        ///Nazwa6=jmp
+        ///Nazwa7=blz
+        ///Nazwa8=bez
+        ///[stp]
+        ///Linie=5
+        ///Linia1=// zakończenie programu
+        ///Linia2=INSTRUCTION STP;
+        ///Linia3=Arguments 0;
+        ///Linia4=rd od iins icit;
+        ///Linia5=stop;
+        ///[add]
+        ///Linie=4
+        ///Linia1=INSTRUCTION ADD;
+        ///Linia2=rd od iins icit;
+        ///Linia3=oa ia;
+        ///Linia4=rd od ialu add iac [obcięto pozostałą część ciągu]&quot;;.
+        /// </summary>
+        public static string Base {
+            get {
+                return ResourceManager.GetString("Base", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu [Opcje]
+        ///Połączenie=0
+        ///Inkrementacja=0
+        ///Logiczne=0
+        ///Arytmetyczne=0
+        ///Stos=0
+        ///RejestrX=0
+        ///RejestrY=0
+        ///Przerwania=0
+        ///Wejście=0
+        ///Znaczniki=0
+        ///Adres=5
+        ///Kod=3
+        ///[Rozkazy]
+        ///Liczba=8
+        ///Nazwa1=stp
         ///Nazwa2=dod
         ///Nazwa3=ode
         ///Nazwa4=pob

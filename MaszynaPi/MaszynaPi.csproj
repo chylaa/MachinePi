@@ -189,7 +189,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MachineAssembler\Editors\CodeEditor.cs" />
     <Compile Include="MachineAssembler\InstructionLoader.cs" />
-    <Compile Include="MachineLogic\Defines.cs" />
+    <Compile Include="Defines.cs" />
     <Compile Include="MachineLogic\ControlUnit.cs" />
     <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -234,6 +234,7 @@
     <None Include=".images\SignalWireR.png" />
     <None Include=".images\SignalWireU.png" />
     <None Include=".images\SignalWireArrowD.png" />
+    <None Include=".instructions\Base.lst" />
     <Content Include=".instructions\Podstawa.lst" />
     <Content Include=".instructions\Przerwania.lst" />
     <Content Include=".instructions\Stos.lst" />

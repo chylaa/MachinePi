@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MaszynaPi.MachineLogic {
+namespace MaszynaPi {
     public static class Defines {
         public const uint CODE_BITS_MIN = 3;
         public const uint CODE_BITS_MAX = 8;
 
         public const uint ADDRESS_BITS_MIN = 5;
         public const uint ADDRESS_BITS_MAX = 16;
-        
+
         public const uint DEFAULT_MEM_VAL = 0;
         public const uint DEFAULT_REG_VAL = 0;
         public const int DEFAULT_BUS_VAL = -1;
@@ -29,7 +29,7 @@ namespace MaszynaPi.MachineLogic {
         public const uint INTERRUPTIONS_NUM = 4;
 
         //Enum represent different Machine architectures -> they are encoded as the bit AND of their base components ([Flag] enum Components) 
-        public enum Architectures:int { MachineW=1, MachineWp=3, MachineL=255, MachineEW=2047, MachinePI=4095};
+        public enum Architectures : int { MachineW = 1, MachineWp = 3, MachineL = 255, MachineEW = 2047, MachinePI = 4095 };
         public const Architectures DEFAULT_ARCHITECTURE = Architectures.MachineW;
 
         [Flags]
@@ -70,21 +70,72 @@ namespace MaszynaPi.MachineLogic {
                                                                             SignalsInput, SignalsFlags};
 
 
-        public static readonly List<string> FETCH_SIGNALS = new List<string> { "czyt", "wys", "wei", "il" };
-        public const string SIGNAL_TEST_IO_READY = "start";
-
-        public const string SIGNAL_LABEL = "@";
-        public const string SIGNAL_STATEMENT_IF = "jeżeli";
-        public const string SIGNAL_STATEMENT_THEN = "to";
-        public const string SIGNAL_STATEMENT_ELSE = "gdy nie";
-        public const string SIGNAL_STATEMENT_END = "koniec";
-        public const int STATMENT_ARG_POSITION = 1;
-
-        public const string ALU_FLAG_Z   = "z";
-        public const string ALU_FLAG_V   = "v";
+        public const string ALU_FLAG_Z = "z";
+        public const string ALU_FLAG_V = "v";
         public const string ALU_FLAG_INT = "int";
         public const string ALU_FLAG_ZAK = "zak";
 
         public static readonly Dictionary<string, uint> JOYSTICK_INTERRUPTS = new Dictionary<string, uint> { { "left", 1 }, { "right", 2 }, { "up", 3 }, { "down", 4 } };
+
+        public const string SIGNAL_LABEL = "@";
+        public const int STATMENT_ARG_POSITION = 1;
+
+        // Settable if eng. version loaded
+
+        public static string BASE_INSTRUCTION_SET_FILENAME { get; private set; }
+        public static List<string> FETCH_SIGNALS { get; private set; }
+
+        public static string HEADER_MEM_ALLOC { get; private set; }  // [Header] Allocate Memory - lowercase to standarize code
+        public static string HEADER_CONST_VAR { get; private set; }  // [Header] Const Variable Def - lowercase to standarize code
+
+        public static string SIGNAL_TEST_IO_READY { get; private set; }
+
+        public static string SIGNAL_STATEMENT_IF { get; private set; }
+        public static string SIGNAL_STATEMENT_THEN { get; private set; }
+        public static string SIGNAL_STATEMENT_ELSE { get; private set; }
+        public static string SIGNAL_STATEMENT_END { get; private set; }
+
+        public static string INSTRUCTION_ARGSNUM_HEADER { get; private set; }
+        public static string INSTRUCTION_NAME_HEADER {get; private set; } //importat space at the end!
+
+        public enum Lang { PL, ENG }
+
+        public static Lang LangInUse { get; private set; }
+
+        public static void SetInstructionsLanguageVersion(Lang lang) {
+            LangInUse = lang;
+            if(lang == Lang.ENG) {
+                BASE_INSTRUCTION_SET_FILENAME = "Base.lst";
+                FETCH_SIGNALS = new List<string> { "rd", "od", "iins", "icit" };
+                HEADER_MEM_ALLOC = "mem";
+                HEADER_CONST_VAR = "cst";
+                SIGNAL_TEST_IO_READY = "start";
+                SIGNAL_STATEMENT_IF = "if";
+                SIGNAL_STATEMENT_THEN = "then";
+                SIGNAL_STATEMENT_ELSE = "if else";
+                SIGNAL_STATEMENT_END = "end";
+
+                INSTRUCTION_ARGSNUM_HEADER = "arguments ";
+                INSTRUCTION_NAME_HEADER = "instruction ";
+            }
+            if(lang == Lang.PL) {
+                BASE_INSTRUCTION_SET_FILENAME = "Podstawa.lst";
+                FETCH_SIGNALS = new List<string> { "czyt", "wys", "wei", "il" };
+                HEADER_MEM_ALLOC = "rpa";  
+                HEADER_CONST_VAR = "rst"; 
+                SIGNAL_TEST_IO_READY = "start";
+                SIGNAL_STATEMENT_IF = "jeżeli";
+                SIGNAL_STATEMENT_THEN = "to";
+                SIGNAL_STATEMENT_ELSE = "gdy nie";
+                SIGNAL_STATEMENT_END = "koniec";
+
+                INSTRUCTION_ARGSNUM_HEADER = "argumenty ";
+                INSTRUCTION_NAME_HEADER = "rozkaz ";
+            }
+        }
+        static Defines() {
+            SetInstructionsLanguageVersion(Lang.ENG);
+        }
     }
 }
+

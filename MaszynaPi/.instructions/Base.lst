@@ -1,0 +1,78 @@
+[Opcje]
+Po³¹czenie=0
+Inkrementacja=0
+Logiczne=0
+Arytmetyczne=0
+Stos=0
+RejestrX=0
+RejestrY=0
+Przerwania=0
+Wejœcie=0
+Znaczniki=0
+Adres=5
+Kod=3
+[Rozkazy]
+Liczba=8
+Nazwa1=stp
+Nazwa2=add
+Nazwa3=sub
+Nazwa4=load
+Nazwa5=stor
+Nazwa6=jmp
+Nazwa7=blz
+Nazwa8=bez
+[stp]
+Linie=5
+Linia1=// zakoñczenie programu
+Linia2=INSTRUCTION STP;
+Linia3=Arguments 0;
+Linia4=rd od iins icit;
+Linia5=stop;
+[add]
+Linie=4
+Linia1=INSTRUCTION ADD;
+Linia2=rd od iins icit;
+Linia3=oa ia;
+Linia4=rd od ialu add iacc oit ia;
+[sub]
+Linie=4
+Linia1=INSTRUCTION SUB;
+Linia2=rd od iins icit;
+Linia3=oa ia;
+Linia4=rd od ialu sub iacc oit ia;
+[load]
+Linie=4
+Linia1=INSTRUCTION LOAD;
+Linia2=rd od iins icit;
+Linia3=oa ia;
+Linia4=rd od ialu wracc iacc oit ia;
+[stor]
+Linie=5
+Linia1=// (Ak)->(Ad)
+Linia2=INSTRUCTION STOR;
+Linia3=rd od iins icit;
+Linia4=oa ia oacc id;
+Linia5=wr oit ia;
+[jmp]
+Linie=5
+Linia1=// skok bezwarunkowy
+Linia2=INSTRUCTION JMP;
+Linia3=Arguments 1;
+Linia4=rd od iins icit;
+Linia5=oa ia iit;
+[blz]
+Linie=6
+Linia1=// skok gdy (AK) < 0
+Linia2=INSTRUCTION BLZ;
+Linia3=rd od iins icit;
+Linia4=IF Z THEN @ujemne IF ELSE @dodatnie;
+Linia5=@ujemne oa ia iit END;
+Linia6=@dodatnie oit ia;
+[bez]
+Linie=6
+Linia1=// skok gdy (AK) = 0
+Linia2=INSTRUCTION BEZ;
+Linia3=rd od iins icit;
+Linia4=IF zak THEN @zero IF ELSE @niezero;
+Linia5=@zero oa ia iit END;
+Linia6=@niezero oit ia;

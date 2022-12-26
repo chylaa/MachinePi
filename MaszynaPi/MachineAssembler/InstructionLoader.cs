@@ -13,7 +13,6 @@ namespace MaszynaPi.MachineAssembler {
 
 
     static class InstructionLoader {
-        public const string BASE_INSTRUCTION_SET_FILENAME = "Podstawa"; // Podstawa.lst Embedded in Resources
         public const string INSTRUCTION_FILE_EXTENSION = ".rzk";
         public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
         const string OPTIONS_HEADER = "[opcje]";
@@ -24,16 +23,15 @@ namespace MaszynaPi.MachineAssembler {
         const string CODE_BITS_HEADER = "kod=";
         const byte OPTIONS_LINES = 12;
         const string INSTRUCTIONS_HEADER = "[rozkazy]";
-        const string INSTRUCTION_NAME_HEADER = "rozkaz "; //importat space at the end!
+
         const string INSTRUCTION_NUMBER_HEADER = "liczba=";
         const string INSTRUCTION_LINES_HEADER = "linie=";
-        const string INSTRUCTION_ARGSNUM_HEADER = "argumenty ";
         const string COMMENT = "//";
         public const string LINE_END = ";";
         
         static int MAX_OPCODE=-1;
 
-        public readonly static List<string> UPPER_WORDS = new List<string> { INSTRUCTION_NAME_HEADER.Replace(" ",""), Defines.SIGNAL_STATEMENT_IF, Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[0], Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[1],
+        public readonly static List<string> UPPER_WORDS = new List<string> { Defines.INSTRUCTION_NAME_HEADER.Replace(" ",""), Defines.SIGNAL_STATEMENT_IF, Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[0], Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[1],
                                                                         Defines.SIGNAL_STATEMENT_THEN, Defines.SIGNAL_STATEMENT_END, Defines.ALU_FLAG_INT, Defines.ALU_FLAG_Z, Defines.ALU_FLAG_V, Defines.ALU_FLAG_ZAK};
 
         //For instructions view panel:
@@ -53,10 +51,12 @@ namespace MaszynaPi.MachineAssembler {
         public static bool LoadBaseInstructions() {
             var separator = Environment.NewLine.ToCharArray();
             string baseInstructions;
-            
-            if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./Podstawa.lst");
-            else if (Environment.OSVersion.Platform == PlatformID.Win32NT) baseInstructions = Properties.Resources.Podstawa;
-            else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
+
+            if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./" + Defines.BASE_INSTRUCTION_SET_FILENAME);
+            else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+                if (Defines.LangInUse == Defines.Lang.ENG) baseInstructions = Properties.Resources.Base;
+                else baseInstructions = Properties.Resources.Podstawa;
+            } else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
             
             try { return LoadInstructionSet(baseInstructions.Split(separator).ToList());
             } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Base instructions set "+INSTRUCTION_SET_FILE_EXTENSION+" file error: " + ex.Message);}
@@ -145,13 +145,14 @@ namespace MaszynaPi.MachineAssembler {
             string line = "";
             foreach (string name in InstructionsLines.Keys) {
                 refractoredLines.Add(name, new List<string>());
+
                 foreach (string item in InstructionsLines[name]) {
                     toReplace = UPPER_WORDS.Intersect(item.Split(' ')).ToList();
                     line = item;
                     if (line.StartsWith(COMMENT)) { refractoredLines[name].Add(line); continue; }
 
                     foreach (string word in toReplace) {
-                        string toreplace = " " + word + " ";
+                        string toreplace = word + " "; //" " + word + " ";
                         line = line.Replace(toreplace, (toUpper ? toreplace.ToUpper() : toreplace.ToLower())); 
                     }
 
@@ -201,8 +202,8 @@ namespace MaszynaPi.MachineAssembler {
                 
                 instructionsLines[processInstruction].Add(line.Substring(line.IndexOf(LINE_HEADER_SEPARATOR)+1));
 
-                if (line.Contains(INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) { zeroArgInstructions.Add(processInstruction); }
-                if (line.Contains(COMMENT) || line.Contains(INSTRUCTION_NAME_HEADER) || line.Contains(INSTRUCTION_ARGSNUM_HEADER)) { // is not signals lines
+                if (line.Contains(Defines.INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) { zeroArgInstructions.Add(processInstruction); }
+                if (line.Contains(COMMENT) || line.Contains(Defines.INSTRUCTION_NAME_HEADER) || line.Contains(Defines.INSTRUCTION_ARGSNUM_HEADER)) { // is not signals lines
                     continue;
                 }
                 if (line.IndexOf(LINE_HEADER_SEPARATOR) == line.Length - 1) continue; //empty line
@@ -213,7 +214,7 @@ namespace MaszynaPi.MachineAssembler {
                     throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine) +"\nCheck instruction file encoding (ANSI might not be supported)");
                 if (czytwysweiil) {
                     if (false == IsValidStartOfInstruction(signalsInLine)) 
-                        throw new InstructionLoaderException("Critical error in defined instruction "+processInstruction+". Say after me! czyt, wys, wei, il [!]");
+                        throw new InstructionLoaderException("Critical error in defined instruction "+processInstruction+". Instruction does not start with fetch cycle. Say after me! "+string.Join(", ",Defines.FETCH_SIGNALS)+" [!]");
                     czytwysweiil = false;
                 }
                 instructionSignalsMap[instructionNamesOpcodes[processInstruction]].Add(signalsInLine);
@@ -255,15 +256,15 @@ namespace MaszynaPi.MachineAssembler {
             bool noArgumentInstruction = false;
             var signals = new List<List<string>>();
 
-            if (lines.Any(line => line.Contains(INSTRUCTION_NAME_HEADER))==false) 
-                throw new InstructionLoaderException("Invalid instruction define syntax: Instruction definition must begin with: " + INSTRUCTION_NAME_HEADER + " instruction_name");
+            if (lines.Any(line => line.Contains(Defines.INSTRUCTION_NAME_HEADER))==false) 
+                throw new InstructionLoaderException("Invalid instruction define syntax: Instruction definition must begin with: '" + Defines.INSTRUCTION_NAME_HEADER + " instruction_name'");
 
             foreach(string line in lines) {
-                if (line.Contains(INSTRUCTION_NAME_HEADER)) {
-                    instructionName = line.Replace(INSTRUCTION_NAME_HEADER, "").TrimEnd((" "+LINE_END).ToCharArray());
+                if (line.Contains(Defines.INSTRUCTION_NAME_HEADER)) {
+                    instructionName = line.Replace(Defines.INSTRUCTION_NAME_HEADER, "").TrimEnd((" "+LINE_END).ToCharArray());
                 }
-                if (lines[0].Contains(INSTRUCTION_ARGSNUM_HEADER)) {  
-                    noArgumentInstruction = line.Replace(INSTRUCTION_ARGSNUM_HEADER, "").TrimEnd((" " + LINE_END).ToCharArray()).Equals(NO_ARGUMENT);
+                if (lines[0].Contains(Defines.INSTRUCTION_ARGSNUM_HEADER)) {  
+                    noArgumentInstruction = line.Replace(Defines.INSTRUCTION_ARGSNUM_HEADER, "").TrimEnd((" " + LINE_END).ToCharArray()).Equals(NO_ARGUMENT);
                 }
                 signals.Add(line.Split(' ').ToList());
             }
