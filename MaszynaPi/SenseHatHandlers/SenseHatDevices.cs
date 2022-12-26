@@ -27,7 +27,7 @@ namespace MaszynaPi.SenseHatHandlers {
         public static readonly string GetPressurePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_PRESSURE);
         public static readonly string GetHumidityPythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_HUMIDITY);
 
-        static readonly string StartPythonCMD = "python3 -c $"; //execute programm passed as string
+        static readonly string StartPythonCMD = "python3"; 
 
         string ReceivedData;
 
@@ -35,14 +35,14 @@ namespace MaszynaPi.SenseHatHandlers {
         }
 
         static public string CreatePythonScriptCommand(string cmd) {
-            return (StartPythonCMD + "'" +cmd+ "'");
+            return ("-c $'" + cmd+ "'"); //execute programm passed as string
         }
 
 
         // To be called in thread
         public void GetData(string cmd) {
             using (Process proc = new Process()) {
-                proc.StartInfo = new ProcessStartInfo("cmd") {
+                proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
                     Arguments = cmd,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
