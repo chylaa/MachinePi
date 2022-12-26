@@ -35,7 +35,7 @@ namespace MaszynaPi.SenseHatHandlers {
                     RedirectStandardError = true,
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    WorkingDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+                    WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
 
                 };
                 try {
@@ -56,12 +56,10 @@ namespace MaszynaPi.SenseHatHandlers {
                     Arguments = cmd,
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    WorkingDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
-
+                    WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
                 };
                 try {
                     proc.Start();
-                    ReceivedData = proc.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
                     proc.WaitForExit();
                 } catch (Exception e) {
                     throw new Exception("Error while sending data to SenseHat Device. Details: " + e.Data);
