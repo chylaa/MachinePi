@@ -40,7 +40,7 @@ namespace MaszynaPi.SenseHatHandlers {
 
 
         // To be called in thread
-        public void GetData(string cmd) {
+        public string GetData(string cmd) {
             using (Process proc = new Process()) {
                 proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
                     Arguments = cmd,
@@ -51,13 +51,19 @@ namespace MaszynaPi.SenseHatHandlers {
                     WorkingDirectory = Environment.CurrentDirectory,
 
                 };
-                proc.EnableRaisingEvents = true;
-                proc.ErrorDataReceived += OnErrorReceived;
-                proc.OutputDataReceived += OnOutputReceived;
-
-                proc.Start();
-                proc.WaitForExit();
+                //proc.EnableRaisingEvents = true;
+                //proc.ErrorDataReceived += OnErrorReceived;
+                //proc.OutputDataReceived += OnOutputReceived;
+                try {
+                    proc.Start();
+                    ReceivedData = proc.StandardOutput.ReadToEnd();
+                    Console.WriteLine("Get: " + ReceivedData);
+                    proc.WaitForExit();
+                } catch (Exception e) {
+                    throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
+                }
             }
+            return ReceivedData;
         }
 
 
@@ -80,12 +86,8 @@ namespace MaszynaPi.SenseHatHandlers {
             return 0;
         }
 
-        void OnOutputReceived(object sender, DataReceivedEventArgs e) {
-            ReceivedData = e.Data;
-            Console.WriteLine("Get: " + ReceivedData);
-        }
         void OnErrorReceived(object sender, DataReceivedEventArgs e) {
-                throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
+               
         }
 
     }
