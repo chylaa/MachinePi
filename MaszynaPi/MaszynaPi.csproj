@@ -239,6 +239,8 @@
     <Content Include=".instructions\Przerwania.lst" />
     <Content Include=".instructions\Stos.lst" />
     <Content Include=".instructions\WeWy.lst" />
+    <None Include="SenseHatHandlers\Scripts\GetSensor.py" />
+    <None Include="SenseHatHandlers\Scripts\test.txt" />
     <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

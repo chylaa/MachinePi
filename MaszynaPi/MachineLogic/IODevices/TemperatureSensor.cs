@@ -23,9 +23,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         void GetValue() {
             SetReadyValue(IO_READY);
 
-            string cmd = SenseHatDevice.CreatePythonScriptCommand(SenseHatDevice.GetTemperaturePythonSctipt);
-            Sensor.GetData(cmd);
-            uint data = Sensor.GetDataAsTemperature();
+            uint data = Sensor.GetTemperatureData();
             SetIOBufferValue(data);
         }
 

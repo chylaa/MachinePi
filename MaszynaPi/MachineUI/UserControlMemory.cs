@@ -14,7 +14,7 @@ namespace MaszynaPi.MachineUI {
     public partial class UserControlMemory : TextBox {
 
         private const int NUM_OF_SPACES = 12;
-        private const int MAX_NUMBER_STRING_LENGTH = 3;
+        private const int MAX_NUMBER_STRING_LENGTH = 6; // max number of digits in address index
 
         private List<uint> UnitMemory; //handle to CentralUnit Memory object
         int SelectedIndex;
