@@ -42,8 +42,8 @@ namespace MaszynaPi.SenseHatHandlers {
         // To be called in thread
         public void GetData(string cmd) {
             using (Process proc = new Process()) {
-                proc.StartInfo = new ProcessStartInfo(cmd) {
-                    //Arguments = cmd,
+                proc.StartInfo = new ProcessStartInfo("cmd") {
+                    Arguments = cmd,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
