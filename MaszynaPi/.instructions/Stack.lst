@@ -14,7 +14,7 @@ Kod=4
 [Rozkazy]
 Liczba=12
 Nazwa1=stp
-Nazwa2=stord
+Nazwa2=add
 Nazwa3=sub
 Nazwa4=load
 Nazwa5=stor
