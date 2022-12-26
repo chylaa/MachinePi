@@ -14,8 +14,11 @@ namespace MaszynaPi.SenseHatHandlers {
         const string SENSOR_TEMPERATURE = "temperature";
         const string SENSOR_PRESSURE= "pressure";
         const string SENSOR_HUMIDITY = "humidity";
-
-        const string GET_SENSOR_VALUE_BASE = "from sense_hat import SenseHat\nsense = SenseHat()\nprint(str(sense.get_"+SENSOR_NONE+"()))\nsys.stdout.flush()\n";
+        
+        const string GET_SENSOR_VALUE_BASE = @"from sense_hat import SenseHat
+                                                sense = SenseHat()
+                                                print(str(sense.get_"+SENSOR_NONE+@"()))
+                                                sys.stdout.flush()";
 
         public static readonly string JOYSTICK_POS_PRESS = "middle";
         public readonly static Dictionary<string, uint> JoystickPosIntMap = new Dictionary<string, uint>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
