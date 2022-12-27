@@ -103,7 +103,8 @@ namespace MaszynaPi.SenseHatHandlers {
 
         private void AsyncRead_DoWork(object sender, DoWorkEventArgs e) {
             ReadProcess.Start();
-
+            ReadProcess.BeginErrorReadLine();
+            ReadProcess.BeginOutputReadLine();
             string previous = ReceivedData;
             while(true) {
                 if (ReceivedData.Equals(previous) == false) {
