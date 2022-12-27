@@ -24,7 +24,6 @@ namespace MaszynaPi.SenseHatHandlers {
         static readonly string StartPythonCMD = "python3";
 
         Process ReadProcess;
-        Process SendProcess;
         string ReceivedData;
         BackgroundWorker AsyncRead;
         public SenseHatDevice() {
@@ -89,6 +88,9 @@ namespace MaszynaPi.SenseHatHandlers {
         public Action<uint> OnInterruptionReceived;
 
         public void StartAsyncRead() {
+            if(ReadProcess == null) { throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)"); }
+            ReadProcess.OutputDataReceived += DataReceived;
+            ReadProcess.ErrorDataReceived += ErrorReceived;
 
             AsyncRead = new BackgroundWorker();
             AsyncRead.WorkerReportsProgress = true;
@@ -100,12 +102,14 @@ namespace MaszynaPi.SenseHatHandlers {
         }
 
         private void AsyncRead_DoWork(object sender, DoWorkEventArgs e) {
-            while (true) {
-                string previous = ReceivedData;
-                GetData();
+            ReadProcess.Start();
+
+            string previous = ReceivedData;
+            while(true) {
                 if (ReceivedData.Equals(previous) == false) {
                     if (JoystickPosIntMap.TryGetValue(ReceivedData, out int reportedInt))
                         (sender as BackgroundWorker).ReportProgress(reportedInt);
+                    previous = ReceivedData;
                 }
             }
         }
@@ -113,7 +117,12 @@ namespace MaszynaPi.SenseHatHandlers {
         private void AsyncRead_ProgressChanged(object sender, ProgressChangedEventArgs e) {
             OnInterruptionReceived((uint)e.ProgressPercentage);
         }
-
+        void DataReceived(object sender, DataReceivedEventArgs e) {
+            ReceivedData = e.Data;
+        }
+        void ErrorReceived(object sender, DataReceivedEventArgs e) {
+            throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
+        }
 
 
     }
@@ -155,11 +164,5 @@ void GetDataAsynchronous(string cmd) {
         }
  
 
-        void DataReceived(object sender, DataReceivedEventArgs e) {
-            ReceivedData = e.Data;
-            OnDataReceived(uint.Parse(ReceivedData));
-        }
-        void ErrorReceived(object sender, DataReceivedEventArgs e) {
-            throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
-        }
+
  */
