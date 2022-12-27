@@ -119,6 +119,7 @@ namespace MaszynaPi.SenseHatHandlers {
         }
         void DataReceived(object sender, DataReceivedEventArgs e) {
             ReceivedData = e.Data;
+            Console.WriteLine("Get: " + ReceivedData);
         }
         void ErrorReceived(object sender, DataReceivedEventArgs e) {
             throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
