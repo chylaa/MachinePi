@@ -107,7 +107,8 @@ namespace MaszynaPi.SenseHatHandlers {
             ReadProcess.BeginOutputReadLine();
             string previous = ReceivedData;
             while(true) {
-                if (ReceivedData.Equals(previous) == false) {
+                if (ReceivedData != null && ReceivedData != previous ) {
+                    ReadProcess.WaitForInputIdle(10); //wait 10ms
                     if (JoystickPosIntMap.TryGetValue(ReceivedData, out int reportedInt))
                         (sender as BackgroundWorker).ReportProgress(reportedInt);
                     previous = ReceivedData;
@@ -123,7 +124,7 @@ namespace MaszynaPi.SenseHatHandlers {
             Console.WriteLine("Get: " + ReceivedData);
         }
         void ErrorReceived(object sender, DataReceivedEventArgs e) {
-            throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
+            //throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
         }
 
 
