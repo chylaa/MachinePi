@@ -74,8 +74,8 @@ namespace MaszynaPi {
         public const string ALU_FLAG_V = "v";
         public const string ALU_FLAG_INT = "int";
         public const string ALU_FLAG_ZAK = "zak";
-
-        public static readonly Dictionary<string, uint> JOYSTICK_INTERRUPTS = new Dictionary<string, uint> { { "left", 1 }, { "right", 2 }, { "up", 3 }, { "down", 4 } };
+        // Pirority of interrrupts from diff joystick movements
+        public static readonly Dictionary<string, int> JOYSTICK_INTERRUPTS = new Dictionary<string, int> { { "left", 1 }, { "right", 2 }, { "up", 4 }, { "down", 8 } };
 
         public const string SIGNAL_LABEL = "@";
         public const int STATMENT_ARG_POSITION = 1;

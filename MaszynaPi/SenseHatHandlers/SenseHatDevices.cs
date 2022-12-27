@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using MaszynaPi.MachineLogic;
 
 namespace MaszynaPi.SenseHatHandlers {
@@ -15,15 +16,18 @@ namespace MaszynaPi.SenseHatHandlers {
 
         const string SENSOR_SCRIPT = "scripts/GetSensor.py";
         const string MATRIX_SCRIPT = "scripts/MatrixPrint.py";
+        const string JOYSTICK_SCRIPT = "scripts/GetJoystickPos.py";
 
         public static readonly string JOYSTICK_POS_PRESS = "middle";
-        public readonly static Dictionary<string, uint> JoystickPosIntMap = new Dictionary<string, uint>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
+        public readonly static Dictionary<string, int> JoystickPosIntMap = new Dictionary<string, int>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
 
         static readonly string StartPythonCMD = "python3"; 
 
         string ReceivedData;
 
+        BackgroundWorker AsyncRead;
         public SenseHatDevice() {
+            ReceivedData = "0";
         }
 
         // To be called in thread
@@ -49,6 +53,7 @@ namespace MaszynaPi.SenseHatHandlers {
             }
             return ReceivedData;
         }
+ 
 
         void SendData(string cmd) {
             using (Process proc = new Process()) {
@@ -67,8 +72,7 @@ namespace MaszynaPi.SenseHatHandlers {
             }
         }
 
-        // Should be CentralUnit method for settings proper interuption
-        public Action<uint> OnDataReceived;
+
 
         // Different methods on transforming SenseHat data, based on whitch sensor was used 
         public uint GetTemperatureData() {
@@ -92,13 +96,36 @@ namespace MaszynaPi.SenseHatHandlers {
             SendData(MATRIX_SCRIPT + " " + value.ToString() + " " + mode);
         }
 
-        public uint GetDataAsInterruption() {
-            return 0;
+        // Should be CentralUnit method for settings proper interuption
+        public Action<uint> OnInterruptionReceived;
+
+        public void StartAsyncRead() {
+
+            AsyncRead = new BackgroundWorker();
+            AsyncRead.WorkerReportsProgress = true;
+
+            AsyncRead.DoWork += AsyncRead_DoWork;
+            AsyncRead.ProgressChanged += AsyncRead_ProgressChanged;
+
+            AsyncRead.RunWorkerAsync();
         }
 
-        void OnErrorReceived(object sender, DataReceivedEventArgs e) {
-               
+        private void AsyncRead_DoWork(object sender, DoWorkEventArgs e) {
+            while (true) {
+                string previous = ReceivedData;
+                GetData(JOYSTICK_SCRIPT);
+                if (ReceivedData.Equals(previous) == false) {
+                    if (JoystickPosIntMap.TryGetValue(ReceivedData, out int reportedInt))
+                        (sender as BackgroundWorker).ReportProgress(reportedInt);
+                }
+            }
         }
+
+        private void AsyncRead_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+            OnInterruptionReceived((uint)e.ProgressPercentage);
+        }
+
+
 
     }
 }
@@ -114,5 +141,36 @@ namespace MaszynaPi.SenseHatHandlers {
         public static readonly string GetTemperaturePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_TEMPERATURE);
         public static readonly string GetPressurePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_PRESSURE);
         public static readonly string GetHumidityPythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_HUMIDITY);
+
+void GetDataAsynchronous(string cmd) {
+            using (Process proc = new Process()) {
+                proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
+                    Arguments = cmd,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+                };
+                try {
+                    proc.OutputDataReceived += DataReceived;
+                    proc.ErrorDataReceived += ErrorReceived;
+                    proc.Start();
+                    proc.BeginErrorReadLine();
+                    proc.BeginOutputReadLine();
+                    proc.WaitForExit();
+                } catch (Exception e) {
+                    throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
+                }
+            }
+        }
  
+
+        void DataReceived(object sender, DataReceivedEventArgs e) {
+            ReceivedData = e.Data;
+            OnDataReceived(uint.Parse(ReceivedData));
+        }
+        void ErrorReceived(object sender, DataReceivedEventArgs e) {
+            throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
+        }
  */

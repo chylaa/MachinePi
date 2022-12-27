@@ -148,7 +148,7 @@ namespace MaszynaPi.MachineLogic {
         public void werm() { RM.SetValue(MagA.GetValue()); }
         public void wyap() { MagA.SetValue(AP.GetValue()); }
         public void rint() { IntController.ClearMSBOfAcceptedINTs(); }
-        public void eni()  { IntController.SetAcceptedAndINTVectorRegister(); JAL.SetFlags(ALUFlags.INT); }
+        public void eni()  { IntController.SetAcceptedAndINTVectorRegister(JAL); }
 
         // JAL
         // Architecture W
