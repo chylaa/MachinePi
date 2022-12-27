@@ -15,14 +15,13 @@ namespace MaszynaPi.MachineLogic.IODevices {
 
         public HumiditySensor(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             Sensor = new SenseHatDevice();
+            Sensor.CreateReadProcess(SenseHatDevice.SENSOR_SCRIPT + " " + SenseHatDevice.SENSOR_HUMIDITY);
         }
-        public Action OnCharacterFetched;
 
-        // Temperature get in mili-celcius
         void GetValue() {
             SetReadyValue(IO_READY);
 
-            uint data = Sensor.GetHumidityData();
+            uint data = Sensor.GetSensorData();
             SetIOBufferValue(data);
         }
 

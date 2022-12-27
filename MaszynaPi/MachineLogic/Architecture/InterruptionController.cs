@@ -17,6 +17,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public InterruptionController(Register rz, Register rm, Register rp, Register ap) {
             RZ = rz; RM = rm; RP = rp; AP = ap;
             INTJoustick = new SenseHatDevice();
+            INTJoustick.CreateReadProcess(SenseHatDevice.JOYSTICK_SCRIPT);
             INTJoustick.OnInterruptionReceived += ReportInterrupt;
             INTJoustick.StartAsyncRead();
 

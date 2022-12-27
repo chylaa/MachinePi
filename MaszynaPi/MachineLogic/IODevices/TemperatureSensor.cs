@@ -16,6 +16,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
 
         public TemperatureSensor(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             Sensor = new SenseHatDevice();
+            Sensor.CreateReadProcess(SenseHatDevice.SENSOR_SCRIPT + " " + SenseHatDevice.SENSOR_TEMPERATURE);
         }
         public Action OnCharacterFetched;
 
@@ -23,7 +24,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         void GetValue() {
             SetReadyValue(IO_READY);
 
-            uint data = Sensor.GetTemperatureData();
+            uint data = Sensor.GetSensorData();
             SetIOBufferValue(data);
         }
 

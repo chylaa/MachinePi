@@ -10,46 +10,48 @@ using MaszynaPi.MachineLogic;
 namespace MaszynaPi.SenseHatHandlers {
     class SenseHatDevice {
         const int TO_MILI = 1000;
-        const string SENSOR_TEMPERATURE = "temperature";
-        const string SENSOR_PRESSURE= "pressure";
-        const string SENSOR_HUMIDITY = "humidity";
+        public const string SENSOR_TEMPERATURE = "temperature";
+        public const string SENSOR_PRESSURE= "pressure";
+        public const string SENSOR_HUMIDITY = "humidity";
 
-        const string SENSOR_SCRIPT = "scripts/GetSensor.py";
-        const string MATRIX_SCRIPT = "scripts/MatrixPrint.py";
-        const string JOYSTICK_SCRIPT = "scripts/GetJoystickPos.py";
+        public const string SENSOR_SCRIPT = "scripts/GetSensor.py";
+        public const string JOYSTICK_SCRIPT = "scripts/GetJoystickPos.py";
+        public const string MATRIX_SCRIPT = "scripts/MatrixPrint.py";
 
         public static readonly string JOYSTICK_POS_PRESS = "middle";
         public readonly static Dictionary<string, int> JoystickPosIntMap = new Dictionary<string, int>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
 
-        static readonly string StartPythonCMD = "python3"; 
+        static readonly string StartPythonCMD = "python3";
 
+        Process ReadProcess;
+        Process SendProcess;
         string ReceivedData;
-
         BackgroundWorker AsyncRead;
         public SenseHatDevice() {
             ReceivedData = "0";
         }
 
-        // To be called in thread
-        string GetData(string cmd) {
-            using (Process proc = new Process()) {
-                proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
-                    Arguments = cmd,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+        public void CreateReadProcess(string cmd) {
+            ReadProcess = new Process();
+            ReadProcess.StartInfo = new ProcessStartInfo(StartPythonCMD) {
+                Arguments = cmd,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+            };
+        }
 
-                };
-                try {
-                    proc.Start();
-                    ReceivedData = proc.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
-                    Console.WriteLine("Get: " + ReceivedData);
-                    proc.WaitForExit();
-                } catch (Exception e) {
-                    throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
-                }
+        // To be called in thread
+        string GetData() {
+            try {
+                ReadProcess.Start();
+                ReceivedData = ReadProcess.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
+                Console.WriteLine("Get: " + ReceivedData);
+                ReadProcess.WaitForExit();
+            } catch (Exception e) {
+                throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
             }
             return ReceivedData;
         }
@@ -73,21 +75,8 @@ namespace MaszynaPi.SenseHatHandlers {
         }
 
 
-
-        // Different methods on transforming SenseHat data, based on whitch sensor was used 
-        public uint GetTemperatureData() {
-            GetData(SENSOR_SCRIPT + " " + SENSOR_TEMPERATURE);
-            uint temp = (uint)float.Parse(ReceivedData);
-            return temp;
-        }
-        public uint GetHumidityData() {
-            GetData(SENSOR_SCRIPT + " " + SENSOR_HUMIDITY);
-            uint temp = (uint)float.Parse(ReceivedData);
-            return temp;
-
-        }
-        public uint GetPressureData() {
-            GetData(SENSOR_SCRIPT + " " + SENSOR_PRESSURE);
+        public uint GetSensorData() {
+            GetData();
             uint temp = (uint)float.Parse(ReceivedData);
             return temp;
         }
@@ -113,7 +102,7 @@ namespace MaszynaPi.SenseHatHandlers {
         private void AsyncRead_DoWork(object sender, DoWorkEventArgs e) {
             while (true) {
                 string previous = ReceivedData;
-                GetData(JOYSTICK_SCRIPT);
+                GetData();
                 if (ReceivedData.Equals(previous) == false) {
                     if (JoystickPosIntMap.TryGetValue(ReceivedData, out int reportedInt))
                         (sender as BackgroundWorker).ReportProgress(reportedInt);
