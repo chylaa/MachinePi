@@ -31,6 +31,5 @@ elif mode == 'Paint':
     colour = get_rgb_front(value)
     matrix = update_matrix(value, colour, sense.get_pixels())
     sense.set_pixels(matrix)
-        
 else: 
     pass
