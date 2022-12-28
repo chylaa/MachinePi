@@ -47,7 +47,7 @@ namespace MaszynaPi.SenseHatHandlers {
             try {
                 ReadProcess.Start();
                 ReceivedData = ReadProcess.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
-                Console.WriteLine("Get: " + ReceivedData);
+                //Console.WriteLine("Get: " + ReceivedData);
                 ReadProcess.WaitForExit();
             } catch (Exception e) {
                 throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
@@ -121,7 +121,7 @@ namespace MaszynaPi.SenseHatHandlers {
         }
         void DataReceived(object sender, DataReceivedEventArgs e) {
             ReceivedData = e.Data;
-            Console.WriteLine("Get: " + ReceivedData);
+            //Console.WriteLine("Get: " + ReceivedData);
         }
         void ErrorReceived(object sender, DataReceivedEventArgs e) {
             //throw new Exception("Error while executing asynchronus script. Details: " + e.Data);
@@ -130,42 +130,3 @@ namespace MaszynaPi.SenseHatHandlers {
 
     }
 }
-
-/* OLD
-         const string SENSOR_NONE = "[SENSOR_N]";
-
-        // Python Scripts for reading SenseHat states
-        public static readonly string GetJStatePythonSctipt = "import sys\nfrom sense_hat import SenseHat\nsense = SenseHat()\nwhile True:\n    for e in sense.stick.get_events():\n        if e.action==\"pressed\": \n          print(str(e.direction))\n           sys.stdout.flush()";
-        
- const string GET_SENSOR_VALUE_BASE = "from sense_hat import SenseHat\nsense = SenseHat()\nprint(str(sense.get_"+SENSOR_NONE+"()))\nsys.stdout.flush()\n";
-
-        public static readonly string GetTemperaturePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_TEMPERATURE);
-        public static readonly string GetPressurePythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_PRESSURE);
-        public static readonly string GetHumidityPythonSctipt = GET_SENSOR_VALUE_BASE.Replace(SENSOR_NONE, SENSOR_HUMIDITY);
-
-void GetDataAsynchronous(string cmd) {
-            using (Process proc = new Process()) {
-                proc.StartInfo = new ProcessStartInfo(StartPythonCMD) {
-                    Arguments = cmd,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
-                };
-                try {
-                    proc.OutputDataReceived += DataReceived;
-                    proc.ErrorDataReceived += ErrorReceived;
-                    proc.Start();
-                    proc.BeginErrorReadLine();
-                    proc.BeginOutputReadLine();
-                    proc.WaitForExit();
-                } catch (Exception e) {
-                    throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
-                }
-            }
-        }
- 
-
-
- */

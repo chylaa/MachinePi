@@ -304,5 +304,18 @@ namespace MaszynaPi {
         private void saveUnixToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
         private void saveContexMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
 
+        private void letterToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (letterToolStripMenuItem.Checked) {
+                paintToolStripMenuItem.Checked = false;
+                Machine.SetLEDMatrixModeLetter();
+            }
+        }
+
+        private void paintToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (paintToolStripMenuItem.Checked) {
+                letterToolStripMenuItem.Checked = false;
+                Machine.SetLEDMatrixModePaint();
+            }
+        }       
     }
 }

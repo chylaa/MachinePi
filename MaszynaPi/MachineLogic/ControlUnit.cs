@@ -323,6 +323,9 @@ namespace MaszynaPi.MachineLogic {
         public void SetOnPushCharAction(Action characterPushed) { TextOutput.OnCharacterPushed = characterPushed; }
         public void SetOnInterruptReportedAction(Action interruptReported) { IntController.OnInterruptReported += interruptReported; }
 
+        public void SetLEDMatrixModeLetter() { MatrixOutput.SetLetterMode(); }
+        public void SetLEDMatrixModePaint() { MatrixOutput.SetPaintMode(); }
+
         // ========================= <  Properties Changed/Reset Methods  > =================================== //
         public void ResetRegisters() {
             A.Reset();

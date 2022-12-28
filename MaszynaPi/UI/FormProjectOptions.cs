@@ -42,6 +42,11 @@ namespace MaszynaPi {
             UpdateArchitecureTypeRadioButtons();
 
             InitializeAdresses();
+
+            if(Environment.OSVersion.Platform != PlatformID.Unix) {
+                architectureRadioButtonPI.Enabled = false;
+                componentsCheckBoxExtendedIO.Enabled = false;
+            }
            
         }
 
