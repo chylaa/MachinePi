@@ -67,6 +67,8 @@ namespace MaszynaPi {
             SetMachineComponentsViewHandles();
             RefreshMicrocontrolerControls();
 
+            Machine.SetOnInterruptReportedAction(RefreshMicrocontrolerControls);
+
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
             Machine.SetOnFetchCharAction(UserControlCharacterInput.OnCharacterFetched);

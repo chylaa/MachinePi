@@ -321,6 +321,7 @@ namespace MaszynaPi.MachineLogic {
         public List<char> GetTextOutputBufferHandle() { return TextOutput.GetCharactersBufferHandle(); }
 
         public void SetOnPushCharAction(Action characterPushed) { TextOutput.OnCharacterPushed = characterPushed; }
+        public void SetOnInterruptReportedAction(Action interruptReported) { IntController.OnInterruptReported += interruptReported; }
 
         // ========================= <  Properties Changed/Reset Methods  > =================================== //
         public void ResetRegisters() {

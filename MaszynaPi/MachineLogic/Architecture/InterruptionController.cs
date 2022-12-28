@@ -20,11 +20,13 @@ namespace MaszynaPi.MachineLogic.Architecture {
             INTJoustick.CreateReadProcess(SenseHatDevice.JOYSTICK_SCRIPT);
             INTJoustick.OnInterruptionReceived += ReportInterrupt;
             INTJoustick.StartAsyncRead();
-
         }
+
+        public Action OnInterruptReported;
 
         void ReportInterrupt(uint IntPriority) {
             RZ.SetValue(RZ.GetValue() | IntPriority);
+            OnInterruptReported();
         }
 
 
