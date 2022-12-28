@@ -170,7 +170,7 @@ namespace MaszynaPi.MachineLogic {
         public void lub() { JAL.Or(); }
         public void i() { JAL.And(); }
 
-        void InitialazeMicroinstructionsMap() {
+        public void InitialazeMicroinstructionsMap() {
             var AllPLSignalsMap = new Dictionary<string, Action> {
                 {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
                 { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},

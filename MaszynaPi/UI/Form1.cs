@@ -316,6 +316,22 @@ namespace MaszynaPi {
                 letterToolStripMenuItem.Checked = false;
                 Machine.SetLEDMatrixModePaint();
             }
-        }       
+        }
+
+        private void polishToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (polishToolStripMenuItem.Checked) {
+                englishToolStripMenuItem.Checked = false;
+                Defines.SetInstructionsLanguageVersion(Defines.Lang.PL);
+                Machine.InitialazeMicroinstructionsMap();
+            }
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (englishToolStripMenuItem.Checked) {
+                polishToolStripMenuItem.Checked = false;
+                Defines.SetInstructionsLanguageVersion(Defines.Lang.ENG);
+                Machine.InitialazeMicroinstructionsMap();
+            }
+        }
     }
 }
