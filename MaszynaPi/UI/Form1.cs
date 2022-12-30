@@ -24,6 +24,8 @@ namespace MaszynaPi {
 
         string LastUsedFilepath;
 
+        List<object> MachineComponents;
+
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
          *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
@@ -41,7 +43,7 @@ namespace MaszynaPi {
                 return;
             }
             InitializeComponent();
-            
+            InitializeMahineComponentsList();
 
             codeEditor = new CodeEditor();
             Debugger = new Debugger();
@@ -88,6 +90,14 @@ namespace MaszynaPi {
 
         }
 
+        private void InitializeMahineComponentsList() {
+            MachineComponents = new List<object> { MemoryControl,
+                UserControlRegisterA, UserControlRegisterS, UserControlRegisterI,UserControlRegisterL,
+                UserControlRegisterAK, UserControlRegisterX,UserControlRegisterY,UserControlRegisterRB,
+                UserControlRegisterG,UserControlRegisterWS, UserControlRegisterRZ, UserControlRegisterRM,
+                UserControlRegisterRP,UserControlRegisterAP,userControlBusData,userControlBusAddress
+            };
+        }
 
         private void SetMachineComponentsViewHandles() {
             MemoryControl.SetItemsValueSource(Machine.GetMemoryContentHandle());
@@ -122,7 +132,14 @@ namespace MaszynaPi {
                 RefreshControls(con);
         }
         private void RefreshMicrocontrolerControls() {
-            RefreshControls(MicrocontrollerPanel);
+            //RefreshControls(MicrocontrollerPanel);
+            foreach (var instance in MachineComponents) {
+                System.Reflection.MethodInfo method = instance.GetType().GetMethod("Refresh");
+                if (method != null) {
+                    method.Invoke(instance, null);
+                }
+            }
+
         }
 
         private void RefreshRightPanelControls() {

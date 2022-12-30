@@ -48,12 +48,14 @@ namespace MaszynaPi.MachineUI {
                 if (SelectedIndex < 0 || SelectedIndex > UnitMemory.Count) return;
                 if (Environment.OSVersion.Platform == PlatformID.Unix) SelectedIndex--;
 
-                string response = UnitMemory[SelectedIndex].ToString();
+                string memaddr = SelectedIndex.ToString();
+                string memcontent = UnitMemory[SelectedIndex].ToString();
                 Point location = PointToClient(this.Location);
-                InputDialog.ShowInputDialog(ref response, title: "PaO ", subtitle: "Aktualna wartość [" + SelectedIndex.ToString() + "]", x: location.X, y: location.Y);
-                if (response == null) MessageBox.Show("Response is null");
-                if (response.Length != 0)
-                    UnitMemory[SelectedIndex] = Bitwise.HandleOverflow((uint)int.Parse(response));
+                var result = InputDialog.ShowDoubleInputDialog(ref memaddr, ref memcontent, title: "Memory ", subtitle:"Address ", subtitle2: "Value ", x: location.X, y: location.Y);
+                if (memcontent == null || memaddr == null || result == DialogResult.Cancel) return;
+                SelectedIndex = (int)Bitwise.HandleOverflow(uint.Parse(memaddr), MachineLogic.ArchitectureSettings.GetAddressSpace());
+                if (memcontent.Length != 0)
+                    UnitMemory[SelectedIndex] = Bitwise.HandleOverflow(uint.Parse(memcontent));
                 SetLine(SelectedIndex,CreateFormattedItem(SelectedIndex));
                 (sender as TextBox).SelectionLength = 0; //try to prevent selection bug in Rasbian
             } catch (Exception ex) { throw new Exception("Menu Item Handler Error: "+ex.Message); }
