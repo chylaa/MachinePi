@@ -51,7 +51,14 @@ namespace MaszynaPi {
             this.projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zapiszListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ładujListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.instructionLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.polishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.matrixModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.letterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wykonajToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.programToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.rozkazToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,13 +87,10 @@ namespace MaszynaPi {
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.panelInstructionsList = new System.Windows.Forms.Panel();
             this.tabPageVariables = new System.Windows.Forms.TabPage();
-            this.pIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.matrixModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.letterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.paintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
             this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
+            this.userControlSignalWire1 = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
             this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
             this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
@@ -111,9 +115,6 @@ namespace MaszynaPi {
             this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
-            this.instructionLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.polishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -198,6 +199,7 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire1);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton4);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton3);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton2);
@@ -398,12 +400,74 @@ namespace MaszynaPi {
             this.ładujListęRozkazówToolStripMenuItem.Text = "Load instruction list";
             this.ładujListęRozkazówToolStripMenuItem.Click += new System.EventHandler(this.ładujListęRozkazówToolStripMenuItem_Click);
             // 
+            // instructionLanguageToolStripMenuItem
+            // 
+            this.instructionLanguageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.polishToolStripMenuItem,
+            this.englishToolStripMenuItem});
+            this.instructionLanguageToolStripMenuItem.Name = "instructionLanguageToolStripMenuItem";
+            this.instructionLanguageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.instructionLanguageToolStripMenuItem.Text = "Instruction language";
+            // 
+            // polishToolStripMenuItem
+            // 
+            this.polishToolStripMenuItem.CheckOnClick = true;
+            this.polishToolStripMenuItem.Name = "polishToolStripMenuItem";
+            this.polishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.polishToolStripMenuItem.Text = "Polish";
+            this.polishToolStripMenuItem.Click += new System.EventHandler(this.polishToolStripMenuItem_Click);
+            // 
+            // englishToolStripMenuItem
+            // 
+            this.englishToolStripMenuItem.Checked = true;
+            this.englishToolStripMenuItem.CheckOnClick = true;
+            this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.englishToolStripMenuItem.Text = "English";
+            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
+            // 
             // opcjeToolStripMenuItem
             // 
             this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
             this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.opcjeToolStripMenuItem.Text = "Options . . .";
             this.opcjeToolStripMenuItem.Click += new System.EventHandler(this.opcjeToolStripMenuItem_Click);
+            // 
+            // pIToolStripMenuItem
+            // 
+            this.pIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.matrixModeToolStripMenuItem});
+            this.pIToolStripMenuItem.Name = "pIToolStripMenuItem";
+            this.pIToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.pIToolStripMenuItem.Text = "PI";
+            // 
+            // matrixModeToolStripMenuItem
+            // 
+            this.matrixModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.letterToolStripMenuItem,
+            this.paintToolStripMenuItem});
+            this.matrixModeToolStripMenuItem.Name = "matrixModeToolStripMenuItem";
+            this.matrixModeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.matrixModeToolStripMenuItem.Text = "Matrix mode";
+            // 
+            // letterToolStripMenuItem
+            // 
+            this.letterToolStripMenuItem.Checked = true;
+            this.letterToolStripMenuItem.CheckOnClick = true;
+            this.letterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.letterToolStripMenuItem.Name = "letterToolStripMenuItem";
+            this.letterToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.letterToolStripMenuItem.Text = "Letter";
+            this.letterToolStripMenuItem.Click += new System.EventHandler(this.letterToolStripMenuItem_Click);
+            // 
+            // paintToolStripMenuItem
+            // 
+            this.paintToolStripMenuItem.CheckOnClick = true;
+            this.paintToolStripMenuItem.Name = "paintToolStripMenuItem";
+            this.paintToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.paintToolStripMenuItem.Text = "Paint";
+            this.paintToolStripMenuItem.Click += new System.EventHandler(this.paintToolStripMenuItem_Click);
             // 
             // wykonajToolStripMenuItem
             // 
@@ -660,41 +724,6 @@ namespace MaszynaPi {
             this.tabPageVariables.TabIndex = 2;
             this.tabPageVariables.Text = "Variables";
             // 
-            // pIToolStripMenuItem
-            // 
-            this.pIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.matrixModeToolStripMenuItem});
-            this.pIToolStripMenuItem.Name = "pIToolStripMenuItem";
-            this.pIToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.pIToolStripMenuItem.Text = "PI";
-            // 
-            // matrixModeToolStripMenuItem
-            // 
-            this.matrixModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.letterToolStripMenuItem,
-            this.paintToolStripMenuItem});
-            this.matrixModeToolStripMenuItem.Name = "matrixModeToolStripMenuItem";
-            this.matrixModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.matrixModeToolStripMenuItem.Text = "Matrix mode";
-            // 
-            // letterToolStripMenuItem
-            // 
-            this.letterToolStripMenuItem.Checked = true;
-            this.letterToolStripMenuItem.CheckOnClick = true;
-            this.letterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.letterToolStripMenuItem.Name = "letterToolStripMenuItem";
-            this.letterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.letterToolStripMenuItem.Text = "Letter";
-            this.letterToolStripMenuItem.Click += new System.EventHandler(this.letterToolStripMenuItem_Click);
-            // 
-            // paintToolStripMenuItem
-            // 
-            this.paintToolStripMenuItem.CheckOnClick = true;
-            this.paintToolStripMenuItem.Name = "paintToolStripMenuItem";
-            this.paintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.paintToolStripMenuItem.Text = "Paint";
-            this.paintToolStripMenuItem.Click += new System.EventHandler(this.paintToolStripMenuItem_Click);
-            // 
             // UserControlCodeEditor
             // 
             this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -734,6 +763,15 @@ namespace MaszynaPi {
             this.userControlInstructionList1.Size = new System.Drawing.Size(200, 527);
             this.userControlInstructionList1.TabIndex = 0;
             this.userControlInstructionList1.WordWrap = false;
+            // 
+            // userControlSignalWire1
+            // 
+            this.userControlSignalWire1.Active = false;
+            this.userControlSignalWire1.Location = new System.Drawing.Point(693, 452);
+            this.userControlSignalWire1.Name = "userControlSignalWire1";
+            this.userControlSignalWire1.SignalName = "id";
+            this.userControlSignalWire1.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire1.TabIndex = 29;
             // 
             // userControlIntButton4
             // 
@@ -844,7 +882,7 @@ namespace MaszynaPi {
             // UserControlRegisterWS
             // 
             this.UserControlRegisterWS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterWS.Location = new System.Drawing.Point(341, 172);
+            this.UserControlRegisterWS.Location = new System.Drawing.Point(341, 173);
             this.UserControlRegisterWS.Name = "UserControlRegisterWS";
             this.UserControlRegisterWS.ReadOnly = true;
             this.UserControlRegisterWS.RegisterName = "WS";
@@ -918,7 +956,7 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterL.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterL.CausesValidation = false;
-            this.UserControlRegisterL.Location = new System.Drawing.Point(26, 172);
+            this.UserControlRegisterL.Location = new System.Drawing.Point(26, 173);
             this.UserControlRegisterL.Name = "UserControlRegisterL";
             this.UserControlRegisterL.ReadOnly = true;
             this.UserControlRegisterL.RegisterName = "L";
@@ -931,7 +969,7 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterI.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterI.CausesValidation = false;
-            this.UserControlRegisterI.Location = new System.Drawing.Point(63, 429);
+            this.UserControlRegisterI.Location = new System.Drawing.Point(63, 430);
             this.UserControlRegisterI.Name = "UserControlRegisterI";
             this.UserControlRegisterI.ReadOnly = true;
             this.UserControlRegisterI.RegisterName = "I";
@@ -966,7 +1004,7 @@ namespace MaszynaPi {
             // 
             this.MemoryControl.BackColor = System.Drawing.Color.White;
             this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.MemoryControl.Location = new System.Drawing.Point(606, 198);
+            this.MemoryControl.Location = new System.Drawing.Point(582, 199);
             this.MemoryControl.Multiline = true;
             this.MemoryControl.Name = "MemoryControl";
             this.MemoryControl.ReadOnly = true;
@@ -979,7 +1017,7 @@ namespace MaszynaPi {
             // UserControlRegisterS
             // 
             this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterS.Location = new System.Drawing.Point(606, 429);
+            this.UserControlRegisterS.Location = new System.Drawing.Point(582, 430);
             this.UserControlRegisterS.Name = "UserControlRegisterS";
             this.UserControlRegisterS.ReadOnly = true;
             this.UserControlRegisterS.RegisterName = "S";
@@ -992,7 +1030,7 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterA.CausesValidation = false;
-            this.UserControlRegisterA.Location = new System.Drawing.Point(606, 172);
+            this.UserControlRegisterA.Location = new System.Drawing.Point(582, 173);
             this.UserControlRegisterA.Name = "UserControlRegisterA";
             this.UserControlRegisterA.ReadOnly = true;
             this.UserControlRegisterA.RegisterName = "A";
@@ -1019,33 +1057,6 @@ namespace MaszynaPi {
             this.UserControlCharacterOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.UserControlCharacterOutput.Size = new System.Drawing.Size(1414, 94);
             this.UserControlCharacterOutput.TabIndex = 0;
-            // 
-            // instructionLanguageToolStripMenuItem
-            // 
-            this.instructionLanguageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.polishToolStripMenuItem,
-            this.englishToolStripMenuItem});
-            this.instructionLanguageToolStripMenuItem.Name = "instructionLanguageToolStripMenuItem";
-            this.instructionLanguageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.instructionLanguageToolStripMenuItem.Text = "Instruction language";
-            // 
-            // polishToolStripMenuItem
-            // 
-            this.polishToolStripMenuItem.CheckOnClick = true;
-            this.polishToolStripMenuItem.Name = "polishToolStripMenuItem";
-            this.polishToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.polishToolStripMenuItem.Text = "Polish";
-            this.polishToolStripMenuItem.Click += new System.EventHandler(this.polishToolStripMenuItem_Click);
-            // 
-            // englishToolStripMenuItem
-            // 
-            this.englishToolStripMenuItem.Checked = true;
-            this.englishToolStripMenuItem.CheckOnClick = true;
-            this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.englishToolStripMenuItem.Text = "English";
-            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -1182,6 +1193,7 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem instructionLanguageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem polishToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
+        private MachineUI.UserControlSignalWire userControlSignalWire1;
     }
 }
 

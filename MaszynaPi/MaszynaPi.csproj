@@ -194,6 +194,9 @@
     <Compile Include="MachineAssembler\InstructionLoader.cs" />
     <Compile Include="Defines.cs" />
     <Compile Include="MachineLogic\ControlUnit.cs" />
+    <EmbeddedResource Include="MachineUI\UserControlSignalWire.resx">
+      <DependentUpon>UserControlSignalWire.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

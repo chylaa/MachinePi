@@ -24,8 +24,14 @@ namespace MaszynaPi.MachineUI {
         /// jej zawartości w edytorze kodu.
         /// </summary>
         private void InitializeComponent() {
-            components = new System.ComponentModel.Container();
-//            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.SuspendLayout();
+            // 
+            // UserControlSignalWire
+            // 
+            this.Name = "UserControlSignalWire";
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.UserControlSignalWire_MouseClick);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

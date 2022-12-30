@@ -28,3 +28,4 @@ C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.e
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.pdb
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.csprojAssemblyReference.cache
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.FormProjectOptions.resources
+C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\obj\Debug\MaszynaPi.MachineUI.UserControlSignalWire.resources
