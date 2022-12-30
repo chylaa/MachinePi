@@ -1,0 +1,9 @@
+Czas koñcowy
+Liczba Ÿróde³ n
+  dla ka¿dego Ÿród³a wydajnoœæ na sekundê
+Liczba stanowisk k
+  dla ka¿dego stanowiska przepustowœæ na sekundê
+dla ka¿dego Ÿród³a prawdopodobieñstwo wejœcia na ka¿de ze stanowisk
+ (macierz n wierszy k kolumn)
+dla ka¿dego stanowiska prawdopodobieñstwo wejœcia na ka¿de stanowisko
+ (macierz n wierszy n kolumn)

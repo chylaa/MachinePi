@@ -15,6 +15,9 @@ namespace MaszynaPi.MachineUI {
         private Bus UnitBus;
         private ToolTip toolTip = new ToolTip();
 
+        readonly Color COLOR_ACTIVE = Color.Red;
+        readonly Color COLOR_EMPTY = SystemColors.Control;
+
         public UserControlBus() {
             InitializeComponent();
             BackColor = SystemColors.Control;
@@ -30,8 +33,10 @@ namespace MaszynaPi.MachineUI {
         protected override void OnPaint(PaintEventArgs e) {
             if (UnitBus.IsEmpty() == false) {
                 toolTip.SetToolTip(this, UnitBus.GetValue().ToString());
+                //BackColor = COLOR_ACTIVE;
                 toolTip.AutomaticDelay = 0;
             } else {
+                //BackColor = COLOR_EMPTY;
                 toolTip.SetToolTip(this, null);
             }
             base.Refresh();

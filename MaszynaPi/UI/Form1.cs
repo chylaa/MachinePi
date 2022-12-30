@@ -25,6 +25,7 @@ namespace MaszynaPi {
         string LastUsedFilepath;
 
         List<object> MachineComponents;
+        List<UserControlSignalWire> SignalWires;
 
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
@@ -43,7 +44,8 @@ namespace MaszynaPi {
                 return;
             }
             InitializeComponent();
-            InitializeMahineComponentsList();
+            InitializeMachineComponentsList();
+            InitializeSignalWiresList();
 
             codeEditor = new CodeEditor();
             Debugger = new Debugger();
@@ -90,13 +92,17 @@ namespace MaszynaPi {
 
         }
 
-        private void InitializeMahineComponentsList() {
+        private void InitializeMachineComponentsList() {
             MachineComponents = new List<object> { MemoryControl,
                 UserControlRegisterA, UserControlRegisterS, UserControlRegisterI,UserControlRegisterL,
                 UserControlRegisterAK, UserControlRegisterX,UserControlRegisterY,UserControlRegisterRB,
                 UserControlRegisterG,UserControlRegisterWS, UserControlRegisterRZ, UserControlRegisterRM,
                 UserControlRegisterRP,UserControlRegisterAP,userControlBusData,userControlBusAddress
             };
+        }
+
+        private void InitializeSignalWiresList() {
+            SignalWires = new List<UserControlSignalWire> { userControlSignalWire_id};
         }
 
         private void SetMachineComponentsViewHandles() {
@@ -139,6 +145,16 @@ namespace MaszynaPi {
                     method.Invoke(instance, null);
                 }
             }
+            var ActiveSignals = Machine.GetActiveSignals();
+            if (ActiveSignals == null) return;
+
+            foreach(var wire in SignalWires) {
+                if (ActiveSignals.Contains(wire.SignalName)) {
+                    wire.Activate();
+                } else {
+                    wire.Deactivate();
+                }
+            }
 
         }
 
@@ -155,6 +171,21 @@ namespace MaszynaPi {
             RefreshMicrocontrolerControls();
         }
 
+        private void DisableManuallySetSignals() {
+            foreach (var wire in SignalWires) {
+                wire.Deactivate();
+            }
+        }
+        
+        private List<string> GetManualActiveSignals() {
+            if (UserControlSignalWire.ManualControl == false) return null;
+            List<string> activeSignals = new List<string>();
+            foreach (var wire in SignalWires) {
+                if (wire.Active) activeSignals.Add(wire.SignalName);
+            }
+            return activeSignals;
+        }
+
         //=====================< Central Unit Manual Constrol >============================== 
 
         private void EndOfProgram() {
@@ -164,6 +195,7 @@ namespace MaszynaPi {
 
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
+                DisableManuallySetSignals();
                 Machine.ManualProgram();
                 RefreshMicrocontrolerControls();
             } catch (CentralUnitException cEx) {
@@ -175,22 +207,42 @@ namespace MaszynaPi {
         }
         private void rozkazToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
+                DisableManuallySetSignals();
                 Machine.ManualInstruction();
                 RefreshMicrocontrolerControls();
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
-                MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+                MessageBox.Show("Unknown error while executing instruction: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
             }
         }
 
         private void taktToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            try {
+                List<string> signals = GetManualActiveSignals();
+                Machine.ManualTick(signals);
+            } catch (CentralUnitException cEx) {
+                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
+            } catch (Exception ex) {
+                MessageBox.Show("Unknown error while executing tick: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+            }
         }
 
 
         private void clearOutputConsoleToolStripMenuItem_Click(object sender, EventArgs e) {
             UserControlCharacterOutput.Reset();
+        }
+
+        private void checkBoxManualDebug_CheckedChanged(object sender, EventArgs e) {
+            if (checkBoxManualDebug.Checked) {
+                UserControlSignalWire.ManualControl = true;
+                programToolStripMenuItem1.Enabled = false;
+                rozkazToolStripMenuItem1.Enabled = false;
+            } else {
+                UserControlSignalWire.ManualControl = false;
+                programToolStripMenuItem1.Enabled = true;
+                rozkazToolStripMenuItem1.Enabled = true;
+            }
         }
 
         // ================ CodeEditor =======================================
@@ -350,5 +402,7 @@ namespace MaszynaPi {
                 Machine.InitialazeMicroinstructionsMap();
             }
         }
+
+
     }
 }

@@ -1,0 +1,8 @@
+Czas zakoñczenia obserwacji 10001.13
+ród³o 1
+Lambda = 1.00. Wygenerowano 9862 zg³oszeñ
+Stacja 1
+Mi = 2.00 Zajêtoœæ = 0.50
+Œr. d³ugoœæ kolejki wynosi 0.504. W kolejce zosta³o 0 zg³oszeñ
+Œr. czas oczekiwania wyniós³ 0.511
+Œr. czas pobytu wyniós³ 1.014

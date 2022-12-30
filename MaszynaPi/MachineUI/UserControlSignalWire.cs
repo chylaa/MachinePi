@@ -34,9 +34,12 @@ namespace MaszynaPi.MachineUI {
 
         public bool Active { get; set; }
 
+        static public bool ManualControl { get; set; }
+
         public UserControlSignalWire() {
             InitializeComponent();
             Active = false;
+            ManualControl = false;
 
             if (Rotation != 0 && Rotation != 90 && Rotation != 180 && Rotation != 270) throw new Exception("Invalid 'Rotation' property value: " + Rotation.ToString() + ". Only valid: [0, 90, 180, 270].");
             Rotation = Rotation % 360; // get values only from 0 to 360
@@ -81,10 +84,12 @@ namespace MaszynaPi.MachineUI {
 
         public void Activate() {
             Active = true;
+            Refresh();
         }
 
         public void Deactivate() {
             Active = false;
+            Refresh();
         }
 
 
@@ -94,7 +99,7 @@ namespace MaszynaPi.MachineUI {
         }
 
         private void UserControlSignalWire_MouseClick(object sender, MouseEventArgs e) {
-            if(e.Button == MouseButtons.Left) {
+            if(ManualControl && e.Button == MouseButtons.Left) {
                 Active = !Active;
                 Refresh();
             }

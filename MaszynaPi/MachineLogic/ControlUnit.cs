@@ -224,8 +224,8 @@ namespace MaszynaPi.MachineLogic {
         }
 
         // Returns false if the instruction completion signal is hit (STATEMENT_END)
- // Parameter "i" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
-        int ExecuteTick(int i=INSTRUCTION_FETCH_ORDER) {
+        // Parameter "i" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
+        int ExecuteTick(int i = INSTRUCTION_FETCH_ORDER, bool manual = false) {
             ////===?| DEBUGGING
             //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet()); /// AK.GetValue()
             //Logger.Logger.Div(NL: true);
@@ -242,7 +242,9 @@ namespace MaszynaPi.MachineLogic {
             //    FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method
             //} else {
             i = RzKDecoder.GetJumpIndex(tick: i);
-            ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
+
+            if(manual == false)
+                ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
             //}
             
             // [ TODO: Check if there is value to be stored in RB register from any IO device ]
@@ -315,6 +317,21 @@ namespace MaszynaPi.MachineLogic {
         //public void ManualTick() { ExecuteTick(); ProgramEnd(); } // TODO: Change to work  with parameter 
         public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: false); ProgramEnd(); } // Not avaible if ManualControl signal active
         public void ManualProgram() {ExecuteProgram(); ProgramEnd(); } // Not avaible if ManualControl signal active
+
+        public void ManualTick(List<string> activeSigs = null) { 
+            if(activeSigs == null) {
+                if (LastTick < 0) LastTick = 0;
+                LastTick = ExecuteTick(LastTick);
+                LastTick++;
+            } else {
+                SetActiveSignals(activeSigs);
+                ExecuteTick(manual:true);
+            }
+                
+        }
+        
+
+        public List<string> GetActiveSignals() { return ActiveSignals; }
 
         public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
         public void SetOnFetchCharAction(Action characterFetched) { TextInput.OnCharacterFetched = characterFetched;}

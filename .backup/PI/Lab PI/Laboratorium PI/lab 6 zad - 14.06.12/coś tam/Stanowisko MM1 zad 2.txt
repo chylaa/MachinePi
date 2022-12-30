@@ -1,0 +1,82 @@
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   2.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.898
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   3.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.529
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   4.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.349
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   5.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.233
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   6.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.187
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   7.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.168
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   8.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.143
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		   9.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.123
+
+__________________________________________________________________________________
+
+Uk³ad M/M/1/RNT
+Œrednia liczba zg³oszeñ na jednostkê czasu : 	   1.000
+Œrednia wydajnoœæ stanowiska obs³ugi : 		  10.000
+Pojedynczy kwant czasu : 			1000.000
+
+Œrednia liczba zg³oszeñ w systemie E(n) : 	   0.113
+
+__________________________________________________________________________________

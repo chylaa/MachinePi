@@ -90,7 +90,7 @@ namespace MaszynaPi {
             this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
             this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
-            this.userControlSignalWire1 = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_id = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
             this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
             this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
@@ -199,7 +199,7 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
-            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire1);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_id);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton4);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton3);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton2);
@@ -250,6 +250,7 @@ namespace MaszynaPi {
             this.checkBoxManualDebug.TabStop = false;
             this.checkBoxManualDebug.Text = "Manual Control";
             this.checkBoxManualDebug.UseVisualStyleBackColor = true;
+            this.checkBoxManualDebug.CheckedChanged += new System.EventHandler(this.checkBoxManualDebug_CheckedChanged);
             // 
             // groupBoxDebugLevel
             // 
@@ -764,14 +765,15 @@ namespace MaszynaPi {
             this.userControlInstructionList1.TabIndex = 0;
             this.userControlInstructionList1.WordWrap = false;
             // 
-            // userControlSignalWire1
+            // userControlSignalWire_id
             // 
-            this.userControlSignalWire1.Active = false;
-            this.userControlSignalWire1.Location = new System.Drawing.Point(693, 452);
-            this.userControlSignalWire1.Name = "userControlSignalWire1";
-            this.userControlSignalWire1.SignalName = "id";
-            this.userControlSignalWire1.Size = new System.Drawing.Size(65, 32);
-            this.userControlSignalWire1.TabIndex = 29;
+            this.userControlSignalWire_id.Active = false;
+            this.userControlSignalWire_id.Location = new System.Drawing.Point(693, 452);
+            this.userControlSignalWire_id.Name = "userControlSignalWire_id";
+            this.userControlSignalWire_id.Rotation = 0;
+            this.userControlSignalWire_id.SignalName = "id";
+            this.userControlSignalWire_id.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_id.TabIndex = 29;
             // 
             // userControlIntButton4
             // 
@@ -1193,7 +1195,7 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem instructionLanguageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem polishToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
-        private MachineUI.UserControlSignalWire userControlSignalWire1;
+        private MachineUI.UserControlSignalWire userControlSignalWire_id;
     }
 }
 
