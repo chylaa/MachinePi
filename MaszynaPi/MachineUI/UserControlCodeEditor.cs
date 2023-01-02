@@ -62,8 +62,6 @@ namespace MaszynaPi.MachineUI {
                 Selected = Selected.Insert(selectLeftPos, SELECT_LEFT).Insert(selectRightPos, SELECT_RIGHT);
                 //var Selected = Text.Substring(pos).ToLower().Replace(text, SELECT_LEFT + text + SELECT_RIGHT);
                 Text = Begining + Selected;
-            } else {
-                ClearSelected();
             }
 
         }

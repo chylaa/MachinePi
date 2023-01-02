@@ -1,6 +1,6 @@
 POB a
 DOD b
-≈ÅAD c
+£AD c
 STP
 
 a: RST 42

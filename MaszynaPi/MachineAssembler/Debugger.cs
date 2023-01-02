@@ -47,10 +47,11 @@ namespace MaszynaPi.MachineAssembler {
         }
 
         int GetFirstCharIndexFromLine(int lineindex) {
-            if (lineindex >= CodeLinesHandle.Count) throw new Exception("Error in 'GetFirstCharIndexFromLine' - param lineindex out of CodeLines bounds.");
+            var codelines = FilesHandler.RemoveExcessiveEmptyStrings(CodeLinesHandle);
+            if (lineindex >= codelines.Count) throw new Exception("Error in 'GetFirstCharIndexFromLine' - param lineindex out of CodeLines bounds.");
             int chars = 0;
             for(int i=0; i<lineindex; i++) {
-                chars += CodeLinesHandle[i].Length;
+                chars += codelines[i].Length;
             }
             return chars;
         }

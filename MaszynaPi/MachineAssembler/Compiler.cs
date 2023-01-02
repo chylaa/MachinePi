@@ -92,7 +92,7 @@ namespace MaszynaPi.MachineAssembler {
             int address = -1;
             string label = "";
             foreach(var line in codeLines) {
-                if (line.Contains(HEADER_LABEL_END) == false) {
+                if (line.Contains(HEADER_LABEL_END) == false && wasLabel == false) {
                     address++;
                     continue;
                 }

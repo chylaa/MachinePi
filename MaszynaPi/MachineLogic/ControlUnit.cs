@@ -22,6 +22,7 @@ namespace MaszynaPi.MachineLogic {
      The Instruction decoder is often considered to be a part of the Control Unit.
     */
     public class ControlUnit {
+        const int ENDOF_INSTRUCTION = -1;      // Value for tick order tracking variables indicating that all ticks of a single instruction have been executed
         const int INSTRUCTION_FETCH_ORDER = 0; // In which Tick number in single instruction, Instruction Fetch must be performed
 
         // Always initialized when creating CentralUnit child class
@@ -232,8 +233,6 @@ namespace MaszynaPi.MachineLogic {
             //Logger.Logger.LogInfo(msg:state,NL:true);
             //Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
             ////===?| DEBUGGING
-            int ticksNum = RzKDecoder.GetNumberOfTicksInInstruction(I.GetOpcode());
-            if (i > ticksNum) i %= ticksNum; // Protection from manual tick execution
 
             if(USE_DEBUGGER)
                 SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
@@ -243,13 +242,15 @@ namespace MaszynaPi.MachineLogic {
             //} else {
             i = RzKDecoder.GetJumpIndex(tick: i);
 
-            if(manual == false)
+            if(manual == false) {
                 ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
-            //}
-            
+                bool eofInstruction = (i == RzKDecoder.GetNumberOfTicksInInstruction(I.GetOpcode()) - 1);
+                if (eofInstruction) i = ENDOF_INSTRUCTION; // Protection from manual tick execution
+            }
+
             // [ TODO: Check if there is value to be stored in RB register from any IO device ]
             foreach (string signal in ActiveSignals) {
-                if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return -1;
+                if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return ENDOF_INSTRUCTION;
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
                     SignalsMap[signal]();
             }
@@ -278,19 +279,19 @@ namespace MaszynaPi.MachineLogic {
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i);
                 LastTick = i;
-                if (i<0) break;
+                if (i == ENDOF_INSTRUCTION) break;
             }
         }
         //========================================
         void ExecuteProgram() {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
             try {
-                USE_DEBUGGER = false;
+                DisableDebugger();
                 do {
                     //System.Threading.Thread.Sleep(1000);
                     ExecuteInstructionCycle(); 
                 } while (I.GetOpcode() != 0);
-                USE_DEBUGGER = true;
+                EnableDebugger();
             } //here also can add watchdog if there is no STP instruction in programm 
             catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)); } 
             catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
@@ -320,16 +321,19 @@ namespace MaszynaPi.MachineLogic {
 
         public void ManualTick(List<string> activeSigs = null) { 
             if(activeSigs == null) {
-                if (LastTick < 0) LastTick = 0;
+                if (LastTick == ENDOF_INSTRUCTION) LastTick = 0;
                 LastTick = ExecuteTick(LastTick);
                 LastTick++;
+                ProgramEnd();
             } else {
                 SetActiveSignals(activeSigs);
                 ExecuteTick(manual:true);
             }
                 
         }
-        
+
+        public void EnableDebugger() { USE_DEBUGGER = true; }
+        public void DisableDebugger() { USE_DEBUGGER = false; }
 
         public List<string> GetActiveSignals() { return ActiveSignals; }
 
@@ -361,6 +365,8 @@ namespace MaszynaPi.MachineLogic {
             RM.Reset();
             RP.Reset();
             AP.Reset();
+
+            LastTick = -1;
         }
 
         public void SetComponentsBitsizes() {
