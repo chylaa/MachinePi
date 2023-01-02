@@ -293,8 +293,8 @@ namespace MaszynaPi.MachineLogic {
                 } while (I.GetOpcode() != 0);
                 EnableDebugger();
             } //here also can add watchdog if there is no STP instruction in programm 
-            catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals)); } 
-            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Licznik intrukcji-1: (" + (L.GetValue() - 1).ToString() + ") linia: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
+            catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
+            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
 
         }
 

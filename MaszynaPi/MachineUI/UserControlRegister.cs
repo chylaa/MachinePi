@@ -13,10 +13,12 @@ using MaszynaPi.MachineLogic.Architecture;
 
 namespace MaszynaPi.MachineUI {
 
+    public enum RegisterMode { Dec, Signed, Hex, Bin}
+
     public partial class UserControlRegister : TextBox {
         const string DIVIDER = ":";
         public string RegisterName { get; set; }
-        //public uint RegisterValue { get; set; }
+        RegisterMode Mode { get; set; }
         private Register UnitRegister;
 
         public UserControlRegister(){
@@ -26,10 +28,15 @@ namespace MaszynaPi.MachineUI {
             this.BackColor = Color.White;
             //this.RegisterValue = Defines.DEFAULT_REG_VAL;
             this.MouseDoubleClick += ControlDoubleClick;
+            Mode = RegisterMode.Dec;
         }
 
         public void SetSourceRegister(Register sourceReg) {
             this.UnitRegister = sourceReg;
+        }
+
+        public void SetDisplayMode(RegisterMode mode) {
+            Mode = mode;
         }
         
         private void ControlDoubleClick(object sender, MouseEventArgs args) {
@@ -45,7 +52,22 @@ namespace MaszynaPi.MachineUI {
             base.OnPaint(e);
         }
         public override void Refresh() {
-            Text = RegisterName + " " + DIVIDER + " " + UnitRegister.GetValue().ToString();
+            string DisplayValue = "";
+            if (Mode == RegisterMode.Dec) {
+                 DisplayValue =  UnitRegister.GetValue().ToString();
+            }else if(Mode == RegisterMode.Signed) {
+                bool isNegative = (UnitRegister.GetValue() & 1<<((int)ArchitectureSettings.GetWordBits()-1)) != 0;
+                if (isNegative) { 
+                    DisplayValue = "-" + ((int)(UnitRegister.GetValue() - (ArchitectureSettings.GetMaxWord() + 1) / 2)).ToString();
+                } else {
+                    DisplayValue = UnitRegister.GetValue().ToString(); 
+                }
+            } else if(Mode == RegisterMode.Hex) {
+                DisplayValue = "0x"+UnitRegister.GetValue().ToString("X");
+            } else if (Mode == RegisterMode.Bin) {
+                DisplayValue = "0b"+Convert.ToString(UnitRegister.GetValue(), 2);
+            }
+            Text = RegisterName + " " + DIVIDER + " " + DisplayValue;
             base.Refresh();
         }
 

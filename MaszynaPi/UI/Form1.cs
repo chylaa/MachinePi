@@ -190,7 +190,7 @@ namespace MaszynaPi {
 
         private void EndOfProgram() {
             System.Media.SystemSounds.Exclamation.Play();
-            MessageBox.Show("Program został zakończony.", "Maszyna Pi");
+            MessageBox.Show("The program has ended.", "Pi Machine");
         }
 
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -259,8 +259,8 @@ namespace MaszynaPi {
                 if (codeEditor.IsInstructionDefinition()) {
                     bool isEnoughSpace = InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
-                    if (isEnoughSpace) MessageBox.Show("Rozkaz został dodany.", "Maszyna Pi");
-                    else MessageBox.Show("Rozkaz został dodany lecz nie będzie widoczny (zbyt mała ilość bitów kodu)", "Warning!");
+                    if (isEnoughSpace) MessageBox.Show("The command has been added.", "Pi Machine");
+                    else MessageBox.Show("The instruction has been added but will not be visible(too few code bits)", "Warning!");
                     return;
                 }
                 if (codeEditor.IsProgram()) {
@@ -270,7 +270,7 @@ namespace MaszynaPi {
                     Machine.ResetRegisters();
                     RefreshMicrocontrolerControls();
                     System.Media.SystemSounds.Exclamation.Play();
-                    MessageBox.Show("Program został skompilowany.", "Maszyna Pi");
+                    MessageBox.Show("Compiled.", "Pi Machine");
                     return;
                 }
                 MessageBox.Show("Compilation Error: Unknown syntax type - not program or instruction definition.", "Error");
@@ -291,14 +291,14 @@ namespace MaszynaPi {
             string lst = InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION;
             string filepath = "";
             string lstFileContent = "";
-            string filter = "pliki rozkazów (*" + lst + ")|*" + lst;
+            string filter = "instruction files (*" + lst + ")|*" + lst;
             if (FilesHandler.PointFileAndGetText(filter, out filepath, out lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
                     bool isEnoughSpace = InstructionLoader.LoadInstructionsFile(lstFileContent);
                     Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();                                //  \/ Shouldn't happen if .lst file created properly \/
-                    if (!isEnoughSpace) MessageBox.Show("Lista rozkazów załadowana lecz część rozkazów może nie być widoczna (zbyt mała ilość bitów kodu)", "Warning!");
+                    if (!isEnoughSpace) MessageBox.Show("instruction list has been added but will not be visible (too few code bits)", "Warning!");
                 } catch (InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading " + lst + " file " + filepath + "\n" + ex.Message, "Instruction Loader Error");
                 }
@@ -312,7 +312,7 @@ namespace MaszynaPi {
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
             string filepath = "";
             string fileContent = "";
-            string filer = "pliki rozkazów (*" + rzk + ")|*" + rzk + "|pliki programów (*" + prg + ")|*" + prg + "|wszystkie pliki (*.*)|*.*";
+            string filer = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
 
             if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) {
                 UserControlCodeEditor.SetText(fileContent);
@@ -361,7 +361,7 @@ namespace MaszynaPi {
             string prg = Compiler.PROGRAM_FILE_EXTENSION;
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
             string filepath = "";
-            string filter = "pliki rozkazów (*" + rzk + ")|*" + rzk + "|pliki programów (*" + prg + ")|*" + prg + "|wszystkie pliki (*.*)|*.*";
+            string filter = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
 
             if (FilesHandler.PointToOvervriteFileOrCreateNew(filter, out filepath)) {
                 LastUsedFilepath = filepath;
@@ -403,6 +403,20 @@ namespace MaszynaPi {
             }
         }
 
+        void SetRegistersDisplayMode(RegisterMode mode) {
+            foreach(var component in MachineComponents) {
+                if(component is UserControlRegister) {
+                    (component as UserControlRegister).SetDisplayMode(mode);
+                    (component as UserControlRegister).Refresh();
+                }
+            }
+        }
+        private void unsignedDecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Dec);}
 
+        private void signedDecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Signed);}
+
+        private void hexadecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Hex);}
+
+        private void binaryToolStripMenuItem_Click(object sender, EventArgs e) { SetRegistersDisplayMode(RegisterMode.Bin); }
     }
 }
