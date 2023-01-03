@@ -163,6 +163,7 @@ namespace MaszynaPi {
             this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
             this.userControlSignalWire_oa = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_oitd = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_stop = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -247,6 +248,7 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_stop);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oitd);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oa);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_da);
@@ -1632,6 +1634,17 @@ namespace MaszynaPi {
             this.userControlSignalWire_oitd.Size = new System.Drawing.Size(54, 282);
             this.userControlSignalWire_oitd.TabIndex = 73;
             // 
+            // userControlSignalWire_stop
+            // 
+            this.userControlSignalWire_stop.Active = false;
+            this.userControlSignalWire_stop.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_stop.Location = new System.Drawing.Point(92, 281);
+            this.userControlSignalWire_stop.Name = "userControlSignalWire_stop";
+            this.userControlSignalWire_stop.Rotation = 0;
+            this.userControlSignalWire_stop.SignalName = "stop";
+            this.userControlSignalWire_stop.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_stop.TabIndex = 74;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1816,6 +1829,7 @@ namespace MaszynaPi {
         private MachineUI.UserControlSignalWire userControlSignalWire_da;
         private MachineUI.UserControlSignalWire userControlSignalWire_oa;
         private MachineUI.UserControlSignalWire userControlSignalWire_oitd;
+        private MachineUI.UserControlSignalWire userControlSignalWire_stop;
     }
 }
 

@@ -178,6 +178,15 @@ namespace MaszynaPi {
                 wire.Deactivate();
             }
         }
+
+        // sorts the microinstruction signals so that register output signals are always prioritized
+        private List<string> SortSignals(List<string> activeSignals) {
+            var inputSignals = activeSignals.Where(s => (s.StartsWith("i") && s.StartsWith("ic")==false)).ToList();
+            var outputSignals = activeSignals.Where(s => s.StartsWith("o")).ToList();
+            var specialSignals = activeSignals.Where(s => (s.Equals("start") || s.Equals("stop"))).ToList();
+            var otherSignals = activeSignals.Except(inputSignals).Except(outputSignals).Except(specialSignals).ToList();
+            return otherSignals.Concat(outputSignals).Concat(inputSignals).Concat(specialSignals).ToList();
+        }
         
         private List<string> GetManualActiveSignals() {
             if (UserControlSignalWire.ManualControl == false) return null;
@@ -185,7 +194,7 @@ namespace MaszynaPi {
             foreach (var wire in SignalWires) {
                 if (wire.Active) activeSignals.Add(wire.SignalName);
             }
-            return activeSignals;
+            return SortSignals(activeSignals);
         }
 
         //=====================< Central Unit Manual Constrol >============================== 
