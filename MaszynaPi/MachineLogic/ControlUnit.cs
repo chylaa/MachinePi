@@ -199,7 +199,7 @@ namespace MaszynaPi.MachineLogic {
 
         // =========================< UI Related Actions > ================================== // 
         // |Part which needs to be changed if another technology of UI creation is preffered|
-
+        public Action<bool> SetPaintActiveSignals;
         public Action OnRefreshValues;
         public Action<uint> OnSetExecutedLine;
         public Action<uint, List<string>> OnSetExecutedMicroinstruction;
@@ -287,11 +287,13 @@ namespace MaszynaPi.MachineLogic {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
             try {
                 DisableDebugger();
+                SetPaintActiveSignals(false);
                 do {
                     //System.Threading.Thread.Sleep(1000);
                     ExecuteInstructionCycle(); 
                 } while (I.GetOpcode() != 0);
                 EnableDebugger();
+                SetPaintActiveSignals(true);
             } //here also can add watchdog if there is no STP instruction in programm 
             catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
             catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
@@ -367,6 +369,8 @@ namespace MaszynaPi.MachineLogic {
             AP.Reset();
 
             LastTick = -1;
+            if(ActiveSignals!=null)
+                ActiveSignals.Clear();
         }
 
         public void SetComponentsBitsizes() {

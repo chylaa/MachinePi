@@ -28,9 +28,15 @@ namespace MaszynaPi.CommonOperations {
             return (int)Math.Log(number, 2) + 1;
         }
 
+
+
         public static bool IsSignBitSet(uint value, uint numberBitsize) {
             if ((int)value >> (int)(numberBitsize - 1) == 1) return true;
             return false;
+        }
+        public static int ConvertToSigned(uint value, uint numerBitsize) {
+            if(IsSignBitSet(value, numerBitsize)) return (int)(Math.Pow(2,numerBitsize)-value);
+            return (int)value;
         }
 
         public static uint CreateBitMask(uint noOfZeroes, uint noOfOnes, bool zeroesFirst = true) {

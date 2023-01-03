@@ -21,7 +21,7 @@ namespace MaszynaPi {
         //[DllImport(SenseDLL, CallingConvention = CallingConvention.Cdecl)]
         //public static extern int GetJoystickState();
         //================================================================================================================================
-
+        bool PaintActiveSignals;
         string LastUsedFilepath;
 
         List<object> MachineComponents;
@@ -43,6 +43,7 @@ namespace MaszynaPi {
                 Close();
                 return;
             }
+            PaintActiveSignals = true;
             InitializeComponent();
             InitializeMachineComponentsList();
             InitializeSignalWiresList();
@@ -62,6 +63,7 @@ namespace MaszynaPi {
             Machine.OnSetExecutedLine += Debugger.SetExecutedLine;
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
+            Machine.SetPaintActiveSignals += SetSignalsPaintOnRefresh;
 
             ArchitectureSettings.InitializeInterruptVector();
             ArchitectureSettings.InitializeIODevicesAddresses();
@@ -104,7 +106,15 @@ namespace MaszynaPi {
         }
 
         private void InitializeSignalWiresList() {
-            SignalWires = new List<UserControlSignalWire> { userControlSignalWire_id};
+            SignalWires = new List<UserControlSignalWire> { userControlSignalWire_id, userControlSignalWire1_od, userControlSignalWire2, userControlSignalWire_ad,
+            userControlSignalWire_add, userControlSignalWire_and, userControlSignalWire_da, userControlSignalWire_dcacc, userControlSignalWire_dcsp,
+            userControlSignalWire_div, userControlSignalWire_eni, userControlSignalWire_ia, userControlSignalWire_ialu, userControlSignalWire_ibuf,
+            userControlSignalWire_icacc, userControlSignalWire_icit, userControlSignalWire_icsp, userControlSignalWire_id, userControlSignalWire_iins,
+            userControlSignalWire_iit, userControlSignalWire_im, userControlSignalWire_isp, userControlSignalWire_ix, userControlSignalWire_iy,
+            userControlSignalWire_mul, userControlSignalWire_not, userControlSignalWire_oa, userControlSignalWire_oacc, userControlSignalWire_obuf,
+            userControlSignalWire_oim, userControlSignalWire_oit, userControlSignalWire_oitd, userControlSignalWire_oiv, userControlSignalWire_or, userControlSignalWire_ord,
+            userControlSignalWire_osp, userControlSignalWire_ox, userControlSignalWire_oy, userControlSignalWire_rd, userControlSignalWire_rint, userControlSignalWire_shr,
+            userControlSignalWire_start, userControlSignalWire_stop, userControlSignalWire_sub, userControlSignalWire_wr, userControlSignalWire_wracc};
         }
 
         private void SetMachineComponentsViewHandles() {
@@ -132,6 +142,9 @@ namespace MaszynaPi {
             userControlIntButton4.SetIntRequestRegisterHandle(Machine.RZ);
         }
 
+        private void SetSignalsPaintOnRefresh(bool paint) {
+            PaintActiveSignals = paint;
+        }
 
         private void RefreshControls(Control control) {
             control.Refresh();
@@ -148,7 +161,7 @@ namespace MaszynaPi {
                 }
             }
             var ActiveSignals = Machine.GetActiveSignals();
-            if (ActiveSignals == null) return;
+            if (ActiveSignals == null || PaintActiveSignals == false) return;
 
             foreach(var wire in SignalWires) {
                 if (ActiveSignals.Contains(wire.SignalName)) {
@@ -212,7 +225,7 @@ namespace MaszynaPi {
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
-                MessageBox.Show("Unknown error while executing programm: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+                MessageBox.Show( ex.Message.Replace(GetErrorType(ex.Message), ""),"Program Error");
             }
 
         }
@@ -224,7 +237,7 @@ namespace MaszynaPi {
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
-                MessageBox.Show("Unknown error while executing instruction: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+                MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""), "Instruction Error");
             }
         }
 
@@ -235,7 +248,7 @@ namespace MaszynaPi {
             } catch (CentralUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
-                MessageBox.Show("Unknown error while executing tick: " + ex.Message.Replace(GetErrorType(ex.Message), ""), GetErrorType(ex.Message));
+                MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""),"Tick Error");
             }
         }
 

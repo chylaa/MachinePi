@@ -57,12 +57,9 @@ namespace MaszynaPi.MachineUI {
             if (Mode == RegisterMode.Dec) {
                  DisplayValue =  UnitRegister.GetValue().ToString();
             }else if(Mode == RegisterMode.Signed) {
-                bool isNegative = (UnitRegister.GetValue() & 1<<((int)ArchitectureSettings.GetWordBits()-1)) != 0;
-                if (isNegative) { 
-                    DisplayValue = "-" + ((int)(UnitRegister.GetValue() - (ArchitectureSettings.GetMaxWord() + 1) / 2)).ToString();
-                } else {
-                    DisplayValue = UnitRegister.GetValue().ToString(); 
-                }
+                var signed = Bitwise.ConvertToSigned(UnitRegister.GetValue(), ArchitectureSettings.GetWordBits());
+                DisplayValue = signed.ToString();
+                if (signed != UnitRegister.GetValue()) DisplayValue = "-"+DisplayValue;
             } else if(Mode == RegisterMode.Hex) {
                 DisplayValue = "0x"+UnitRegister.GetValue().ToString("X");
             } else if (Mode == RegisterMode.Bin) {
