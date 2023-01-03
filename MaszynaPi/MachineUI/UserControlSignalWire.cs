@@ -16,6 +16,8 @@ namespace MaszynaPi.MachineUI {
         private readonly Brush BRUSH_UNACTIVE = Brushes.Black;
         private readonly Brush BRUSH_ACTIVE = Brushes.Red;
 
+        private readonly Font FONT = new Font("Microsoft Sans Serif", FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
+
         private const int FONT_SIZE = 12;
         private const int PADDING = 3;
         private const int PENSIZE = 3;
@@ -32,6 +34,12 @@ namespace MaszynaPi.MachineUI {
         [DefaultValue(90)]
         public int Rotation { get; set; }
 
+        [Category("Appearance")]
+        [Description("Type of line cap.")]
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
+        [DefaultValue(LineCap.ArrowAnchor)]
+        public LineCap Cap { get; set; }
+
         public bool Active { get; set; }
 
         static public bool ManualControl { get; set; }
@@ -47,10 +55,8 @@ namespace MaszynaPi.MachineUI {
         }
         
         private void DrawText(PaintEventArgs pe, Brush brush, float x, float y) {
-            using (Font font1 = new Font("Microsoft Sans Serif", FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel)) {
-                PointF pointF1 = new PointF(x, y);
-                pe.Graphics.DrawString(SignalName, font1, brush, pointF1);
-            }
+            pe.Graphics.DrawString(SignalName, FONT, brush, new PointF(x, y));
+           
         }
 
         private void DrawWire(PaintEventArgs pe) {
@@ -58,21 +64,21 @@ namespace MaszynaPi.MachineUI {
             Brush brush = BRUSH_UNACTIVE;
             if (IsActive()) brush = BRUSH_ACTIVE;
             Pen pen = new Pen(brush,PENSIZE);
-            pen.StartCap = LineCap.ArrowAnchor;
+            pen.StartCap = Cap;
             if (Rotation == 0) {// Right
                 g.DrawLine(pen, x2: (this.Size.Width/2), y2: (this.Size.Height / 2), x1: this.Size.Width, y1: (this.Size.Height/2));
-                DrawText(pe, brush, x: (Size.Width / 4), y: (this.Size.Height / 2) - (FONT_SIZE / 2)-(PENSIZE));
+                DrawText(pe, brush, x: Math.Min(0,(Size.Width / 4) - (SignalName.Length-2)), y: (this.Size.Height / 2) - (FONT_SIZE / 2)-(PENSIZE));
             }
-            if (Rotation == 90) { // Down +
-                g.DrawLine(pen, x1: (this.Size.Width / 2), y1: 0, x2: this.Size.Height, y2: (this.Size.Width / 2));
+            if (Rotation == 90) { // Down
+                g.DrawLine(pen, x1: (this.Size.Width / 2), y1: (this.Size.Height), x2: (this.Size.Width / 2), y2: 0);
                 DrawText(pe, brush, x: (Size.Width / 2)+ PENSIZE + PADDING, y: (this.Size.Height / 2)-(FONT_SIZE / 2));
             }
             if (Rotation == 180) { // Left
-                g.DrawLine(pen, x1: (this.Size.Width), y1: (this.Size.Height / 2), x2: (this.Size.Width / 2), y2: (this.Size.Height / 2));
+                g.DrawLine(pen, x2: (this.Size.Width/2), y2: (this.Size.Height / 2), x1: 0, y1: (this.Size.Height / 2));
                 DrawText(pe, brush, x: (Size.Width / 2) + PADDING, y: (this.Size.Height / 2)- (FONT_SIZE / 2) - (PENSIZE));
             }
-            if (Rotation == 270) { // Up +
-               g.DrawLine(pen, x1: (this.Size.Height), y1: (this.Size.Width / 2), x2: (this.Size.Width / 2), y2: 0);
+            if (Rotation == 270) { // Up
+                g.DrawLine(pen, x1: (this.Size.Width / 2), y1: 0, x2: (this.Size.Width / 2) , y2: this.Size.Height);
                 DrawText(pe, brush, x: (Size.Width / 2) + PENSIZE + PADDING, y: (this.Size.Height / 2) - (FONT_SIZE/2));
             }
         }

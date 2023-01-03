@@ -65,6 +65,7 @@ namespace MaszynaPi.MachineAssembler {
         public Action<uint, List<string>> OnSetExecutedMicroinstructions;
 
         public void SetExecutedLine(uint memAddress) {
+            if (CodeLinesHandle.Count == 0) return;
             if (MemoryLineNumberMap.Count == 0) return;
             if (MemoryLineNumberMap.ContainsKey(memAddress) == false) return;
             if (MemoryLineNumberMap[memAddress] == -1) return;

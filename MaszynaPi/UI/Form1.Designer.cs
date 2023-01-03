@@ -28,41 +28,16 @@ namespace MaszynaPi {
             this.BottomPanel = new System.Windows.Forms.Panel();
             this.tabControlOnBottomPanel = new System.Windows.Forms.TabControl();
             this.tabPageInput = new System.Windows.Forms.TabPage();
-            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.tabPageOutput = new System.Windows.Forms.TabPage();
-            this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
-            this.userControlSignalWire_id = new MaszynaPi.MachineUI.UserControlSignalWire();
-            this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlIntButton1 = new MaszynaPi.MachineUI.UserControlIntButton();
-            this.userControlBusAS = new MaszynaPi.MachineUI.UserControlBus();
-            this.UserControlRegisterRM = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterAP = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterRP = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterRZ = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterWS = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterX = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterY = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterRB = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterG = new MaszynaPi.MachineUI.UserControlRegister();
             this.panelALUView = new System.Windows.Forms.Panel();
-            this.UserControlRegisterAK = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterL = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterI = new MaszynaPi.MachineUI.UserControlRegister();
-            this.userControlBusAddress = new MaszynaPi.MachineUI.UserControlBus();
-            this.userControlBusData = new MaszynaPi.MachineUI.UserControlBus();
-            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
             this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
             this.groupBoxDebugLevel = new System.Windows.Forms.GroupBox();
             this.radioButtonDebugTick = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugInstruction = new System.Windows.Forms.RadioButton();
             this.radioButtonDebugProgram = new System.Windows.Forms.RadioButton();
-            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +48,11 @@ namespace MaszynaPi {
             this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearOutputConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registersDisplayModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unsignedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexadecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zapiszListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ładujListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +76,6 @@ namespace MaszynaPi {
             this.ProgramPanel = new System.Windows.Forms.Panel();
             this.tabControlEditors = new System.Windows.Forms.TabControl();
             this.tabPageCodeEditor = new System.Windows.Forms.TabPage();
-            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
             this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.saveContexMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,16 +89,80 @@ namespace MaszynaPi {
             this.saveUnixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageInstructionList = new System.Windows.Forms.TabPage();
             this.panelInstructionsMicrocode = new System.Windows.Forms.Panel();
-            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.panelInstructionsList = new System.Windows.Forms.Panel();
-            this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
             this.tabPageVariables = new System.Windows.Forms.TabPage();
-            this.registersDisplayModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unsignedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.signedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hexadecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
+            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
+            this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
+            this.userControlSignalWire_da = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ad = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_osp = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_isp = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_dcsp = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_icsp = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_icit = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_iit = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_oit = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_iins = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_start = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ord = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ibuf = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_obuf = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_oy = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_iy = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ox = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ix = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_oiv = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_oim = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_im = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_eni = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_rint = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_shr = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_div = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_mul = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_wracc = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_sub = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_add = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_icacc = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_and = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire2 = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_or = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_dcacc = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_not = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_oacc = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ialu = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_wr = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_rd = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_ia = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire1_od = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_id = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlIntButton4 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton3 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton2 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlIntButton1 = new MaszynaPi.MachineUI.UserControlIntButton();
+            this.userControlBusAS = new MaszynaPi.MachineUI.UserControlBus();
+            this.UserControlRegisterRM = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterAP = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterRP = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterRZ = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterWS = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterX = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterY = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterRB = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterG = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterAK = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterL = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterI = new MaszynaPi.MachineUI.UserControlRegister();
+            this.userControlBusAddress = new MaszynaPi.MachineUI.UserControlBus();
+            this.userControlBusData = new MaszynaPi.MachineUI.UserControlBus();
+            this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
+            this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
+            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
+            this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
+            this.userControlSignalWire_oa = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_oitd = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -172,14 +215,6 @@ namespace MaszynaPi {
             this.tabPageInput.TabIndex = 0;
             this.tabPageInput.Text = "Input console";
             // 
-            // UserControlCharacterInput
-            // 
-            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
-            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
-            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
-            this.UserControlCharacterInput.TabIndex = 0;
-            this.UserControlCharacterInput.TabStop = false;
-            // 
             // tabPageOutput
             // 
             this.tabPageOutput.BackColor = System.Drawing.SystemColors.Control;
@@ -190,17 +225,6 @@ namespace MaszynaPi {
             this.tabPageOutput.Size = new System.Drawing.Size(1431, 109);
             this.tabPageOutput.TabIndex = 1;
             this.tabPageOutput.Text = "Output console";
-            // 
-            // UserControlCharacterOutput
-            // 
-            this.UserControlCharacterOutput.BackColor = System.Drawing.Color.White;
-            this.UserControlCharacterOutput.Location = new System.Drawing.Point(11, 9);
-            this.UserControlCharacterOutput.Multiline = true;
-            this.UserControlCharacterOutput.Name = "UserControlCharacterOutput";
-            this.UserControlCharacterOutput.ReadOnly = true;
-            this.UserControlCharacterOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.UserControlCharacterOutput.Size = new System.Drawing.Size(1414, 94);
-            this.UserControlCharacterOutput.TabIndex = 0;
             // 
             // splitter1
             // 
@@ -223,6 +247,49 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oitd);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oa);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_da);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ad);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_osp);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_isp);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_dcsp);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_icsp);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_icit);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_iit);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oit);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_iins);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_start);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ord);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ibuf);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_obuf);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oy);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_iy);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ox);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ix);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oiv);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oim);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_im);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_eni);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_rint);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_shr);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_div);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_mul);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_wracc);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_sub);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_add);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_icacc);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_and);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire2);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_or);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_dcacc);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_not);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oacc);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ialu);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_wr);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_rd);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ia);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire1_od);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_id);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton4);
             this.MicrocontrollerPanel.Controls.Add(this.userControlIntButton3);
@@ -255,182 +322,6 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(826, 560);
             this.MicrocontrollerPanel.TabIndex = 0;
             // 
-            // userControlSignalWire_id
-            // 
-            this.userControlSignalWire_id.Active = false;
-            this.userControlSignalWire_id.Location = new System.Drawing.Point(693, 452);
-            this.userControlSignalWire_id.Name = "userControlSignalWire_id";
-            this.userControlSignalWire_id.Rotation = 0;
-            this.userControlSignalWire_id.SignalName = "id";
-            this.userControlSignalWire_id.Size = new System.Drawing.Size(65, 32);
-            this.userControlSignalWire_id.TabIndex = 29;
-            // 
-            // userControlIntButton4
-            // 
-            this.userControlIntButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton4.InterruptPriority = ((uint)(1u));
-            this.userControlIntButton4.Location = new System.Drawing.Point(146, 36);
-            this.userControlIntButton4.Name = "userControlIntButton4";
-            this.userControlIntButton4.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton4.TabIndex = 28;
-            this.userControlIntButton4.Text = "4";
-            this.userControlIntButton4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton4.UseVisualStyleBackColor = true;
-            // 
-            // userControlIntButton3
-            // 
-            this.userControlIntButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton3.InterruptPriority = ((uint)(2u));
-            this.userControlIntButton3.Location = new System.Drawing.Point(107, 36);
-            this.userControlIntButton3.Name = "userControlIntButton3";
-            this.userControlIntButton3.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton3.TabIndex = 27;
-            this.userControlIntButton3.Text = "3";
-            this.userControlIntButton3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton3.UseVisualStyleBackColor = true;
-            // 
-            // userControlIntButton2
-            // 
-            this.userControlIntButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton2.InterruptPriority = ((uint)(4u));
-            this.userControlIntButton2.Location = new System.Drawing.Point(66, 36);
-            this.userControlIntButton2.Name = "userControlIntButton2";
-            this.userControlIntButton2.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton2.TabIndex = 26;
-            this.userControlIntButton2.Text = "2";
-            this.userControlIntButton2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton2.UseVisualStyleBackColor = true;
-            // 
-            // userControlIntButton1
-            // 
-            this.userControlIntButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlIntButton1.InterruptPriority = ((uint)(8u));
-            this.userControlIntButton1.Location = new System.Drawing.Point(26, 36);
-            this.userControlIntButton1.Name = "userControlIntButton1";
-            this.userControlIntButton1.Size = new System.Drawing.Size(36, 16);
-            this.userControlIntButton1.TabIndex = 25;
-            this.userControlIntButton1.Text = "1";
-            this.userControlIntButton1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.userControlIntButton1.UseVisualStyleBackColor = true;
-            // 
-            // userControlBusAS
-            // 
-            this.userControlBusAS.BackColor = System.Drawing.SystemColors.Control;
-            this.userControlBusAS.Location = new System.Drawing.Point(249, 137);
-            this.userControlBusAS.Multiline = true;
-            this.userControlBusAS.Name = "userControlBusAS";
-            this.userControlBusAS.ReadOnly = true;
-            this.userControlBusAS.Size = new System.Drawing.Size(5, 348);
-            this.userControlBusAS.TabIndex = 24;
-            // 
-            // UserControlRegisterRM
-            // 
-            this.UserControlRegisterRM.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterRM.Location = new System.Drawing.Point(26, 85);
-            this.UserControlRegisterRM.Name = "UserControlRegisterRM";
-            this.UserControlRegisterRM.ReadOnly = true;
-            this.UserControlRegisterRM.RegisterName = "RM";
-            this.UserControlRegisterRM.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterRM.TabIndex = 23;
-            this.UserControlRegisterRM.TabStop = false;
-            this.UserControlRegisterRM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterAP
-            // 
-            this.UserControlRegisterAP.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterAP.Location = new System.Drawing.Point(217, 85);
-            this.UserControlRegisterAP.Name = "UserControlRegisterAP";
-            this.UserControlRegisterAP.ReadOnly = true;
-            this.UserControlRegisterAP.RegisterName = "AP";
-            this.UserControlRegisterAP.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterAP.TabIndex = 22;
-            this.UserControlRegisterAP.TabStop = false;
-            this.UserControlRegisterAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterRP
-            // 
-            this.UserControlRegisterRP.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterRP.Location = new System.Drawing.Point(217, 53);
-            this.UserControlRegisterRP.Name = "UserControlRegisterRP";
-            this.UserControlRegisterRP.ReadOnly = true;
-            this.UserControlRegisterRP.RegisterName = "RP";
-            this.UserControlRegisterRP.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterRP.TabIndex = 21;
-            this.UserControlRegisterRP.TabStop = false;
-            this.UserControlRegisterRP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterRZ
-            // 
-            this.UserControlRegisterRZ.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterRZ.Location = new System.Drawing.Point(26, 53);
-            this.UserControlRegisterRZ.Name = "UserControlRegisterRZ";
-            this.UserControlRegisterRZ.ReadOnly = true;
-            this.UserControlRegisterRZ.RegisterName = "RZ";
-            this.UserControlRegisterRZ.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterRZ.TabIndex = 20;
-            this.UserControlRegisterRZ.TabStop = false;
-            this.UserControlRegisterRZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterWS
-            // 
-            this.UserControlRegisterWS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterWS.Location = new System.Drawing.Point(341, 173);
-            this.UserControlRegisterWS.Name = "UserControlRegisterWS";
-            this.UserControlRegisterWS.ReadOnly = true;
-            this.UserControlRegisterWS.RegisterName = "WS";
-            this.UserControlRegisterWS.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterWS.TabIndex = 19;
-            this.UserControlRegisterWS.TabStop = false;
-            this.UserControlRegisterWS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterX
-            // 
-            this.UserControlRegisterX.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterX.Location = new System.Drawing.Point(45, 517);
-            this.UserControlRegisterX.Name = "UserControlRegisterX";
-            this.UserControlRegisterX.ReadOnly = true;
-            this.UserControlRegisterX.RegisterName = "X";
-            this.UserControlRegisterX.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterX.TabIndex = 18;
-            this.UserControlRegisterX.TabStop = false;
-            this.UserControlRegisterX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterY
-            // 
-            this.UserControlRegisterY.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterY.Location = new System.Drawing.Point(249, 517);
-            this.UserControlRegisterY.Name = "UserControlRegisterY";
-            this.UserControlRegisterY.ReadOnly = true;
-            this.UserControlRegisterY.RegisterName = "Y";
-            this.UserControlRegisterY.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterY.TabIndex = 17;
-            this.UserControlRegisterY.TabStop = false;
-            this.UserControlRegisterY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterRB
-            // 
-            this.UserControlRegisterRB.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterRB.Location = new System.Drawing.Point(507, 517);
-            this.UserControlRegisterRB.Name = "UserControlRegisterRB";
-            this.UserControlRegisterRB.ReadOnly = true;
-            this.UserControlRegisterRB.RegisterName = "RB";
-            this.UserControlRegisterRB.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterRB.TabIndex = 16;
-            this.UserControlRegisterRB.TabStop = false;
-            this.UserControlRegisterRB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterG
-            // 
-            this.UserControlRegisterG.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterG.Location = new System.Drawing.Point(711, 518);
-            this.UserControlRegisterG.Name = "UserControlRegisterG";
-            this.UserControlRegisterG.ReadOnly = true;
-            this.UserControlRegisterG.RegisterName = "G";
-            this.UserControlRegisterG.Size = new System.Drawing.Size(51, 20);
-            this.UserControlRegisterG.TabIndex = 15;
-            this.UserControlRegisterG.TabStop = false;
-            this.UserControlRegisterG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // panelALUView
             // 
             this.panelALUView.BackColor = System.Drawing.Color.White;
@@ -439,81 +330,6 @@ namespace MaszynaPi {
             this.panelALUView.Name = "panelALUView";
             this.panelALUView.Size = new System.Drawing.Size(156, 146);
             this.panelALUView.TabIndex = 14;
-            // 
-            // UserControlRegisterAK
-            // 
-            this.UserControlRegisterAK.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterAK.CausesValidation = false;
-            this.UserControlRegisterAK.Location = new System.Drawing.Point(317, 281);
-            this.UserControlRegisterAK.Name = "UserControlRegisterAK";
-            this.UserControlRegisterAK.ReadOnly = true;
-            this.UserControlRegisterAK.RegisterName = "AK";
-            this.UserControlRegisterAK.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterAK.TabIndex = 13;
-            this.UserControlRegisterAK.TabStop = false;
-            this.UserControlRegisterAK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterL
-            // 
-            this.UserControlRegisterL.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterL.CausesValidation = false;
-            this.UserControlRegisterL.Location = new System.Drawing.Point(26, 173);
-            this.UserControlRegisterL.Name = "UserControlRegisterL";
-            this.UserControlRegisterL.ReadOnly = true;
-            this.UserControlRegisterL.RegisterName = "L";
-            this.UserControlRegisterL.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterL.TabIndex = 12;
-            this.UserControlRegisterL.TabStop = false;
-            this.UserControlRegisterL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterI
-            // 
-            this.UserControlRegisterI.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterI.CausesValidation = false;
-            this.UserControlRegisterI.Location = new System.Drawing.Point(63, 430);
-            this.UserControlRegisterI.Name = "UserControlRegisterI";
-            this.UserControlRegisterI.ReadOnly = true;
-            this.UserControlRegisterI.RegisterName = "I";
-            this.UserControlRegisterI.Size = new System.Drawing.Size(156, 20);
-            this.UserControlRegisterI.TabIndex = 11;
-            this.UserControlRegisterI.TabStop = false;
-            this.UserControlRegisterI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // userControlBusAddress
-            // 
-            this.userControlBusAddress.BackColor = System.Drawing.SystemColors.Control;
-            this.userControlBusAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 2.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlBusAddress.Location = new System.Drawing.Point(9, 131);
-            this.userControlBusAddress.Multiline = true;
-            this.userControlBusAddress.Name = "userControlBusAddress";
-            this.userControlBusAddress.ReadOnly = true;
-            this.userControlBusAddress.Size = new System.Drawing.Size(800, 5);
-            this.userControlBusAddress.TabIndex = 10;
-            // 
-            // userControlBusData
-            // 
-            this.userControlBusData.BackColor = System.Drawing.SystemColors.Control;
-            this.userControlBusData.Font = new System.Drawing.Font("Microsoft Sans Serif", 2.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlBusData.Location = new System.Drawing.Point(9, 486);
-            this.userControlBusData.Multiline = true;
-            this.userControlBusData.Name = "userControlBusData";
-            this.userControlBusData.ReadOnly = true;
-            this.userControlBusData.Size = new System.Drawing.Size(799, 5);
-            this.userControlBusData.TabIndex = 9;
-            // 
-            // MemoryControl
-            // 
-            this.MemoryControl.BackColor = System.Drawing.Color.White;
-            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.MemoryControl.Location = new System.Drawing.Point(582, 199);
-            this.MemoryControl.Multiline = true;
-            this.MemoryControl.Name = "MemoryControl";
-            this.MemoryControl.ReadOnly = true;
-            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.MemoryControl.Size = new System.Drawing.Size(180, 225);
-            this.MemoryControl.TabIndex = 8;
-            this.MemoryControl.TabStop = false;
-            this.MemoryControl.WordWrap = false;
             // 
             // checkBoxManualDebug
             // 
@@ -568,31 +384,6 @@ namespace MaszynaPi {
             this.radioButtonDebugProgram.TabIndex = 0;
             this.radioButtonDebugProgram.Text = "niski (program)";
             this.radioButtonDebugProgram.UseVisualStyleBackColor = true;
-            // 
-            // UserControlRegisterS
-            // 
-            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterS.Location = new System.Drawing.Point(582, 430);
-            this.UserControlRegisterS.Name = "UserControlRegisterS";
-            this.UserControlRegisterS.ReadOnly = true;
-            this.UserControlRegisterS.RegisterName = "S";
-            this.UserControlRegisterS.Size = new System.Drawing.Size(180, 20);
-            this.UserControlRegisterS.TabIndex = 4;
-            this.UserControlRegisterS.TabStop = false;
-            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UserControlRegisterA
-            // 
-            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
-            this.UserControlRegisterA.CausesValidation = false;
-            this.UserControlRegisterA.Location = new System.Drawing.Point(582, 173);
-            this.UserControlRegisterA.Name = "UserControlRegisterA";
-            this.UserControlRegisterA.ReadOnly = true;
-            this.UserControlRegisterA.RegisterName = "A";
-            this.UserControlRegisterA.Size = new System.Drawing.Size(180, 20);
-            this.UserControlRegisterA.TabIndex = 2;
-            this.UserControlRegisterA.TabStop = false;
-            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // menuStrip1
             // 
@@ -676,6 +467,45 @@ namespace MaszynaPi {
             this.clearOutputConsoleToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.clearOutputConsoleToolStripMenuItem.Text = "Clear output console";
             this.clearOutputConsoleToolStripMenuItem.Click += new System.EventHandler(this.clearOutputConsoleToolStripMenuItem_Click);
+            // 
+            // registersDisplayModeToolStripMenuItem
+            // 
+            this.registersDisplayModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.unsignedDecimalToolStripMenuItem,
+            this.signedDecimalToolStripMenuItem,
+            this.hexadecimalToolStripMenuItem,
+            this.binaryToolStripMenuItem});
+            this.registersDisplayModeToolStripMenuItem.Name = "registersDisplayModeToolStripMenuItem";
+            this.registersDisplayModeToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.registersDisplayModeToolStripMenuItem.Text = "Registers display mode";
+            // 
+            // unsignedDecimalToolStripMenuItem
+            // 
+            this.unsignedDecimalToolStripMenuItem.Name = "unsignedDecimalToolStripMenuItem";
+            this.unsignedDecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.unsignedDecimalToolStripMenuItem.Text = "Unsigned decimal";
+            this.unsignedDecimalToolStripMenuItem.Click += new System.EventHandler(this.unsignedDecimalToolStripMenuItem_Click);
+            // 
+            // signedDecimalToolStripMenuItem
+            // 
+            this.signedDecimalToolStripMenuItem.Name = "signedDecimalToolStripMenuItem";
+            this.signedDecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.signedDecimalToolStripMenuItem.Text = "Signed decimal";
+            this.signedDecimalToolStripMenuItem.Click += new System.EventHandler(this.signedDecimalToolStripMenuItem_Click);
+            // 
+            // hexadecimalToolStripMenuItem
+            // 
+            this.hexadecimalToolStripMenuItem.Name = "hexadecimalToolStripMenuItem";
+            this.hexadecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.hexadecimalToolStripMenuItem.Text = "Hexadecimal";
+            this.hexadecimalToolStripMenuItem.Click += new System.EventHandler(this.hexadecimalToolStripMenuItem_Click);
+            // 
+            // binaryToolStripMenuItem
+            // 
+            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
+            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.binaryToolStripMenuItem.Text = "Binary";
+            this.binaryToolStripMenuItem.Click += new System.EventHandler(this.binaryToolStripMenuItem_Click);
             // 
             // projektToolStripMenuItem
             // 
@@ -884,19 +714,6 @@ namespace MaszynaPi {
             this.tabPageCodeEditor.TabIndex = 0;
             this.tabPageCodeEditor.Text = "Editor";
             // 
-            // UserControlCodeEditor
-            // 
-            this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
-            this.UserControlCodeEditor.Location = new System.Drawing.Point(17, 34);
-            this.UserControlCodeEditor.Multiline = true;
-            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
-            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.UserControlCodeEditor.Size = new System.Drawing.Size(589, 478);
-            this.UserControlCodeEditor.TabIndex = 9;
-            // 
             // CodeEditorContextMenu
             // 
             this.CodeEditorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1012,19 +829,6 @@ namespace MaszynaPi {
             this.panelInstructionsMicrocode.Size = new System.Drawing.Size(400, 527);
             this.panelInstructionsMicrocode.TabIndex = 2;
             // 
-            // userControlInstructionMicrocode1
-            // 
-            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
-            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
-            this.userControlInstructionMicrocode1.Multiline = true;
-            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
-            this.userControlInstructionMicrocode1.ReadOnly = true;
-            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(396, 523);
-            this.userControlInstructionMicrocode1.TabIndex = 0;
-            // 
             // splitter3
             // 
             this.splitter3.Location = new System.Drawing.Point(203, 3);
@@ -1042,6 +846,42 @@ namespace MaszynaPi {
             this.panelInstructionsList.Size = new System.Drawing.Size(200, 527);
             this.panelInstructionsList.TabIndex = 0;
             // 
+            // tabPageVariables
+            // 
+            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
+            this.tabPageVariables.Name = "tabPageVariables";
+            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVariables.Size = new System.Drawing.Size(609, 533);
+            this.tabPageVariables.TabIndex = 2;
+            this.tabPageVariables.Text = "Variables";
+            // 
+            // UserControlCodeEditor
+            // 
+            this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
+            this.UserControlCodeEditor.Location = new System.Drawing.Point(17, 34);
+            this.UserControlCodeEditor.Multiline = true;
+            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
+            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.UserControlCodeEditor.Size = new System.Drawing.Size(589, 478);
+            this.UserControlCodeEditor.TabIndex = 9;
+            // 
+            // userControlInstructionMicrocode1
+            // 
+            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
+            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
+            this.userControlInstructionMicrocode1.Multiline = true;
+            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
+            this.userControlInstructionMicrocode1.ReadOnly = true;
+            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(396, 523);
+            this.userControlInstructionMicrocode1.TabIndex = 0;
+            // 
             // userControlInstructionList1
             // 
             this.userControlInstructionList1.BackColor = System.Drawing.Color.White;
@@ -1056,54 +896,741 @@ namespace MaszynaPi {
             this.userControlInstructionList1.TabIndex = 0;
             this.userControlInstructionList1.WordWrap = false;
             // 
-            // tabPageVariables
+            // userControlSignalWire_da
             // 
-            this.tabPageVariables.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageVariables.Location = new System.Drawing.Point(4, 22);
-            this.tabPageVariables.Name = "tabPageVariables";
-            this.tabPageVariables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageVariables.Size = new System.Drawing.Size(609, 533);
-            this.tabPageVariables.TabIndex = 2;
-            this.tabPageVariables.Text = "Variables";
+            this.userControlSignalWire_da.Active = false;
+            this.userControlSignalWire_da.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_da.Location = new System.Drawing.Point(244, 233);
+            this.userControlSignalWire_da.Name = "userControlSignalWire_da";
+            this.userControlSignalWire_da.Rotation = 180;
+            this.userControlSignalWire_da.SignalName = "da";
+            this.userControlSignalWire_da.Size = new System.Drawing.Size(44, 30);
+            this.userControlSignalWire_da.TabIndex = 71;
             // 
-            // registersDisplayModeToolStripMenuItem
+            // userControlSignalWire_ad
             // 
-            this.registersDisplayModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.unsignedDecimalToolStripMenuItem,
-            this.signedDecimalToolStripMenuItem,
-            this.hexadecimalToolStripMenuItem,
-            this.binaryToolStripMenuItem});
-            this.registersDisplayModeToolStripMenuItem.Name = "registersDisplayModeToolStripMenuItem";
-            this.registersDisplayModeToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.registersDisplayModeToolStripMenuItem.Text = "Registers display mode";
+            this.userControlSignalWire_ad.Active = false;
+            this.userControlSignalWire_ad.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_ad.Location = new System.Drawing.Point(244, 211);
+            this.userControlSignalWire_ad.Name = "userControlSignalWire_ad";
+            this.userControlSignalWire_ad.Rotation = 180;
+            this.userControlSignalWire_ad.SignalName = "ad";
+            this.userControlSignalWire_ad.Size = new System.Drawing.Size(44, 30);
+            this.userControlSignalWire_ad.TabIndex = 70;
             // 
-            // unsignedDecimalToolStripMenuItem
+            // userControlSignalWire_osp
             // 
-            this.unsignedDecimalToolStripMenuItem.Name = "unsignedDecimalToolStripMenuItem";
-            this.unsignedDecimalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.unsignedDecimalToolStripMenuItem.Text = "Unsigned decimal";
-            this.unsignedDecimalToolStripMenuItem.Click += new System.EventHandler(this.unsignedDecimalToolStripMenuItem_Click);
+            this.userControlSignalWire_osp.Active = false;
+            this.userControlSignalWire_osp.Location = new System.Drawing.Point(341, 137);
+            this.userControlSignalWire_osp.Name = "userControlSignalWire_osp";
+            this.userControlSignalWire_osp.Rotation = 270;
+            this.userControlSignalWire_osp.SignalName = "osp";
+            this.userControlSignalWire_osp.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_osp.TabIndex = 69;
             // 
-            // signedDecimalToolStripMenuItem
+            // userControlSignalWire_isp
             // 
-            this.signedDecimalToolStripMenuItem.Name = "signedDecimalToolStripMenuItem";
-            this.signedDecimalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.signedDecimalToolStripMenuItem.Text = "Signed decimal";
-            this.signedDecimalToolStripMenuItem.Click += new System.EventHandler(this.signedDecimalToolStripMenuItem_Click);
+            this.userControlSignalWire_isp.Active = false;
+            this.userControlSignalWire_isp.Location = new System.Drawing.Point(436, 137);
+            this.userControlSignalWire_isp.Name = "userControlSignalWire_isp";
+            this.userControlSignalWire_isp.SignalName = "isp";
+            this.userControlSignalWire_isp.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_isp.TabIndex = 68;
             // 
-            // hexadecimalToolStripMenuItem
+            // userControlSignalWire_dcsp
             // 
-            this.hexadecimalToolStripMenuItem.Name = "hexadecimalToolStripMenuItem";
-            this.hexadecimalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.hexadecimalToolStripMenuItem.Text = "Hexadecimal";
-            this.hexadecimalToolStripMenuItem.Click += new System.EventHandler(this.hexadecimalToolStripMenuItem_Click);
+            this.userControlSignalWire_dcsp.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_dcsp.Location = new System.Drawing.Point(497, 173);
+            this.userControlSignalWire_dcsp.Name = "userControlSignalWire_dcsp";
+            this.userControlSignalWire_dcsp.Rotation = 180;
+            this.userControlSignalWire_dcsp.SignalName = "dcsp";
+            this.userControlSignalWire_dcsp.Size = new System.Drawing.Size(79, 32);
+            this.userControlSignalWire_dcsp.TabIndex = 67;
             // 
-            // binaryToolStripMenuItem
+            // userControlSignalWire_icsp
             // 
-            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
-            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.binaryToolStripMenuItem.Text = "Binary";
-            this.binaryToolStripMenuItem.Click += new System.EventHandler(this.binaryToolStripMenuItem_Click);
+            this.userControlSignalWire_icsp.Active = false;
+            this.userControlSignalWire_icsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_icsp.Location = new System.Drawing.Point(271, 173);
+            this.userControlSignalWire_icsp.Name = "userControlSignalWire_icsp";
+            this.userControlSignalWire_icsp.Rotation = 0;
+            this.userControlSignalWire_icsp.SignalName = "icsp";
+            this.userControlSignalWire_icsp.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_icsp.TabIndex = 66;
+            // 
+            // userControlSignalWire_icit
+            // 
+            this.userControlSignalWire_icit.Active = false;
+            this.userControlSignalWire_icit.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_icit.Location = new System.Drawing.Point(78, 199);
+            this.userControlSignalWire_icit.Name = "userControlSignalWire_icit";
+            this.userControlSignalWire_icit.Rotation = 270;
+            this.userControlSignalWire_icit.SignalName = "icit";
+            this.userControlSignalWire_icit.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_icit.TabIndex = 65;
+            // 
+            // userControlSignalWire_iit
+            // 
+            this.userControlSignalWire_iit.Active = false;
+            this.userControlSignalWire_iit.Location = new System.Drawing.Point(26, 137);
+            this.userControlSignalWire_iit.Name = "userControlSignalWire_iit";
+            this.userControlSignalWire_iit.SignalName = "iit";
+            this.userControlSignalWire_iit.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_iit.TabIndex = 64;
+            // 
+            // userControlSignalWire_oit
+            // 
+            this.userControlSignalWire_oit.Active = false;
+            this.userControlSignalWire_oit.Location = new System.Drawing.Point(121, 137);
+            this.userControlSignalWire_oit.Name = "userControlSignalWire_oit";
+            this.userControlSignalWire_oit.Rotation = 270;
+            this.userControlSignalWire_oit.SignalName = "oit";
+            this.userControlSignalWire_oit.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_oit.TabIndex = 63;
+            // 
+            // userControlSignalWire_iins
+            // 
+            this.userControlSignalWire_iins.Active = false;
+            this.userControlSignalWire_iins.Location = new System.Drawing.Point(139, 452);
+            this.userControlSignalWire_iins.Name = "userControlSignalWire_iins";
+            this.userControlSignalWire_iins.Rotation = 270;
+            this.userControlSignalWire_iins.SignalName = "iins";
+            this.userControlSignalWire_iins.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_iins.TabIndex = 62;
+            // 
+            // userControlSignalWire_start
+            // 
+            this.userControlSignalWire_start.Active = false;
+            this.userControlSignalWire_start.Location = new System.Drawing.Point(678, 492);
+            this.userControlSignalWire_start.Name = "userControlSignalWire_start";
+            this.userControlSignalWire_start.SignalName = "start";
+            this.userControlSignalWire_start.Size = new System.Drawing.Size(68, 34);
+            this.userControlSignalWire_start.TabIndex = 61;
+            // 
+            // userControlSignalWire_ord
+            // 
+            this.userControlSignalWire_ord.Active = false;
+            this.userControlSignalWire_ord.Location = new System.Drawing.Point(724, 492);
+            this.userControlSignalWire_ord.Name = "userControlSignalWire_ord";
+            this.userControlSignalWire_ord.Rotation = 270;
+            this.userControlSignalWire_ord.SignalName = "ord";
+            this.userControlSignalWire_ord.Size = new System.Drawing.Size(68, 34);
+            this.userControlSignalWire_ord.TabIndex = 60;
+            // 
+            // userControlSignalWire_ibuf
+            // 
+            this.userControlSignalWire_ibuf.Active = false;
+            this.userControlSignalWire_ibuf.Location = new System.Drawing.Point(522, 492);
+            this.userControlSignalWire_ibuf.Name = "userControlSignalWire_ibuf";
+            this.userControlSignalWire_ibuf.SignalName = "ibuf";
+            this.userControlSignalWire_ibuf.Size = new System.Drawing.Size(68, 34);
+            this.userControlSignalWire_ibuf.TabIndex = 59;
+            // 
+            // userControlSignalWire_obuf
+            // 
+            this.userControlSignalWire_obuf.Active = false;
+            this.userControlSignalWire_obuf.Location = new System.Drawing.Point(586, 492);
+            this.userControlSignalWire_obuf.Name = "userControlSignalWire_obuf";
+            this.userControlSignalWire_obuf.Rotation = 270;
+            this.userControlSignalWire_obuf.SignalName = "obuf";
+            this.userControlSignalWire_obuf.Size = new System.Drawing.Size(68, 34);
+            this.userControlSignalWire_obuf.TabIndex = 58;
+            // 
+            // userControlSignalWire_oy
+            // 
+            this.userControlSignalWire_oy.Active = false;
+            this.userControlSignalWire_oy.Location = new System.Drawing.Point(271, 497);
+            this.userControlSignalWire_oy.Name = "userControlSignalWire_oy";
+            this.userControlSignalWire_oy.Rotation = 270;
+            this.userControlSignalWire_oy.SignalName = "oy";
+            this.userControlSignalWire_oy.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_oy.TabIndex = 57;
+            // 
+            // userControlSignalWire_iy
+            // 
+            this.userControlSignalWire_iy.Active = false;
+            this.userControlSignalWire_iy.Location = new System.Drawing.Point(324, 497);
+            this.userControlSignalWire_iy.Name = "userControlSignalWire_iy";
+            this.userControlSignalWire_iy.SignalName = "iy";
+            this.userControlSignalWire_iy.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_iy.TabIndex = 56;
+            // 
+            // userControlSignalWire_ox
+            // 
+            this.userControlSignalWire_ox.Active = false;
+            this.userControlSignalWire_ox.Location = new System.Drawing.Point(63, 497);
+            this.userControlSignalWire_ox.Name = "userControlSignalWire_ox";
+            this.userControlSignalWire_ox.Rotation = 270;
+            this.userControlSignalWire_ox.SignalName = "ox";
+            this.userControlSignalWire_ox.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_ox.TabIndex = 55;
+            // 
+            // userControlSignalWire_ix
+            // 
+            this.userControlSignalWire_ix.Active = false;
+            this.userControlSignalWire_ix.Location = new System.Drawing.Point(116, 497);
+            this.userControlSignalWire_ix.Name = "userControlSignalWire_ix";
+            this.userControlSignalWire_ix.SignalName = "ix";
+            this.userControlSignalWire_ix.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_ix.TabIndex = 54;
+            // 
+            // userControlSignalWire_oiv
+            // 
+            this.userControlSignalWire_oiv.Active = false;
+            this.userControlSignalWire_oiv.Location = new System.Drawing.Point(271, 100);
+            this.userControlSignalWire_oiv.Name = "userControlSignalWire_oiv";
+            this.userControlSignalWire_oiv.SignalName = "oiv";
+            this.userControlSignalWire_oiv.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_oiv.TabIndex = 53;
+            // 
+            // userControlSignalWire_oim
+            // 
+            this.userControlSignalWire_oim.Active = false;
+            this.userControlSignalWire_oim.Location = new System.Drawing.Point(48, 100);
+            this.userControlSignalWire_oim.Name = "userControlSignalWire_oim";
+            this.userControlSignalWire_oim.SignalName = "oim";
+            this.userControlSignalWire_oim.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_oim.TabIndex = 52;
+            // 
+            // userControlSignalWire_im
+            // 
+            this.userControlSignalWire_im.Active = false;
+            this.userControlSignalWire_im.Location = new System.Drawing.Point(116, 100);
+            this.userControlSignalWire_im.Name = "userControlSignalWire_im";
+            this.userControlSignalWire_im.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.userControlSignalWire_im.Rotation = 270;
+            this.userControlSignalWire_im.SignalName = "iim";
+            this.userControlSignalWire_im.Size = new System.Drawing.Size(54, 27);
+            this.userControlSignalWire_im.TabIndex = 51;
+            // 
+            // userControlSignalWire_eni
+            // 
+            this.userControlSignalWire_eni.Active = false;
+            this.userControlSignalWire_eni.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_eni.Location = new System.Drawing.Point(393, 78);
+            this.userControlSignalWire_eni.Name = "userControlSignalWire_eni";
+            this.userControlSignalWire_eni.Rotation = 180;
+            this.userControlSignalWire_eni.SignalName = "eni";
+            this.userControlSignalWire_eni.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_eni.TabIndex = 50;
+            // 
+            // userControlSignalWire_rint
+            // 
+            this.userControlSignalWire_rint.Active = false;
+            this.userControlSignalWire_rint.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_rint.Location = new System.Drawing.Point(393, 46);
+            this.userControlSignalWire_rint.Name = "userControlSignalWire_rint";
+            this.userControlSignalWire_rint.Rotation = 180;
+            this.userControlSignalWire_rint.SignalName = "rint";
+            this.userControlSignalWire_rint.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_rint.TabIndex = 49;
+            // 
+            // userControlSignalWire_shr
+            // 
+            this.userControlSignalWire_shr.Active = false;
+            this.userControlSignalWire_shr.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_shr.Location = new System.Drawing.Point(479, 406);
+            this.userControlSignalWire_shr.Name = "userControlSignalWire_shr";
+            this.userControlSignalWire_shr.Rotation = 180;
+            this.userControlSignalWire_shr.SignalName = "shr";
+            this.userControlSignalWire_shr.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_shr.TabIndex = 48;
+            // 
+            // userControlSignalWire_div
+            // 
+            this.userControlSignalWire_div.Active = false;
+            this.userControlSignalWire_div.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_div.Location = new System.Drawing.Point(479, 381);
+            this.userControlSignalWire_div.Name = "userControlSignalWire_div";
+            this.userControlSignalWire_div.Rotation = 180;
+            this.userControlSignalWire_div.SignalName = "div";
+            this.userControlSignalWire_div.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_div.TabIndex = 47;
+            // 
+            // userControlSignalWire_mul
+            // 
+            this.userControlSignalWire_mul.Active = false;
+            this.userControlSignalWire_mul.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_mul.Location = new System.Drawing.Point(246, 406);
+            this.userControlSignalWire_mul.Name = "userControlSignalWire_mul";
+            this.userControlSignalWire_mul.Rotation = 0;
+            this.userControlSignalWire_mul.SignalName = "mul";
+            this.userControlSignalWire_mul.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_mul.TabIndex = 46;
+            // 
+            // userControlSignalWire_wracc
+            // 
+            this.userControlSignalWire_wracc.Active = false;
+            this.userControlSignalWire_wracc.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_wracc.Location = new System.Drawing.Point(244, 381);
+            this.userControlSignalWire_wracc.Name = "userControlSignalWire_wracc";
+            this.userControlSignalWire_wracc.Rotation = 0;
+            this.userControlSignalWire_wracc.SignalName = "wracc";
+            this.userControlSignalWire_wracc.Size = new System.Drawing.Size(70, 32);
+            this.userControlSignalWire_wracc.TabIndex = 45;
+            // 
+            // userControlSignalWire_sub
+            // 
+            this.userControlSignalWire_sub.Active = false;
+            this.userControlSignalWire_sub.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_sub.Location = new System.Drawing.Point(246, 357);
+            this.userControlSignalWire_sub.Name = "userControlSignalWire_sub";
+            this.userControlSignalWire_sub.Rotation = 0;
+            this.userControlSignalWire_sub.SignalName = "sub";
+            this.userControlSignalWire_sub.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_sub.TabIndex = 44;
+            // 
+            // userControlSignalWire_add
+            // 
+            this.userControlSignalWire_add.Active = false;
+            this.userControlSignalWire_add.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_add.Location = new System.Drawing.Point(246, 329);
+            this.userControlSignalWire_add.Name = "userControlSignalWire_add";
+            this.userControlSignalWire_add.Rotation = 0;
+            this.userControlSignalWire_add.SignalName = "add";
+            this.userControlSignalWire_add.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_add.TabIndex = 43;
+            // 
+            // userControlSignalWire_icacc
+            // 
+            this.userControlSignalWire_icacc.Active = false;
+            this.userControlSignalWire_icacc.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_icacc.Location = new System.Drawing.Point(246, 269);
+            this.userControlSignalWire_icacc.Name = "userControlSignalWire_icacc";
+            this.userControlSignalWire_icacc.Rotation = 0;
+            this.userControlSignalWire_icacc.SignalName = "icacc";
+            this.userControlSignalWire_icacc.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_icacc.TabIndex = 42;
+            // 
+            // userControlSignalWire_and
+            // 
+            this.userControlSignalWire_and.Active = false;
+            this.userControlSignalWire_and.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_and.Location = new System.Drawing.Point(479, 357);
+            this.userControlSignalWire_and.Name = "userControlSignalWire_and";
+            this.userControlSignalWire_and.Rotation = 180;
+            this.userControlSignalWire_and.SignalName = "and";
+            this.userControlSignalWire_and.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_and.TabIndex = 41;
+            // 
+            // userControlSignalWire2
+            // 
+            this.userControlSignalWire2.Active = false;
+            this.userControlSignalWire2.Location = new System.Drawing.Point(246, 303);
+            this.userControlSignalWire2.Name = "userControlSignalWire2";
+            this.userControlSignalWire2.Rotation = 0;
+            this.userControlSignalWire2.SignalName = "iacc";
+            this.userControlSignalWire2.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire2.TabIndex = 40;
+            // 
+            // userControlSignalWire_or
+            // 
+            this.userControlSignalWire_or.Active = false;
+            this.userControlSignalWire_or.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_or.Location = new System.Drawing.Point(479, 329);
+            this.userControlSignalWire_or.Name = "userControlSignalWire_or";
+            this.userControlSignalWire_or.Rotation = 180;
+            this.userControlSignalWire_or.SignalName = "or";
+            this.userControlSignalWire_or.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_or.TabIndex = 39;
+            // 
+            // userControlSignalWire_dcacc
+            // 
+            this.userControlSignalWire_dcacc.Active = false;
+            this.userControlSignalWire_dcacc.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_dcacc.Location = new System.Drawing.Point(479, 269);
+            this.userControlSignalWire_dcacc.Name = "userControlSignalWire_dcacc";
+            this.userControlSignalWire_dcacc.Rotation = 180;
+            this.userControlSignalWire_dcacc.SignalName = "dcacc";
+            this.userControlSignalWire_dcacc.Size = new System.Drawing.Size(79, 32);
+            this.userControlSignalWire_dcacc.TabIndex = 38;
+            // 
+            // userControlSignalWire_not
+            // 
+            this.userControlSignalWire_not.Active = false;
+            this.userControlSignalWire_not.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
+            this.userControlSignalWire_not.Location = new System.Drawing.Point(479, 303);
+            this.userControlSignalWire_not.Name = "userControlSignalWire_not";
+            this.userControlSignalWire_not.Rotation = 180;
+            this.userControlSignalWire_not.SignalName = "not";
+            this.userControlSignalWire_not.Size = new System.Drawing.Size(68, 32);
+            this.userControlSignalWire_not.TabIndex = 37;
+            // 
+            // userControlSignalWire_oacc
+            // 
+            this.userControlSignalWire_oacc.Active = false;
+            this.userControlSignalWire_oacc.Location = new System.Drawing.Point(317, 452);
+            this.userControlSignalWire_oacc.Name = "userControlSignalWire_oacc";
+            this.userControlSignalWire_oacc.SignalName = "oacc";
+            this.userControlSignalWire_oacc.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_oacc.TabIndex = 36;
+            // 
+            // userControlSignalWire_ialu
+            // 
+            this.userControlSignalWire_ialu.Active = false;
+            this.userControlSignalWire_ialu.Location = new System.Drawing.Point(412, 452);
+            this.userControlSignalWire_ialu.Name = "userControlSignalWire_ialu";
+            this.userControlSignalWire_ialu.Rotation = 270;
+            this.userControlSignalWire_ialu.SignalName = "ialu";
+            this.userControlSignalWire_ialu.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_ialu.TabIndex = 35;
+            // 
+            // userControlSignalWire_wr
+            // 
+            this.userControlSignalWire_wr.Active = false;
+            this.userControlSignalWire_wr.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_wr.Location = new System.Drawing.Point(768, 307);
+            this.userControlSignalWire_wr.Name = "userControlSignalWire_wr";
+            this.userControlSignalWire_wr.Rotation = 180;
+            this.userControlSignalWire_wr.SignalName = "wr";
+            this.userControlSignalWire_wr.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_wr.TabIndex = 34;
+            // 
+            // userControlSignalWire_rd
+            // 
+            this.userControlSignalWire_rd.Active = false;
+            this.userControlSignalWire_rd.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_rd.Location = new System.Drawing.Point(768, 269);
+            this.userControlSignalWire_rd.Name = "userControlSignalWire_rd";
+            this.userControlSignalWire_rd.Rotation = 180;
+            this.userControlSignalWire_rd.SignalName = "rd";
+            this.userControlSignalWire_rd.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_rd.TabIndex = 33;
+            // 
+            // userControlSignalWire_ia
+            // 
+            this.userControlSignalWire_ia.Active = false;
+            this.userControlSignalWire_ia.Location = new System.Drawing.Point(645, 137);
+            this.userControlSignalWire_ia.Name = "userControlSignalWire_ia";
+            this.userControlSignalWire_ia.SignalName = "ia";
+            this.userControlSignalWire_ia.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_ia.TabIndex = 32;
+            // 
+            // userControlSignalWire1_od
+            // 
+            this.userControlSignalWire1_od.Active = false;
+            this.userControlSignalWire1_od.Location = new System.Drawing.Point(598, 452);
+            this.userControlSignalWire1_od.Name = "userControlSignalWire1_od";
+            this.userControlSignalWire1_od.SignalName = "od";
+            this.userControlSignalWire1_od.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire1_od.TabIndex = 30;
+            // 
+            // userControlSignalWire_id
+            // 
+            this.userControlSignalWire_id.Active = false;
+            this.userControlSignalWire_id.Location = new System.Drawing.Point(693, 452);
+            this.userControlSignalWire_id.Name = "userControlSignalWire_id";
+            this.userControlSignalWire_id.Rotation = 270;
+            this.userControlSignalWire_id.SignalName = "id";
+            this.userControlSignalWire_id.Size = new System.Drawing.Size(65, 32);
+            this.userControlSignalWire_id.TabIndex = 29;
+            // 
+            // userControlIntButton4
+            // 
+            this.userControlIntButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton4.InterruptPriority = ((uint)(1u));
+            this.userControlIntButton4.Location = new System.Drawing.Point(146, 36);
+            this.userControlIntButton4.Name = "userControlIntButton4";
+            this.userControlIntButton4.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton4.TabIndex = 28;
+            this.userControlIntButton4.Text = "4";
+            this.userControlIntButton4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton4.UseVisualStyleBackColor = true;
+            // 
+            // userControlIntButton3
+            // 
+            this.userControlIntButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton3.InterruptPriority = ((uint)(2u));
+            this.userControlIntButton3.Location = new System.Drawing.Point(107, 36);
+            this.userControlIntButton3.Name = "userControlIntButton3";
+            this.userControlIntButton3.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton3.TabIndex = 27;
+            this.userControlIntButton3.Text = "3";
+            this.userControlIntButton3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton3.UseVisualStyleBackColor = true;
+            // 
+            // userControlIntButton2
+            // 
+            this.userControlIntButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton2.InterruptPriority = ((uint)(4u));
+            this.userControlIntButton2.Location = new System.Drawing.Point(66, 36);
+            this.userControlIntButton2.Name = "userControlIntButton2";
+            this.userControlIntButton2.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton2.TabIndex = 26;
+            this.userControlIntButton2.Text = "2";
+            this.userControlIntButton2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton2.UseVisualStyleBackColor = true;
+            // 
+            // userControlIntButton1
+            // 
+            this.userControlIntButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlIntButton1.InterruptPriority = ((uint)(8u));
+            this.userControlIntButton1.Location = new System.Drawing.Point(26, 36);
+            this.userControlIntButton1.Name = "userControlIntButton1";
+            this.userControlIntButton1.Size = new System.Drawing.Size(36, 16);
+            this.userControlIntButton1.TabIndex = 25;
+            this.userControlIntButton1.Text = "1";
+            this.userControlIntButton1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.userControlIntButton1.UseVisualStyleBackColor = true;
+            // 
+            // userControlBusAS
+            // 
+            this.userControlBusAS.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusAS.Location = new System.Drawing.Point(235, 137);
+            this.userControlBusAS.Multiline = true;
+            this.userControlBusAS.Name = "userControlBusAS";
+            this.userControlBusAS.ReadOnly = true;
+            this.userControlBusAS.Size = new System.Drawing.Size(5, 348);
+            this.userControlBusAS.TabIndex = 24;
+            // 
+            // UserControlRegisterRM
+            // 
+            this.UserControlRegisterRM.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRM.Location = new System.Drawing.Point(26, 79);
+            this.UserControlRegisterRM.Name = "UserControlRegisterRM";
+            this.UserControlRegisterRM.ReadOnly = true;
+            this.UserControlRegisterRM.RegisterName = "RM";
+            this.UserControlRegisterRM.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRM.TabIndex = 23;
+            this.UserControlRegisterRM.TabStop = false;
+            this.UserControlRegisterRM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterAP
+            // 
+            this.UserControlRegisterAP.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterAP.Location = new System.Drawing.Point(217, 78);
+            this.UserControlRegisterAP.Name = "UserControlRegisterAP";
+            this.UserControlRegisterAP.ReadOnly = true;
+            this.UserControlRegisterAP.RegisterName = "AP";
+            this.UserControlRegisterAP.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterAP.TabIndex = 22;
+            this.UserControlRegisterAP.TabStop = false;
+            this.UserControlRegisterAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterRP
+            // 
+            this.UserControlRegisterRP.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRP.Location = new System.Drawing.Point(217, 53);
+            this.UserControlRegisterRP.Name = "UserControlRegisterRP";
+            this.UserControlRegisterRP.ReadOnly = true;
+            this.UserControlRegisterRP.RegisterName = "RP";
+            this.UserControlRegisterRP.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRP.TabIndex = 21;
+            this.UserControlRegisterRP.TabStop = false;
+            this.UserControlRegisterRP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterRZ
+            // 
+            this.UserControlRegisterRZ.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRZ.Location = new System.Drawing.Point(26, 53);
+            this.UserControlRegisterRZ.Name = "UserControlRegisterRZ";
+            this.UserControlRegisterRZ.ReadOnly = true;
+            this.UserControlRegisterRZ.RegisterName = "RZ";
+            this.UserControlRegisterRZ.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRZ.TabIndex = 20;
+            this.UserControlRegisterRZ.TabStop = false;
+            this.UserControlRegisterRZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterWS
+            // 
+            this.UserControlRegisterWS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterWS.Location = new System.Drawing.Point(341, 173);
+            this.UserControlRegisterWS.Name = "UserControlRegisterWS";
+            this.UserControlRegisterWS.ReadOnly = true;
+            this.UserControlRegisterWS.RegisterName = "WS";
+            this.UserControlRegisterWS.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterWS.TabIndex = 19;
+            this.UserControlRegisterWS.TabStop = false;
+            this.UserControlRegisterWS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterX
+            // 
+            this.UserControlRegisterX.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterX.Location = new System.Drawing.Point(48, 528);
+            this.UserControlRegisterX.Name = "UserControlRegisterX";
+            this.UserControlRegisterX.ReadOnly = true;
+            this.UserControlRegisterX.RegisterName = "X";
+            this.UserControlRegisterX.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterX.TabIndex = 18;
+            this.UserControlRegisterX.TabStop = false;
+            this.UserControlRegisterX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterY
+            // 
+            this.UserControlRegisterY.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterY.Location = new System.Drawing.Point(249, 528);
+            this.UserControlRegisterY.Name = "UserControlRegisterY";
+            this.UserControlRegisterY.ReadOnly = true;
+            this.UserControlRegisterY.RegisterName = "Y";
+            this.UserControlRegisterY.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterY.TabIndex = 17;
+            this.UserControlRegisterY.TabStop = false;
+            this.UserControlRegisterY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterRB
+            // 
+            this.UserControlRegisterRB.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRB.Location = new System.Drawing.Point(507, 528);
+            this.UserControlRegisterRB.Name = "UserControlRegisterRB";
+            this.UserControlRegisterRB.ReadOnly = true;
+            this.UserControlRegisterRB.RegisterName = "RB";
+            this.UserControlRegisterRB.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterRB.TabIndex = 16;
+            this.UserControlRegisterRB.TabStop = false;
+            this.UserControlRegisterRB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterG
+            // 
+            this.UserControlRegisterG.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterG.Location = new System.Drawing.Point(711, 528);
+            this.UserControlRegisterG.Name = "UserControlRegisterG";
+            this.UserControlRegisterG.ReadOnly = true;
+            this.UserControlRegisterG.RegisterName = "G";
+            this.UserControlRegisterG.Size = new System.Drawing.Size(51, 20);
+            this.UserControlRegisterG.TabIndex = 15;
+            this.UserControlRegisterG.TabStop = false;
+            this.UserControlRegisterG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterAK
+            // 
+            this.UserControlRegisterAK.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterAK.CausesValidation = false;
+            this.UserControlRegisterAK.Location = new System.Drawing.Point(317, 281);
+            this.UserControlRegisterAK.Name = "UserControlRegisterAK";
+            this.UserControlRegisterAK.ReadOnly = true;
+            this.UserControlRegisterAK.RegisterName = "AK";
+            this.UserControlRegisterAK.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterAK.TabIndex = 13;
+            this.UserControlRegisterAK.TabStop = false;
+            this.UserControlRegisterAK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterL
+            // 
+            this.UserControlRegisterL.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterL.CausesValidation = false;
+            this.UserControlRegisterL.Location = new System.Drawing.Point(26, 173);
+            this.UserControlRegisterL.Name = "UserControlRegisterL";
+            this.UserControlRegisterL.ReadOnly = true;
+            this.UserControlRegisterL.RegisterName = "L";
+            this.UserControlRegisterL.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterL.TabIndex = 12;
+            this.UserControlRegisterL.TabStop = false;
+            this.UserControlRegisterL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterI
+            // 
+            this.UserControlRegisterI.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterI.CausesValidation = false;
+            this.UserControlRegisterI.Location = new System.Drawing.Point(63, 430);
+            this.UserControlRegisterI.Name = "UserControlRegisterI";
+            this.UserControlRegisterI.ReadOnly = true;
+            this.UserControlRegisterI.RegisterName = "I";
+            this.UserControlRegisterI.Size = new System.Drawing.Size(156, 20);
+            this.UserControlRegisterI.TabIndex = 11;
+            this.UserControlRegisterI.TabStop = false;
+            this.UserControlRegisterI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // userControlBusAddress
+            // 
+            this.userControlBusAddress.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 2.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlBusAddress.Location = new System.Drawing.Point(9, 131);
+            this.userControlBusAddress.Multiline = true;
+            this.userControlBusAddress.Name = "userControlBusAddress";
+            this.userControlBusAddress.ReadOnly = true;
+            this.userControlBusAddress.Size = new System.Drawing.Size(800, 5);
+            this.userControlBusAddress.TabIndex = 10;
+            // 
+            // userControlBusData
+            // 
+            this.userControlBusData.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusData.Font = new System.Drawing.Font("Microsoft Sans Serif", 2.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlBusData.Location = new System.Drawing.Point(9, 486);
+            this.userControlBusData.Multiline = true;
+            this.userControlBusData.Name = "userControlBusData";
+            this.userControlBusData.ReadOnly = true;
+            this.userControlBusData.Size = new System.Drawing.Size(799, 5);
+            this.userControlBusData.TabIndex = 9;
+            // 
+            // MemoryControl
+            // 
+            this.MemoryControl.BackColor = System.Drawing.Color.White;
+            this.MemoryControl.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.MemoryControl.Location = new System.Drawing.Point(582, 199);
+            this.MemoryControl.Multiline = true;
+            this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.ReadOnly = true;
+            this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MemoryControl.Size = new System.Drawing.Size(180, 225);
+            this.MemoryControl.TabIndex = 8;
+            this.MemoryControl.TabStop = false;
+            this.MemoryControl.WordWrap = false;
+            // 
+            // UserControlRegisterS
+            // 
+            this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterS.Location = new System.Drawing.Point(582, 430);
+            this.UserControlRegisterS.Name = "UserControlRegisterS";
+            this.UserControlRegisterS.ReadOnly = true;
+            this.UserControlRegisterS.RegisterName = "S";
+            this.UserControlRegisterS.Size = new System.Drawing.Size(180, 20);
+            this.UserControlRegisterS.TabIndex = 4;
+            this.UserControlRegisterS.TabStop = false;
+            this.UserControlRegisterS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlRegisterA
+            // 
+            this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterA.CausesValidation = false;
+            this.UserControlRegisterA.Location = new System.Drawing.Point(582, 173);
+            this.UserControlRegisterA.Name = "UserControlRegisterA";
+            this.UserControlRegisterA.ReadOnly = true;
+            this.UserControlRegisterA.RegisterName = "A";
+            this.UserControlRegisterA.Size = new System.Drawing.Size(180, 20);
+            this.UserControlRegisterA.TabIndex = 2;
+            this.UserControlRegisterA.TabStop = false;
+            this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // UserControlCharacterInput
+            // 
+            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
+            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
+            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
+            this.UserControlCharacterInput.TabIndex = 0;
+            this.UserControlCharacterInput.TabStop = false;
+            // 
+            // UserControlCharacterOutput
+            // 
+            this.UserControlCharacterOutput.BackColor = System.Drawing.Color.White;
+            this.UserControlCharacterOutput.Location = new System.Drawing.Point(11, 9);
+            this.UserControlCharacterOutput.Multiline = true;
+            this.UserControlCharacterOutput.Name = "UserControlCharacterOutput";
+            this.UserControlCharacterOutput.ReadOnly = true;
+            this.UserControlCharacterOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.UserControlCharacterOutput.Size = new System.Drawing.Size(1414, 94);
+            this.UserControlCharacterOutput.TabIndex = 0;
+            // 
+            // userControlSignalWire_oa
+            // 
+            this.userControlSignalWire_oa.Active = false;
+            this.userControlSignalWire_oa.Location = new System.Drawing.Point(188, 142);
+            this.userControlSignalWire_oa.Name = "userControlSignalWire_oa";
+            this.userControlSignalWire_oa.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.userControlSignalWire_oa.Rotation = 270;
+            this.userControlSignalWire_oa.SignalName = "oa";
+            this.userControlSignalWire_oa.Size = new System.Drawing.Size(41, 282);
+            this.userControlSignalWire_oa.TabIndex = 72;
+            // 
+            // userControlSignalWire_oitd
+            // 
+            this.userControlSignalWire_oitd.Active = false;
+            this.userControlSignalWire_oitd.Location = new System.Drawing.Point(9, 198);
+            this.userControlSignalWire_oitd.Name = "userControlSignalWire_oitd";
+            this.userControlSignalWire_oitd.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.userControlSignalWire_oitd.SignalName = "oitd";
+            this.userControlSignalWire_oitd.Size = new System.Drawing.Size(54, 282);
+            this.userControlSignalWire_oitd.TabIndex = 73;
             // 
             // Form1
             // 
@@ -1246,6 +1773,49 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem signedDecimalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hexadecimalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem binaryToolStripMenuItem;
+        private MachineUI.UserControlSignalWire userControlSignalWire_rd;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ia;
+        private MachineUI.UserControlSignalWire userControlSignalWire1_od;
+        private MachineUI.UserControlSignalWire userControlSignalWire_wr;
+        private MachineUI.UserControlSignalWire userControlSignalWire_dcacc;
+        private MachineUI.UserControlSignalWire userControlSignalWire_not;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oacc;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ialu;
+        private MachineUI.UserControlSignalWire userControlSignalWire2;
+        private MachineUI.UserControlSignalWire userControlSignalWire_or;
+        private MachineUI.UserControlSignalWire userControlSignalWire_shr;
+        private MachineUI.UserControlSignalWire userControlSignalWire_div;
+        private MachineUI.UserControlSignalWire userControlSignalWire_mul;
+        private MachineUI.UserControlSignalWire userControlSignalWire_wracc;
+        private MachineUI.UserControlSignalWire userControlSignalWire_sub;
+        private MachineUI.UserControlSignalWire userControlSignalWire_add;
+        private MachineUI.UserControlSignalWire userControlSignalWire_icacc;
+        private MachineUI.UserControlSignalWire userControlSignalWire_and;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ad;
+        private MachineUI.UserControlSignalWire userControlSignalWire_osp;
+        private MachineUI.UserControlSignalWire userControlSignalWire_isp;
+        private MachineUI.UserControlSignalWire userControlSignalWire_dcsp;
+        private MachineUI.UserControlSignalWire userControlSignalWire_icsp;
+        private MachineUI.UserControlSignalWire userControlSignalWire_icit;
+        private MachineUI.UserControlSignalWire userControlSignalWire_iit;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oit;
+        private MachineUI.UserControlSignalWire userControlSignalWire_iins;
+        private MachineUI.UserControlSignalWire userControlSignalWire_start;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ord;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ibuf;
+        private MachineUI.UserControlSignalWire userControlSignalWire_obuf;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oy;
+        private MachineUI.UserControlSignalWire userControlSignalWire_iy;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ox;
+        private MachineUI.UserControlSignalWire userControlSignalWire_ix;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oiv;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oim;
+        private MachineUI.UserControlSignalWire userControlSignalWire_im;
+        private MachineUI.UserControlSignalWire userControlSignalWire_eni;
+        private MachineUI.UserControlSignalWire userControlSignalWire_rint;
+        private MachineUI.UserControlSignalWire userControlSignalWire_da;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oa;
+        private MachineUI.UserControlSignalWire userControlSignalWire_oitd;
     }
 }
 

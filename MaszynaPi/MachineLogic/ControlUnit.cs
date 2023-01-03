@@ -111,7 +111,7 @@ namespace MaszynaPi.MachineLogic {
         }
 
         // ========================== <  Signals Methods > ========--=========================== // (Microinstructions)
-        public void stop() { return; }
+        public void stop() { OnProgramEnd(); }
         // Architecture W
         public void czyt() { S.SetValue(PaO.GetValue(A.GetValue())); }
         public void pisz() { PaO.StoreValue(A.GetValue(), S.GetValue()); }
@@ -316,15 +316,15 @@ namespace MaszynaPi.MachineLogic {
         public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
 
         //public void ManualTick() { ExecuteTick(); ProgramEnd(); } // TODO: Change to work  with parameter 
-        public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: false); ProgramEnd(); } // Not avaible if ManualControl signal active
-        public void ManualProgram() {ExecuteProgram(); ProgramEnd(); } // Not avaible if ManualControl signal active
+        public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: false); }//ProgramEnd(); } // Not avaible if ManualControl signal active
+        public void ManualProgram() { ExecuteProgram(); }//ProgramEnd(); } // Not avaible if ManualControl signal active
 
         public void ManualTick(List<string> activeSigs = null) { 
             if(activeSigs == null) {
                 if (LastTick == ENDOF_INSTRUCTION) LastTick = 0;
                 LastTick = ExecuteTick(LastTick);
                 LastTick++;
-                ProgramEnd();
+                //ProgramEnd();
             } else {
                 SetActiveSignals(activeSigs);
                 ExecuteTick(manual:true);

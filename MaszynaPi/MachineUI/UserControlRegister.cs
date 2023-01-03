@@ -10,10 +10,11 @@ using System.Windows.Forms;
 using MaszynaPi.MachineLogic;
 using MaszynaPi.CommonOperations;
 using MaszynaPi.MachineLogic.Architecture;
+using MaszynaPi.MachineAssembler;
 
 namespace MaszynaPi.MachineUI {
 
-    public enum RegisterMode { Dec, Signed, Hex, Bin}
+    public enum RegisterMode { Dec, Signed, Hex, Bin, Instruction}
 
     public partial class UserControlRegister : TextBox {
         const string DIVIDER = ":";
@@ -66,6 +67,12 @@ namespace MaszynaPi.MachineUI {
                 DisplayValue = "0x"+UnitRegister.GetValue().ToString("X");
             } else if (Mode == RegisterMode.Bin) {
                 DisplayValue = "0b"+Convert.ToString(UnitRegister.GetValue(), 2);
+            } else if(Mode == RegisterMode.Instruction) {
+                Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
+                uint opcode = Bitwise.DecodeInstructionOpcode(UnitRegister.GetValue());
+                uint arg = Bitwise.DecodeIntructionArgument(UnitRegister.GetValue());
+                string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
+                DisplayValue = UnitRegister.GetValue().ToString() + " ( " +name+" "+arg.ToString()+" )";
             }
             Text = RegisterName + " " + DIVIDER + " " + DisplayValue;
             base.Refresh();

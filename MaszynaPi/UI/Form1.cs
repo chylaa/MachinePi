@@ -51,6 +51,8 @@ namespace MaszynaPi {
             Debugger = new Debugger();
             Machine = new ControlUnit();
 
+            UserControlRegisterI.SetDisplayMode(mode: RegisterMode.Instruction);
+
 
             Debugger.SetCodeEditorHandle(codeEditor.GetCodeLinesHandle());
             Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
