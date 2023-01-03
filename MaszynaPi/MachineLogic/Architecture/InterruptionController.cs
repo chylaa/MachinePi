@@ -26,7 +26,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         void ReportInterrupt(uint IntPriority) {
             RZ.SetValue(RZ.GetValue() | IntPriority);
-            OnInterruptReported();
+            //OnInterruptReported();
         }
 
 

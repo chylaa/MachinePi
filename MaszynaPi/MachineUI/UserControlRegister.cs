@@ -22,6 +22,8 @@ namespace MaszynaPi.MachineUI {
         RegisterMode Mode { get; set; }
         private Register UnitRegister;
 
+        Timer RefreshTimer = null;
+
         public UserControlRegister(){
             InitializeComponent();
             this.TextAlign = HorizontalAlignment.Center;
@@ -73,6 +75,17 @@ namespace MaszynaPi.MachineUI {
             }
             Text = RegisterName + " " + DIVIDER + " " + DisplayValue;
             base.Refresh();
+        }
+
+        public void StartRefreshing(int interval = 1000) {
+            RefreshTimer = new Timer();
+            RefreshTimer.Interval = 1000; // co sekundę
+            RefreshTimer.Tick += new EventHandler(RefreshControl);
+            RefreshTimer.Start();
+        }
+
+        private void RefreshControl(object sender, EventArgs e) {
+            Refresh();
         }
 
     }

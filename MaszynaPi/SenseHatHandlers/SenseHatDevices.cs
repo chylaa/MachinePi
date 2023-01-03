@@ -15,7 +15,7 @@ namespace MaszynaPi.SenseHatHandlers {
         public const string SENSOR_HUMIDITY = "humidity";
 
         public const string SENSOR_SCRIPT = "scripts/GetSensor.py";
-        public const string JOYSTICK_SCRIPT = "scripts/GetJoystickPos.py";
+        public const string JOYSTICK_SCRIPT = "scripts/GetJoystickPos.py"; // "scripts/WinGetJoystickPos.py";
         public const string MATRIX_SCRIPT = "scripts/MatrixPrint.py";
 
         public static readonly string JOYSTICK_POS_PRESS = "middle";
@@ -40,6 +40,8 @@ namespace MaszynaPi.SenseHatHandlers {
                 CreateNoWindow = true,
                 WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
             };
+            ReadProcess.OutputDataReceived += DataReceived;
+            ReadProcess.ErrorDataReceived += ErrorReceived;
         }
 
         // To be called in thread
@@ -87,10 +89,10 @@ namespace MaszynaPi.SenseHatHandlers {
         // Should be CentralUnit method for settings proper interuption
         public Action<uint> OnInterruptionReceived;
 
+
+
         public void StartAsyncRead() {
             if(ReadProcess == null) { throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)"); }
-            ReadProcess.OutputDataReceived += DataReceived;
-            ReadProcess.ErrorDataReceived += ErrorReceived;
 
             AsyncRead = new BackgroundWorker();
             AsyncRead.WorkerReportsProgress = true;
@@ -105,13 +107,19 @@ namespace MaszynaPi.SenseHatHandlers {
             ReadProcess.Start();
             ReadProcess.BeginErrorReadLine();
             ReadProcess.BeginOutputReadLine();
+
             string previous = ReceivedData;
             while(true) {
-                if (ReceivedData != null && ReceivedData != previous ) {
-                    ReadProcess.WaitForInputIdle(10); //wait 10ms
-                    if (JoystickPosIntMap.TryGetValue(ReceivedData, out int reportedInt))
-                        (sender as BackgroundWorker).ReportProgress(reportedInt);
-                    previous = ReceivedData;
+                var data = ReceivedData;
+                if (data != null && data != previous ) {
+                    //ReadProcess.WaitForInputIdle(10); //wait 10ms
+                    //ReadProcess.WaitForExit(10);
+                    previous = data;
+                    if (JoystickPosIntMap.TryGetValue(data, out int reportedInt)) {
+                        OnInterruptionReceived((uint)(reportedInt));
+                        //(sender as BackgroundWorker).ReportProgress(reportedInt);
+                    }
+                    
                 }
             }
         }
@@ -121,7 +129,6 @@ namespace MaszynaPi.SenseHatHandlers {
         }
         void DataReceived(object sender, DataReceivedEventArgs e) {
             ReceivedData = e.Data;
-            //Console.WriteLine("Get: " + ReceivedData);
         }
         void ErrorReceived(object sender, DataReceivedEventArgs e) {
             //throw new Exception("Error while executing asynchronus script. Details: " + e.Data);

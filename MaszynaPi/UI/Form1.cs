@@ -27,6 +27,7 @@ namespace MaszynaPi {
         List<object> MachineComponents;
         List<UserControlSignalWire> SignalWires;
 
+        Timer IntRefreshTimer;
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
          *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
@@ -75,7 +76,7 @@ namespace MaszynaPi {
             SetMachineComponentsViewHandles();
             RefreshMicrocontrolerControls();
 
-            Machine.SetOnInterruptReportedAction(RefreshMicrocontrolerControls);
+            Machine.SetOnInterruptReportedAction(UserControlRegisterRZ.Refresh);
 
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
@@ -93,7 +94,7 @@ namespace MaszynaPi {
                 unixCodeEditorMenuStrip.Enabled = false;
                 unixCodeEditorMenuStrip.Visible = false;
             }
-
+            UserControlRegisterRZ.StartRefreshing();
         }
 
         private void InitializeMachineComponentsList() {
