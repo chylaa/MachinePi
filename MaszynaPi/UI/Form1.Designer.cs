@@ -933,8 +933,10 @@ namespace MaszynaPi {
             // userControlSignalWire_isp
             // 
             this.userControlSignalWire_isp.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_isp.Location = new System.Drawing.Point(436, 137);
             this.userControlSignalWire_isp.Name = "userControlSignalWire_isp";
+            this.userControlSignalWire_osp.Rotation = 90;
             this.userControlSignalWire_isp.SignalName = "isp";
             this.userControlSignalWire_isp.Size = new System.Drawing.Size(65, 32);
             this.userControlSignalWire_isp.TabIndex = 68;
@@ -975,8 +977,10 @@ namespace MaszynaPi {
             // userControlSignalWire_iit
             // 
             this.userControlSignalWire_iit.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_iit.Location = new System.Drawing.Point(26, 137);
             this.userControlSignalWire_iit.Name = "userControlSignalWire_iit";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_iit.SignalName = "iit";
             this.userControlSignalWire_iit.Size = new System.Drawing.Size(65, 32);
             this.userControlSignalWire_iit.TabIndex = 64;
@@ -1004,8 +1008,10 @@ namespace MaszynaPi {
             // userControlSignalWire_start
             // 
             this.userControlSignalWire_start.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_start.Location = new System.Drawing.Point(678, 492);
             this.userControlSignalWire_start.Name = "userControlSignalWire_start";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_start.SignalName = "start";
             this.userControlSignalWire_start.Size = new System.Drawing.Size(68, 34);
             this.userControlSignalWire_start.TabIndex = 61;
@@ -1023,8 +1029,10 @@ namespace MaszynaPi {
             // userControlSignalWire_ibuf
             // 
             this.userControlSignalWire_ibuf.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_ibuf.Location = new System.Drawing.Point(522, 492);
             this.userControlSignalWire_ibuf.Name = "userControlSignalWire_ibuf";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_ibuf.SignalName = "ibuf";
             this.userControlSignalWire_ibuf.Size = new System.Drawing.Size(68, 34);
             this.userControlSignalWire_ibuf.TabIndex = 59;
@@ -1052,8 +1060,10 @@ namespace MaszynaPi {
             // userControlSignalWire_iy
             // 
             this.userControlSignalWire_iy.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_iy.Location = new System.Drawing.Point(324, 497);
             this.userControlSignalWire_iy.Name = "userControlSignalWire_iy";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_iy.SignalName = "iy";
             this.userControlSignalWire_iy.Size = new System.Drawing.Size(54, 27);
             this.userControlSignalWire_iy.TabIndex = 56;
@@ -1071,8 +1081,10 @@ namespace MaszynaPi {
             // userControlSignalWire_ix
             // 
             this.userControlSignalWire_ix.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_ix.Location = new System.Drawing.Point(116, 497);
             this.userControlSignalWire_ix.Name = "userControlSignalWire_ix";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_ix.SignalName = "ix";
             this.userControlSignalWire_ix.Size = new System.Drawing.Size(54, 27);
             this.userControlSignalWire_ix.TabIndex = 54;
@@ -1080,8 +1092,10 @@ namespace MaszynaPi {
             // userControlSignalWire_oiv
             // 
             this.userControlSignalWire_oiv.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_oiv.Location = new System.Drawing.Point(271, 100);
             this.userControlSignalWire_oiv.Name = "userControlSignalWire_oiv";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_oiv.SignalName = "oiv";
             this.userControlSignalWire_oiv.Size = new System.Drawing.Size(54, 27);
             this.userControlSignalWire_oiv.TabIndex = 53;
@@ -1089,8 +1103,10 @@ namespace MaszynaPi {
             // userControlSignalWire_oim
             // 
             this.userControlSignalWire_oim.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_oim.Location = new System.Drawing.Point(48, 100);
             this.userControlSignalWire_oim.Name = "userControlSignalWire_oim";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_oim.SignalName = "oim";
             this.userControlSignalWire_oim.Size = new System.Drawing.Size(54, 27);
             this.userControlSignalWire_oim.TabIndex = 52;
@@ -1262,8 +1278,10 @@ namespace MaszynaPi {
             // userControlSignalWire_oacc
             // 
             this.userControlSignalWire_oacc.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_oacc.Location = new System.Drawing.Point(317, 452);
             this.userControlSignalWire_oacc.Name = "userControlSignalWire_oacc";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_oacc.SignalName = "oacc";
             this.userControlSignalWire_oacc.Size = new System.Drawing.Size(65, 32);
             this.userControlSignalWire_oacc.TabIndex = 36;
@@ -1303,8 +1321,10 @@ namespace MaszynaPi {
             // userControlSignalWire_ia
             // 
             this.userControlSignalWire_ia.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire_ia.Location = new System.Drawing.Point(645, 137);
             this.userControlSignalWire_ia.Name = "userControlSignalWire_ia";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire_ia.SignalName = "ia";
             this.userControlSignalWire_ia.Size = new System.Drawing.Size(65, 32);
             this.userControlSignalWire_ia.TabIndex = 32;
@@ -1312,8 +1332,10 @@ namespace MaszynaPi {
             // userControlSignalWire1_od
             // 
             this.userControlSignalWire1_od.Active = false;
+            this.userControlSignalWire_dcsp.Cap = System.Drawing.Drawing2D.LineCap.SquareAnchor;
             this.userControlSignalWire1_od.Location = new System.Drawing.Point(598, 452);
             this.userControlSignalWire1_od.Name = "userControlSignalWire1_od";
+            this.userControlSignalWire_id.Rotation = 90;
             this.userControlSignalWire1_od.SignalName = "od";
             this.userControlSignalWire1_od.Size = new System.Drawing.Size(65, 32);
             this.userControlSignalWire1_od.TabIndex = 30;

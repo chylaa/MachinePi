@@ -31,13 +31,11 @@ namespace MaszynaPi.MachineUI {
         [Category("Appearance")]
         [Description("Rotaton of image - Rotation == 0 means that image will be horizontal facing right: ------>.")]
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
-        [DefaultValue(90)]
         public int Rotation { get; set; }
 
         [Category("Appearance")]
         [Description("Type of line cap.")]
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
-        [DefaultValue(LineCap.ArrowAnchor)]
         public LineCap Cap { get; set; }
 
         public bool Active { get; set; }
@@ -50,7 +48,6 @@ namespace MaszynaPi.MachineUI {
             ManualControl = false;
 
             if (Rotation != 0 && Rotation != 90 && Rotation != 180 && Rotation != 270) throw new Exception("Invalid 'Rotation' property value: " + Rotation.ToString() + ". Only valid: [0, 90, 180, 270].");
-            Rotation = Rotation % 360; // get values only from 0 to 360
                         
         }
         
