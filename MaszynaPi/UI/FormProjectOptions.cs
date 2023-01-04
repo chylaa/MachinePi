@@ -20,7 +20,7 @@ namespace MaszynaPi {
             textBoxINT2Addr.KeyPress += HandleInput;
             textBoxINT3Addr.KeyPress += HandleInput;
             textBoxINT4Addr.KeyPress += HandleInput;
-            textBoxesINTAddr = new List<Control> { textBoxINT1Addr, textBoxINT2Addr, textBoxINT3Addr, textBoxINT4Addr };
+            textBoxesINTAddr = new List<Control> { textBoxINT4Addr, textBoxINT3Addr, textBoxINT2Addr, textBoxINT1Addr };
 
 
             numericUpDownAddresBits.Maximum = (decimal)Defines.ADDRESS_BITS_MAX;
@@ -119,10 +119,9 @@ namespace MaszynaPi {
 
         private void SetAdresses() {
             Dictionary<uint,uint> newIntVector = new Dictionary<uint, uint>();
-            uint i = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
-            foreach (var textBox in textBoxesINTAddr) {
-                newIntVector.Add(i, uint.Parse(textBox.Text));
-                i >>= 1;
+            for(uint bit=0; bit< Defines.INTERRUPTIONS_NUM; bit++) {
+                uint addr = uint.Parse(textBoxesINTAddr[(int)bit].Text);
+                newIntVector.Add(bit, addr);
             }
             ArchitectureSettings.SetInterruptVector(newIntVector);
         }
@@ -161,10 +160,8 @@ namespace MaszynaPi {
 
         private void InitializeAdresses() {
             var intVector = ArchitectureSettings.GetInterruptVector();
-            uint i = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
-            foreach (var textBox in textBoxesINTAddr) {
-                textBox.Text = intVector[i].ToString();
-                i >>= 1;
+            for (uint bit = 0; bit < Defines.INTERRUPTIONS_NUM; bit++) {
+                textBoxesINTAddr[(int)bit].Text = intVector[bit].ToString();
             }
             // TODO IO Adresses
         }

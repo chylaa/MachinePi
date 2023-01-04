@@ -13,7 +13,7 @@ namespace MaszynaPi.MachineLogic {
         static Defines.Components ActiveComponents = (Defines.Components)((int)Defines.DEFAULT_ARCHITECTURE);
         static List<string> AvaibleSignals = new List<string>();
 
-        static Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); // Pairs of <INT bit, Mem Address>
+        static Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); // Pairs of <INT bit pos, Mem Address>
         static Dictionary<uint, uint> IODevices = new Dictionary<uint, uint>(); // Map of IO Devices by pair Address <-> DeviceID (Addresses set in Projekt->Opcje->Adresy)
         // Methods - ----------------------------------------------------------------------
         public static uint GetAddressSpace() { return AddressSpace; }
@@ -79,10 +79,8 @@ namespace MaszynaPi.MachineLogic {
 
         public static void InitializeInterruptVector() {
             Dictionary<uint, uint> baseIntVect = new Dictionary<uint, uint>();
-            uint intBit = (uint)Math.Pow(2, Defines.INTERRUPTIONS_NUM - 1);
-            for (uint i = 1; i <= Defines.INTERRUPTIONS_NUM; i++) {
-                baseIntVect.Add(intBit, i);
-                intBit >>= 1;
+            for (uint bit = 0; bit < Defines.INTERRUPTIONS_NUM; bit++) {
+                baseIntVect.Add(bit, Defines.INTERRUPTIONS_NUM - bit);
             }
             MaszynaPi.MachineLogic.ArchitectureSettings.SetInterruptVector(baseIntVect);
         }

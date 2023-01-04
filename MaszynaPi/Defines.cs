@@ -107,8 +107,8 @@ namespace MaszynaPi {
             if(lang == Lang.ENG) {
                 BASE_INSTRUCTION_SET_FILENAME = "Base.lst";
                 FETCH_SIGNALS = new List<string> { "rd", "od", "iins", "icit" };
-                HEADER_MEM_ALLOC = "mem";
-                HEADER_CONST_VAR = "cst";
+                HEADER_MEM_ALLOC = "res";
+                HEADER_CONST_VAR = "def";
                 SIGNAL_TEST_IO_READY = "start";
                 SIGNAL_STATEMENT_IF = "if";
                 SIGNAL_STATEMENT_THEN = "then";

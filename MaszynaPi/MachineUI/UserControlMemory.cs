@@ -51,7 +51,7 @@ namespace MaszynaPi.MachineUI {
                 string memaddr = SelectedIndex.ToString();
                 string memcontent = UnitMemory[SelectedIndex].ToString();
                 Point location = PointToClient(this.Location);
-                var result = InputDialog.ShowDoubleInputDialog(ref memaddr, ref memcontent, title: "Memory ", subtitle:"Address ", subtitle2: "Value ", x: location.X, y: location.Y);
+                var result = InputDialog.ShowDoubleInputDialog(ref memaddr, ref memcontent, title: "RAM ", subtitle:"Address ", subtitle2: "Value ", x: location.X, y: location.Y);
                 if (memcontent == null || memaddr == null || result == DialogResult.Cancel) return;
                 SelectedIndex = (int)Bitwise.HandleOverflow(uint.Parse(memaddr), MachineLogic.ArchitectureSettings.GetAddressSpace());
                 if (memcontent.Length != 0)

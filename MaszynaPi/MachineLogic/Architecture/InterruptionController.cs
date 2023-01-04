@@ -33,11 +33,13 @@ namespace MaszynaPi.MachineLogic.Architecture {
         //On eni() put the interrupt bit with the highest priority from register RZ to RP (if not masked)
         public void SetAcceptedAndINTVectorRegister(ArithmeticLogicUnit JAL) {
             uint mask = RM.GetValue();
-            for (uint intBit = RZ.GetBitsize(); intBit>0; intBit >>= 1) {
-                uint rzVal = RZ.GetValue();
-                if(( (rzVal & intBit) != 0) && ( (intBit & mask) == 0)) {
-                    RP.SetValue(intBit);
-                    AP.SetValue(ArchitectureSettings.GetInterruptVector()[intBit]);
+            uint rzval = RZ.GetValue();
+            for (uint bit = RZ.GetBitsize() - 1; bit >= 0; bit--) {//starts from msb
+                uint bitvalue = (uint)Math.Pow(2, bit);
+                if (((rzval & bitvalue) != 0) && ((bitvalue & mask) == 0)) { // if bit set and not masked
+                    RP.SetValue(bitvalue);
+                    AP.SetValue(ArchitectureSettings.GetInterruptVector()[bit]);
+                    break;
                 }
             }
             if (AP.GetValue() != 0) {
@@ -46,9 +48,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
                 JAL.ClearFlags(ALUFlags.INT);
             }
         }
-        // On rint() clears RZ
+        // On rint() clears RZ, RP, AP
         public void ClearMSBOfAcceptedINTs(){
             RZ.SetValue(RZ.GetValue() - RP.GetValue());
+            RP.SetValue(Defines.DEFAULT_REG_VAL);
+            AP.SetValue(Defines.DEFAULT_REG_VAL);
         }
 
     }
