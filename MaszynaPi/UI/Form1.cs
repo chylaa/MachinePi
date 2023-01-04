@@ -284,8 +284,8 @@ namespace MaszynaPi {
                 if (codeEditor.IsInstructionDefinition()) {
                     bool isEnoughSpace = InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
-                    if (isEnoughSpace) MessageBox.Show("The command has been added.", "Pi Machine");
-                    else MessageBox.Show("The instruction has been added but will not be visible(too few code bits)", "Warning!");
+                    if (isEnoughSpace) MessageBox.Show("The instruction has been added.", "Pi Machine");
+                    else MessageBox.Show("The instruction has been added but will not be visible (too few code bits)", "Warning!");
                     return;
                 }
                 if (codeEditor.IsProgram()) {

@@ -242,9 +242,14 @@ namespace MaszynaPi.MachineAssembler {
             List<string> signalsLines = new List<string>();
             foreach (var inLine in signals) signalsLines.Add(string.Join(" ", inLine));
 
-            InstructionsLines.Add(name, signalsLines);
-            InstructionNamesOpcodes.Add(name, (uint)MAX_OPCODE);
-            InstructionSignalsMap.Add((uint)MAX_OPCODE, signals);
+            //InstructionsLines.Add(name, signalsLines);
+            //InstructionNamesOpcodes.Add(name, (uint)MAX_OPCODE);
+            //InstructionSignalsMap.Add((uint)MAX_OPCODE, signals);
+
+            //Add or update
+            InstructionsLines[name] = signalsLines;
+            InstructionNamesOpcodes[name] = (uint)MAX_OPCODE;
+            InstructionSignalsMap[(uint)MAX_OPCODE] = signals;
 
             ChangeCapitalizationOfInstructionLines(toUpper: true);
         }

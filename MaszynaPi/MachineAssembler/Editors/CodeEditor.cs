@@ -29,7 +29,7 @@ namespace MaszynaPi.MachineAssembler.Editors{
 
         public bool IsInstructionDefinition() {
             string text = CodeLinesToString();
-            return (text.Contains(string.Join(" ", Defines.FETCH_SIGNALS)));
+            return (text.IndexOf(Defines.INSTRUCTION_NAME_HEADER, StringComparison.InvariantCultureIgnoreCase) >= 0); //Contains (ignorecase)
            // return (Defines.FETCH_SIGNALS.Any(signal => text.ToLower().Contains(signal)) ||
            //        InstructionLoader.UPPER_WORDS.Any(signal => text.ToLower().Contains(signal)));
         }
