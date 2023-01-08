@@ -44,6 +44,7 @@ namespace MaszynaPi {
             this.componentsCheckBoxRegisterY = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxINT = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxIO = new MaszynaPi.ComponentsCheckBox();
+            this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
             this.componentsCheckBoxBusConnection = new MaszynaPi.ComponentsCheckBox();
             this.groupBoxArchitectureType = new System.Windows.Forms.GroupBox();
             this.architectureRadioButtonL = new MaszynaPi.ArchitectureRadioButton();
@@ -64,7 +65,20 @@ namespace MaszynaPi {
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.componentsCheckBoxExtendedFlags = new MaszynaPi.ComponentsCheckBox();
+            this.tabPagePaths = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBoxPathSensors = new System.Windows.Forms.TextBox();
+            this.textBoxPathJoystick = new System.Windows.Forms.TextBox();
+            this.textBoxPathMatrix = new System.Windows.Forms.TextBox();
+            this.textBoxBaseInst = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPageArchitecture.SuspendLayout();
             this.groupBoxMachineWord.SuspendLayout();
@@ -75,6 +89,9 @@ namespace MaszynaPi {
             this.groupBoxArchitectureType.SuspendLayout();
             this.tabPageAdresses.SuspendLayout();
             this.groupBoxINTProc.SuspendLayout();
+            this.tabPagePaths.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -109,6 +126,7 @@ namespace MaszynaPi {
             this.tabControl.Controls.Add(this.tabPageArchitecture);
             this.tabControl.Controls.Add(this.tabPageComponents);
             this.tabControl.Controls.Add(this.tabPageAdresses);
+            this.tabControl.Controls.Add(this.tabPagePaths);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -294,6 +312,16 @@ namespace MaszynaPi {
             this.componentsCheckBoxIO.TabIndex = 13;
             this.componentsCheckBoxIO.Text = "Input/Output";
             this.componentsCheckBoxIO.UseVisualStyleBackColor = true;
+            // 
+            // componentsCheckBoxExtendedFlags
+            // 
+            this.componentsCheckBoxExtendedFlags.AutoSize = true;
+            this.componentsCheckBoxExtendedFlags.Location = new System.Drawing.Point(329, 119);
+            this.componentsCheckBoxExtendedFlags.Name = "componentsCheckBoxExtendedFlags";
+            this.componentsCheckBoxExtendedFlags.Size = new System.Drawing.Size(97, 17);
+            this.componentsCheckBoxExtendedFlags.TabIndex = 12;
+            this.componentsCheckBoxExtendedFlags.Text = "Additional flags";
+            this.componentsCheckBoxExtendedFlags.UseVisualStyleBackColor = true;
             // 
             // componentsCheckBoxBusConnection
             // 
@@ -504,15 +532,128 @@ namespace MaszynaPi {
             this.label1.TabIndex = 0;
             this.label1.Text = "Interruption";
             // 
-            // componentsCheckBoxExtendedFlags
+            // tabPagePaths
             // 
-            this.componentsCheckBoxExtendedFlags.AutoSize = true;
-            this.componentsCheckBoxExtendedFlags.Location = new System.Drawing.Point(329, 119);
-            this.componentsCheckBoxExtendedFlags.Name = "componentsCheckBoxExtendedFlags";
-            this.componentsCheckBoxExtendedFlags.Size = new System.Drawing.Size(97, 17);
-            this.componentsCheckBoxExtendedFlags.TabIndex = 12;
-            this.componentsCheckBoxExtendedFlags.Text = "Additional flags";
-            this.componentsCheckBoxExtendedFlags.UseVisualStyleBackColor = true;
+            this.tabPagePaths.Controls.Add(this.groupBox2);
+            this.tabPagePaths.Controls.Add(this.groupBox1);
+            this.tabPagePaths.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePaths.Name = "tabPagePaths";
+            this.tabPagePaths.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePaths.Size = new System.Drawing.Size(498, 343);
+            this.tabPagePaths.TabIndex = 3;
+            this.tabPagePaths.Text = "Paths";
+            this.tabPagePaths.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 29);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(93, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Instructions .lst file";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 67);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 13);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Joystick Handler";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 32);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(85, 13);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Sensors Handler";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBoxPathMatrix);
+            this.groupBox1.Controls.Add(this.textBoxPathJoystick);
+            this.groupBox1.Controls.Add(this.textBoxPathSensors);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Location = new System.Drawing.Point(15, 90);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(463, 129);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Scripts";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBoxBaseInst);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(15, 16);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(462, 63);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Base instruction set";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(16, 103);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(75, 13);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Matrix Handler";
+            // 
+            // textBoxPathSensors
+            // 
+            this.textBoxPathSensors.Location = new System.Drawing.Point(117, 29);
+            this.textBoxPathSensors.Name = "textBoxPathSensors";
+            this.textBoxPathSensors.Size = new System.Drawing.Size(340, 20);
+            this.textBoxPathSensors.TabIndex = 4;
+            // 
+            // textBoxPathJoystick
+            // 
+            this.textBoxPathJoystick.Location = new System.Drawing.Point(117, 64);
+            this.textBoxPathJoystick.Name = "textBoxPathJoystick";
+            this.textBoxPathJoystick.Size = new System.Drawing.Size(340, 20);
+            this.textBoxPathJoystick.TabIndex = 5;
+            // 
+            // textBoxPathMatrix
+            // 
+            this.textBoxPathMatrix.Location = new System.Drawing.Point(117, 100);
+            this.textBoxPathMatrix.Name = "textBoxPathMatrix";
+            this.textBoxPathMatrix.Size = new System.Drawing.Size(340, 20);
+            this.textBoxPathMatrix.TabIndex = 6;
+            // 
+            // textBoxBaseInst
+            // 
+            this.textBoxBaseInst.Location = new System.Drawing.Point(117, 26);
+            this.textBoxBaseInst.Name = "textBoxBaseInst";
+            this.textBoxBaseInst.Size = new System.Drawing.Size(340, 20);
+            this.textBoxBaseInst.TabIndex = 7;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(117, 29);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(340, 20);
+            this.textBox1.TabIndex = 4;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(117, 64);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(340, 20);
+            this.textBox2.TabIndex = 5;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(117, 100);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(340, 20);
+            this.textBox3.TabIndex = 6;
             // 
             // FormProjectOptions
             // 
@@ -543,6 +684,11 @@ namespace MaszynaPi {
             this.tabPageAdresses.ResumeLayout(false);
             this.groupBoxINTProc.ResumeLayout(false);
             this.groupBoxINTProc.PerformLayout();
+            this.tabPagePaths.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -590,5 +736,19 @@ namespace MaszynaPi {
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private ComponentsCheckBox componentsCheckBoxExtendedFlags;
+        private System.Windows.Forms.TabPage tabPagePaths;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBoxBaseInst;
+        private System.Windows.Forms.TextBox textBoxPathMatrix;
+        private System.Windows.Forms.TextBox textBoxPathJoystick;
+        private System.Windows.Forms.TextBox textBoxPathSensors;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

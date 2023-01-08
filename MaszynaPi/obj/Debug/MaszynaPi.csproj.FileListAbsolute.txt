@@ -7,7 +7,6 @@ C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\MaszynaPi.e
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\MaszynaPi.pdb
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\Microsoft.Win32.Registry.dll
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Buffers.dll
-C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Device.Gpio.dll
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Memory.dll
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
@@ -16,7 +15,6 @@ C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Secu
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Threading.Tasks.Extensions.dll
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\Microsoft.Win32.Registry.xml
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Buffers.xml
-C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Device.Gpio.xml
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Memory.xml
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Dell\Desktop\Inzynier\Projekt\maszynaPi\MaszynaPi\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml

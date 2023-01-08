@@ -54,6 +54,10 @@ namespace MaszynaPi {
             Machine = new ControlUnit();
 
             UserControlRegisterI.SetDisplayMode(mode: RegisterMode.Instruction);
+            userControlFlags.FlagsValueRequest += Machine.GetALUFlags;
+            
+            userControlFlags.Enabled = false;
+            userControlFlags.Visible = false;
 
 
             Debugger.SetCodeEditorHandle(codeEditor.GetCodeLinesHandle());
@@ -102,7 +106,7 @@ namespace MaszynaPi {
                 UserControlRegisterA, UserControlRegisterS, UserControlRegisterI,UserControlRegisterL,
                 UserControlRegisterAK, UserControlRegisterX,UserControlRegisterY,UserControlRegisterRB,
                 UserControlRegisterG,UserControlRegisterWS, UserControlRegisterRZ, UserControlRegisterRM,
-                UserControlRegisterRP,UserControlRegisterAP,userControlBusData,userControlBusAddress
+                UserControlRegisterRP,UserControlRegisterAP,userControlBusData,userControlBusAddress, userControlFlags
             };
         }
 

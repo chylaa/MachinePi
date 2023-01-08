@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MaszynaPi.MachineLogic.CentralUnitException" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\ControlUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.ControlUnit" Collapsed="true">
+    <Position X="2.75" Y="1.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>oZBhIPMPAKAiQoAhDmCogAAooB1hUKBou2wN6uThcWg=</HashCode>
+      <FileName>MachineLogic\ControlUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit" Collapsed="true">
+    <Position X="3.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAMAAAACAAAARACgAAAAAAAgACAADAAoBASAAEBAACQ=</HashCode>
+      <FileName>MachineLogic\Architecture\ArithmeticLogicUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.BusException" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\Bus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.Bus" Collapsed="true">
+    <Position X="6" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAYAAABiAAAAAAAAACAAAEAAAAAAAgAAAEAAg=</HashCode>
+      <FileName>MachineLogic\Architecture\Bus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.InstructionDecoder" Collapsed="true">
+    <Position X="3.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAIAAAAAgAAAgAAIAAGgFAAAABAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\InstructionDecoder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.InstructionRegister" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAABBIAAAAAAAAAAAgAEAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\InstructionRegister.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.InterruptionController" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAEIAgABgAAABAAgAAAAAAAgAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\InterruptionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.IODevicesController" Collapsed="true">
+    <Position X="1.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\IODevicesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.MemoryException" Collapsed="true">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\Memory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.Memory" Collapsed="true">
+    <Position X="4.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAIgAEBgAAAAAAAAAAAIAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\Memory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.Architecture.Register" Collapsed="true">
+    <Position X="2.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAYAAABgAAAAAAAAAAAAAEAAAAAAAgAAAEAAA=</HashCode>
+      <FileName>MachineLogic\Architecture\Register.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.CharacterInput" Collapsed="true">
+    <Position X="1.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAQAAAAgDgAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\CharacterInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.IODeviceException" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\IODevice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.IODevice" Collapsed="true">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UQAIAABAAAAAAAUAAAAAwAAAAAEAAAAAAQAEEABAEAA=</HashCode>
+      <FileName>MachineLogic\IODevices\IODevice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.CharacterOutput" Collapsed="true">
+    <Position X="1.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAQBAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\CharacterOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.HumiditySensor" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAIQABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\HumiditySensor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.MatrixLED" Collapsed="true">
+    <Position X="4.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAABAAAABgAAAAAAAAAAAAAAgAAIAAAAAAAIAAgA=</HashCode>
+      <FileName>MachineLogic\IODevices\MatrixLED.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.PressureSensor" Collapsed="true">
+    <Position X="6.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAIQABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\PressureSensor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.IODevices.TemperatureSensor" Collapsed="true">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAIQABgAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\TemperatureSensor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.SenseHatHandlers.SenseHatDevice" Collapsed="true">
+    <Position X="4" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAEAEIAAAQQABCIoBABAAAg4AkAgAAACAgEAAAI=</HashCode>
+      <FileName>SenseHatHandlers\SenseHatDevices.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineLogic.ArchitectureSettings" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgQCBEQBIAHkEYAABBAAAAQAAABCIARAAIgAAAAACEg=</HashCode>
+      <FileName>MachineLogic\ArchitectureSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineAssembler.CompilerException" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineAssembler\Compiler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineAssembler.Compiler" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAABAhAAAAAIAIAAAIgAABAQCAAAkQIAEAgAIIAAA=</HashCode>
+      <FileName>MachineAssembler\Compiler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineAssembler.Debugger" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAJEAAACAAAAAAAAAIAAAEIBgAEAAAAgABABAAAA=</HashCode>
+      <FileName>MachineAssembler\Debugger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.FilesHandling.FileHandlerException" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FilesHandling\FilesHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.FilesHandling.FilesHandler" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAABAAAAAAAQAAAAAABQAIAAAAAAAAAAAAI=</HashCode>
+      <FileName>FilesHandling\FilesHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineAssembler.InstructionLoaderException" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineAssembler\InstructionLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaszynaPi.MachineAssembler.InstructionLoader" Collapsed="true">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BQBACAgBAgAECKQAaAASAgQIQEBABARCYCAAgBAACAE=</HashCode>
+      <FileName>MachineAssembler\InstructionLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="MaszynaPi.MachineLogic.Architecture.ALUFlags" Collapsed="true">
+    <Position X="5.75" Y="3" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAE=</HashCode>
+      <FileName>MachineLogic\Architecture\ArithmeticLogicUnit.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MaszynaPi.MachineLogic.IODevices.IOType" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAIAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLogic\IODevices\IODevice.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

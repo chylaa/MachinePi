@@ -82,7 +82,7 @@ namespace MaszynaPi {
 
         // Settable if eng. version loaded
 
-        public static string BASE_INSTRUCTION_SET_FILENAME { get; private set; }
+        public static string BASE_INSTRUCTION_SET_FILENAME { get; set; }
         public static List<string> FETCH_SIGNALS { get; private set; }
 
         public static string HEADER_MEM_ALLOC { get; private set; }  // [Header] Allocate Memory - lowercase to standarize code
@@ -105,7 +105,8 @@ namespace MaszynaPi {
         public static void SetInstructionsLanguageVersion(Lang lang) {
             LangInUse = lang;
             if(lang == Lang.ENG) {
-                BASE_INSTRUCTION_SET_FILENAME = "Base.lst";
+                if(BASE_INSTRUCTION_SET_FILENAME == "Podstawa.lst")
+                    BASE_INSTRUCTION_SET_FILENAME = "Base.lst";
                 FETCH_SIGNALS = new List<string> { "rd", "od", "iins", "icit" };
                 HEADER_MEM_ALLOC = "res";
                 HEADER_CONST_VAR = "def";
@@ -119,7 +120,8 @@ namespace MaszynaPi {
                 INSTRUCTION_NAME_HEADER = "instruction ";
             }
             if(lang == Lang.PL) {
-                BASE_INSTRUCTION_SET_FILENAME = "Podstawa.lst";
+                if (BASE_INSTRUCTION_SET_FILENAME == "Base.lst")
+                    BASE_INSTRUCTION_SET_FILENAME = "Podstawa.lst";
                 FETCH_SIGNALS = new List<string> { "czyt", "wys", "wei", "il" };
                 HEADER_MEM_ALLOC = "rpa";  
                 HEADER_CONST_VAR = "rst"; 

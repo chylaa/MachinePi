@@ -1,6 +1,7 @@
 ﻿using MaszynaPi.MachineLogic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MaszynaPi {
@@ -34,6 +35,7 @@ namespace MaszynaPi {
 
             InitializeChecksArchitectures();
             InitializeChecksComponents();
+            InitializePaths();
 
             SelectedComponents = ArchitectureSettings.GetActiveComponents();
             SelectedArchitecture = ArchitectureSettings.GetArchitecture();
@@ -126,6 +128,23 @@ namespace MaszynaPi {
             ArchitectureSettings.SetInterruptVector(newIntVector);
         }
 
+        private bool SetPaths() {
+            SenseHatHandlers.SenseHatDevice.JOYSTICK_SCRIPT = CheckPath(textBoxPathJoystick.Text);
+            SenseHatHandlers.SenseHatDevice.MATRIX_SCRIPT = CheckPath(textBoxPathMatrix.Text);
+            SenseHatHandlers.SenseHatDevice.SENSOR_SCRIPT = CheckPath(textBoxPathSensors.Text);
+
+            bool joystick = (SenseHatHandlers.SenseHatDevice.JOYSTICK_SCRIPT == textBoxPathJoystick.Text);
+            bool matrix = (SenseHatHandlers.SenseHatDevice.MATRIX_SCRIPT== textBoxPathMatrix.Text);
+            bool scripts = (SenseHatHandlers.SenseHatDevice.SENSOR_SCRIPT == textBoxPathSensors.Text);
+            bool inslist = true;
+            if (textBoxBaseInst.Enabled) {
+                Defines.BASE_INSTRUCTION_SET_FILENAME = CheckPath(textBoxBaseInst.Text);
+                inslist = (Defines.BASE_INSTRUCTION_SET_FILENAME == textBoxBaseInst.Text);
+            }
+
+            return (joystick && matrix && scripts && inslist);
+        }
+
         private void InitializeChecksComponents() {
             componentsCheckBoxBusConnection.Component = Defines.Components.BusConnection;
             componentsCheckBoxALUIncDec.Component = Defines.Components.ALUIncrementations;
@@ -166,7 +185,32 @@ namespace MaszynaPi {
             // TODO IO Adresses
         }
 
+        string CheckPath(string path) {
+            if ((path.EndsWith(".py") || path.EndsWith(".lst")) == false) return "Invalid file extention. Provide new path.";
+            //if(Environment.OSVersion.Platform == PlatformID.Unix) {path = path.Replace("\\", "/");
+            //} else { path = path.Replace("/", "\\"); }
+            if (File.Exists(path)) return path;
+            path = Path.GetFullPath(path);
+            if (File.Exists(path)) return path;
+            return "Cannot find file. Provide new path.";
+        }
 
+        private void InitializePaths() {
+            var joystick = SenseHatHandlers.SenseHatDevice.JOYSTICK_SCRIPT;
+            var matrix = SenseHatHandlers.SenseHatDevice.MATRIX_SCRIPT;
+            var sensors = SenseHatHandlers.SenseHatDevice.SENSOR_SCRIPT;
+            var insbase = Defines.BASE_INSTRUCTION_SET_FILENAME;
+
+            if (Environment.OSVersion.Platform == PlatformID.Unix) {
+                textBoxBaseInst.Text = CheckPath(insbase);
+            }else{
+                textBoxBaseInst.Enabled = false;
+                textBoxBaseInst.Text = "Base instructions set embedded in executable.";
+            }
+            textBoxPathJoystick.Text = CheckPath(joystick);
+            textBoxPathMatrix.Text = CheckPath(matrix);
+            textBoxPathSensors.Text = CheckPath(sensors);
+        }
 
 
         private void buttonOK_Click(object sender, EventArgs e) {
@@ -174,6 +218,13 @@ namespace MaszynaPi {
             SetComponents();
             SetArchitectures();
             SetAdresses();
+
+            if(SetPaths() == false) {
+                MessageBox.Show("Invalid Paths", "Erorr");
+                tabPagePaths.Select();
+                return;
+            }
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

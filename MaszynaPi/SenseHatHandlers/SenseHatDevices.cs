@@ -14,9 +14,9 @@ namespace MaszynaPi.SenseHatHandlers {
         public const string SENSOR_PRESSURE= "pressure";
         public const string SENSOR_HUMIDITY = "humidity";
 
-        public const string SENSOR_SCRIPT = "scripts/GetSensor.py";
-        public const string JOYSTICK_SCRIPT = "scripts/GetJoystickPos.py"; // "scripts/WinGetJoystickPos.py";
-        public const string MATRIX_SCRIPT = "scripts/MatrixPrint.py";
+        public static string SENSOR_SCRIPT = "scripts/SensorsHandler.py";
+        public static string JOYSTICK_SCRIPT = "scripts/JoystickHandler.py"; // "scripts/WinGetJoystickPos.py";
+        public static string MATRIX_SCRIPT = "scripts/MatrixHandler.py";
 
         public static readonly string JOYSTICK_POS_PRESS = "middle";
         public readonly static Dictionary<string, int> JoystickPosIntMap = new Dictionary<string, int>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number

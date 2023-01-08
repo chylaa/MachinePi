@@ -44,6 +44,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
             JALFlags |= flags;
         }
 
+        public ALUFlags GetFlags() { return JALFlags; }
+
         public void ClearFlags(ALUFlags flags) {
             JALFlags &= ~(flags);
         }
@@ -68,6 +70,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public void Reset() {
             OperandA = Defines.DEFAULT_ALU_VAL;
             OperandB = Defines.DEFAULT_ALU_VAL;
+            JALFlags = Defines.DEFAULT_ALU_VAL;
             AK.Reset();
         }
 

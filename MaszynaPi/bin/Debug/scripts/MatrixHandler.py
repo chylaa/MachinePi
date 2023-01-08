@@ -12,7 +12,7 @@ def get_rgb_front(val:int)->list:
     rgb = value & RGB_FRONT_MASK 
     rgb = (rgb >> ASCII_BYTES)
     #if rgb == 0: rgb = 7 #prevent no backlight if colors not set
-    rgb = [(rgb & (1<<2))>>2, rgb&(1<<1)>>1, rgb&(1<<0)>>0]
+    rgb = [(rgb & (1<<2))>>2, (rgb&(1<<1))>>1, (rgb&(1<<0))>>0]
     return [i * BYTE_MAX for i in rgb]
 
 def update_matrix(value:int, colour:list, matrix:list)->list:

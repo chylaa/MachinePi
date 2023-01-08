@@ -125,8 +125,8 @@ namespace MaszynaPi.MachineLogic {
         public void wea() { A.SetValue(MagA.GetValue()); }
         
         // Architecture W+
-        public void _as() { MagS.SetValue(MagA.GetValue()); }
-        public void sa() { MagA.SetValue(MagS.GetValue()); }
+        public void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
+        public void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
 
         // Architecture L
         public void wyx() { MagS.SetValue(X.GetValue()); }
@@ -348,6 +348,8 @@ namespace MaszynaPi.MachineLogic {
 
         public void SetLEDMatrixModeLetter() { MatrixOutput.SetLetterMode(); }
         public void SetLEDMatrixModePaint() { MatrixOutput.SetPaintMode(); }
+
+        public ALUFlags GetALUFlags() { return JAL.GetFlags(); }
 
         // ========================= <  Properties Changed/Reset Methods  > =================================== //
         public void ResetRegisters() {

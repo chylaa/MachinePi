@@ -34,11 +34,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public void SetAcceptedAndINTVectorRegister(ArithmeticLogicUnit JAL) {
             uint mask = RM.GetValue();
             uint rzval = RZ.GetValue();
-            for (uint bit = RZ.GetBitsize() - 1; bit >= 0; bit--) {//starts from msb
+            for (int bit = (int)RZ.GetBitsize() - 1; bit >= 0; bit--) {//starts from msb
                 uint bitvalue = (uint)Math.Pow(2, bit);
                 if (((rzval & bitvalue) != 0) && ((bitvalue & mask) == 0)) { // if bit set and not masked
                     RP.SetValue(bitvalue);
-                    AP.SetValue(ArchitectureSettings.GetInterruptVector()[bit]);
+                    AP.SetValue(ArchitectureSettings.GetInterruptVector()[(uint)bit]);
                     break;
                 }
             }
