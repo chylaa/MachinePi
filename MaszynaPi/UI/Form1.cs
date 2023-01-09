@@ -39,7 +39,7 @@ namespace MaszynaPi {
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
                     + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
-                FormProjectOptions projectOptions = new FormProjectOptions();
+                FormProjectOptions projectOptions = new FormProjectOptions(onlyPaths:true);
                 var dialogResult = projectOptions.ShowDialog();
                 if (dialogResult.Equals(DialogResult.OK) == false) {
                     Close();

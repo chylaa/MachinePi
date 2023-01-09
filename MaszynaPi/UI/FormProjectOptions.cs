@@ -13,10 +13,28 @@ namespace MaszynaPi {
         private Defines.Components SelectedComponents;
         private Defines.Architectures SelectedArchitecture;
 
-        List<Control> textBoxesINTAddr; 
+        List<Control> textBoxesINTAddr;
+        bool ONLY_PATHS;
 
-        public FormProjectOptions() {
+
+        public FormProjectOptions(bool onlyPaths=false) {
             InitializeComponent();
+
+            ONLY_PATHS = onlyPaths;
+            if (onlyPaths) {
+                InitializePaths();
+                tabPagePaths.Select();
+                foreach (object checkBox in groupBoxComponents.Controls) {
+                    if (typeof(ComponentsCheckBox) == checkBox.GetType()) 
+                        (checkBox as ComponentsCheckBox).Enabled = false;
+                }
+                foreach (object radioButton in groupBoxArchitectureType.Controls) {
+                    if (typeof(ArchitectureRadioButton) == radioButton.GetType()) 
+                        (radioButton as ArchitectureRadioButton).Enabled = false;
+                }
+                return;
+            }
+
             textBoxINT1Addr.KeyPress += HandleInput;
             textBoxINT2Addr.KeyPress += HandleInput;
             textBoxINT3Addr.KeyPress += HandleInput;
@@ -215,10 +233,12 @@ namespace MaszynaPi {
 
 
         private void buttonOK_Click(object sender, EventArgs e) {
-            SetArchitectureSettings();
-            SetComponents();
-            SetArchitectures();
-            SetAdresses();
+            if (ONLY_PATHS == false) {
+                SetArchitectureSettings();
+                SetComponents();
+                SetArchitectures();
+                SetAdresses();
+            }
 
             if(SetPaths() == false) {
                 MessageBox.Show("Invalid Paths", "Erorr");
