@@ -1,0 +1,10 @@
+// interruptible no operation instruction
+INSTRUCTION NOP;
+ARGUMENTS 0;
+rd od iins icit;
+eni;
+IF INT THEN @inter IF ELSE @norm;
+@norm oit ia END;
+@inter dcsp;
+oitd id osp ia;
+wr oiv iit ia rint;
