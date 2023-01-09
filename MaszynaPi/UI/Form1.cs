@@ -40,8 +40,7 @@ namespace MaszynaPi {
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
                     + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
-                Close();
-                return;
+                opcjeToolStripMenuItem.PerformClick();
             }
             PaintActiveSignals = true;
             InitializeComponent();
