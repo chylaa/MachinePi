@@ -59,20 +59,20 @@ namespace MaszynaPi.MachineAssembler {
                 } else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
             
                  return LoadInstructionSet(baseInstructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Base instructions set "+INSTRUCTION_SET_FILE_EXTENSION+" file error: " + ex.Message);}
+            } catch (Exception ex) { throw new InstructionLoaderException("Loading Base instructions set "+INSTRUCTION_SET_FILE_EXTENSION+" file error: " + ex.Message);}
           }
 
         public static bool LoadInstructionsFile(string instructions) {
             var separator = Environment.NewLine.ToCharArray();
             try { return LoadInstructionSet(instructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Instruction Set " + INSTRUCTION_SET_FILE_EXTENSION + " file error: " + ex.Message); }
+            } catch (Exception ex) { throw new InstructionLoaderException("Loading Instruction Set " + INSTRUCTION_SET_FILE_EXTENSION + " file error: " + ex.Message); }
         }
 
         public static bool LoadSingleInstructionFile(string instructions) {
             var separator = Environment.NewLine.ToCharArray();
             try {
                 return LoadSingleInstruction(instructions.Split(separator).ToList());
-            } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Instruction " + INSTRUCTION_FILE_EXTENSION + " file error: " + ex.Message); }
+            } catch (Exception ex) { throw new InstructionLoaderException("Loading Instruction " + INSTRUCTION_FILE_EXTENSION + " file error: " + ex.Message); }
         }
 
         //===========================================================================================================================================
