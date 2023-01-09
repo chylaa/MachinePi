@@ -227,12 +227,6 @@ namespace MaszynaPi.MachineLogic {
         // Returns false if the instruction completion signal is hit (STATEMENT_END)
         // Parameter "i" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
         int ExecuteTick(int i = INSTRUCTION_FETCH_ORDER, bool manual = false) {
-            ////===?| DEBUGGING
-            //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet()); /// AK.GetValue()
-            //Logger.Logger.Div(NL: true);
-            //Logger.Logger.LogInfo(msg:state,NL:true);
-            //Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
-            ////===?| DEBUGGING
 
             if(USE_DEBUGGER)
                 SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
@@ -250,13 +244,22 @@ namespace MaszynaPi.MachineLogic {
 
             // [ TODO: Check if there is value to be stored in RB register from any IO device ]
             foreach (string signal in ActiveSignals) {
-                if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) return ENDOF_INSTRUCTION;
+                if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) {
+                    i = ENDOF_INSTRUCTION;
+                    break;
+                };
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
                     SignalsMap[signal]();
             }
             MagA.SetEmpty(); MagS.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
             RefreshValues();
             
+            ////===?| DEBUGGING
+            //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet()); /// AK.GetValue()
+            //Logger.Logger.Div(NL: true);
+            //Logger.Logger.LogInfo(msg:state,NL:true);
+            //Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
+            ////===?| DEBUGGING
             if (USE_DEBUGGER)
                 SetExecutedMicroinstructions(); //select currently executed microinstructions in list of instructions (DEBUGGER)
             
@@ -295,8 +298,14 @@ namespace MaszynaPi.MachineLogic {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
             } //here also can add watchdog if there is no STP instruction in programm 
-            catch (BusException ex) { throw new CentralUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
-            catch (Exception ex) { throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
+            catch (BusException ex) {
+                EnableDebugger();
+                SetPaintActiveSignals(true);
+                throw new CentralUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
+            catch (Exception ex) {
+                EnableDebugger();
+                SetPaintActiveSignals(true);
+                throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
 
         }
 

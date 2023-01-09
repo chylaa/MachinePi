@@ -237,44 +237,42 @@ namespace MaszynaPi.MachineAssembler {
 
         //===========================================================================================================================================
 
-        public static void AddInstruction(string name, List<List<string>> signals) {
-            MAX_OPCODE++;
-            List<string> signalsLines = new List<string>();
-            foreach (var inLine in signals) signalsLines.Add(string.Join(" ", inLine));
 
-            //InstructionsLines.Add(name, signalsLines);
-            //InstructionNamesOpcodes.Add(name, (uint)MAX_OPCODE);
-            //InstructionSignalsMap.Add((uint)MAX_OPCODE, signals);
-
-            //Add or update
-            InstructionsLines[name] = signalsLines;
-            InstructionNamesOpcodes[name] = (uint)MAX_OPCODE;
-            InstructionSignalsMap[(uint)MAX_OPCODE] = signals;
-
-            ChangeCapitalizationOfInstructionLines(toUpper: true);
+        static string DeleteComment(string line) {
+            if (line.Contains(COMMENT))
+                return line.Substring(0, line.IndexOf(COMMENT));
+            return line;
         }
 
         // Returns false if there is not enough space for the instruction
         public static bool LoadSingleInstruction(List<string> lines) {
             lines = StandarizeLines(lines);
             string instructionName="";
-            bool noArgumentInstruction = false;
             var signals = new List<List<string>>();
 
-            if (lines.Any(line => line.Contains(Defines.INSTRUCTION_NAME_HEADER))==false) 
+            var firstitem = lines.Where(x => !x.StartsWith(COMMENT)).ToList().First();
+            if (firstitem.Contains(Defines.INSTRUCTION_NAME_HEADER)==false) 
                 throw new InstructionLoaderException("Invalid instruction define syntax: Instruction definition must begin with: '" + Defines.INSTRUCTION_NAME_HEADER + " instruction_name'");
 
             foreach(string line in lines) {
+                if (line.StartsWith(COMMENT)) continue;
                 if (line.Contains(Defines.INSTRUCTION_NAME_HEADER)) {
                     instructionName = line.Replace(Defines.INSTRUCTION_NAME_HEADER, "").TrimEnd((" "+LINE_END).ToCharArray());
+                    continue;
                 }
-                if (lines[0].Contains(Defines.INSTRUCTION_ARGSNUM_HEADER)) {  
-                    noArgumentInstruction = line.Replace(Defines.INSTRUCTION_ARGSNUM_HEADER, "").TrimEnd((" " + LINE_END).ToCharArray()).Equals(NO_ARGUMENT);
+                if (line.Contains(Defines.INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) {
+                    ZeroArgInstructions.Add(instructionName);
+                    continue;
                 }
-                signals.Add(line.Split(' ').ToList());
+                var signalsInLine = DeleteComment(line).Replace(LINE_END, "").Split(' ').ToList();
+                signals.Add(signalsInLine);
             }
+            MAX_OPCODE++;
+            InstructionsLines[instructionName] = lines;
+            InstructionNamesOpcodes[instructionName] = (uint)MAX_OPCODE;
+            InstructionSignalsMap[(uint)MAX_OPCODE] = signals;
 
-            AddInstruction(instructionName, signals);
+            ChangeCapitalizationOfInstructionLines(toUpper: true);
 
             if (MAX_OPCODE > ArchitectureSettings.GetMaxOpcode())
                return false;
