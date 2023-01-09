@@ -159,6 +159,7 @@ namespace MaszynaPi {
             this.panelInstructionsList = new System.Windows.Forms.Panel();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
             this.tabPageVariables = new System.Windows.Forms.TabPage();
+            this.breakPanel = new System.Windows.Forms.Panel();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -261,6 +262,7 @@ namespace MaszynaPi {
             // 
             // MicrocontrollerPanel
             // 
+            this.MicrocontrollerPanel.Controls.Add(this.breakPanel);
             this.MicrocontrollerPanel.Controls.Add(this.userControlFlags);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_stop);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oitd);
@@ -1163,7 +1165,7 @@ namespace MaszynaPi {
             this.programToolStripMenuItem,
             this.rozkazToolStripMenuItem});
             this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
-            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.nowyToolStripMenuItem.Text = "New";
             // 
             // programToolStripMenuItem
@@ -1181,7 +1183,7 @@ namespace MaszynaPi {
             // otwórzToolStripMenuItem
             // 
             this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
-            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.otwórzToolStripMenuItem.Text = "Open";
             this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.otwórzToolStripMenuItem_Click);
             // 
@@ -1189,14 +1191,14 @@ namespace MaszynaPi {
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // wyjścieToolStripMenuItem
             // 
             this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
-            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.wyjścieToolStripMenuItem.Text = "Exit";
             // 
             // widokToolStripMenuItem
@@ -1327,7 +1329,7 @@ namespace MaszynaPi {
             this.letterToolStripMenuItem,
             this.paintToolStripMenuItem});
             this.matrixModeToolStripMenuItem.Name = "matrixModeToolStripMenuItem";
-            this.matrixModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.matrixModeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.matrixModeToolStripMenuItem.Text = "Matrix mode";
             // 
             // letterToolStripMenuItem
@@ -1336,7 +1338,7 @@ namespace MaszynaPi {
             this.letterToolStripMenuItem.CheckOnClick = true;
             this.letterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.letterToolStripMenuItem.Name = "letterToolStripMenuItem";
-            this.letterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.letterToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.letterToolStripMenuItem.Text = "Letter";
             this.letterToolStripMenuItem.Click += new System.EventHandler(this.letterToolStripMenuItem_Click);
             // 
@@ -1344,7 +1346,7 @@ namespace MaszynaPi {
             // 
             this.paintToolStripMenuItem.CheckOnClick = true;
             this.paintToolStripMenuItem.Name = "paintToolStripMenuItem";
-            this.paintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.paintToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.paintToolStripMenuItem.Text = "Paint";
             this.paintToolStripMenuItem.Click += new System.EventHandler(this.paintToolStripMenuItem_Click);
             // 
@@ -1363,7 +1365,7 @@ namespace MaszynaPi {
             // 
             this.programToolStripMenuItem1.Name = "programToolStripMenuItem1";
             this.programToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.programToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.programToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
             this.programToolStripMenuItem1.Text = "Program";
             this.programToolStripMenuItem1.Click += new System.EventHandler(this.programToolStripMenuItem1_Click);
             // 
@@ -1371,7 +1373,7 @@ namespace MaszynaPi {
             // 
             this.rozkazToolStripMenuItem1.Name = "rozkazToolStripMenuItem1";
             this.rozkazToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
             this.rozkazToolStripMenuItem1.Text = "Instruction";
             this.rozkazToolStripMenuItem1.Click += new System.EventHandler(this.rozkazToolStripMenuItem1_Click);
             // 
@@ -1379,7 +1381,7 @@ namespace MaszynaPi {
             // 
             this.taktToolStripMenuItem.Name = "taktToolStripMenuItem";
             this.taktToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.taktToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.taktToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.taktToolStripMenuItem.Text = "Tick";
             this.taktToolStripMenuItem.Click += new System.EventHandler(this.taktToolStripMenuItem_Click);
             // 
@@ -1387,7 +1389,7 @@ namespace MaszynaPi {
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
             this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F2)));
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
@@ -1630,6 +1632,13 @@ namespace MaszynaPi {
             this.tabPageVariables.TabIndex = 2;
             this.tabPageVariables.Text = "Variables";
             // 
+            // breakPanel
+            // 
+            this.breakPanel.Location = new System.Drawing.Point(508, 57);
+            this.breakPanel.Name = "breakPanel";
+            this.breakPanel.Size = new System.Drawing.Size(185, 40);
+            this.breakPanel.TabIndex = 76;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1808,6 +1817,7 @@ namespace MaszynaPi {
         private MachineUI.UserControlSignalWire userControlSignalWire_stop;
         private MachineUI.UserControlSignalWire userControlSignalWire_ix;
         private MachineUI.UserControlFlags userControlFlags;
+        private System.Windows.Forms.Panel breakPanel;
     }
 }
 

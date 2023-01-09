@@ -204,6 +204,7 @@ namespace MaszynaPi.MachineLogic {
         public Action<uint> OnSetExecutedLine;
         public Action<uint, List<string>> OnSetExecutedMicroinstruction;
         public Action OnProgramEnd;
+        public Func<bool>CheckProgramBreak;
 
         public void RefreshValues() {
             OnRefreshValues();
@@ -292,7 +293,7 @@ namespace MaszynaPi.MachineLogic {
                 DisableDebugger();
                 SetPaintActiveSignals(false);
                 do {
-                    //System.Threading.Thread.Sleep(1000);
+                    if (CheckProgramBreak()) break;
                     ExecuteInstructionCycle(); 
                 } while (I.GetOpcode() != 0);
                 EnableDebugger();

@@ -34,6 +34,10 @@ namespace MaszynaPi {
         ControlUnit Machine;
         Debugger Debugger;
 
+        System.Threading.Thread BreakDetector;
+        UI.BreakForm breakForm;
+        bool BREAK_FLAG = false;
+
         public Form1() {
             //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
@@ -71,6 +75,7 @@ namespace MaszynaPi {
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
             Machine.SetPaintActiveSignals += SetSignalsPaintOnRefresh;
+            Machine.CheckProgramBreak += GetBreakFlag;
 
             ArchitectureSettings.InitializeInterruptVector();
             ArchitectureSettings.InitializeIODevicesAddresses();
@@ -226,12 +231,19 @@ namespace MaszynaPi {
 
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
+                BREAK_FLAG = false;
+                RunBreakDetector();
+
                 DisableManuallySetSignals();
                 Machine.ManualProgram();
                 RefreshMicrocontrolerControls();
+
+                CancelBreakDetector();
             } catch (CentralUnitException cEx) {
+                CancelBreakDetector();
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
+                CancelBreakDetector();
                 MessageBox.Show( ex.Message.Replace(GetErrorType(ex.Message), ""),"Program Error");
             }
 
@@ -449,5 +461,45 @@ namespace MaszynaPi {
         private void hexadecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Hex);}
 
         private void binaryToolStripMenuItem_Click(object sender, EventArgs e) { SetRegistersDisplayMode(RegisterMode.Bin); }
+
+        //==============================================================================================================================
+        //Special Tasks
+        bool GetBreakFlag() { return BREAK_FLAG; }
+
+        void CancelBreakDetector() {
+            //breakForm.ForceClose();
+            BreakDetector.Abort();
+        }
+
+        void CreateBreakButton() {
+            if (breakForm != null)
+                breakForm.Close();
+            breakForm = new UI.BreakForm();
+        }
+
+        void ShowBreakForm() {
+            var dialogResult = breakForm.ShowDialog();
+            if (dialogResult.Equals(DialogResult.OK)) {
+                BREAK_FLAG = true;
+            }
+        }
+
+        void RunBreakDetector() {
+            CreateBreakButton();
+            BreakDetector = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
+            BreakDetector.Start();
+            //BreakDetector = new BackgroundWorker();
+            //BreakDetector.WorkerSupportsCancellation = true;
+            //BreakDetector.DoWork += ShowBreakForm;
+            //BreakDetector.RunWorkerCompleted += CloseBreakDetector;
+            //BreakDetector.RunWorkerAsync();
+        }
+
+        void CloseBreakDetector(object sender, RunWorkerCompletedEventArgs e) {
+            breakForm.ForceClose();
+            if(breakForm != null)
+                breakForm.Close();
+                
+        }
     }
 }
