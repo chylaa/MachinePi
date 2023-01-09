@@ -27,7 +27,6 @@ namespace MaszynaPi {
         List<object> MachineComponents;
         List<UserControlSignalWire> SignalWires;
 
-        Timer IntRefreshTimer;
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
          *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
@@ -40,7 +39,12 @@ namespace MaszynaPi {
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
                     + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
-                opcjeToolStripMenuItem.PerformClick();
+                FormProjectOptions projectOptions = new FormProjectOptions();
+                var dialogResult = projectOptions.ShowDialog();
+                if (dialogResult.Equals(DialogResult.OK) == false) {
+                    Close();
+                    return;
+                }
             }
             PaintActiveSignals = true;
             InitializeComponent();
