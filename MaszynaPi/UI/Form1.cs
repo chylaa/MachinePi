@@ -36,7 +36,6 @@ namespace MaszynaPi {
         Debugger Debugger;
 
         public Form1() {
-            Defines.SetInstructionsLanguageVersion(Defines.Lang.ENG);
             //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME

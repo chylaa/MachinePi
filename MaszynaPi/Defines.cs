@@ -105,7 +105,7 @@ namespace MaszynaPi {
         public static void SetInstructionsLanguageVersion(Lang lang) {
             LangInUse = lang;
             if(lang == Lang.ENG) {
-                if(BASE_INSTRUCTION_SET_FILENAME == "Podstawa.lst")
+                if(BASE_INSTRUCTION_SET_FILENAME == "Podstawa.lst" || BASE_INSTRUCTION_SET_FILENAME == null)
                     BASE_INSTRUCTION_SET_FILENAME = "Base.lst";
                 FETCH_SIGNALS = new List<string> { "rd", "od", "iins", "icit" };
                 HEADER_MEM_ALLOC = "res";
@@ -120,7 +120,7 @@ namespace MaszynaPi {
                 INSTRUCTION_NAME_HEADER = "instruction ";
             }
             if(lang == Lang.PL) {
-                if (BASE_INSTRUCTION_SET_FILENAME == "Base.lst")
+                if (BASE_INSTRUCTION_SET_FILENAME == "Base.lst" || BASE_INSTRUCTION_SET_FILENAME == null)
                     BASE_INSTRUCTION_SET_FILENAME = "Podstawa.lst";
                 FETCH_SIGNALS = new List<string> { "czyt", "wys", "wei", "il" };
                 HEADER_MEM_ALLOC = "rpa";  
