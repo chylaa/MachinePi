@@ -51,14 +51,14 @@ namespace MaszynaPi.MachineAssembler {
         public static bool LoadBaseInstructions() {
             var separator = Environment.NewLine.ToCharArray();
             string baseInstructions;
-
-            if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./" + Defines.BASE_INSTRUCTION_SET_FILENAME);
-            else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-                if (Defines.LangInUse == Defines.Lang.ENG) baseInstructions = Properties.Resources.Base;
-                else baseInstructions = Properties.Resources.Podstawa;
-            } else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
+            try {
+                    if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./" + Defines.BASE_INSTRUCTION_SET_FILENAME);
+                else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+                    if (Defines.LangInUse == Defines.Lang.ENG) baseInstructions = Properties.Resources.Base;
+                    else baseInstructions = Properties.Resources.Podstawa;
+                } else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
             
-            try { return LoadInstructionSet(baseInstructions.Split(separator).ToList());
+                 return LoadInstructionSet(baseInstructions.Split(separator).ToList());
             } catch (InstructionLoaderException ex) { throw new InstructionLoaderException("Loading Base instructions set "+INSTRUCTION_SET_FILE_EXTENSION+" file error: " + ex.Message);}
           }
 
