@@ -158,7 +158,7 @@ namespace MaszynaPi {
             if (textBoxBaseInst.Enabled) {
                 Defines.BASE_INSTRUCTION_SET_FILENAME = CheckPath(textBoxBaseInst.Text);
                 inslist = (Defines.BASE_INSTRUCTION_SET_FILENAME == textBoxBaseInst.Text);
-                if (inslist) { MachineAssembler.InstructionLoader.LoadBaseInstructions(); }
+                if (inslist && ONLY_PATHS) { MachineAssembler.InstructionLoader.LoadBaseInstructions(); }
             }
 
             return (joystick && matrix && scripts && inslist);
