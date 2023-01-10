@@ -87,7 +87,7 @@ namespace MaszynaPi {
             SetMachineComponentsViewHandles();
             RefreshMicrocontrolerControls();
 
-            Machine.SetOnInterruptReportedAction(UserControlRegisterRZ.Refresh);
+            Machine.SetOnInterruptReportedAction(JoystickInterruptReported);
 
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
@@ -462,6 +462,14 @@ namespace MaszynaPi {
 
         private void binaryToolStripMenuItem_Click(object sender, EventArgs e) { SetRegistersDisplayMode(RegisterMode.Bin); }
 
+
+        void JoystickInterruptReported() {
+            bool wasRuning = false;
+            if (BreakDetector.IsAlive) { CancelBreakDetector(); ; wasRuning = true; }
+            UserControlRegisterRZ.Refresh();
+            if (wasRuning) RunBreakDetector();
+        }
+
         //==============================================================================================================================
         //Special Tasks
         bool GetBreakFlag() { return BREAK_FLAG; }
@@ -488,6 +496,7 @@ namespace MaszynaPi {
             CreateBreakButton();
             BreakDetector = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
             BreakDetector.Start();
+            BringToFront();
             //BreakDetector = new BackgroundWorker();
             //BreakDetector.WorkerSupportsCancellation = true;
             //BreakDetector.DoWork += ShowBreakForm;

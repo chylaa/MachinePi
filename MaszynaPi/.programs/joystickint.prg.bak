@@ -1,8 +1,8 @@
 JMP main
-JMP down
-JMP up
-JMP right
 JMP left
+JMP right
+JMP up
+JMP down
 
 left:
 LOAD l
