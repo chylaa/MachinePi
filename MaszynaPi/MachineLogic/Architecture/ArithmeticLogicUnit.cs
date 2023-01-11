@@ -7,12 +7,11 @@ using MaszynaPi.CommonOperations;
 namespace MaszynaPi.MachineLogic.Architecture {
     
     [Flags]
-    // Flags are encoded as it's bitwise XOR of lowercase letters in ASCII -> for if-else statment in instruction signals 
     public enum ALUFlags { 
-        Z   = 0b_0111_1010, // AK < 0 (MSB == 1)
-        V   = 0b_0111_0110, // 
-        INT = (0b_0110_1001 ^ 0b_0110_1110 ^ 0b_0111_0100), // Interuption
-        ZAK = (0b_0111_1010 ^ 0b_0110_0001 ^ 0b_0110_1011)  // AK = 0
+        Z   = 0b0001, // AK < 0 (MSB == 1)
+        V   = 0b0010, // 
+        INT = 0b0100, // Interuption
+        ZAK = 0b1000  // AK = 0
     }
 
     public class ArithmeticLogicUnit{
@@ -20,6 +19,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
         public Register AK; // Dostęp do wyników tylko przez akumulator
         ALUFlags JALFlags { get; set; }
 
+        // Flags Z, V, INT, ZAK encoded as it's bitwise XOR of lowercase letters in ASCII -> for if-else statment in instruction signals 
+        private readonly Dictionary<int, int> EncodedFlags = new Dictionary<int, int>{  {0b_0111_1010, 1 },
+                                                                                        {0b_0111_0110, 2 },
+                                                                                        {(0b_0110_1001 ^ 0b_0110_1110 ^ 0b_0111_0100), 4},
+                                                                                        {(0b_0111_1010 ^ 0b_0110_0001 ^ 0b_0110_1011), 8 } }; 
 
         public ArithmeticLogicUnit(Register ak, uint value=Defines.DEFAULT_ALU_VAL){
             AK = ak;
@@ -33,7 +37,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
             int argEncoded = 0;
             foreach(int ascii in Encoding.ASCII.GetBytes(argument)) 
                 argEncoded ^= ascii;
-            return JALFlags.HasFlag((ALUFlags)argEncoded);
+            int flag = EncodedFlags[argEncoded];
+            return JALFlags.HasFlag((ALUFlags)flag);
         }
         public bool IsFlagSet(int flag) {
             return JALFlags.HasFlag((ALUFlags)flag);

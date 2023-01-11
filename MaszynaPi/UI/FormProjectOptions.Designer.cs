@@ -66,19 +66,35 @@ namespace MaszynaPi {
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPagePaths = new System.Windows.Forms.TabPage();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBoxPathSensors = new System.Windows.Forms.TextBox();
-            this.textBoxPathJoystick = new System.Windows.Forms.TextBox();
-            this.textBoxPathMatrix = new System.Windows.Forms.TextBox();
             this.textBoxBaseInst = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxPathMatrix = new System.Windows.Forms.TextBox();
+            this.textBoxPathJoystick = new System.Windows.Forms.TextBox();
+            this.textBoxPathSensors = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPageArchitecture.SuspendLayout();
             this.groupBoxMachineWord.SuspendLayout();
@@ -88,10 +104,11 @@ namespace MaszynaPi {
             this.groupBoxComponents.SuspendLayout();
             this.groupBoxArchitectureType.SuspendLayout();
             this.tabPageAdresses.SuspendLayout();
+            this.groupBoxIODevices.SuspendLayout();
             this.groupBoxINTProc.SuspendLayout();
             this.tabPagePaths.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -416,6 +433,22 @@ namespace MaszynaPi {
             // 
             // groupBoxIODevices
             // 
+            this.groupBoxIODevices.Controls.Add(this.textBox9);
+            this.groupBoxIODevices.Controls.Add(this.textBox8);
+            this.groupBoxIODevices.Controls.Add(this.textBox7);
+            this.groupBoxIODevices.Controls.Add(this.textBox6);
+            this.groupBoxIODevices.Controls.Add(this.textBox5);
+            this.groupBoxIODevices.Controls.Add(this.textBox4);
+            this.groupBoxIODevices.Controls.Add(this.label17);
+            this.groupBoxIODevices.Controls.Add(this.label18);
+            this.groupBoxIODevices.Controls.Add(this.label19);
+            this.groupBoxIODevices.Controls.Add(this.label20);
+            this.groupBoxIODevices.Controls.Add(this.label21);
+            this.groupBoxIODevices.Controls.Add(this.label16);
+            this.groupBoxIODevices.Controls.Add(this.label15);
+            this.groupBoxIODevices.Controls.Add(this.label14);
+            this.groupBoxIODevices.Controls.Add(this.label12);
+            this.groupBoxIODevices.Controls.Add(this.label13);
             this.groupBoxIODevices.Location = new System.Drawing.Point(14, 175);
             this.groupBoxIODevices.Name = "groupBoxIODevices";
             this.groupBoxIODevices.Size = new System.Drawing.Size(465, 154);
@@ -517,6 +550,7 @@ namespace MaszynaPi {
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label3.Location = new System.Drawing.Point(154, 26);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 13);
@@ -526,6 +560,7 @@ namespace MaszynaPi {
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.Location = new System.Drawing.Point(34, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
@@ -544,6 +579,24 @@ namespace MaszynaPi {
             this.tabPagePaths.Text = "Paths";
             this.tabPagePaths.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBoxBaseInst);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(15, 16);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(462, 63);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Base instruction set";
+            // 
+            // textBoxBaseInst
+            // 
+            this.textBoxBaseInst.Location = new System.Drawing.Point(117, 26);
+            this.textBoxBaseInst.Name = "textBoxBaseInst";
+            this.textBoxBaseInst.Size = new System.Drawing.Size(340, 20);
+            this.textBoxBaseInst.TabIndex = 7;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -552,24 +605,6 @@ namespace MaszynaPi {
             this.label8.Size = new System.Drawing.Size(93, 13);
             this.label8.TabIndex = 0;
             this.label8.Text = "Instructions .lst file";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 67);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(85, 13);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Joystick Handler";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(85, 13);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Sensors Handler";
             // 
             // groupBox1
             // 
@@ -586,16 +621,26 @@ namespace MaszynaPi {
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scripts";
             // 
-            // groupBox2
+            // textBoxPathMatrix
             // 
-            this.groupBox2.Controls.Add(this.textBoxBaseInst);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(15, 16);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(462, 63);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Base instruction set";
+            this.textBoxPathMatrix.Location = new System.Drawing.Point(117, 100);
+            this.textBoxPathMatrix.Name = "textBoxPathMatrix";
+            this.textBoxPathMatrix.Size = new System.Drawing.Size(340, 20);
+            this.textBoxPathMatrix.TabIndex = 6;
+            // 
+            // textBoxPathJoystick
+            // 
+            this.textBoxPathJoystick.Location = new System.Drawing.Point(117, 64);
+            this.textBoxPathJoystick.Name = "textBoxPathJoystick";
+            this.textBoxPathJoystick.Size = new System.Drawing.Size(340, 20);
+            this.textBoxPathJoystick.TabIndex = 5;
+            // 
+            // textBoxPathSensors
+            // 
+            this.textBoxPathSensors.Location = new System.Drawing.Point(117, 29);
+            this.textBoxPathSensors.Name = "textBoxPathSensors";
+            this.textBoxPathSensors.Size = new System.Drawing.Size(340, 20);
+            this.textBoxPathSensors.TabIndex = 4;
             // 
             // label11
             // 
@@ -606,33 +651,23 @@ namespace MaszynaPi {
             this.label11.TabIndex = 3;
             this.label11.Text = "Matrix Handler";
             // 
-            // textBoxPathSensors
+            // label10
             // 
-            this.textBoxPathSensors.Location = new System.Drawing.Point(117, 29);
-            this.textBoxPathSensors.Name = "textBoxPathSensors";
-            this.textBoxPathSensors.Size = new System.Drawing.Size(340, 20);
-            this.textBoxPathSensors.TabIndex = 4;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 32);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(85, 13);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Sensors Handler";
             // 
-            // textBoxPathJoystick
+            // label9
             // 
-            this.textBoxPathJoystick.Location = new System.Drawing.Point(117, 64);
-            this.textBoxPathJoystick.Name = "textBoxPathJoystick";
-            this.textBoxPathJoystick.Size = new System.Drawing.Size(340, 20);
-            this.textBoxPathJoystick.TabIndex = 5;
-            // 
-            // textBoxPathMatrix
-            // 
-            this.textBoxPathMatrix.Location = new System.Drawing.Point(117, 100);
-            this.textBoxPathMatrix.Name = "textBoxPathMatrix";
-            this.textBoxPathMatrix.Size = new System.Drawing.Size(340, 20);
-            this.textBoxPathMatrix.TabIndex = 6;
-            // 
-            // textBoxBaseInst
-            // 
-            this.textBoxBaseInst.Location = new System.Drawing.Point(117, 26);
-            this.textBoxBaseInst.Name = "textBoxBaseInst";
-            this.textBoxBaseInst.Size = new System.Drawing.Size(340, 20);
-            this.textBoxBaseInst.TabIndex = 7;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 67);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 13);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Joystick Handler";
             // 
             // textBox1
             // 
@@ -654,6 +689,154 @@ namespace MaszynaPi {
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(340, 20);
             this.textBox3.TabIndex = 6;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label12.Location = new System.Drawing.Point(156, 29);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(84, 13);
+            this.label12.TabIndex = 11;
+            this.label12.Text = "Memory address";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(36, 29);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(41, 13);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "Device";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(36, 58);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(71, 13);
+            this.label14.TabIndex = 12;
+            this.label14.Text = "Console input";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(36, 86);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(78, 13);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "Console output";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(36, 116);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(59, 13);
+            this.label16.TabIndex = 14;
+            this.label16.Text = "Matrix LED";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(265, 116);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(48, 13);
+            this.label17.TabIndex = 19;
+            this.label17.Text = "Pressure";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(265, 86);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(47, 13);
+            this.label18.TabIndex = 18;
+            this.label18.Text = "Humidity";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(265, 58);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(67, 13);
+            this.label19.TabIndex = 17;
+            this.label19.Text = "Temperature";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label20.Location = new System.Drawing.Point(375, 29);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(84, 13);
+            this.label20.TabIndex = 16;
+            this.label20.Text = "Memory address";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label21.Location = new System.Drawing.Point(265, 29);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(40, 13);
+            this.label21.TabIndex = 15;
+            this.label21.Text = "Sensor";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(158, 55);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(81, 20);
+            this.textBox4.TabIndex = 20;
+            this.textBox4.Text = "1";
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(158, 83);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(81, 20);
+            this.textBox5.TabIndex = 21;
+            this.textBox5.Text = "2";
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(158, 109);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(81, 20);
+            this.textBox6.TabIndex = 22;
+            this.textBox6.Text = "6";
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(378, 55);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(81, 20);
+            this.textBox7.TabIndex = 23;
+            this.textBox7.Text = "3";
+            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(378, 109);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(81, 20);
+            this.textBox8.TabIndex = 24;
+            this.textBox8.Text = "5";
+            this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(378, 81);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(81, 20);
+            this.textBox9.TabIndex = 25;
+            this.textBox9.Text = "4";
+            this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FormProjectOptions
             // 
@@ -682,13 +865,15 @@ namespace MaszynaPi {
             this.groupBoxArchitectureType.ResumeLayout(false);
             this.groupBoxArchitectureType.PerformLayout();
             this.tabPageAdresses.ResumeLayout(false);
+            this.groupBoxIODevices.ResumeLayout(false);
+            this.groupBoxIODevices.PerformLayout();
             this.groupBoxINTProc.ResumeLayout(false);
             this.groupBoxINTProc.PerformLayout();
             this.tabPagePaths.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -750,5 +935,21 @@ namespace MaszynaPi {
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }

@@ -34,6 +34,7 @@ namespace MaszynaPi {
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
+            this.breakPanel = new System.Windows.Forms.Panel();
             this.userControlFlags = new MaszynaPi.MachineUI.UserControlFlags();
             this.userControlSignalWire_stop = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_oitd = new MaszynaPi.MachineUI.UserControlSignalWire();
@@ -120,7 +121,6 @@ namespace MaszynaPi {
             this.hexadecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zapiszListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ładujListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.instructionLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.polishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,7 +159,6 @@ namespace MaszynaPi {
             this.panelInstructionsList = new System.Windows.Forms.Panel();
             this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
             this.tabPageVariables = new System.Windows.Forms.TabPage();
-            this.breakPanel = new System.Windows.Forms.Panel();
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -338,6 +337,13 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(826, 560);
             this.MicrocontrollerPanel.TabIndex = 0;
+            // 
+            // breakPanel
+            // 
+            this.breakPanel.Location = new System.Drawing.Point(508, 57);
+            this.breakPanel.Name = "breakPanel";
+            this.breakPanel.Size = new System.Drawing.Size(185, 40);
+            this.breakPanel.TabIndex = 76;
             // 
             // userControlFlags
             // 
@@ -1259,7 +1265,6 @@ namespace MaszynaPi {
             // projektToolStripMenuItem
             // 
             this.projektToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zapiszListęRozkazówToolStripMenuItem,
             this.ładujListęRozkazówToolStripMenuItem,
             this.instructionLanguageToolStripMenuItem,
             this.opcjeToolStripMenuItem,
@@ -1268,17 +1273,11 @@ namespace MaszynaPi {
             this.projektToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projektToolStripMenuItem.Text = "Project";
             // 
-            // zapiszListęRozkazówToolStripMenuItem
-            // 
-            this.zapiszListęRozkazówToolStripMenuItem.Name = "zapiszListęRozkazówToolStripMenuItem";
-            this.zapiszListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.zapiszListęRozkazówToolStripMenuItem.Text = "Save instruction list";
-            // 
             // ładujListęRozkazówToolStripMenuItem
             // 
             this.ładujListęRozkazówToolStripMenuItem.Name = "ładujListęRozkazówToolStripMenuItem";
             this.ładujListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.ładujListęRozkazówToolStripMenuItem.Text = "Load instruction list";
+            this.ładujListęRozkazówToolStripMenuItem.Text = "Load instruction set";
             this.ładujListęRozkazówToolStripMenuItem.Click += new System.EventHandler(this.ładujListęRozkazówToolStripMenuItem_Click);
             // 
             // instructionLanguageToolStripMenuItem
@@ -1632,13 +1631,6 @@ namespace MaszynaPi {
             this.tabPageVariables.TabIndex = 2;
             this.tabPageVariables.Text = "Variables";
             // 
-            // breakPanel
-            // 
-            this.breakPanel.Location = new System.Drawing.Point(508, 57);
-            this.breakPanel.Name = "breakPanel";
-            this.breakPanel.Size = new System.Drawing.Size(185, 40);
-            this.breakPanel.TabIndex = 76;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1708,7 +1700,6 @@ namespace MaszynaPi {
         private System.Windows.Forms.ToolStripMenuItem wyjścieToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem widokToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projektToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem zapiszListęRozkazówToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ładujListęRozkazówToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wykonajToolStripMenuItem;
