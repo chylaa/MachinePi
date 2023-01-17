@@ -149,7 +149,7 @@
     <Compile Include="UI\FormProjectOptions.Designer.cs">
       <DependentUpon>FormProjectOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="MachineAssembler\Compiler.cs" />
+    <Compile Include="MachineAssembler\Assembler.cs" />
     <Compile Include="MachineAssembler\Debugger.cs" />
     <Compile Include="MachineLogic\Architecture\ArithmeticLogicUnit.cs" />
     <Compile Include="MachineLogic\Architecture\Bus.cs" />

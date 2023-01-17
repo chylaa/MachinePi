@@ -32,7 +32,7 @@ namespace MaszynaPi.FilesHandling {
                 saveFileDialog.Filter = dialogFilter;
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.AddExtension = true;
-                saveFileDialog.DefaultExt = MaszynaPi.MachineAssembler.Compiler.PROGRAM_FILE_EXTENSION;
+                saveFileDialog.DefaultExt = MaszynaPi.MachineAssembler.Assembler.PROGRAM_FILE_EXTENSION;
                 saveFileDialog.CheckPathExists = true;
                 saveFileDialog.CheckFileExists = true;
                 saveFileDialog.ValidateNames = false;

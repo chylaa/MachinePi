@@ -7,17 +7,131 @@
       <FileName>MachineLogic\ControlUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.ControlUnit" Collapsed="true">
+  <Class Name="MaszynaPi.MachineLogic.ControlUnit">
     <Position X="2.75" Y="1.5" Width="3.5" />
+    <Members>
+      <Method Name="_as" Hidden="true" />
+      <Property Name="A" Hidden="true" />
+      <Field Name="ActiveSignals" Hidden="true" />
+      <Method Name="AddActiveSignals" Hidden="true" />
+      <Property Name="AK" Hidden="true" />
+      <Property Name="AP" Hidden="true" />
+      <Method Name="ChangeMemorySize" Hidden="true" />
+      <Field Name="CheckProgramBreak" Hidden="true" />
+      <Method Name="ControlUnit" Hidden="true" />
+      <Method Name="czyt" Hidden="true" />
+      <Method Name="dak" Hidden="true" />
+      <Method Name="DisableDebugger" Hidden="true" />
+      <Method Name="dod" Hidden="true" />
+      <Method Name="dws" Hidden="true" />
+      <Method Name="dziel" Hidden="true" />
+      <Method Name="EnableDebugger" Hidden="true" />
+      <Field Name="ENDOF_INSTRUCTION" Hidden="true" />
+      <Method Name="eni" Hidden="true" />
+      <Field Name="FETCH_CYCLE_TICK" Hidden="true" />
+      <Method Name="FetchInstruction" Hidden="true" />
+      <Property Name="G" Hidden="true" />
+      <Method Name="GetActiveSignals" Hidden="true" />
+      <Method Name="GetALUFlags" Hidden="true" />
+      <Method Name="GetMemoryContent" Hidden="true" />
+      <Method Name="GetMemoryContentHandle" Hidden="true" />
+      <Method Name="GetTextInputBufferHandle" Hidden="true" />
+      <Method Name="GetTextOutputBufferHandle" Hidden="true" />
+      <Field Name="HumidityInput" Hidden="true" />
+      <Method Name="i" Hidden="true" />
+      <Property Name="I" Hidden="true" />
+      <Method Name="iak" Hidden="true" />
+      <Method Name="il" Hidden="true" />
+      <Field Name="InstrDecoder" Hidden="true" />
+      <Field Name="IntController" Hidden="true" />
+      <Field Name="IOController" Hidden="true" />
+      <Method Name="iws" Hidden="true" />
+      <Property Name="JAL" Hidden="true" />
+      <Property Name="L" Hidden="true" />
+      <Field Name="LastTick" Hidden="true" />
+      <Method Name="lub" Hidden="true" />
+      <Property Name="MagA" Hidden="true" />
+      <Property Name="MagS" Hidden="true" />
+      <Field Name="MatrixOutput" Hidden="true" />
+      <Method Name="mno" Hidden="true" />
+      <Method Name="neg" Hidden="true" />
+      <Method Name="ode" Hidden="true" />
+      <Field Name="OnProgramEnd" Hidden="true" />
+      <Field Name="OnRefreshValues" Hidden="true" />
+      <Field Name="OnSetExecutedLine" Hidden="true" />
+      <Field Name="OnSetExecutedMicroinstruction" Hidden="true" />
+      <Property Name="PaO" Hidden="true" />
+      <Method Name="pisz" Hidden="true" />
+      <Field Name="PressureInput" Hidden="true" />
+      <Method Name="ProgramEnd" Hidden="true" />
+      <Method Name="przep" Hidden="true" />
+      <Property Name="RB" Hidden="true" />
+      <Method Name="ResetMemory" Hidden="true" />
+      <Method Name="ResetRegisters" Hidden="true" />
+      <Method Name="rint" Hidden="true" />
+      <Property Name="RM" Hidden="true" />
+      <Property Name="RP" Hidden="true" />
+      <Property Name="RZ" Hidden="true" />
+      <Property Name="S" Hidden="true" />
+      <Method Name="sa" Hidden="true" />
+      <Method Name="SetComponentsBitsizes" Hidden="true" />
+      <Method Name="SetExecutedLineInEditor" Hidden="true" />
+      <Method Name="SetExecutedMicroinstructions" Hidden="true" />
+      <Method Name="SetLEDMatrixModeLetter" Hidden="true" />
+      <Method Name="SetLEDMatrixModePaint" Hidden="true" />
+      <Method Name="SetMemoryContent" Hidden="true" />
+      <Method Name="SetOnFetchCharAction" Hidden="true" />
+      <Method Name="SetOnInterruptReportedAction" Hidden="true" />
+      <Method Name="SetOnPushCharAction" Hidden="true" />
+      <Field Name="SetPaintActiveSignals" Hidden="true" />
+      <Method Name="shr" Hidden="true" />
+      <Field Name="SignalsMap" Hidden="true" />
+      <Method Name="start" Hidden="true" />
+      <Method Name="stop" Hidden="true" />
+      <Field Name="TemperatureInput" Hidden="true" />
+      <Field Name="TextInput" Hidden="true" />
+      <Field Name="TextOutput" Hidden="true" />
+      <Field Name="USE_DEBUGGER" Hidden="true" />
+      <Method Name="wea" Hidden="true" />
+      <Method Name="weak" Hidden="true" />
+      <Method Name="wei" Hidden="true" />
+      <Method Name="weja" Hidden="true" />
+      <Method Name="wel" Hidden="true" />
+      <Method Name="werb" Hidden="true" />
+      <Method Name="werm" Hidden="true" />
+      <Method Name="wes" Hidden="true" />
+      <Method Name="wews" Hidden="true" />
+      <Method Name="wex" Hidden="true" />
+      <Method Name="wey" Hidden="true" />
+      <Property Name="WS" Hidden="true" />
+      <Method Name="wyad" Hidden="true" />
+      <Method Name="wyak" Hidden="true" />
+      <Method Name="wyap" Hidden="true" />
+      <Method Name="wyg" Hidden="true" />
+      <Method Name="wyl" Hidden="true" />
+      <Method Name="wyls" Hidden="true" />
+      <Method Name="wyrb" Hidden="true" />
+      <Method Name="wyrm" Hidden="true" />
+      <Method Name="wys" Hidden="true" />
+      <Method Name="wyws" Hidden="true" />
+      <Method Name="wyx" Hidden="true" />
+      <Method Name="wyy" Hidden="true" />
+      <Property Name="X" Hidden="true" />
+      <Property Name="Y" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>oZBhIPMPAKAiQoAhDmCogAAooB1hUKBou2wN6uThcWg=</HashCode>
+      <HashCode>oZBhIOMPAKAiQoChDmCogAAooB1hUKBou2wN6uThcWg=</HashCode>
       <FileName>MachineLogic\ControlUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit" Collapsed="true">
-    <Position X="3.75" Y="3" Width="2" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit">
+    <Position X="6.75" Y="1.5" Width="2" />
+    <Members>
+      <Field Name="AK" Hidden="true" />
+      <Method Name="ArithmeticLogicUnit" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>IAMAAAACAAAARACgAAAAAAAgACAADAAoBASAAEBAACQ=</HashCode>
+      <HashCode>JAMBAAACAAAARACgAAAAAAAgACAADAAoBASAAEBAACQ=</HashCode>
       <FileName>MachineLogic\Architecture\ArithmeticLogicUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -28,36 +142,45 @@
       <FileName>MachineLogic\Architecture\Bus.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.Bus" Collapsed="true">
-    <Position X="6" Y="2.25" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.Bus">
+    <Position X="4.75" Y="4.5" Width="1.75" />
+    <Members>
+      <Method Name="Bus" Hidden="true" />
+      <Method Name="GetBitsize" Hidden="true" />
+      <Method Name="LoggerGet" Hidden="true" />
+      <Method Name="Reset" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AABAAAAAYAAABiAAAAAAAAACAAAEAAAAAAAgAAAEAAg=</HashCode>
       <FileName>MachineLogic\Architecture\Bus.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.InstructionDecoder" Collapsed="true">
-    <Position X="3.5" Y="3.75" Width="2" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.InstructionDecoder">
+    <Position X="11.75" Y="7.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAAIAAAAAgAAAgAAIAAGgFAAAABAAAA=</HashCode>
       <FileName>MachineLogic\Architecture\InstructionDecoder.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.InstructionRegister" Collapsed="true">
-    <Position X="0.5" Y="2.75" Width="1.75" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.InstructionRegister">
+    <Position X="0.5" Y="4.5" Width="1.75" />
+    <Members>
+      <Method Name="InstructionRegister" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAABBIAAAAAAAAAAAgAEAIAAAAAAAAAAAAA=</HashCode>
       <FileName>MachineLogic\Architecture\InstructionRegister.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.InterruptionController" Collapsed="true">
-    <Position X="5.75" Y="3.75" Width="2" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.InterruptionController">
+    <Position X="15.25" Y="7.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAAEIAgABgAAABAAgAAAAAAAgAAAA=</HashCode>
       <FileName>MachineLogic\Architecture\InterruptionController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.IODevicesController" Collapsed="true">
-    <Position X="1.5" Y="3.75" Width="1.75" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.IODevicesController">
+    <Position X="9.75" Y="7.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MachineLogic\Architecture\IODevicesController.cs</FileName>
@@ -70,22 +193,35 @@
       <FileName>MachineLogic\Architecture\Memory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.Memory" Collapsed="true">
-    <Position X="4.25" Y="2.25" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.Memory">
+    <Position X="2.5" Y="4.5" Width="1.75" />
+    <Members>
+      <Method Name="Memory" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAEAAAAAIgAEBgAAAAAAAAAAAIAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>MachineLogic\Architecture\Memory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.Architecture.Register" Collapsed="true">
-    <Position X="2.25" Y="2.25" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.Architecture.Register">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <Members>
+      <Method Name="Register" Hidden="true" />
+      <Method Name="Reset" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAYAAABgAAAAAAAAAAAAAEAAAAAAAgAAAEAAA=</HashCode>
+      <HashCode>AAAAAAAAYAAABgAAAAAAAAAAAAAEEAAAAAAgAAAEAAA=</HashCode>
       <FileName>MachineLogic\Architecture\Register.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.CharacterInput" Collapsed="true">
-    <Position X="1.25" Y="4.75" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.CharacterInput">
+    <Position X="2.25" Y="8.25" Width="1.75" />
+    <Members>
+      <Method Name="CharacterInput" Hidden="true" />
+      <Method Name="GetCharactersBufferHandle" Hidden="true" />
+      <Field Name="TYPE" Hidden="true" />
+      <Method Name="WriteToIOBuffer" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>EAAAAQAAAAgDgAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>MachineLogic\IODevices\CharacterInput.cs</FileName>
@@ -98,57 +234,132 @@
       <FileName>MachineLogic\IODevices\IODevice.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.IODevice" Collapsed="true">
-    <Position X="4" Y="4.75" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.IODevice">
+    <Position X="4.25" Y="8.25" Width="1.5" />
+    <Members>
+      <Field Name="IO_READY" Hidden="true" />
+      <Field Name="IO_WAIT" Hidden="true" />
+      <Method Name="ReadFromIOBuffer" Hidden="true" />
+      <Method Name="SetIOBufferValue" Hidden="true" />
+      <Method Name="SetReadyValue" Hidden="true" />
+      <Field Name="START_FLAG" Hidden="true" />
+      <Field Name="Type" Hidden="true" />
+      <Method Name="WriteToIOBuffer" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>UQAIAABAAAAAAAUAAAAAwAAAAAEAAAAAAQAEEABAEAA=</HashCode>
       <FileName>MachineLogic\IODevices\IODevice.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.CharacterOutput" Collapsed="true">
-    <Position X="1.25" Y="5.5" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.CharacterOutput">
+    <Position X="6" Y="8.25" Width="1.75" />
+    <Members>
+      <Method Name="CharacterOutput" Hidden="true" />
+      <Method Name="GetCharactersBufferHandle" Hidden="true" />
+      <Method Name="ReadFromIOBuffer" Hidden="true" />
+      <Field Name="TYPE" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAEAQBAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>MachineLogic\IODevices\CharacterOutput.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.HumiditySensor" Collapsed="true">
-    <Position X="3" Y="6.25" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.HumiditySensor">
+    <Position X="2.25" Y="10.5" Width="1.5" />
+    <Members>
+      <Method Name="GetValue" Hidden="true" />
+      <Method Name="HumiditySensor" Hidden="true" />
+      <Field Name="TYPE" Hidden="true" />
+      <Method Name="WriteToIOBuffer" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>EAAAAAAAIQABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MachineLogic\IODevices\HumiditySensor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.MatrixLED" Collapsed="true">
-    <Position X="4.75" Y="6.25" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.MatrixLED">
+    <Position X="6.25" Y="12.25" Width="1.5" />
+    <Members>
+      <Method Name="MatrixLED" Hidden="true" />
+      <Method Name="PushChar" Hidden="true" />
+      <Method Name="ReadFromIOBuffer" Hidden="true" />
+      <Method Name="SetLetterMode" Hidden="true" />
+      <Method Name="SetPaintMode" Hidden="true" />
+      <Field Name="TYPE" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="MaszynaPi.MachineLogic.IODevices.MatrixLED.Mode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>MachineLogic\IODevices\MatrixLED.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>EAAAAABAAAABgAAAAAAAAAAAAAAgAAIAAAAAAAIAAgA=</HashCode>
       <FileName>MachineLogic\IODevices\MatrixLED.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.PressureSensor" Collapsed="true">
-    <Position X="6.25" Y="5.5" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.PressureSensor">
+    <Position X="6.25" Y="10.5" Width="1.5" />
+    <Members>
+      <Method Name="GetValue" Hidden="true" />
+      <Method Name="PressureSensor" Hidden="true" />
+      <Field Name="TYPE" Hidden="true" />
+      <Method Name="WriteToIOBuffer" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>EAAAAAAAIQABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MachineLogic\IODevices\PressureSensor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.IODevices.TemperatureSensor" Collapsed="true">
-    <Position X="6.25" Y="4.75" Width="1.5" />
+  <Class Name="MaszynaPi.MachineLogic.IODevices.TemperatureSensor">
+    <Position X="2.25" Y="12.25" Width="1.75" />
+    <Members>
+      <Method Name="GetValue" Hidden="true" />
+      <Method Name="TemperatureSensor" Hidden="true" />
+      <Field Name="TYPE" Hidden="true" />
+      <Method Name="WriteToIOBuffer" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="MaszynaPi.MachineLogic.IODevices.IODevice" ManuallyRouted="true">
+      <Path>
+        <Point X="5" Y="10.959" />
+        <Point X="5" Y="12.066" />
+        <Point X="3.125" Y="12.066" />
+        <Point X="3.125" Y="12.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>EAAAAAAAIQABgAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>MachineLogic\IODevices\TemperatureSensor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.SenseHatHandlers.SenseHatDevice" Collapsed="true">
-    <Position X="4" Y="7.75" Width="1.5" />
+  <Class Name="MaszynaPi.SenseHatHandlers.SenseHatDevice">
+    <Position X="4.25" Y="12.25" Width="1.75" />
+    <Members>
+      <Method Name="CreateReadProcess" Hidden="true" />
+      <Method Name="ErrorReceived" Hidden="true" />
+      <Field Name="JOYSTICK_POS_PRESS" Hidden="true" />
+      <Field Name="JOYSTICK_SCRIPT" Hidden="true" />
+      <Field Name="JoystickPosIntMap" Hidden="true" />
+      <Field Name="MATRIX_SCRIPT" Hidden="true" />
+      <Field Name="OnInterruptionReceived" Hidden="true" />
+      <Field Name="ReceivedData" Hidden="true" />
+      <Method Name="SenseHatDevice" Hidden="true" />
+      <Field Name="SENSOR_HUMIDITY" Hidden="true" />
+      <Field Name="SENSOR_PRESSURE" Hidden="true" />
+      <Field Name="SENSOR_SCRIPT" Hidden="true" />
+      <Field Name="SENSOR_TEMPERATURE" Hidden="true" />
+      <Method Name="StartAsyncRead" Hidden="true" />
+      <Field Name="StartPythonCMD" Hidden="true" />
+      <Field Name="TO_MILI" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAgAAEAEIAAAQQABCIoBABAAAg4AkAgAAACAgEAAAI=</HashCode>
       <FileName>SenseHatHandlers\SenseHatDevices.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.ArchitectureSettings" Collapsed="true">
-    <Position X="11.25" Y="1.5" Width="1.75" />
+  <Class Name="MaszynaPi.MachineLogic.ArchitectureSettings">
+    <Position X="10.5" Y="1.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AgQCBEQBIAHkEYAABBAAAAQAAABCIARAAIgAAAAACEg=</HashCode>
       <FileName>MachineLogic\ArchitectureSettings.cs</FileName>
@@ -158,18 +369,29 @@
     <Position X="8.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MachineAssembler\Compiler.cs</FileName>
+      <FileName>MachineAssembler\Assembler.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineAssembler.Compiler" Collapsed="true">
-    <Position X="9.5" Y="1.5" Width="1.5" />
+  <Class Name="MaszynaPi.MachineAssembler.Assembler">
+    <Position X="16" Y="2" Width="2.25" />
+    <Members>
+      <Field Name="CHAR_SYMBOL" Hidden="true" />
+      <Method Name="DeleteMultipleSpaces" Hidden="true" />
+      <Field Name="FLAG_COMPILED" Hidden="true" />
+      <Field Name="HEADER_LABEL_END" Hidden="true" />
+      <Field Name="MemoryEditorMap" Hidden="true" />
+      <Field Name="POS_LABEL" Hidden="true" />
+      <Field Name="POS_VALUE" Hidden="true" />
+      <Field Name="PROGRAM_FILE_EXTENSION" Hidden="true" />
+      <Field Name="ProgramSignals" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>ACAAABAhAAAAAIAIAAAIgAABAQCAAAkQIAEAgAIIAAA=</HashCode>
-      <FileName>MachineAssembler\Compiler.cs</FileName>
+      <HashCode>ACAAAAAhAAAAAIAIAAAYAAABAQCAAAkQIAEAgAIIAAA=</HashCode>
+      <FileName>MachineAssembler\Assembler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MaszynaPi.MachineAssembler.Debugger" Collapsed="true">
-    <Position X="7.75" Y="1.5" Width="1.5" />
+    <Position X="8.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAQAAJEAAACAAAAAAAAAIAAAEIBgAEAAAAgABABAAAA=</HashCode>
       <FileName>MachineAssembler\Debugger.cs</FileName>
@@ -183,7 +405,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MaszynaPi.FilesHandling.FilesHandler" Collapsed="true">
-    <Position X="9.5" Y="2.5" Width="1.5" />
+    <Position X="9" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAABAAAAAAAQAAAAAABQAIAAAAAAAAAAAAI=</HashCode>
       <FileName>FilesHandling\FilesHandler.cs</FileName>
@@ -196,22 +418,42 @@
       <FileName>MachineAssembler\InstructionLoader.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineAssembler.InstructionLoader" Collapsed="true">
-    <Position X="11.25" Y="2.5" Width="1.5" />
+  <Class Name="MaszynaPi.MachineAssembler.InstructionLoader">
+    <Position X="13" Y="2" Width="2.75" />
+    <Members>
+      <Field Name="ADDRESS_SPACE_HEADER" Hidden="true" />
+      <Method Name="ChangeCapitalizationOfInstructionLines" Hidden="true" />
+      <Field Name="CODE_BITS_HEADER" Hidden="true" />
+      <Field Name="COMMENT" Hidden="true" />
+      <Field Name="COMPONENT_ON" Hidden="true" />
+      <Method Name="DeleteComment" Hidden="true" />
+      <Field Name="INSTRUCTION_FILE_EXTENSION" Hidden="true" />
+      <Field Name="INSTRUCTION_LINES_HEADER" Hidden="true" />
+      <Field Name="INSTRUCTION_NUMBER_HEADER" Hidden="true" />
+      <Field Name="INSTRUCTION_SET_FILE_EXTENSION" Hidden="true" />
+      <Field Name="INSTRUCTIONS_HEADER" Hidden="true" />
+      <Method Name="IsValidStartOfInstruction" Hidden="true" />
+      <Field Name="LINE_END" Hidden="true" />
+      <Field Name="LINE_HEADER_SEPARATOR" Hidden="true" />
+      <Field Name="NO_ARGUMENT" Hidden="true" />
+      <Field Name="OPTIONS_HEADER" Hidden="true" />
+      <Field Name="OPTIONS_LINES" Hidden="true" />
+      <Field Name="UPPER_WORDS" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>BQBACAgBAgAECKQAaAASAgQIQEBABARCYCAAgBAACAE=</HashCode>
+      <HashCode>BRBACAgAAgAECKQAaAASAgQIQEBABARCYCAAgBAACAE=</HashCode>
       <FileName>MachineAssembler\InstructionLoader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="MaszynaPi.MachineLogic.Architecture.ALUFlags" Collapsed="true">
-    <Position X="5.75" Y="3" Width="1.25" />
+    <Position X="8.75" Y="3" Width="1.25" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAE=</HashCode>
       <FileName>MachineLogic\Architecture\ArithmeticLogicUnit.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MaszynaPi.MachineLogic.IODevices.IOType" Collapsed="true">
-    <Position X="4" Y="4.5" Width="1.5" />
+    <Position X="9" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAEAAAAAAIAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MachineLogic\IODevices\IODevice.cs</FileName>

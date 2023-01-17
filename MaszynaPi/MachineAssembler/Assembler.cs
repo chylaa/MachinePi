@@ -22,7 +22,7 @@ namespace MaszynaPi.MachineAssembler {
      *      1. Loaded as numbers into memory            [List<uint>]
      *      2. Translated into a sequence of signals    [List<List<string>>] [OLD - UNUSED]
      */
-    static class Compiler {
+    static class Assembler {
         public const string PROGRAM_FILE_EXTENSION = ".prg";
         public const string HEADER_LABEL_END = ":";    // [Header] End of assembly label (foo) definition
         const string CHAR_SYMBOL = "'"; 
@@ -32,7 +32,7 @@ namespace MaszynaPi.MachineAssembler {
         
         static bool FLAG_COMPILED = false;
 
-        static List<uint> ProgramNumeric = new List<uint>();
+        static List<uint> MachineCode = new List<uint>();
         static List<List<string>> ProgramSignals;
 
         // Dictionary that maps each address of code instruction in memory to line in editor (its content)
@@ -50,7 +50,7 @@ namespace MaszynaPi.MachineAssembler {
             return InstructionLoader.GetInstructionsNamesOpcodes().Keys.Any(line.Contains);
         }
 
-        public static bool IsVarDeclaration(string line) {
+        public static bool IsMemoryAlocation(string line) {
             return line.Contains(Defines.HEADER_MEM_ALLOC);
         }
         public static bool IsConstDeclaration(string line) {
@@ -113,12 +113,13 @@ namespace MaszynaPi.MachineAssembler {
         // Returns compiled program as list of unsigned integer values to be load into Machine memory
         public static List<uint> CompileCode(List<string> codeLines) {
             int progSize = GetProgramSize(codeLines);
-            if (progSize > ArchitectureSettings.GetMaxAddress()) throw new CompilerException("[Compilation Error] Too large program for current architecture settings. Increase address space!");
+            if (progSize > ArchitectureSettings.GetMaxAddress()) 
+                throw new CompilerException("[Compilation Error] Too large program for current architecture settings. Increase address space!");
 
             var LabelsAddresses = GetLabelsAddresses(codeLines);
             var namesOpcodes = InstructionLoader.GetInstructionsNamesOpcodes();
 
-            ProgramNumeric.Clear();
+            MachineCode.Clear();
             RemoveLabels(codeLines);
 
             MemoryEditorMap.Clear();
@@ -130,56 +131,53 @@ namespace MaszynaPi.MachineAssembler {
                 string argument = null;
                 int arg = -1;
 
-                // Mapping to editor lines
-                MemoryEditorMap.Add(memAddress,line);
+                MemoryEditorMap.Add(memAddress,line); // Mapping to editor lines
                 memAddress++;
-                //------------------------
 
                 if (instArg.Length == 1) { // No argument instruction
-                    if (IsVarDeclaration(line)) { ProgramNumeric.Add(Defines.DEFAULT_MEM_VAL); continue; } // memory allocation (RPA)
+                    if (IsMemoryAlocation(line)) { MachineCode.Add(Defines.DEFAULT_MEM_VAL); continue; } // memory allocation (RES)
                     instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
                     if (instruction == null)
                         throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
                     if (InstructionLoader.GetZeroArgInstructions().Contains(instArg[0]) == false)
                         throw new CompilerException("[Syntax error] Missing argument for instruction " + line);
                    
-                    ProgramNumeric.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], 0)); // 0 arg instruction add
+                    MachineCode.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], 0)); // 0 arg instruction add
                     continue;
                 }
                 if (instArg.Length == 2) { // one argument instruction (max)
                     argument = LabelsAddresses.Keys.FirstOrDefault(toCheck => instArg[1].Equals(toCheck));
                     if (argument == null) { // argument is not defined label
                         if (instArg[1].StartsWith(CHAR_SYMBOL) && instArg[1].EndsWith(CHAR_SYMBOL)) { // If argument is "char" type 
-                            if (instArg[1].Length > 3) throw new CompilerException("[Syntax Error] RST type of 'char' can be only one character long!");
+                            if (instArg[1].Length > 3)
+                                throw new CompilerException("[Syntax Error] RST type of 'char' can be only one character long!");
                             arg = Encoding.ASCII.GetBytes(instArg[1].Replace(CHAR_SYMBOL, ""))[0];
                         } else {
                             if (int.TryParse(instArg[1], out arg) == false) // Is argument a number?
                                 throw new CompilerException("[Syntax error] Invalid argument in: " + line); // no.
                         }
-                        //if (arg > ArchitectureSettings.GetMaxWord())
-                        //    throw new CompilerException("[Syntax error] Argument bigger than curretly maximum value define by machine word. Line: " + line);
+
                         arg = (int)(arg & ArchitectureSettings.GetMaxWord()); // Handle Overflow instead throwing exception
 
-                        if (IsConstDeclaration(line)) { ProgramNumeric.Add((uint)arg); continue; } // Variable (RST) define - argument is number
+                        if (IsConstDeclaration(line)) { MachineCode.Add((uint)arg); continue; } // Variable label define (DEF) - argument is number
 
                         instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
                         if (instruction == null)
                             throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
-                        ProgramNumeric.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], (uint)arg)); //Instruction and Number argument [Direct addressing (in orginal machine works)]
+                        MachineCode.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], (uint)arg)); //Instruction and Number argument [Direct addressing]
                         continue;
                     }
-                    if (IsConstDeclaration(line)) { ProgramNumeric.Add(LabelsAddresses[argument]); continue; } // Variable (RST) define - argument is label
+                    if (IsConstDeclaration(line)) { MachineCode.Add(LabelsAddresses[argument]); continue; } //Variable label define (DEF) - argument is label
                     instruction = namesOpcodes.Keys.FirstOrDefault(toCheck => instArg[0].Equals(toCheck));
                     if (instruction == null)
                         throw new CompilerException("[Syntax error] Unknown instruction label in: " + line);
-                    ProgramNumeric.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], LabelsAddresses[argument])); // Instruction and Label argument 
+                    MachineCode.Add(Bitwise.EncodeInstruction(namesOpcodes[instruction], LabelsAddresses[argument])); // Instruction and Label argument 
                     continue;
 
                 }
                 throw new CompilerException("[Syntax error] To many arguments in line: " + line);
             }
-            
-            return ProgramNumeric;
+            return MachineCode;
         }
     
     }

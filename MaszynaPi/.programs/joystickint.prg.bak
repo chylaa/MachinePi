@@ -1,8 +1,8 @@
 JMP main
-JMP left
-JMP right
-JMP up
 JMP down
+JMP up
+JMP right
+JMP left
 
 left:
 LOAD l
@@ -21,7 +21,7 @@ LOAD d
 JMP print
 
 print:
-ADD white
+ADD red
 IOWR 6
 JMP main
 
@@ -34,6 +34,6 @@ u: DEF 'u'
 d: DEF 'd'
 l: DEF 'l'
 r: DEF 'r'
-white: DEF 1024
+red: DEF 1024
 
 

@@ -1,0 +1,7 @@
+// branch if Acc > 0
+INSTRUCTION BGZ
+rd od iins icit;
+IF ZAK THEN @not IF ELSE @continue;
+@not oit ia END;
+@continue IF Z THEN @not;
+oa ia iit;

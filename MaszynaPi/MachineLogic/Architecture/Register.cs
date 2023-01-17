@@ -15,6 +15,12 @@ namespace MaszynaPi.MachineLogic.Architecture {
             Bitsize = bitsize;
         }
 
+        internal ControlUnit ControlUnit {
+            get => default;
+            set {
+            }
+        }
+
         public void SetValue(uint value) { Value = Bitwise.HandleOverflow(value, Bitsize); }
         public uint GetValue() { return Value; }
 

@@ -23,7 +23,7 @@ namespace MaszynaPi.MachineLogic {
     */
     public class ControlUnit {
         const int ENDOF_INSTRUCTION = -1;      // Value for tick order tracking variables indicating that all ticks of a single instruction have been executed
-        const int INSTRUCTION_FETCH_ORDER = 0; // In which Tick number in single instruction, Instruction Fetch must be performed
+        const int FETCH_CYCLE_TICK = 0; // In which Tick number in single instruction, Instruction Fetch must be performed
 
         // Always initialized when creating CentralUnit child class
         Dictionary<string, Action> SignalsMap;
@@ -35,7 +35,7 @@ namespace MaszynaPi.MachineLogic {
 
         private int LastTick = -1;
         // Others internal Components
-        private InstructionDecoder RzKDecoder;
+        private InstructionDecoder InstrDecoder;
         private InterruptionController IntController;
         private IODevicesController IOController;
         // Components visible in architecture view
@@ -67,8 +67,8 @@ namespace MaszynaPi.MachineLogic {
         MatrixLED MatrixOutput;
 
         public ControlUnit() {
-            RzKDecoder = new InstructionDecoder();
-            RzKDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(RzKDecoder.StatementArg); });
+            InstrDecoder = new InstructionDecoder();
+            InstrDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(InstrDecoder.StatementArg); });
             
             ///! Whole section of bitsize defines must be relocated into separate function (some sizes depends on architecture)
             uint Aspace  = ArchitectureSettings.GetAddressSpace();
@@ -111,65 +111,65 @@ namespace MaszynaPi.MachineLogic {
         }
 
         // ========================== <  Signals Methods > ========--=========================== // (Microinstructions)
-        public void stop() { OnProgramEnd(); }
+        void stop() { OnProgramEnd(); }
         // Architecture W
-        public void czyt() { S.SetValue(PaO.GetValue(A.GetValue())); }
-        public void pisz() { PaO.StoreValue(A.GetValue(), S.GetValue()); }
-        public void wys() { MagS.SetValue(S.GetValue()); }
-        public void wes() { S.SetValue(MagS.GetValue()); }
-        public void wei() { I.SetValue(MagS.GetValue()); I.DecodeInstruction(); }
-        public void il() { L.SetValue(L.GetValue()+1); }
-        public void wyl() { MagA.SetValue(L.GetValue()); }
-        public void wel() { L.SetValue(MagA.GetValue()); }
-        public void wyad() { MagA.SetValue(I.GetArgument()); }
-        public void wea() { A.SetValue(MagA.GetValue()); }
+        void czyt() { S.SetValue(PaO.GetValue(A.GetValue())); }
+        void pisz() { PaO.StoreValue(A.GetValue(), S.GetValue()); }
+        void wys() { MagS.SetValue(S.GetValue()); }
+        void wes() { S.SetValue(MagS.GetValue()); }
+        void wei() { I.SetValue(MagS.GetValue()); I.DecodeInstruction(); }
+        void il() { L.SetValue(L.GetValue()+1); }
+        void wyl() { MagA.SetValue(L.GetValue()); }
+        void wel() { L.SetValue(MagA.GetValue()); }
+        void wyad() { MagA.SetValue(I.GetArgument()); }
+        void wea() { A.SetValue(MagA.GetValue()); }
         
         // Architecture W+
-        public void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
-        public void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
+        void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
+        void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
 
         // Architecture L
-        public void wyx() { MagS.SetValue(X.GetValue()); }
-        public void wex() { X.SetValue(MagS.GetValue()); }
-        public void wyy() { MagS.SetValue(Y.GetValue()); }
-        public void wey() { Y.SetValue(MagS.GetValue()); }
-        public void wyws() { MagA.SetValue(WS.GetValue()); }
-        public void wews() { WS.SetValue(MagA.GetValue()); }
-        public void iws() { WS.SetValue(WS.GetValue()+1); }
-        public void dws() { WS.SetValue(WS.GetValue()-1); }
+        void wyx() { MagS.SetValue(X.GetValue()); }
+        void wex() { X.SetValue(MagS.GetValue()); }
+        void wyy() { MagS.SetValue(Y.GetValue()); }
+        void wey() { Y.SetValue(MagS.GetValue()); }
+        void wyws() { MagA.SetValue(WS.GetValue()); }
+        void wews() { WS.SetValue(MagA.GetValue()); }
+        void iws() { WS.SetValue(WS.GetValue()+1); }
+        void dws() { WS.SetValue(WS.GetValue()-1); }
 
         // Architecture EW
 
-        public void wyls() { MagS.SetValue(L.GetValue()); }
-        public void wyrb() { MagS.SetValue(RB.GetValue()); }
-        public void werb() { RB.SetValue(MagS.GetValue()); }
-        public void wyg() { MagS.SetValue(G.GetValue()); }
-        public void start() { IOController.HandleIOOnStartSignal(I.GetArgument()); } 
-        public void wyrm() { MagA.SetValue(RM.GetValue()); }
-        public void werm() { RM.SetValue(MagA.GetValue()); }
-        public void wyap() { MagA.SetValue(AP.GetValue()); }
-        public void rint() { IntController.ClearMSBOfAcceptedINTs(); }
-        public void eni()  { IntController.SetAcceptedAndINTVectorRegister(JAL); }
+        void wyls() { MagS.SetValue(L.GetValue()); }
+        void wyrb() { MagS.SetValue(RB.GetValue()); }
+        void werb() { RB.SetValue(MagS.GetValue()); }
+        void wyg() { MagS.SetValue(G.GetValue()); }
+        void start() { IOController.HandleIOOnStartSignal(I.GetArgument()); } 
+        void wyrm() { MagA.SetValue(RM.GetValue()); }
+        void werm() { RM.SetValue(MagA.GetValue()); }
+        void wyap() { MagA.SetValue(AP.GetValue()); }
+        void rint() { IntController.ClearMSBOfAcceptedINTs(); }
+        void eni()  { IntController.SetAcceptedAndINTVectorRegister(JAL); }
 
         // JAL
         // Architecture W
-        public void przep() { JAL.Nop(); }
-        public void dod() { JAL.Add(); }
-        public void ode() { JAL.Sub(); }
-        public void weak() { JAL.SetResultAndFlags(); }
-        public void weja() { JAL.SetOperandB(MagS.GetValue()); }
-        public void wyak() { MagS.SetValue(AK.GetValue()); }
+        void przep() { JAL.Nop(); }
+        void dod() { JAL.Add(); }
+        void ode() { JAL.Sub(); }
+        void weak() { JAL.SetResultAndFlags(); }
+        void weja() { JAL.SetOperandB(MagS.GetValue()); }
+        void wyak() { MagS.SetValue(AK.GetValue()); }
 
         // Architecture L
 
-        public void iak() { JAL.Inc(); }
-        public void dak() { JAL.Dec(); }
-        public void mno() { JAL.Mul(); }
-        public void dziel() { JAL.Div(); }
-        public void shr() { JAL.Shr(); }
-        public void neg() { JAL.Not(); }
-        public void lub() { JAL.Or(); }
-        public void i() { JAL.And(); }
+        void iak() { JAL.Inc(); }
+        void dak() { JAL.Dec(); }
+        void mno() { JAL.Mul(); }
+        void dziel() { JAL.Div(); }
+        void shr() { JAL.Shr(); }
+        void neg() { JAL.Not(); }
+        void lub() { JAL.Or(); }
+        void i() { JAL.And(); }
 
         public void InitialazeMicroinstructionsMap() {
             var AllPLSignalsMap = new Dictionary<string, Action> {
@@ -225,28 +225,24 @@ namespace MaszynaPi.MachineLogic {
             ActiveSignals = new List<string>(Defines.FETCH_SIGNALS);
         }
 
-        // Returns false if the instruction completion signal is hit (STATEMENT_END)
-        // Parameter "i" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
-        int ExecuteTick(int i = INSTRUCTION_FETCH_ORDER, bool manual = false) {
+        // if the instruction completion signal is hit (STATEMENT_END) returns -1
+        // Parameter "tick" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
+        int ExecuteTick(int tick = FETCH_CYCLE_TICK, bool manual = false) {
 
             if(USE_DEBUGGER)
                 SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
 
-            //if (i == INSTRUCTION_FETCH_ORDER) { // Not neccesary if? DecodeActiveSignals will fetch czyt;wys;wei;il whatsoever (param i)?
-            //    FetchInstruction(); // If tick called not from ExecuteInstructionCycle() method
-            //} else {
-            i = RzKDecoder.GetJumpIndex(tick: i);
+            tick = InstrDecoder.GetJumpIndex(tick);
 
             if(manual == false) {
-                ActiveSignals = RzKDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick: i);
-                bool eofInstruction = (i == RzKDecoder.GetNumberOfTicksInInstruction(I.GetOpcode()) - 1);
-                if (eofInstruction) i = ENDOF_INSTRUCTION; // Protection from manual tick execution
+                ActiveSignals = InstrDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick);
+                bool eofInstruction = (tick == InstrDecoder.GetNumberOfTicksInInstruction(I.GetOpcode()) - 1);
+                if (eofInstruction) tick = ENDOF_INSTRUCTION; // Protection from manual tick execution
             }
 
-            // [ TODO: Check if there is value to be stored in RB register from any IO device ]
             foreach (string signal in ActiveSignals) {
                 if (signal.Equals(Defines.SIGNAL_STATEMENT_END)) {
-                    i = ENDOF_INSTRUCTION;
+                    tick = ENDOF_INSTRUCTION;
                     break;
                 };
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
@@ -264,22 +260,20 @@ namespace MaszynaPi.MachineLogic {
             if (USE_DEBUGGER)
                 SetExecutedMicroinstructions(); //select currently executed microinstructions in list of instructions (DEBUGGER)
             
-            return i;
+            return tick;
         }
 
-        //TODO: Add parameter that specifies if last tick was forced by user and substract LastTick from ticksNum
         void ExecuteInstructionCycle(bool wasForcedTick=false) {
-            int uInstructionBlock = INSTRUCTION_FETCH_ORDER;
+            int uInstructionBlock = FETCH_CYCLE_TICK;
 
             FetchInstruction();
             ExecuteTick();
             uInstructionBlock++;
 
             uint opcode = I.GetOpcode();
-            int requiredTicks = RzKDecoder.GetNumberOfTicksInInstruction(opcode);
+            int requiredTicks = InstrDecoder.GetNumberOfTicksInInstruction(opcode);
 
             if (wasForcedTick && LastTick>0) requiredTicks = requiredTicks - LastTick;
-            // here if instruction microdoce is broken, machine can enter infinite loop -> can add "watchdog" that stops programm after X non-break iterations
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i);
                 LastTick = i;

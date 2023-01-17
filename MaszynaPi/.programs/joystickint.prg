@@ -1,39 +1,31 @@
 JMP main
-JMP down
-JMP up
-JMP right
-JMP left
+JMP down  // INT 1
+JMP up    // INT 2
+JMP right // INT 3
+JMP left  // INT 4
 
-left:
-LOAD l
+left: LOAD l
 JMP print
 
-right:
-LOAD r
+right: LOAD r
 JMP print
 
-up:
-LOAD u
+up: LOAD u
 JMP print
 
-down:
-LOAD d
+down: LOAD d
 JMP print
 
-print:
-ADD white
-IOWR 6
-JMP main
+print: ADD red  // set color bits to 0b100 (red)
+IOWR 6          // write accumulator value to matrix
 
-main:
-nop
+main: nop
 jmp main
-
 
 u: DEF 'u'
 d: DEF 'd'
 l: DEF 'l'
 r: DEF 'r'
-white: DEF 1024
+red: DEF 1024
 
 

@@ -42,7 +42,7 @@ namespace MaszynaPi.MachineAssembler {
         // To be called after compilation
         public void FillMemoryLineNumberMap() {
             ClearMemoryEditorMap();
-            foreach (var pair in Compiler.GetMemoryEditorMap())
+            foreach (var pair in Assembler.GetMemoryEditorMap())
                 MemoryLineNumberMap.Add(pair.Key, FindLineNumber(pair.Key, pair.Value));
         }
 
@@ -75,7 +75,7 @@ namespace MaszynaPi.MachineAssembler {
             //if (lineEnd < 0) lineEnd = GetCodeLength();
             if (position < 0) return;
 
-            OnSetExecutedLine(position, Compiler.GetMemoryEditorMap()[memAddress]);
+            OnSetExecutedLine(position, Assembler.GetMemoryEditorMap()[memAddress]);
         }
 
 

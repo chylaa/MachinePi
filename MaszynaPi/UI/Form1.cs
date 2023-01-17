@@ -307,7 +307,7 @@ namespace MaszynaPi {
                     return;
                 }
                 if (codeEditor.IsProgram()) {
-                    List<uint> code = Compiler.CompileCode(codeEditor.FormatCodeForCompiler());
+                    List<uint> code = Assembler.CompileCode(codeEditor.FormatCodeForCompiler());
                     Debugger.FillMemoryLineNumberMap();
                     Machine.SetMemoryContent(code);
                     Machine.ResetRegisters();
@@ -351,7 +351,7 @@ namespace MaszynaPi {
         }
 
         private void otwórzToolStripMenuItem_Click(object sender, EventArgs e) {
-            string prg = Compiler.PROGRAM_FILE_EXTENSION;
+            string prg = Assembler.PROGRAM_FILE_EXTENSION;
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
             string filepath = "";
             string fileContent = "";
@@ -401,7 +401,7 @@ namespace MaszynaPi {
                 FilesHandler.OverwriteOrCreateFile(codeEditor.GetCodeLinesCopy(), LastUsedFilepath);
                 return;
             }
-            string prg = Compiler.PROGRAM_FILE_EXTENSION;
+            string prg = Assembler.PROGRAM_FILE_EXTENSION;
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
             string filepath = "";
             string filter = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
