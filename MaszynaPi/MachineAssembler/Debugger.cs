@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using MaszynaPi.FilesHandling;
 
 namespace MaszynaPi.MachineAssembler {
-   public class Debugger {
+    public class Debugger {
 
         // Dictionary of pairs memory_address - number of code line in editor 
         static Dictionary<uint, int> MemoryLineNumberMap = new Dictionary<uint, int>();

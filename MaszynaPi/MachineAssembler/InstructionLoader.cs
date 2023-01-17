@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using MaszynaPi.MachineLogic;
 using System.Text.RegularExpressions;
-using MaszynaPi.FilesHandling;
 
 namespace MaszynaPi.MachineAssembler {
     class InstructionLoaderException : Exception { public InstructionLoaderException(string message) : base(message) { } }

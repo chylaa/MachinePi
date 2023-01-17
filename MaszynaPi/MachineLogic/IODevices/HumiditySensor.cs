@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MaszynaPi.MachineLogic.Architecture;
+﻿using MaszynaPi.MachineLogic.Architecture;
 using MaszynaPi.SenseHatHandlers;
 
 namespace MaszynaPi.MachineLogic.IODevices {

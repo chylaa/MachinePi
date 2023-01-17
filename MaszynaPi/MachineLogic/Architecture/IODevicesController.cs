@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MaszynaPi.MachineLogic.IODevices;
-using MaszynaPi.CommonOperations;
 namespace MaszynaPi.MachineLogic.Architecture {
     class IODevicesController {
         private readonly Dictionary<uint, IODevice> IODevices;

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using MaszynaPi.MachineLogic;
-using MaszynaPi.MachineAssembler;
 using MaszynaPi.CommonOperations;
 using System.Text.RegularExpressions;
 
 namespace MaszynaPi.MachineAssembler {
-    
+
     class CompilerException : Exception { public CompilerException(string message) : base(message) { } }
 
     /* Class responsible for compilation - 

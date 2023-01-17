@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MaszynaPi.MachineLogic.Architecture;
 using MaszynaPi.MachineLogic.IODevices;
-using MaszynaPi.MachineAssembler;
 //using MaszynaPi.MachineLogic.Machines;
 
 namespace MaszynaPi.MachineLogic {
@@ -251,12 +247,6 @@ namespace MaszynaPi.MachineLogic {
             MagA.SetEmpty(); MagS.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
             RefreshValues();
             
-            ////===?| DEBUGGING
-            //string state = String.Format("| A:{0} | S:{1} | L:{2} | I:{3} | MagA:{4} | MagS:{5} | AK:{6} |", A.GetValue(), S.GetValue(), L.GetValue(), I.GetValue(), MagA.LoggerGet(), MagS.LoggerGet()); /// AK.GetValue()
-            //Logger.Logger.Div(NL: true);
-            //Logger.Logger.LogInfo(msg:state,NL:true);
-            //Logger.Logger.LogInfo(msg:string.Join(" ", ActiveSignals));
-            ////===?| DEBUGGING
             if (USE_DEBUGGER)
                 SetExecutedMicroinstructions(); //select currently executed microinstructions in list of instructions (DEBUGGER)
             

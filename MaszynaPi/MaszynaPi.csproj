@@ -245,14 +245,6 @@
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".images\SignalWireArrow.png" />
-    <None Include=".images\SignalWireArrowL.png" />
-    <None Include=".images\SignalWireArrowU.png" />
-    <None Include=".images\SignalWireD.png" />
-    <None Include=".images\SignalWireL.png" />
-    <None Include=".images\SignalWireR.png" />
-    <None Include=".images\SignalWireU.png" />
-    <None Include=".images\SignalWireArrowD.png" />
     <None Include=".instructions\Base.lst" />
     <Content Include=".instructions\Podstawa.lst" />
     <Content Include=".instructions\Przerwania.lst" />
@@ -261,7 +253,6 @@
     <Content Include="SenseHatHandlers\Scripts\JoystickHandler.py" />
     <Content Include="SenseHatHandlers\Scripts\MatrixHandler.py" />
     <Content Include="SenseHatHandlers\Scripts\SensorsHandler.py" />
-    <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\System.Runtime.WindowsRuntime.4.6.0\build\net461\System.Runtime.WindowsRuntime.targets" Condition="Exists('packages\System.Runtime.WindowsRuntime.4.6.0\build\net461\System.Runtime.WindowsRuntime.targets')" />

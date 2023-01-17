@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MaszynaPi {
     static class Program {
         /// <summary>
-        /// Główny punkt wejścia dla aplikacji.
+        /// Main entry.
         /// </summary>
         [STAThread]
         static void Main() {
