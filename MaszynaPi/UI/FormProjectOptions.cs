@@ -209,8 +209,8 @@ namespace MaszynaPi {
             //if(Environment.OSVersion.Platform == PlatformID.Unix) {path = path.Replace("\\", "/");
             //} else { path = path.Replace("/", "\\"); }
             if (File.Exists(path)) return path;
-            path = Path.GetFullPath(path);
-            if (File.Exists(path)) return path;
+            //path = Path.GetFullPath(path);
+            //if (File.Exists(path)) return path;
             return "Cannot find file. Provide new path.";
         }
 

@@ -29,6 +29,6 @@ namespace MaszynaPi.MachineLogic.IODevices {
             PushChar();
         }
 
-        
+
     }
 }

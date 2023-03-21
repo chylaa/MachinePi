@@ -1,8 +1,0 @@
-// DOD w wersji przerywalnej
-ROZKAZ DOD;
-czyt wys wei il;
-wyad wea eni JE¯ELI int TO @przerwanie GDY NIE @koñcz;
-@koñcz czyt wys weja dod weak wyl wea KONIEC;
-@przerwanie czyt wys weja dod weak dws;
-wyls wes wyws wea;
-pisz wyap wel wea rint;

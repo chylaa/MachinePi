@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-  <Transactions>
-    <Transaction>2020.05.07 12:57:49.934,=C:\Users\Robert\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
-    <Transaction>2020.05.07 12:58:36.536,C:\Projekty\Maszyna.W\Testy\SyntaxMemo\MainUnit.pas=C:\Users\Robert\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
-    <Transaction>2020.05.07 12:58:36.536,C:\Projekty\Maszyna.W\Testy\SyntaxMemo\MainUnit.dfm=C:\Users\Robert\Documents\Embarcadero\Studio\Projects\Unit3.dfm</Transaction>
-    <Transaction>2020.05.07 12:58:45.446,C:\Projekty\Maszyna.W\Testy\SyntaxMemo\SyntexMemoTest.dproj=C:\Users\Robert\Documents\Embarcadero\Studio\Projects\Project3.dproj</Transaction>
-  </Transactions>
-</BorlandProject>

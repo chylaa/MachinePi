@@ -1,3 +1,0 @@
-jak ju¿ dojdzie do przerwania to ¿adne inne przerwanie nie ma prawa w tym 
-momencie siê wykonaæ do póki nie skoñczy siê aktualne. nale¿y zamaskowaæ 
-pozosta³e przerwania.

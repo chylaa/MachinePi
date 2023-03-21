@@ -1,8 +1,0 @@
-// wyprowadŸ znak na urz¹dzenie zewnêtrzne
-ROZKAZ WYP;
-czyt wys wei il;
-wyak weja werb start;
-wyak wes weja ode weak;
-@czeka wyg weja ode weak je¿eli z to @gotowe gdy nie @czeka;
-@gotowe wys weja przep weak wyl wea;
-

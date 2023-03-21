@@ -1,7 +1,0 @@
-// wczytaj znak z urz¹dzenia zewnêtrznego
-ROZKAZ WPR;
-czyt wys wei il;
-wyak weja ode weak start;
-@czekaj wyrb weja ode weak JE¯ELI Z TO @gotowe GDY NIE @czekaj;
-@gotowe wyrb weja przep weak wyl wea;
-
