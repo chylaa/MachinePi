@@ -26,7 +26,7 @@ namespace MaszynaPi {
         /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
          *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
          *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
-        CodeEditor codeEditor;
+        readonly CodeEditor codeEditor;
         ControlUnit Machine;
         Debugger Debugger;
 
@@ -266,7 +266,6 @@ namespace MaszynaPi {
                 MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""),"Tick Error");
             }
         }
-
 
         private void clearOutputConsoleToolStripMenuItem_Click(object sender, EventArgs e) {
             UserControlCharacterOutput.Reset();

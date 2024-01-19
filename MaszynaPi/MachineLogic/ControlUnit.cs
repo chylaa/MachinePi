@@ -8,15 +8,10 @@ namespace MaszynaPi.MachineLogic {
 
     public class CentralUnitException : Exception { public CentralUnitException(string message) : base(message) { } }
 
-    /*
-    Computer's central processing unit (CPU) that directs the operation of the processor.
-    A CU typically uses a binary decoder to convert coded instructions into timing and control signals 
-    that direct the operation of the other units (memory, arithmetic logic unit and input and output devices, etc.).
-
-     The Instruction Decoder is a CPU component that decodes and interprets the contents of the Instruction Register,
-     i.e. its splits whole instruction into fields for the Control Unit to interpret. 
-     The Instruction decoder is often considered to be a part of the Control Unit.
-    */
+    /// <summary> 
+    // create ControlUnit class summary string
+    // Class responsible for executing instructions and managing internal components of the machine.
+    /// </summary>
     public class ControlUnit {
         const int ENDOF_INSTRUCTION = -1;      // Value for tick order tracking variables indicating that all ticks of a single instruction have been executed
         const int FETCH_CYCLE_TICK = 0; // In which Tick number in single instruction, Instruction Fetch must be performed

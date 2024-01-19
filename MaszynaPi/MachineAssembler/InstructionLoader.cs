@@ -6,9 +6,16 @@ using MaszynaPi.MachineLogic;
 using System.Text.RegularExpressions;
 
 namespace MaszynaPi.MachineAssembler {
+
+    /// <summary>
+    /// Generic <see cref="Exception"/> overload, for throwing errors related to <see cref="InstructionLoader"/> class.
+    /// </summary>
     class InstructionLoaderException : Exception { public InstructionLoaderException(string message) : base(message) { } }
 
-
+    /// <summary>
+    /// Class providing methods for parsing Instruction files, written in .ini-like format.
+    /// Syntax of instruction set files was preserved to assure backward compability with previous simulator application.
+    /// </summary>
     static class InstructionLoader {
         public const string INSTRUCTION_FILE_EXTENSION = ".rzk";
         public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
@@ -89,7 +96,7 @@ namespace MaszynaPi.MachineAssembler {
         public static List<string> GetZeroArgInstructions() { return ZeroArgInstructions; }
 
         //===========================================================================================================================================
-        private static void SetOptions(List<string> options) { //TODO wrzucić do osobnej funkcji z parametrem addrSpace/codeBits żeby nie powtarzać 2x kodu 
+        private static void SetOptions(List<string> options) { 
             bool asParse = int.TryParse(options.Find(el => el.Contains(ADDRESS_SPACE_HEADER)).Replace(ADDRESS_SPACE_HEADER, ""), out int addrSpace);
             bool cbParse = int.TryParse(options.Find(el => el.Contains(CODE_BITS_HEADER)).Replace(CODE_BITS_HEADER, ""), out int codeBits);
             if (!asParse) throw new InstructionLoaderException("Invalid value in "+OPTIONS_HEADER+" "+ADDRESS_SPACE_HEADER+". Must be numeric.");
@@ -120,8 +127,8 @@ namespace MaszynaPi.MachineAssembler {
         // Returns true if foud only in valid order statments sequences => none || if [arg] then @label else @label || if [arg] then @label
         private static bool IsStatementValid(List<string> sigline) {
             var sigcopy = new List<string>(sigline);
-            if (sigcopy[0].StartsWith(Defines.SIGNAL_LABEL)) sigcopy.RemoveAt(0);
-            if (sigcopy.All(sig => false==sig.Contains(Defines.SIGNAL_LABEL))) return true;
+            if (sigcopy[0].StartsWith(Defines.SIGNAL_LABEL_PREFIX)) sigcopy.RemoveAt(0);
+            if (sigcopy.All(sig => false==sig.Contains(Defines.SIGNAL_LABEL_PREFIX))) return true;
 
             string line = string.Join(" ",sigcopy);
             string ifRegex = "^[a-z ]*"+Defines.SIGNAL_STATEMENT_IF+" [a-z]+ "+Defines.SIGNAL_STATEMENT_THEN+" @[a-z]+$";

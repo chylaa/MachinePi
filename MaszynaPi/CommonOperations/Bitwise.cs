@@ -2,29 +2,13 @@
 using MaszynaPi.MachineLogic;
 
 namespace MaszynaPi.CommonOperations {
+    /// <summary> Static class providing methods for base bitwise calculations. </summary>
     public static class Bitwise {
-
-        public static bool IsBitSet(int b, int bitNumber) {
-            return (((b >> bitNumber) & 1) != 0);
-        }
-
-        public static uint NegateBits(int value) {
-            return ~(uint)value;
-        }
-
-        public static int SetBit(int value, int bit) {
-            return (value |= bit);
-        }
-        public static int ResetBit(int value, int bit) {
-            return value &= ~(bit);
-        }
 
         // Returns min amout of bits that are required to represent number as binary
         public static int GetBitsAmount(int number) {
             return (int)Math.Log(number, 2) + 1;
         }
-
-
 
         public static bool IsSignBitSet(uint value, uint numberBitsize) {
             if ((int)value >> (int)(numberBitsize - 1) == 1) return true;

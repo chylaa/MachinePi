@@ -2,7 +2,7 @@
 
 namespace MaszynaPi {
     public partial class ArchitectureRadioButton : RadioButton {
-        public Defines.Architectures Architecture { get; set; }
+        public Defines.Architecture Architecture { get; set; }
 
         public ArchitectureRadioButton(){
             InitializeComponent();

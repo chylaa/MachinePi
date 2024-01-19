@@ -2,7 +2,12 @@
 using System.IO;
 
 namespace MaszynaPi.Logger {
+
+    /// <summary>
+    /// Custom logging class, created for development purposes, currently not used. All fields and methods are commented due to projects' finalization. 
+    /// </summary>
     static public class Logger {
+        /*
         static readonly string WorkingDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
         static readonly string LogFolderName = "logs";
         static readonly string LogFileName = "log" + DateTime.Now.ToString("dd") + "_" + DateTime.Now.ToString("HH_mm_ss") + ".txt";
@@ -50,5 +55,6 @@ namespace MaszynaPi.Logger {
         public static void LogWarning(string msg, bool NL = false) {
             Log("[WARNING]: " + msg, NL);
         }
+        */
     }
 }

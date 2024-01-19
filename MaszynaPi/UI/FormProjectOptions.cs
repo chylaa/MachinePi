@@ -11,7 +11,7 @@ namespace MaszynaPi {
 
         private uint OldAddressSpace;
         private Defines.Components SelectedComponents;
-        private Defines.Architectures SelectedArchitecture;
+        private Defines.Architecture SelectedArchitecture;
 
         List<Control> textBoxesINTAddr;
         bool ONLY_PATHS;
@@ -184,11 +184,11 @@ namespace MaszynaPi {
 
         }
         private void InitializeChecksArchitectures() {
-            architectureRadioButtonW.Architecture = Defines.Architectures.MachineW;
-            architectureRadioButtonWp.Architecture = Defines.Architectures.MachineWp;
-            architectureRadioButtonL.Architecture = Defines.Architectures.MachineL;
-            architectureRadioButtonEW.Architecture = Defines.Architectures.MachineEW;
-            architectureRadioButtonPI.Architecture = Defines.Architectures.MachinePI;
+            architectureRadioButtonW.Architecture = Defines.Architecture.MachineW;
+            architectureRadioButtonWp.Architecture = Defines.Architecture.MachineWp;
+            architectureRadioButtonL.Architecture = Defines.Architecture.MachineL;
+            architectureRadioButtonEW.Architecture = Defines.Architecture.MachineEW;
+            architectureRadioButtonPI.Architecture = Defines.Architecture.MachinePI;
 
             foreach (object radioButton in groupBoxArchitectureType.Controls) {
                 if (typeof(ArchitectureRadioButton) == radioButton.GetType())
