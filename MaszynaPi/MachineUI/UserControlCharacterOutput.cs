@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace MaszynaPi.MachineUI {
     public partial class UserControlCharacterOutput : TextBox {
 
-        List<char> CharactersBuffer; // Handle to Central Unit's CharactersInput IO Device
+        List<char> CharactersBuffer; // Handle to Control Unit's CharactersInput IO Device
 
         public UserControlCharacterOutput() {
             InitializeComponent();

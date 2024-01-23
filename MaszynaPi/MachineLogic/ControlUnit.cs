@@ -2,60 +2,93 @@
 using System.Collections.Generic;
 using MaszynaPi.MachineLogic.Architecture;
 using MaszynaPi.MachineLogic.IODevices;
-//using MaszynaPi.MachineLogic.Machines;
 
 namespace MaszynaPi.MachineLogic {
 
-    public class CentralUnitException : Exception { public CentralUnitException(string message) : base(message) { } }
+    /// <summary>General custom <see cref="Exception"/> for signalizing errors related to <see cref="ControlUnit"/> data/control flow.</summary>
+    public class ControlUnitException : Exception { public ControlUnitException(string message) : base(message) { } }
 
     /// <summary> 
-    // create ControlUnit class summary string
-    // Class responsible for executing instructions and managing internal components of the machine.
+    /// Main monolith class, representing microcomputer's processing unit with its connections to other components such as memory or IO devices.
+    /// Contain set of internal <see cref="Register"/>, responsible for preserving state of machine between clock cycles.
+    /// Class allows to manage executing instructions by controlling internal components of the machine.<br></br>
+    /// <br></br>Note:<i> The abbreviations for component and signal names are partly abbreviations from Polish,
+    /// in homage to the original naming of the architecture parts of this microcomputer. The English expansion can be found in the comments.</i> 
     /// </summary>
     public class ControlUnit {
-        const int ENDOF_INSTRUCTION = -1;      // Value for tick order tracking variables indicating that all ticks of a single instruction have been executed
-        const int FETCH_CYCLE_TICK = 0; // In which Tick number in single instruction, Instruction Fetch must be performed
+        /// <summary>Value for in-instruction tick tracking variables indicating that all cycles of a single instruction have been executed.</summary>
+        const int ENDOF_INSTRUCTION = -1;
+        /// <summary>In which cycle of single instruction, Fetch must be performed.</summary>
+        const int FETCH_CYCLE_TICK = 0; // 
 
-        // Always initialized when creating CentralUnit child class
+        /// <summary> Initialized in <see cref="InitialazeMicroinstructionsMap"/> mapping of singnals names to related <see cref="ControlUnit"/> void methods.</summary>
         Dictionary<string, Action> SignalsMap;
-        
-        //Currently (in tick) executed microinstructions [Maybe for Central Unit View of signals]
+
+        /// <summary>List of signals active in current clock cycle.</summary>
         List<string> ActiveSignals;
 
+        /// <summary> Flag indicating whenever <see cref="MachineAssembler.Debugger"/> class should be carring UI machine state preview.</summary>
         private bool USE_DEBUGGER = true;
 
+        /// <summary> Keeps track current cycle of single instruction execution. </summary> 
         private int LastTick = -1;
-        // Others internal Components
-        private InstructionDecoder InstrDecoder;
-        private InterruptionController IntController;
-        private IODevicesController IOController;
-        // Components visible in architecture view
-        public Memory PaO { get; private set; } // Operation Memory ("FLash"?)
-        public Bus MagA { get; private set; } // Address BUS
-        public Bus MagS { get; private set; } // Data BUS
-        public ArithmeticLogicUnit JAL { get; private set; } // Arithmetic Logic Unit
-        public Register A { get; private set; }  // Address Register
-        public Register S {get; private set; } // Value Register
-        public Register AK { get; private set; }  // Accumulator
-        public Register L { get; private set; }   //Instruction Pointer
-        public InstructionRegister I { get; private set; }   // Instruction Register
-        public Register X { get; private set; } // Additional Register X
-        public Register Y { get; private set; } // Additional Register Y
-        public Register WS { get; private set; } // Stack register
-        public Register RB { get; private set; } // IO Devices Communication Register (Buffer)
-        public Register G { get; private set; } // 1 bit IO Device Ready Register 
-        public Register RZ { get; private set; } // 4 bit Interrupt Report Register
-        public Register RM { get; private set; } // 4 bit Mask Register
-        public Register RP { get; private set; } // 4 bit Register of Accepted Interrupts 
-        public Register AP { get; private set; } // (CodeBits) Interrupt Vector Register
+        
+        
+        /// <summary>Decoder providing methods to determine next machine state base on instructions from <see cref="Memory"/>.</summary>
+        private readonly InstructionDecoder InstrDecoder;
+        /// <summary> Interruptions controller, providing methods to determine next machine state base on various interrupts sources. </summary>
+        private readonly InterruptionController IntController;
+        /// <summary> Controller providing methods for controlling state of input/output devices (except <see cref="Memory"/>) connected to machine.</summary>
+        private readonly IODevicesController IOController;
 
-        // IO's
-        CharacterInput TextInput;
-        CharacterOutput TextOutput;
-        TemperatureSensor TemperatureInput;
-        HumiditySensor HumidityInput;
-        PressureSensor PressureInput;
-        MatrixLED MatrixOutput;
+        #region Components visible in architecture view
+        /// <summary> Operational Code and Data Memory </summary>
+        public Memory PaO { get; private set; }
+        /// <summary>Address Bus</summary>
+        public Bus MagA { get; private set; }
+        /// <summary>Data Bus</summary>
+        public Bus MagS { get; private set; }
+        /// <summary>Machine's Arithmetic Logic Unit</summary>
+        public ArithmeticLogicUnit JAL { get; private set; }
+        /// <summary>Address Register - allows to address <see cref="PaO"/> access.</summary>
+        public Register A { get; private set; } 
+        /// <summary>Value Register - output for <see cref="PaO"/> values.</summary>
+        public Register S {get; private set; }
+        /// <summary>Accumulator - output register of <see cref="JAL"/></summary>
+        public Register AK { get; private set; } 
+        /// <summary>Instruction pointer register. Stores address of next instruction.</summary>
+        public Register L { get; private set; }   //Instruction Pointer
+        /// <summary>Current Instruction register.</summary>
+        public InstructionRegister I { get; private set; }  
+        /// <summary>Additional general-purpose register X</summary>
+        public Register X { get; private set; }
+        /// <summary>Additional general-purpose register Y</summary>
+        public Register Y { get; private set; }
+        /// <summary>Stack register - point to top of the stack.</summary>
+        public Register WS { get; private set; }
+        /// <summary>Buffer for communication with IO Devices.</summary>
+        public Register RB { get; private set; }
+        /// <summary>1 bit IO Device Ready register.</summary>
+        public Register G { get; private set; }
+        /// <summary>4 bit Interruption Report register.</summary>
+        public Register RZ { get; private set; }
+        /// <summary>4 bit Interruption Mask register.</summary>
+        public Register RM { get; private set; }
+        /// <summary>4 bit register storing info about accepted Interrupt.</summary>
+        public Register RP { get; private set; }
+        /// <summary>Interrupt Vector register.</summary>
+        public Register AP { get; private set; }
+
+        #endregion
+
+        #region IO's
+        readonly CharacterInput TextInput;
+        readonly CharacterOutput TextOutput;
+        readonly TemperatureSensor TemperatureInput;
+        readonly HumiditySensor HumidityInput;
+        readonly PressureSensor PressureInput;
+        readonly MatrixLED MatrixOutput;
+        #endregion
 
         public ControlUnit() {
             InstrDecoder = new InstructionDecoder();
@@ -116,8 +149,8 @@ namespace MaszynaPi.MachineLogic {
         void wea() { A.SetValue(MagA.GetValue()); }
         
         // Architecture W+
-        void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
-        void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CentralUnitException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
+        void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new ControlUnitException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
+        void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new ControlUnitException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
 
         // Architecture L
         void wyx() { MagS.SetValue(X.GetValue()); }
@@ -223,7 +256,7 @@ namespace MaszynaPi.MachineLogic {
             if(USE_DEBUGGER)
                 SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
 
-            tick = InstrDecoder.GetJumpIndex(tick);
+            tick = InstrDecoder.GetNextSignalsIndex(tick);
 
             if(manual == false) {
                 ActiveSignals = InstrDecoder.DecodeActiveSignals(instructionOpcode: I.GetOpcode(), tick);
@@ -281,11 +314,11 @@ namespace MaszynaPi.MachineLogic {
             catch (BusException ex) {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                throw new CentralUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
+                throw new ControlUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
             catch (Exception ex) {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                throw new CentralUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
+                throw new ControlUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
 
         }
 

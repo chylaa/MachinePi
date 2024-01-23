@@ -12,23 +12,22 @@ using MaszynaPi.MachineAssembler.Editors;
 
 namespace MaszynaPi {
     public partial class Form1 : Form {
-        //==================================< External DLL Functions for SenseHat >=======================================================
-        //public const string SenseDLL = @"..\..\Debug\SenseHatController.dll";
-        //[DllImport(SenseDLL, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern int GetJoystickState();
-        //================================================================================================================================
+
         bool PaintActiveSignals;
         string LastUsedFilepath;
 
         List<object> MachineComponents;
         List<UserControlSignalWire> SignalWires;
 
-        /*Sterowanie ręczne maszyną -> każdy aktywowany sygnał dodaje jego nazwę do listy, która jest następnie sortowana i
-         *przekazywana do wykonania Maszynie (metoda ManualTick / Ustawianie "ActiveSignals") 
-         *(możliwe wykonanie tylko kroku "Takt" przy sterowaniu ręcznym)*/
+        /*
+         * Machine manual control -> each activated signal adds its name to a list, which is then sorted and
+         *transmitted to the machine for execution (ManualTick method / "ActiveSignals" setting). 
+         *(only "Cycle" step possible with manual control)
+         */
+
         readonly CodeEditor codeEditor;
-        ControlUnit Machine;
-        Debugger Debugger;
+        readonly ControlUnit Machine;
+        readonly Debugger Debugger;
 
         System.Threading.Thread BreakDetector;
         UI.BreakForm breakForm;
@@ -38,7 +37,7 @@ namespace MaszynaPi {
             //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
-                    + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
+                                + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
                 FormProjectOptions projectOptions = new FormProjectOptions(onlyPaths:true);
                 var dialogResult = projectOptions.ShowDialog();
                 if (dialogResult.Equals(DialogResult.OK) == false) {
@@ -163,10 +162,8 @@ namespace MaszynaPi {
         private void RefreshMicrocontrolerControls() {
             //RefreshControls(MicrocontrollerPanel);
             foreach (var instance in MachineComponents) {
-                System.Reflection.MethodInfo method = instance.GetType().GetMethod("Refresh");
-                if (method != null) {
-                    method.Invoke(instance, null);
-                }
+                System.Reflection.MethodInfo method = instance.GetType().GetMethod("Refresh"); // should just implement IRefreshable [Y/L]
+                method?.Invoke(instance, null);
             }
             var ActiveSignals = Machine.GetActiveSignals();
             if (ActiveSignals == null || PaintActiveSignals == false) return;
@@ -218,7 +215,7 @@ namespace MaszynaPi {
             return SortSignals(activeSignals);
         }
 
-        //=====================< Central Unit Manual Constrol >============================== 
+        //=====================< Control Unit Manual Control >============================== 
 
         private void EndOfProgram() {
             System.Media.SystemSounds.Exclamation.Play();
@@ -235,7 +232,7 @@ namespace MaszynaPi {
                 RefreshMicrocontrolerControls();
 
                 CancelBreakDetector();
-            } catch (CentralUnitException cEx) {
+            } catch (ControlUnitException cEx) {
                 CancelBreakDetector();
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
@@ -249,7 +246,7 @@ namespace MaszynaPi {
                 DisableManuallySetSignals();
                 Machine.ManualInstruction();
                 RefreshMicrocontrolerControls();
-            } catch (CentralUnitException cEx) {
+            } catch (ControlUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""), "Instruction Error");
@@ -260,7 +257,7 @@ namespace MaszynaPi {
             try {
                 List<string> signals = GetManualActiveSignals();
                 Machine.ManualTick(signals);
-            } catch (CentralUnitException cEx) {
+            } catch (ControlUnitException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""),"Tick Error");
@@ -327,13 +324,11 @@ namespace MaszynaPi {
         // Menu Bar things
         private void ładujListęRozkazówToolStripMenuItem_Click(object sender, EventArgs e) {
             string lst = InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION;
-            string filepath = "";
-            string lstFileContent = "";
             string filter = "instruction files (*" + lst + ")|*" + lst;
-            if (FilesHandler.PointFileAndGetText(filter, out filepath, out lstFileContent)) {
+            if (FilesHandler.PointFileAndGetText(filter, out string filepath, out string lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
-                    bool isEnoughSpace = InstructionLoader.LoadInstructionsFile(lstFileContent);
+                    bool isEnoughSpace = InstructionLoader.LoadInstructionsFromFileContent(lstFileContent);
                     Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();                                //  \/ Shouldn't happen if .lst file created properly \/
                     if (!isEnoughSpace) MessageBox.Show("instruction list has been added but will not be visible (too few code bits)", "Warning!");
@@ -348,18 +343,14 @@ namespace MaszynaPi {
         private void otwórzToolStripMenuItem_Click(object sender, EventArgs e) {
             string prg = Assembler.PROGRAM_FILE_EXTENSION;
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
-            string filepath = "";
-            string fileContent = "";
             string filer = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
 
-            if (FilesHandler.PointFileAndGetText(filer, out filepath, out fileContent)) {
+            if (FilesHandler.PointFileAndGetText(filer, out string filepath, out string fileContent)) {
                 UserControlCodeEditor.SetText(fileContent);
                 LastUsedFilepath = filepath;
             }
 
         }
-
-
 
         private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { UserControlCodeEditor.Paste(); }
 
@@ -398,10 +389,9 @@ namespace MaszynaPi {
             }
             string prg = Assembler.PROGRAM_FILE_EXTENSION;
             string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
-            string filepath = "";
             string filter = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
 
-            if (FilesHandler.PointToOvervriteFileOrCreateNew(filter, out filepath)) {
+            if (FilesHandler.PointToOvervriteFileOrCreateNew(filter, out string filepath)) {
                 LastUsedFilepath = filepath;
                 FilesHandler.OverwriteOrCreateFile(codeEditor.GetCodeLinesCopy(), LastUsedFilepath);
             }
@@ -450,11 +440,8 @@ namespace MaszynaPi {
             }
         }
         private void unsignedDecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Dec);}
-
         private void signedDecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Signed);}
-
         private void hexadecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Hex);}
-
         private void binaryToolStripMenuItem_Click(object sender, EventArgs e) { SetRegistersDisplayMode(RegisterMode.Bin); }
 
 
@@ -470,13 +457,11 @@ namespace MaszynaPi {
         bool GetBreakFlag() { return BREAK_FLAG; }
 
         void CancelBreakDetector() {
-            //breakForm.ForceClose();
             BreakDetector.Abort();
         }
 
         void CreateBreakButton() {
-            if (breakForm != null)
-                breakForm.Close();
+            breakForm?.Close();
             breakForm = new UI.BreakForm();
         }
 
@@ -492,17 +477,11 @@ namespace MaszynaPi {
             BreakDetector = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
             BreakDetector.Start();
             BringToFront();
-            //BreakDetector = new BackgroundWorker();
-            //BreakDetector.WorkerSupportsCancellation = true;
-            //BreakDetector.DoWork += ShowBreakForm;
-            //BreakDetector.RunWorkerCompleted += CloseBreakDetector;
-            //BreakDetector.RunWorkerAsync();
         }
 
         void CloseBreakDetector(object sender, RunWorkerCompletedEventArgs e) {
             breakForm.ForceClose();
-            if(breakForm != null)
-                breakForm.Close();
+            breakForm?.Close();
                 
         }
     }
