@@ -26,7 +26,7 @@ namespace MaszynaPi {
          */
 
         readonly CodeEditor codeEditor;
-        readonly ControlUnit Machine;
+        readonly CentralProcessingUnit Machine;
         readonly Debugger Debugger;
 
         System.Threading.Thread BreakDetector;
@@ -52,7 +52,7 @@ namespace MaszynaPi {
 
             codeEditor = new CodeEditor();
             Debugger = new Debugger();
-            Machine = new ControlUnit();
+            Machine = new CentralProcessingUnit();
 
             UserControlRegisterI.SetDisplayMode(mode: RegisterMode.Instruction);
             userControlFlags.FlagsValueRequest += Machine.GetALUFlags;
@@ -215,7 +215,7 @@ namespace MaszynaPi {
             return SortSignals(activeSignals);
         }
 
-        //=====================< Control Unit Manual Control >============================== 
+        //=====================< Central Unit Manual Control >============================== 
 
         private void EndOfProgram() {
             System.Media.SystemSounds.Exclamation.Play();
@@ -232,7 +232,7 @@ namespace MaszynaPi {
                 RefreshMicrocontrolerControls();
 
                 CancelBreakDetector();
-            } catch (ControlUnitException cEx) {
+            } catch (CPUException cEx) {
                 CancelBreakDetector();
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
@@ -246,7 +246,7 @@ namespace MaszynaPi {
                 DisableManuallySetSignals();
                 Machine.ManualInstruction();
                 RefreshMicrocontrolerControls();
-            } catch (ControlUnitException cEx) {
+            } catch (CPUException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""), "Instruction Error");
@@ -257,7 +257,7 @@ namespace MaszynaPi {
             try {
                 List<string> signals = GetManualActiveSignals();
                 Machine.ManualTick(signals);
-            } catch (ControlUnitException cEx) {
+            } catch (CPUException cEx) {
                 MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""),"Tick Error");

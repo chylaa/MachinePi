@@ -202,7 +202,7 @@
     <Compile Include="MachineAssembler\Editors\CodeEditor.cs" />
     <Compile Include="MachineAssembler\InstructionLoader.cs" />
     <Compile Include="Defines.cs" />
-    <Compile Include="MachineLogic\ControlUnit.cs" />
+    <Compile Include="MachineLogic\CentralProcessingUnit.cs" />
     <EmbeddedResource Include="MachineUI\UserControlSignalWire.resx">
       <DependentUpon>UserControlSignalWire.cs</DependentUpon>
     </EmbeddedResource>

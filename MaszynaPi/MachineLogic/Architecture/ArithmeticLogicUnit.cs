@@ -19,11 +19,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
     }
 
     /// <summary>
-    /// Class represent Control Unit's ALU. Allows to perform simple calculations using arithmetic/logic operations  
+    /// Class represent <see cref="CentralProcessingUnit"/>'s ALU. Allows to perform simple calculations using arithmetic/logic operations  
     /// between values of internal "registers" <see cref="OperandA"/> and <see cref="OperandB"/>. Results of those operations
     /// are always stored into <see cref="OperandA"/> and then passed into <see cref="AK"/> - an result <see cref="Register"/>,
     /// which value can be publicly accessed. <see cref="ArithmeticLogicUnit"/> class implements way to get information about 
-    /// last operation's result and Control Unit's state via internal <see cref="FlagRegister"/> containing info about 
+    /// last operation's result and CPU's state via internal <see cref="FlagRegister"/> containing info about 
     /// currnetly set <see cref="ALUFlags"/>.
     /// </summary>
     public class ArithmeticLogicUnit{
@@ -34,7 +34,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         /// <summary> ALU's operation result register. Values can be accessed only via this register.</summary>
         public Register AK; 
         
-        /// <summary>Internal Flag register, holding information about ALU's and Control Unit state.</summary>
+        /// <summary>Internal Flag register, holding information about ALU's and CPU's state.</summary>
         ALUFlags FlagRegister { get; set; }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace MaszynaPi.SenseHatHandlers {
         public static readonly string JOYSTICK_POS_PRESS = "middle";
         public readonly static Dictionary<string, int> JoystickPosIntMap = new Dictionary<string, int>(Defines.JOYSTICK_INTERRUPTS); //Position of joistick as string mapped to interruption number
 
-        static readonly string StartPythonCMD = "python3";
+        static readonly string StartPythonCMD = "python3"; // python3 must be added to system %PATH% variable!
 
         Process ReadProcess;
         string ReceivedData;

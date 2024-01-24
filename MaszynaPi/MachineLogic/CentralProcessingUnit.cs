@@ -5,8 +5,8 @@ using MaszynaPi.MachineLogic.IODevices;
 
 namespace MaszynaPi.MachineLogic {
 
-    /// <summary>General custom <see cref="Exception"/> for signalizing errors related to <see cref="ControlUnit"/> data/control flow.</summary>
-    public class ControlUnitException : Exception { public ControlUnitException(string message) : base(message) { } }
+    /// <summary>General custom <see cref="Exception"/> for signalizing errors related to <see cref="CentralProcessingUnit"/> data/control flow.</summary>
+    public class CPUException : Exception { public CPUException(string message) : base(message) { } }
 
     /// <summary> 
     /// Main monolith class, representing microcomputer's processing unit with its connections to other components such as memory or IO devices.
@@ -15,13 +15,13 @@ namespace MaszynaPi.MachineLogic {
     /// <br></br>Note:<i> The abbreviations for component and signal names are partly abbreviations from Polish,
     /// in homage to the original naming of the architecture parts of this microcomputer. The English expansion can be found in the comments.</i> 
     /// </summary>
-    public class ControlUnit {
+    public class CentralProcessingUnit {
         /// <summary>Value for in-instruction tick tracking variables indicating that all cycles of a single instruction have been executed.</summary>
         const int ENDOF_INSTRUCTION = -1;
         /// <summary>In which cycle of single instruction, Fetch must be performed.</summary>
         const int FETCH_CYCLE_TICK = 0; // 
 
-        /// <summary> Initialized in <see cref="InitialazeMicroinstructionsMap"/> mapping of singnals names to related <see cref="ControlUnit"/> void methods.</summary>
+        /// <summary> Initialized in <see cref="InitialazeMicroinstructionsMap"/> mapping of singnals names to related <see cref="CentralProcessingUnit"/> void methods.</summary>
         Dictionary<string, Action> SignalsMap;
 
         /// <summary>List of signals active in current clock cycle.</summary>
@@ -90,11 +90,19 @@ namespace MaszynaPi.MachineLogic {
         readonly MatrixLED MatrixOutput;
         #endregion
 
-        public ControlUnit() {
+        /// <summary>
+        /// Creates new CPU's instance, initialized with defined <see cref="ArchitectureSettings"/>
+        /// and microinstructions set, connected to selected <see cref="Defines.LangInUse"/>.
+        /// <br></br><br></br>
+        /// Note: <i>Updating simulator to support different <see cref="Defines.Architecture"/> during runtime,
+        /// requires internal section of bitsize-related values initializaiton to be relocated into separate function
+        /// (part of component's sizes depends on architecture)</i>.
+        /// </summary>
+        public CentralProcessingUnit() 
+        {
             InstrDecoder = new InstructionDecoder();
             InstrDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(InstrDecoder.StatementArg); });
             
-            ///! Whole section of bitsize defines must be relocated into separate function (some sizes depends on architecture)
             uint Aspace  = ArchitectureSettings.GetAddressSpace();
             uint Cbits   = ArchitectureSettings.GetCodeBits();
             uint Mword   = ArchitectureSettings.GetWordBits();
@@ -134,9 +142,11 @@ namespace MaszynaPi.MachineLogic {
             InitialazeMicroinstructionsMap();
         }
 
-        // ========================== <  Signals Methods > ========--=========================== // (Microinstructions)
+        #region < Signals/Microinstructions >
+
         void stop() { OnProgramEnd(); }
-        // Architecture W
+
+        #region Architecture W
         void czyt() { S.SetValue(PaO.GetValue(A.GetValue())); }
         void pisz() { PaO.StoreValue(A.GetValue(), S.GetValue()); }
         void wys() { MagS.SetValue(S.GetValue()); }
@@ -147,12 +157,14 @@ namespace MaszynaPi.MachineLogic {
         void wel() { L.SetValue(MagA.GetValue()); }
         void wyad() { MagA.SetValue(I.GetArgument()); }
         void wea() { A.SetValue(MagA.GetValue()); }
-        
-        // Architecture W+
-        void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new ControlUnitException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
-        void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new ControlUnitException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
+        #endregion
 
-        // Architecture L
+        #region Architecture W+
+        void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CPUException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
+        void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CPUException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
+        #endregion
+
+        #region Architecture L
         void wyx() { MagS.SetValue(X.GetValue()); }
         void wex() { X.SetValue(MagS.GetValue()); }
         void wyy() { MagS.SetValue(Y.GetValue()); }
@@ -161,8 +173,9 @@ namespace MaszynaPi.MachineLogic {
         void wews() { WS.SetValue(MagA.GetValue()); }
         void iws() { WS.SetValue(WS.GetValue()+1); }
         void dws() { WS.SetValue(WS.GetValue()-1); }
+        #endregion
 
-        // Architecture EW
+        #region Architecture EW
 
         void wyls() { MagS.SetValue(L.GetValue()); }
         void wyrb() { MagS.SetValue(RB.GetValue()); }
@@ -174,17 +187,20 @@ namespace MaszynaPi.MachineLogic {
         void wyap() { MagA.SetValue(AP.GetValue()); }
         void rint() { IntController.ClearMSBOfAcceptedINTs(); }
         void eni()  { IntController.SetAcceptedAndINTVectorRegister(JAL); }
+        #endregion
 
-        // JAL
-        // Architecture W
+        #region ALU's uOps
+
+        #region Architecture W
         void przep() { JAL.Nop(); }
         void dod() { JAL.Add(); }
         void ode() { JAL.Sub(); }
         void weak() { JAL.SetResultAndFlags(); }
         void weja() { JAL.SetOperandB(MagS.GetValue()); }
         void wyak() { MagS.SetValue(AK.GetValue()); }
+        #endregion
 
-        // Architecture L
+        #region Architecture L
 
         void iak() { JAL.Inc(); }
         void dak() { JAL.Dec(); }
@@ -194,7 +210,10 @@ namespace MaszynaPi.MachineLogic {
         void neg() { JAL.Not(); }
         void lub() { JAL.Or(); }
         void i() { JAL.And(); }
+        #endregion
 
+        #endregion
+        
         public void InitialazeMicroinstructionsMap() {
             var AllPLSignalsMap = new Dictionary<string, Action> {
                 {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
@@ -219,10 +238,10 @@ namespace MaszynaPi.MachineLogic {
                 SignalsMap = AllENGSignalsMap;
             }
         }
+        #endregion
 
-
-        // =========================< UI Related Actions > ================================== // 
-        // |Part which needs to be changed if another technology of UI creation is preffered|
+        // |Part which needs to be changed if another technology of UI creation is preffered| //
+        #region < UI Related Actions > 
         public Action<bool> SetPaintActiveSignals;
         public Action OnRefreshValues;
         public Action<uint> OnSetExecutedLine;
@@ -243,11 +262,11 @@ namespace MaszynaPi.MachineLogic {
             if (I.GetOpcode() == 0)
                 OnProgramEnd();
         }
+        #endregion
 
-        // ========================= <  Machine Cycle > =================================== //
-        void FetchInstruction() {
-            ActiveSignals = new List<string>(Defines.FETCH_SIGNALS);
-        }
+        #region < Machine Cycle > 
+        
+        void FetchInstruction() { ActiveSignals = new List<string>(Defines.FETCH_SIGNALS); }
 
         // if the instruction completion signal is hit (STATEMENT_END) returns -1
         // Parameter "tick" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
@@ -291,14 +310,17 @@ namespace MaszynaPi.MachineLogic {
             uint opcode = I.GetOpcode();
             int requiredTicks = InstrDecoder.GetNumberOfTicksInInstruction(opcode);
 
-            if (wasForcedTick && LastTick>0) requiredTicks = requiredTicks - LastTick;
+            if (wasForcedTick && LastTick > 0) 
+                requiredTicks -= LastTick;
+
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i);
                 LastTick = i;
-                if (i == ENDOF_INSTRUCTION) break;
+                if (i == ENDOF_INSTRUCTION) 
+                    break;
             }
         }
-        //========================================
+
         void ExecuteProgram() {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
             try {
@@ -314,16 +336,16 @@ namespace MaszynaPi.MachineLogic {
             catch (BusException ex) {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                throw new ControlUnitException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
+                throw new CPUException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
             catch (Exception ex) {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                throw new ControlUnitException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
+                throw new CPUException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
 
         }
+        #endregion
 
-
-        // ======================= <  User Interface Methods > ================================= //
+        #region < User Interface Methods >
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
         public void SetMemoryContent(List<uint> values, uint offset=0) { for (uint i = offset; i < values.Count; i++) PaO.StoreValue(i, values[(int)i]); }
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
@@ -373,7 +395,9 @@ namespace MaszynaPi.MachineLogic {
 
         public ALUFlags GetALUFlags() { return JAL.GetFlags(); }
 
-        // ========================= <  Properties Changed/Reset Methods  > =================================== //
+        #endregion
+
+        #region < Properties Changed/Reset Methods >
         public void ResetRegisters() {
             A.Reset();
             S.Reset();
@@ -393,15 +417,14 @@ namespace MaszynaPi.MachineLogic {
             AP.Reset();
 
             LastTick = -1;
-            if(ActiveSignals!=null)
-                ActiveSignals.Clear();
+            ActiveSignals?.Clear();
         }
 
         public void SetComponentsBitsizes() {
             uint Aspace = ArchitectureSettings.GetAddressSpace();
             uint Cbits = ArchitectureSettings.GetCodeBits();
             uint Mword = ArchitectureSettings.GetWordBits();
-            uint IOspace = ArchitectureSettings.GetAddressSpaceForIO();
+            //uint IOspace = ArchitectureSettings.GetAddressSpaceForIO();
             A.SetBitsize(Aspace);
             S.SetBitsize(Mword);
             L.SetBitsize(Aspace);
@@ -420,6 +443,7 @@ namespace MaszynaPi.MachineLogic {
             AP.SetBitsize(Cbits);
         }
 
+        #endregion
     }
 
 }

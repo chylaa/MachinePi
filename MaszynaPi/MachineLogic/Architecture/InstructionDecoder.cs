@@ -4,9 +4,9 @@ using System.Linq;
 using MaszynaPi.MachineAssembler;
 
 namespace MaszynaPi.MachineLogic.Architecture {
-    
+
     /// <summary>
-    /// Represents Control Unit's component responsible for decoding instructions into 
+    /// Represents <see cref="CentralProcessingUnit"/>'s component responsible for decoding instructions into 
     /// set of their underlaing microinstructions (uOperations). 
     /// </summary>
     class InstructionDecoder 
@@ -28,16 +28,16 @@ namespace MaszynaPi.MachineLogic.Architecture {
  
         /// <summary>
         /// Searches for jump label in <paramref name="signals"/> that should be next destination within single instruction's one-clock-cycle uOps signals definition.
-        /// <paramref name="signals"/> list must contain valid conditional statement with label, otherwise <see cref="ControlUnitException"/> is thrown.
+        /// <paramref name="signals"/> list must contain valid conditional statement with label, otherwise <see cref="CPUException"/> is thrown.
         /// </summary>
         /// <param name="conditionalStatementResult">Calculated result of uOp contitional statement.</param>
         /// <param name="signals">List of signals acive in current clock cycle.</param>
         /// <returns>String with found destination label or <see cref="string.Empty"/> if label was not found.</returns>
-        /// <exception cref="ControlUnitException"></exception>
+        /// <exception cref="CPUException"></exception>
         private string GetStatementJumpLabel(bool conditionalStatementResult, List<string> signals) {
             if (conditionalStatementResult) {
                 int argPos = signals.IndexOf(Defines.SIGNAL_STATEMENT_THEN) + 1;
-                if (argPos == 0 || argPos >= signals.Count) throw new ControlUnitException("No statement jump label in line " + string.Join(" ", signals));
+                if (argPos == 0 || argPos >= signals.Count) throw new CPUException("No statement jump label in line " + string.Join(" ", signals));
                 return signals[argPos];
             } else {
                 int elsePos = signals.IndexOf(Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[1]);

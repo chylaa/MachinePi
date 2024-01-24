@@ -4,10 +4,10 @@
     <Position X="2.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MachineLogic\ControlUnit.cs</FileName>
+      <FileName>MachineLogic\CentralProcesingUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MaszynaPi.MachineLogic.ControlUnit">
+  <Class Name="MaszynaPi.MachineLogic.CentralProcesingUnit">
     <Position X="2.75" Y="1.5" Width="3.5" />
     <Members>
       <Method Name="_as" Hidden="true" />
@@ -18,7 +18,7 @@
       <Property Name="AP" Hidden="true" />
       <Method Name="ChangeMemorySize" Hidden="true" />
       <Field Name="CheckProgramBreak" Hidden="true" />
-      <Method Name="ControlUnit" Hidden="true" />
+      <Method Name="CentralProcesingUnit" Hidden="true" />
       <Method Name="czyt" Hidden="true" />
       <Method Name="dak" Hidden="true" />
       <Method Name="DisableDebugger" Hidden="true" />
@@ -121,7 +121,7 @@
     </Members>
     <TypeIdentifier>
       <HashCode>oZBhIOMPAKAiQoChDmCogAAooB1hUKBou2wN6uThcWg=</HashCode>
-      <FileName>MachineLogic\ControlUnit.cs</FileName>
+      <FileName>MachineLogic\CentralProcesingUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit">

@@ -33,25 +33,25 @@ namespace MaszynaPi.MachineLogic {
 
         /// <summary>
         /// Allows to set address space size in instructions (and therefore adress space for machine). <br></br>
-        /// Throws <see cref="ControlUnitException"/> if passed value [<see cref="Defines.ADDRESS_BITS_MIN"/>;<see cref="Defines.ADDRESS_BITS_MAX"/>] range.
+        /// Throws <see cref="CPUException"/> if passed value [<see cref="Defines.ADDRESS_BITS_MIN"/>;<see cref="Defines.ADDRESS_BITS_MAX"/>] range.
         /// </summary>
         /// <param name="newAddressSpace">New address size in bits.</param>
-        /// <exception cref="ControlUnitException"></exception>
+        /// <exception cref="CPUException"></exception>
         public static void SetAddressSpace(uint newAddressSpace) {
             if (newAddressSpace > Defines.ADDRESS_BITS_MAX || newAddressSpace < Defines.ADDRESS_BITS_MIN)
-                throw new ControlUnitException("Invalid addresss bits size: " + newAddressSpace.ToString());
+                throw new CPUException("Invalid addresss bits size: " + newAddressSpace.ToString());
             AddressSpace = newAddressSpace;
         }
 
         /// <summary>
         /// Allows to set instruction's opcode size. <br></br>
-        /// Throws <see cref="ControlUnitException"/> if passed value not in [<see cref="Defines.CODE_BITS_MIN"/>;<see cref="Defines.CODE_BITS_MAX"/>] range.
+        /// Throws <see cref="CPUException"/> if passed value not in [<see cref="Defines.CODE_BITS_MIN"/>;<see cref="Defines.CODE_BITS_MAX"/>] range.
         /// </summary>
         /// <param name="newCodeBits"></param>
-        /// <exception cref="ControlUnitException"></exception>
+        /// <exception cref="CPUException"></exception>
         public static void SetCodeBits(uint newCodeBits) {
             if (newCodeBits > Defines.CODE_BITS_MAX || newCodeBits < Defines.CODE_BITS_MIN)
-                throw new ControlUnitException("Invalid code bits size: " + newCodeBits.ToString());
+                throw new CPUException("Invalid code bits size: " + newCodeBits.ToString());
             CodeBits = newCodeBits;
         }
 

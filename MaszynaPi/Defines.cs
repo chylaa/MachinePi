@@ -31,9 +31,9 @@ namespace MaszynaPi {
         /// <summary> Default value of <see cref="MachineLogic.Architecture.Register.Value"/> field inside <see cref="MachineLogic.Architecture.ArithmeticLogicUnit.AK"/> register.</summary>
         public const uint DEFAULT_ALU_VAL = 0;
 
-        /// <summary> Hardcoded size (in bits) of <see cref="MachineLogic.ControlUnit.RB"/> register.</summary>
+        /// <summary> Hardcoded size (in bits) of <see cref="MachineLogic.CentralProcessingUnit.RB"/> register.</summary>
         public const uint RB_REG_BIT_SIZE = 8;
-        /// <summary> Hardcoded size (in bits) of <see cref="MachineLogic.ControlUnit.G"/> register.</summary>
+        /// <summary> Hardcoded size (in bits) of <see cref="MachineLogic.CentralProcessingUnit.G"/> register.</summary>
         public const uint G_REG_BIT_SIZE = 1;
 
         /// <summary>Number of IO devices wihout <see cref="Components.ExtendedIO"/> mode enabled.</summary>

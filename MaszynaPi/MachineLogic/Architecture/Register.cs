@@ -33,7 +33,7 @@ namespace MaszynaPi.MachineLogic.Architecture
         public uint GetValue() { return Value; }
 
         /// <summary> Sets <see cref="Bitsize"/> parameter of register.  </summary>
-        /// <param name="bitsize">Bit size to be set.</param>
+        /// <param name="bitsize">Bit size to be set</param>
         /// <param name="instbitsize">Instruction bit size (parameter for <see cref="InstructionRegister"/> class)</param>
         public virtual void SetBitsize(uint bitsize, uint instbitsize=0) { Bitsize=bitsize; } 
         

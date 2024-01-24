@@ -1,3 +1,12 @@
+'''
+    Script communicates with connected to RespberryPI SenseHat device using provided by producent sense_hat package.
+    It allows to display characters into SenseHat's matrix ('Letter' mode) or turn ON/OFF specific pixels ('Pixel' mode)
+    using values provided in script's argumets.
+
+    Usage: MatrixHandler.py [value] [mode]
+'''
+
+
 #Paint mode
 RGB_BACK          = [0,0,0]
 MATRIX_ADDR_MASK  = 0b111111

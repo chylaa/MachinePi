@@ -1,3 +1,10 @@
+'''
+    Script communicates with connected to RespberryPI SenseHat device using provided by producent sense_hat package.
+    It outputs, into standard output, value of sensed temperature, pressure or humidity (type selected via script's argument). 
+
+    Usage: SensorsHandler.py [sensor]
+'''
+
 import sys
 from sense_hat import SenseHat
 sense = SenseHat()
