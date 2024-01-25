@@ -419,7 +419,7 @@ namespace MaszynaPi {
             if (polishToolStripMenuItem.Checked) {
                 englishToolStripMenuItem.Checked = false;
                 Defines.SetInstructionsLanguageVersion(Defines.Lang.PL);
-                Machine.InitialazeMicroinstructionsMap();
+                Machine.InitialazeSignalsMap();
             }
         }
 
@@ -427,7 +427,7 @@ namespace MaszynaPi {
             if (englishToolStripMenuItem.Checked) {
                 polishToolStripMenuItem.Checked = false;
                 Defines.SetInstructionsLanguageVersion(Defines.Lang.ENG);
-                Machine.InitialazeMicroinstructionsMap();
+                Machine.InitialazeSignalsMap();
             }
         }
 

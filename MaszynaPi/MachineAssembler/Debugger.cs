@@ -25,7 +25,7 @@ namespace MaszynaPi.MachineAssembler
         public Action<int, string> OnSetExecutedLine;
 
         /// <summary>
-        /// Action that should be performed when <see cref="Debugger"/> calculates current instruction's micrinstruction cycle. 
+        /// Action that should be performed when <see cref="Debugger"/> calculates current instruction's micrinstruction signals. 
         /// Instruction opcode and list of active microinstructions signals names are passed.
         /// </summary>
         public Action<uint, List<string>> OnSetExecutedMicroinstructions;

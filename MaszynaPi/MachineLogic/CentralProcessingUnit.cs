@@ -21,7 +21,7 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>In which cycle of single instruction, Fetch must be performed.</summary>
         const int FETCH_CYCLE_TICK = 0; // 
 
-        /// <summary> Initialized in <see cref="InitialazeMicroinstructionsMap"/> mapping of singnals names to related <see cref="CentralProcessingUnit"/> void methods.</summary>
+        /// <summary> Initialized in <see cref="InitialazeSignalsMap"/> mapping of singnals names to related <see cref="CentralProcessingUnit"/> void methods.</summary>
         Dictionary<string, Action> SignalsMap;
 
         /// <summary>List of signals active in current clock cycle.</summary>
@@ -82,11 +82,17 @@ namespace MaszynaPi.MachineLogic {
         #endregion
 
         #region IO's
+        /// <summary><see cref="CharacterInput"/> controller, for managing getting characters from assigned input device.</summary>
         readonly CharacterInput TextInput;
+        /// <summary><see cref="CharacterInput"/> controller, for managing putting characters to assigned output device.</summary>
         readonly CharacterOutput TextOutput;
+        /// <summary>SenseHat additional IO controller, managing reading data from module's temperature sensor using <i>SensorsHandler.py</i> script.</summary>
         readonly TemperatureSensor TemperatureInput;
+        /// <summary>SenseHat additional IO controller, managing reading data from module's humidity sensor using <i>SensorsHandler.py</i> script</summary>
         readonly HumiditySensor HumidityInput;
+        /// <summary>SenseHat additional IO controller, managing reading data from module's pressure sensor using <i>SensorsHandler.py</i> script</summary>
         readonly PressureSensor PressureInput;
+        /// <summary>SenseHat additional IO controller, managing writing data to module's LED Matrix, using <i>MatrixHandler.py</i> script</summary>
         readonly MatrixLED MatrixOutput;
         #endregion
 
@@ -139,14 +145,15 @@ namespace MaszynaPi.MachineLogic {
             MatrixOutput = new MatrixLED(G, RB);
             IOController = new IODevicesController(TextInput, TextOutput, TemperatureInput, HumidityInput, PressureInput, MatrixOutput);
 
-            InitialazeMicroinstructionsMap();
+            InitialazeSignalsMap();
         }
 
-        #region < Signals/Microinstructions >
+        #region < Signals >
 
         void stop() { OnProgramEnd(); }
 
         #region Architecture W
+        
         void czyt() { S.SetValue(PaO.GetValue(A.GetValue())); }
         void pisz() { PaO.StoreValue(A.GetValue(), S.GetValue()); }
         void wys() { MagS.SetValue(S.GetValue()); }
@@ -160,11 +167,13 @@ namespace MaszynaPi.MachineLogic {
         #endregion
 
         #region Architecture W+
+		
         void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CPUException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
         void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CPUException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
         #endregion
 
         #region Architecture L
+		
         void wyx() { MagS.SetValue(X.GetValue()); }
         void wex() { X.SetValue(MagS.GetValue()); }
         void wyy() { MagS.SetValue(Y.GetValue()); }
@@ -173,6 +182,7 @@ namespace MaszynaPi.MachineLogic {
         void wews() { WS.SetValue(MagA.GetValue()); }
         void iws() { WS.SetValue(WS.GetValue()+1); }
         void dws() { WS.SetValue(WS.GetValue()-1); }
+		
         #endregion
 
         #region Architecture EW
@@ -181,12 +191,13 @@ namespace MaszynaPi.MachineLogic {
         void wyrb() { MagS.SetValue(RB.GetValue()); }
         void werb() { RB.SetValue(MagS.GetValue()); }
         void wyg() { MagS.SetValue(G.GetValue()); }
-        void start() { IOController.HandleIOOnStartSignal(I.GetArgument()); } 
+        void start() { IOController.HandleIOOnStartSignal(I.GetArgument()); }
         void wyrm() { MagA.SetValue(RM.GetValue()); }
         void werm() { RM.SetValue(MagA.GetValue()); }
         void wyap() { MagA.SetValue(AP.GetValue()); }
         void rint() { IntController.ClearMSBOfAcceptedINTs(); }
         void eni()  { IntController.SetAcceptedAndINTVectorRegister(JAL); }
+		
         #endregion
 
         #region ALU's uOps
@@ -198,9 +209,10 @@ namespace MaszynaPi.MachineLogic {
         void weak() { JAL.SetResultAndFlags(); }
         void weja() { JAL.SetOperandB(MagS.GetValue()); }
         void wyak() { MagS.SetValue(AK.GetValue()); }
+
         #endregion
 
-        #region Architecture L
+        #region Architecture L (ALU's extention)
 
         void iak() { JAL.Inc(); }
         void dak() { JAL.Dec(); }
@@ -213,8 +225,12 @@ namespace MaszynaPi.MachineLogic {
         #endregion
 
         #endregion
-        
-        public void InitialazeMicroinstructionsMap() {
+
+        /// <summary>
+        /// Initializes map of signals, where each signal method is defined by it's string name.
+        /// <br></br>(Note: Custom [Attribute] for signal methods could be used to create map 'automatically'.)
+        /// </summary>
+        public void InitialazeSignalsMap() {
             var AllPLSignalsMap = new Dictionary<string, Action> {
                 {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
                 { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
@@ -242,23 +258,33 @@ namespace MaszynaPi.MachineLogic {
 
         // |Part which needs to be changed if another technology of UI creation is preffered| //
         #region < UI Related Actions > 
+        /// <summary>Allows to define action responsible for signalizing in that GUI that signals repaint is neccessary.</summary>
         public Action<bool> SetPaintActiveSignals;
+        /// <summary>Allows to define action responsible for refreshing CPU components representation in GUI.</summary>
         public Action OnRefreshValues;
+        /// <summary>Allows to define action responsible for showing currently executed line of program. Invoked each single instruction.</summary>
         public Action<uint> OnSetExecutedLine;
+        /// <summary>Allows to define action responsible for showing currently executed microinstruction. Invoked each cycle.</summary>
         public Action<uint, List<string>> OnSetExecutedMicroinstruction;
+        /// <summary>Allows to define action invoked when <see cref="stop"/> signal is activated.</summary>
         public Action OnProgramEnd;
+        /// <summary>Allows to define function returning value indicating whenever loop running whole program should be halted.</summary>
         public Func<bool>CheckProgramBreak;
 
-        public void RefreshValues() {
+        /// <summary>Invoke of <see cref="OnRefreshValues"/> <see cref="Action"/>.</summary>
+        private void RefreshValues() {
             OnRefreshValues();
         }
-        public void SetExecutedLineInEditor(uint instructionMemAddress) {
+        /// <summary>Invoke of <see cref="OnSetExecutedLine"/> <see cref="Action"/>.</summary>
+        private void SetExecutedLineInEditor(uint instructionMemAddress) {
             OnSetExecutedLine(instructionMemAddress);
         }
-        public void SetExecutedMicroinstructions() {
+        /// <summary>Invoke of <see cref="OnSetExecutedMicroinstruction"/> <see cref="Action"/> with current instruction's opcode and <see cref="ActiveSignals"/> list.</summary>
+        private void SetExecutedMicroinstructions() {
             OnSetExecutedMicroinstruction(I.GetOpcode(), ActiveSignals);
         }
-        public void ProgramEnd() {
+        /// <summary>Calls <see cref="OnProgramEnd"/> if current instriction's opcode is equal to 0.</summary>
+        private void ProgramEnd() {
             if (I.GetOpcode() == 0)
                 OnProgramEnd();
         }
@@ -266,10 +292,16 @@ namespace MaszynaPi.MachineLogic {
 
         #region < Machine Cycle > 
         
+        /// <summary>Assigns <see cref="Defines.FETCH_SIGNALS"/> to currently <see cref="ActiveSignals"/> list.</summary>
         void FetchInstruction() { ActiveSignals = new List<string>(Defines.FETCH_SIGNALS); }
 
         // if the instruction completion signal is hit (STATEMENT_END) returns -1
         // Parameter "tick" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
+
+        /// <summary>Executes single 'tick' of CPU, base on current machine state. Sets <see cref="ActiveSignals"/> list.</summary>
+        /// <param name="tick">Number (index) of consecutive tick of currently executed instruction. Defaults to 0 (see <see cref="FETCH_CYCLE_TICK"/>).</param>
+        /// <param name="manual">Indicates whenever active signals (<see cref="ActiveSignals"/> content) are selected by user in manual mode (true). Defaults to false.</param>
+        /// <returns>Index of current instruction's tick that should be executed, or <see cref="ENDOF_INSTRUCTION"/> if all instruction's cycles were performed.</returns>
         int ExecuteTick(int tick = FETCH_CYCLE_TICK, bool manual = false) {
 
             if(USE_DEBUGGER)
@@ -300,7 +332,11 @@ namespace MaszynaPi.MachineLogic {
             return tick;
         }
 
-        void ExecuteInstructionCycle(bool wasForcedTick=false) {
+        /// <summary>
+        /// Performes all CPU's steps neccessary for executing whole instruction. 
+        /// Invokes all methods responsible for full Fetch-Decode-Execute cycle.
+        /// </summary>
+        void ExecuteInstructionCycle() {
             int uInstructionBlock = FETCH_CYCLE_TICK;
 
             FetchInstruction();
@@ -310,8 +346,8 @@ namespace MaszynaPi.MachineLogic {
             uint opcode = I.GetOpcode();
             int requiredTicks = InstrDecoder.GetNumberOfTicksInInstruction(opcode);
 
-            if (wasForcedTick && LastTick > 0) 
-                requiredTicks -= LastTick;
+            //if (wasForcedTick && LastTick > 0) 
+            //    requiredTicks -= LastTick;
 
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i);
@@ -321,6 +357,13 @@ namespace MaszynaPi.MachineLogic {
             }
         }
 
+        /// <summary>
+        /// Executes all program instrucitons from current instruction register address to first instruction with opcode 0.
+        /// Disables connected <see cref="MachineAssembler.Debugger"/> actions until end of program execution, due to performace issues,
+        /// related to displaing CPU state in user interface. 
+        /// <br></br>On any error, raises <see cref="CPUException"/> with informations about currently executed instruction address, as well as active signals.
+        /// </summary>
+        /// <exception cref="CPUException"></exception>
         void ExecuteProgram() {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
             try {
@@ -345,28 +388,75 @@ namespace MaszynaPi.MachineLogic {
         }
         #endregion
 
-        #region < User Interface Methods >
+        #region < Operational Memory >
+
+        /// <summary>Allows to set single value in <see cref="Memory.Content"/>.</summary>
+        /// <param name="addr">Address of value to set.</param>
+        /// <param name="value">Value to set</param>
         public void SetMemoryContent(uint addr, uint value) { PaO.StoreValue(addr, value); }
+
+        /// <summary>Allows to set multiple values in <see cref="Memory.Content"/>, beggining at <paramref name="offset"/> address. Size of memory is not checked here!</summary>
+        /// <param name="values">List of values to set.</param>
+        /// <param name="offset">Begining offset from adress 0.</param>
         public void SetMemoryContent(List<uint> values, uint offset=0) { for (uint i = offset; i < values.Count; i++) PaO.StoreValue(i, values[(int)i]); }
+
+        /// <summary>Allows to get single value from <see cref="Memory.Content"/>.</summary>
+        /// <param name="addr">Address of value</param>
+        /// <returns>Value stored under address <paramref name="addr"/>.</returns>
         public uint GetMemoryContent(uint addr) { return PaO.GetValue(addr); }
+
+        /// <summary>Allows to retreive selected section of <see cref="Memory.Content"/>.</summary>
+        /// <param name="addr">Starting address of section.</param>
+        /// <param name="size">Size of section to retreive.</param>
+        /// <returns>Range of <see cref="Memory.Content"/> defined by starting <paramref name="addr"/> and <paramref name="size"/>.</returns>
         public List<uint> GetMemoryContent(uint addr, uint size) { return PaO.GetContentHandle().GetRange((int)addr, (int)size); }
+        
+        /// <summary>
+        /// Retreives instance of list of <see cref="uint"/> values, from internal <see cref="Memory"/> component, representing 
+        /// contents of microcomputer's memory.
+        /// </summary>
+        /// <returns>List instance where <see cref="Memory"/> content is stored.</returns>
         public List<uint> GetMemoryContentHandle() { return PaO.GetContentHandle(); }
+
+        /// <summary>
+        /// Allows to change size of CPU's visible <see cref="Memory"/> base on currently set <see cref="ArchitectureSettings.AddressSpace"/>. 
+        /// <br></br>Memory can both grow and shrink - it preserves its content, except cells that are potentially removed when shrinking.
+        /// </summary>
+        /// <param name="oldAddrSpace">Value of addressing bitsize before changed in <see cref="ArchitectureSettings.AddressSpace"/></param>
         public void ChangeMemorySize(uint oldAddrSpace) {
             if (oldAddrSpace < ArchitectureSettings.GetAddressSpace()) PaO.ExpandMemory(oldAddrSpace);
             else PaO.ShrinkMemory(oldAddrSpace);
         }
 
+        /// <summary>Calls <see cref="Memory.Reset"/> method that sets memory back to it's default state (filed with <see cref="Defines.DEFAULT_MEM_VAL"/>).</summary>
         public void ResetMemory() { PaO.Reset(); }
 
-        public void AddActiveSignals(List<string> handActivatedSignals) { ActiveSignals.AddRange(handActivatedSignals); }
-        public void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
+        #endregion
 
-        //public void ManualTick() { ExecuteTick(); ProgramEnd(); } // TODO: Change to work  with parameter 
-        public void ManualInstruction() { ExecuteInstructionCycle(wasForcedTick: false); }//ProgramEnd(); } // Not avaible if ManualControl signal active
-        public void ManualProgram() { ExecuteProgram(); }//ProgramEnd(); } // Not avaible if ManualControl signal active
+        #region < User Interface Methods >
 
+        /// <summary>Allows to set CPU's <see cref="ActiveSignals"/>.</summary>
+        /// <param name="handActivatedSignals">Names of signals that should be set active.</param>
+        private void SetActiveSignals(List<string> handActivatedSignals) { ActiveSignals = new List<string>(handActivatedSignals); }
+
+        /// <summary>
+        /// Invokes "<see cref="ExecuteInstructionCycle"/>" method on CPU. Performs all microoperations neccessary for executing whole instruction.
+        /// <br></br><b>Not avaible if 'ManualControl' signal is active.</b>
+        /// </summary>
+        public void ManualInstruction() { ExecuteInstructionCycle(); } 
+        /// <summary>
+        /// Invokes "<see cref="ExecuteProgram"/>" method on CPU. Performs all microoperations neccessary for executing all loaded instructions, until instruction '0' is found.
+        /// <br></br><b>Not avaible if 'ManualControl' signal is active.</b>
+        /// </summary>
+        public void ManualProgram() { ExecuteProgram(); }
+
+        /// <summary>Allows to invoke <see cref="ExecuteTick(int, bool)"/> method. Updates CPU state base on provided list of <paramref name="activeSigs"/>.</summary>
+        /// <param name="activeSigs">
+        /// List of names of CPU's signals that specifies which operations should be performed. 
+        /// If 'null' (default), executes from current CPU state.
+        /// </param>
         public void ManualTick(List<string> activeSigs = null) { 
-            if(activeSigs == null) {
+            if(activeSigs is null) {
                 if (LastTick == ENDOF_INSTRUCTION) LastTick = 0;
                 LastTick = ExecuteTick(LastTick);
                 LastTick++;
@@ -377,27 +467,54 @@ namespace MaszynaPi.MachineLogic {
             }
                 
         }
-
+        /// <summary>Sets flag that enables passing CPU's state info to user interface via 
+        /// <see cref="OnSetExecutedLine"/> and <see cref="OnSetExecutedMicroinstruction"/> <see cref="Action"/>s.</summary>
         public void EnableDebugger() { USE_DEBUGGER = true; }
+        /// <summary>Disables flag that indicates if state of CPU should be passed into user interface via connected <see cref="Action"/>s.</summary>
         public void DisableDebugger() { USE_DEBUGGER = false; }
 
+        /// <summary>Allows to retreive list of <see cref="ActiveSignals"/>.</summary>
+        /// <returns>Names of signals currently active in CPU.</returns>
         public List<string> GetActiveSignals() { return ActiveSignals; }
 
+        /// <summary>Allows to retreive handle to character buffer list instance from <see cref="TextInput"/> component.</summary>
+        /// <returns>Instance of <see cref="List{T}"/> of characters, containing <see cref="TextInput"/> unprocessed data.</returns>
         public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
+        
+        /// <summary>Allows to set <see cref="TextInput"/> <see cref="CharacterInput.OnCharacterFetched"/> <see cref="Action"/>.</summary>
+        /// <param name="characterFetched"><see cref="Action"/> that should be performed when CPU fetches single character from text input's buffer.</param>
         public void SetOnFetchCharAction(Action characterFetched) { TextInput.OnCharacterFetched = characterFetched;}
+
+        /// <summary>Allows to retreive handle to character buffer list instance from <see cref="TextOutput"/> component.</summary>
+        /// <returns>Instance of <see cref="List{T}"/> of characters, containing <see cref="TextOutput"/> unprocessed data.</returns>
         public List<char> GetTextOutputBufferHandle() { return TextOutput.GetCharactersBufferHandle(); }
 
+        /// <summary>Allows to set <see cref="TextOutput"/> <see cref="CharacterOutput.OnCharacterPushed"/> <see cref="Action"/>.</summary>
+        /// <param name="characterPushed"><see cref="Action"/> that should be performed when CPU puts single character into text output's buffer.</param>
         public void SetOnPushCharAction(Action characterPushed) { TextOutput.OnCharacterPushed = characterPushed; }
+
+        /// <summary>Allows to set <see cref="IntController"/> <see cref="InterruptionController.OnInterruptReported"/> <see cref="Action"/>.</summary>
+        /// <param name="interruptReported"><see cref="Action"/> that should be performed when interrupt is first reported to CPU in <see cref="RZ"/> register.</param>
         public void SetOnInterruptReportedAction(Action interruptReported) { IntController.OnInterruptReported += interruptReported; }
 
+        /// <summary>Sets <see cref="MatrixLED.Mode.Letter"/ in Matrix IO handler, <see cref="MatrixOutput"/>.</summary>
         public void SetLEDMatrixModeLetter() { MatrixOutput.SetLetterMode(); }
+
+        /// <summary>Sets <see cref="MatrixLED.Mode.Paint"/ in Matrix IO handler, <see cref="MatrixOutput"/>.</summary>
         public void SetLEDMatrixModePaint() { MatrixOutput.SetPaintMode(); }
 
+        /// <summary>Allows to retreive <see cref="ArithmeticLogicUnit"/>'s, <see cref="ALUFlags"/> state.</summary>
+        /// <returns>Currently active <see cref="ALUFlags"/> from CPU's ALU instance.</returns>
         public ALUFlags GetALUFlags() { return JAL.GetFlags(); }
 
         #endregion
 
         #region < Properties Changed/Reset Methods >
+
+        /// <summary>
+        /// Activates Reset() in all resetable components of <see cref="CentralProcessingUnit"/> (Could be handled by simple <b>IResetable</b>).
+        /// Clears <see cref="ActiveSignals"/> and sets default value -1 of <see cref="LastTick"/> field.
+        /// </summary>
         public void ResetRegisters() {
             A.Reset();
             S.Reset();
@@ -420,6 +537,9 @@ namespace MaszynaPi.MachineLogic {
             ActiveSignals?.Clear();
         }
 
+        /// <summary>
+        /// Sets bitsizes in all related components, such as <see cref="Register"/>s or <see cref="Bus"/>es, base on current <see cref="ArchitectureSettings"/>.
+        /// </summary>
         public void SetComponentsBitsizes() {
             uint Aspace = ArchitectureSettings.GetAddressSpace();
             uint Cbits = ArchitectureSettings.GetCodeBits();
