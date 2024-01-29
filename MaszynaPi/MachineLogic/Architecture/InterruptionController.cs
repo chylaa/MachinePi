@@ -43,7 +43,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         /// <param name="IntPriority">Interruption priority as appropriate power of 2 ([1/2/4/8]).</param>
         void ReportInterrupt(uint IntPriority) {
             RZ.SetValue(RZ.GetValue() | IntPriority);
-            OnInterruptReported();
+            OnInterruptReported?.Invoke();
         }
 
         // Called on eni()

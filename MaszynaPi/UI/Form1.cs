@@ -29,7 +29,7 @@ namespace MaszynaPi {
         readonly CentralProcessingUnit Machine;
         readonly Debugger Debugger;
 
-        System.Threading.Thread BreakDetector;
+        System.Threading.Thread BreakDetectorThread;
         UI.BreakForm breakForm;
         bool BREAK_FLAG = false;
 
@@ -82,7 +82,7 @@ namespace MaszynaPi {
             SetMachineComponentsViewHandles();
             RefreshMicrocontrolerControls();
 
-            Machine.SetOnInterruptReportedAction(JoystickInterruptReported);
+            //Machine.SetOnInterruptReportedAction(JoystickInterruptReported);
 
             // IO's
             UserControlCharacterInput.SetCharactersBufferSource(Machine.GetTextInputBufferHandle());
@@ -162,11 +162,13 @@ namespace MaszynaPi {
         private void RefreshMicrocontrolerControls() {
             //RefreshControls(MicrocontrollerPanel);
             foreach (var instance in MachineComponents) {
-                System.Reflection.MethodInfo method = instance.GetType().GetMethod("Refresh"); // should just implement IRefreshable [Y/L]
-                method?.Invoke(instance, null);
+                (instance as Control)?.Refresh();
+                //System.Reflection.MethodInfo method = instance.GetType().GetMethod("Refresh"); // should just implement IRefreshable [Y/L]
+                //method?.Invoke(instance, null);
             }
-            var ActiveSignals = Machine.GetActiveSignals();
-            if (ActiveSignals == null || PaintActiveSignals == false) return;
+            List<string> ActiveSignals;
+            if (PaintActiveSignals == false || (ActiveSignals = Machine.GetActiveSignals()) == null) 
+                return;
 
             foreach(var wire in SignalWires) {
                 if (ActiveSignals.Contains(wire.SignalName)) {
@@ -227,17 +229,21 @@ namespace MaszynaPi {
                 BREAK_FLAG = false;
                 RunBreakDetector();
 
+                MemoryControl.PartiallySupressRefreshing = true;
                 DisableManuallySetSignals();
+                
                 Machine.ManualProgram();
                 RefreshMicrocontrolerControls();
 
-                CancelBreakDetector();
             } catch (CPUException cEx) {
-                CancelBreakDetector();
-                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
-            } catch (Exception ex) {
-                CancelBreakDetector();
-                MessageBox.Show( ex.Message.Replace(GetErrorType(ex.Message), ""),"Program Error");
+                MessageBox.Show(cEx.Message, "CPU Program Error");
+            } catch (Exception ex) {        
+                MessageBox.Show(ex.Message, "Unknown Program Error");
+            } finally
+            {
+                //CancelBreakDetector();
+                MemoryControl.PartiallySupressRefreshing = false;
+                MemoryControl.Refresh();
             }
 
         }
@@ -247,9 +253,9 @@ namespace MaszynaPi {
                 Machine.ManualInstruction();
                 RefreshMicrocontrolerControls();
             } catch (CPUException cEx) {
-                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
+                MessageBox.Show(cEx.Message, "CPU Instruction Error");
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""), "Instruction Error");
+                MessageBox.Show(ex.Message, "Unknown Instruction Error");
             }
         }
 
@@ -258,9 +264,9 @@ namespace MaszynaPi {
                 List<string> signals = GetManualActiveSignals();
                 Machine.ManualTick(signals);
             } catch (CPUException cEx) {
-                MessageBox.Show(cEx.Message.Replace(GetErrorType(cEx.Message), ""), GetErrorType(cEx.Message));
+                MessageBox.Show(cEx.Message, "CPU Tick Error");
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message.Replace(GetErrorType(ex.Message), ""),"Tick Error");
+                MessageBox.Show(ex.Message, "Unknown Tick Error");
             }
         }
 
@@ -310,7 +316,7 @@ namespace MaszynaPi {
                 }
                 MessageBox.Show("Compilation Error: Unknown syntax type - not program or instruction definition.", "Error");
             } catch (CompilerException ex) {
-                MessageBox.Show(ex.Message, GetErrorType(ex.Message));
+                MessageBox.Show(ex.Message, "Compiler Error");
             } catch (Exception ex) {
                 MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace, "Error");
             }
@@ -397,9 +403,21 @@ namespace MaszynaPi {
             }
 
         }
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
-        private void saveUnixToolStripMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
-        private void saveContexMenuItem_Click(object sender, EventArgs e) { SaveToFile(); }
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try { SaveToFile(); }
+            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error"); }
+        }
+        private void saveUnixToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try { SaveToFile(); } 
+            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error"); }
+        }
+        private void saveContexMenuItem_Click(object sender, EventArgs e) 
+        { 
+            try { SaveToFile(); } 
+            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error");  } 
+        }
 
         private void letterToolStripMenuItem_Click(object sender, EventArgs e) {
             if (letterToolStripMenuItem.Checked) {
@@ -447,7 +465,7 @@ namespace MaszynaPi {
 
         void JoystickInterruptReported() {
             bool wasRuning = false;
-            if (BreakDetector.IsAlive) { CancelBreakDetector(); ; wasRuning = true; }
+            if (BreakDetectorThread.IsAlive) { CancelBreakDetector(); wasRuning = true; }
             UserControlRegisterRZ.Refresh();
             if (wasRuning) RunBreakDetector();
         }
@@ -456,33 +474,30 @@ namespace MaszynaPi {
         //Special Tasks
         bool GetBreakFlag() { return BREAK_FLAG; }
 
-        void CancelBreakDetector() {
-            BreakDetector.Abort();
-        }
+        void CancelBreakDetector() { CloseBreakDetector(null, null); }
 
         void CreateBreakButton() {
             breakForm?.Close();
+            breakForm?.Dispose();
             breakForm = new UI.BreakForm();
         }
 
         void ShowBreakForm() {
-            var dialogResult = breakForm.ShowDialog();
-            if (dialogResult.Equals(DialogResult.OK)) {
-                BREAK_FLAG = true;
-            }
+            try { BREAK_FLAG = breakForm.ShowDialog().Equals(DialogResult.OK); } 
+            finally { breakForm?.ForceClose(); breakForm?.Dispose(); } 
+            
         }
 
         void RunBreakDetector() {
             CreateBreakButton();
-            BreakDetector = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
-            BreakDetector.Start();
-            BringToFront();
+            BreakDetectorThread = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
+            BreakDetectorThread.Start();
+            //BringToFront();
         }
 
         void CloseBreakDetector(object sender, RunWorkerCompletedEventArgs e) {
-            breakForm.ForceClose();
-            breakForm?.Close();
-                
+            try { breakForm?.ForceClose();  } 
+            finally { BreakDetectorThread?.Join(); } // BREAK_FLAG = (breakForm != null) && breakForm.DialogResult.Equals(DialogResult.OK);
         }
     }
 }

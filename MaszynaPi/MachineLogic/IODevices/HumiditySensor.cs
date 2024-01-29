@@ -2,11 +2,16 @@
 using MaszynaPi.SenseHatHandlers;
 
 namespace MaszynaPi.MachineLogic.IODevices {
-    class HumiditySensor : IODevice {
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    class HumiditySensor : IODevice 
+    {
         const uint ID = 4;
         const IOType TYPE = IOType.Input;
 
-        SenseHatDevice Sensor;
+        readonly SenseHatDevice Sensor;
 
         public HumiditySensor(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             Sensor = new SenseHatDevice();

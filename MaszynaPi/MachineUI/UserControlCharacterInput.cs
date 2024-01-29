@@ -7,13 +7,13 @@ using System.Windows.Forms;
 namespace MaszynaPi.MachineUI {
     public partial class UserControlCharacterInput : TextBox {
 
-        List<char> CharactersBuffer; // Handle to Control Unit's CharactersInput IO Device
+        Queue<char> CharactersBuffer; // Handle to Control Unit's CharactersInput IO Device
 
         public UserControlCharacterInput() {
             InitializeComponent();
         }
 
-        public void SetCharactersBufferSource(List<char> charBuffer) {
+        public void SetCharactersBufferSource(Queue<char> charBuffer) {
             CharactersBuffer = charBuffer;
         }
 
@@ -24,7 +24,8 @@ namespace MaszynaPi.MachineUI {
         private void UpdateCharactersBuffer() {
             if (CharactersBuffer == null) throw new Exception("Character buffer source in UserControlCharacerInput not set. Use SetCharacterBufferSource() method.");
             CharactersBuffer.Clear();
-            CharactersBuffer.AddRange(Text.Select(c => c).ToList());
+            foreach (char c in Text.ToCharArray())  
+                CharactersBuffer.Enqueue(c); 
         }
 
         protected override void OnTextChanged(EventArgs e) {

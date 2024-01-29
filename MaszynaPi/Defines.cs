@@ -15,7 +15,7 @@ namespace MaszynaPi {
         /// <summary>Minimum size (in bits) of address space (restriction for setting via UI).</summary>
         public const uint ADDRESS_BITS_MIN = 5;
         /// <summary>Maximum size (in bits) of address space (restriction for setting via UI).</summary>
-        public const uint ADDRESS_BITS_MAX = 16;
+        public const uint ADDRESS_BITS_MAX = 14;
 
         /// <summary> Default number of bits used as opcode part of machine's WORD.</summary>
         public const uint DEFAULT_CODE_BITS = 3;

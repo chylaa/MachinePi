@@ -8,7 +8,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         const uint ID = 3;
         const IOType TYPE = IOType.Input;
 
-        SenseHatDevice Sensor;
+        readonly SenseHatDevice Sensor;
 
         public TemperatureSensor(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             Sensor = new SenseHatDevice();
@@ -16,7 +16,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         }
         public Action OnCharacterFetched;
 
-        // Temperature get in mili-celcius
+        /// <summary>Sets <see cref="IODevice.IOBuffer"/> value to <see cref="SenseHatDevice"/> read data (in mili-celcius).</summary>
         void GetValue() {
             SetReadyValue(IO_READY);
 

@@ -5,7 +5,6 @@ using System.ComponentModel;
 
 namespace MaszynaPi.SenseHatHandlers {
     class SenseHatDevice {
-        const int TO_MILI = 1000;
         public const string SENSOR_TEMPERATURE = "temperature";
         public const string SENSOR_PRESSURE= "pressure";
         public const string SENSOR_HUMIDITY = "humidity";
@@ -19,22 +18,29 @@ namespace MaszynaPi.SenseHatHandlers {
 
         static readonly string StartPythonCMD = "python3"; // python3 must be added to system %PATH% variable!
 
-        Process ReadProcess;
         string ReceivedData;
+        Process ReadProcess;
         BackgroundWorker AsyncRead;
+
         public SenseHatDevice() {
             ReceivedData = "0";
         }
 
         public void CreateReadProcess(string cmd) {
-            ReadProcess = new Process();
-            ReadProcess.StartInfo = new ProcessStartInfo(StartPythonCMD) {
-                Arguments = cmd,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+            if (Environment.OSVersion.Platform != PlatformID.Unix)
+                return;
+
+            ReadProcess = new Process
+            {
+                StartInfo = new ProcessStartInfo(StartPythonCMD)
+                {
+                    Arguments = cmd,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WorkingDirectory = Environment.CurrentDirectory,//System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),
+                }
             };
             ReadProcess.OutputDataReceived += DataReceived;
             ReadProcess.ErrorDataReceived += ErrorReceived;
@@ -42,13 +48,15 @@ namespace MaszynaPi.SenseHatHandlers {
 
         // To be called in thread
         string GetData() {
+            if (ReadProcess is null)
+                throw new Exception("Sense Hat module Read Process not initailzed. Application probably does not run on RasperryPi device.");
             try {
                 ReadProcess.Start();
                 ReceivedData = ReadProcess.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
                 //Console.WriteLine("Get: " + ReceivedData);
                 ReadProcess.WaitForExit();
             } catch (Exception e) {
-                throw new Exception("Error while getting data from SenseHat Device. Details: " + e.Data);
+                throw new Exception("Error while getting data from SenseHat Device. Check SanseHat module connection. Details: " + e.Message);
             }
             return ReceivedData;
         }
@@ -66,7 +74,7 @@ namespace MaszynaPi.SenseHatHandlers {
                     proc.Start();
                     proc.WaitForExit();
                 } catch (Exception e) {
-                    throw new Exception("Error while sending data to SenseHat Device. Details: " + e.Data);
+                    throw new Exception("Error while sending data to SenseHat Device. Check SanseHat module connection. Details: " + e.Message);
                 }
             }
         }
@@ -88,13 +96,13 @@ namespace MaszynaPi.SenseHatHandlers {
 
 
         public void StartAsyncRead() {
-            if(ReadProcess == null) { throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)"); }
-
-            AsyncRead = new BackgroundWorker();
-            AsyncRead.WorkerReportsProgress = true;
-
+            if (Environment.OSVersion.Platform != PlatformID.Unix)
+                return;
+            if (ReadProcess == null)  
+                throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)");
+            
+            AsyncRead = new BackgroundWorker() { WorkerReportsProgress = true };
             AsyncRead.DoWork += AsyncRead_DoWork;
-            AsyncRead.ProgressChanged += AsyncRead_ProgressChanged;
 
             AsyncRead.RunWorkerAsync();
         }
@@ -120,9 +128,6 @@ namespace MaszynaPi.SenseHatHandlers {
             }
         }
 
-        private void AsyncRead_ProgressChanged(object sender, ProgressChangedEventArgs e) {
-            OnInterruptionReceived((uint)e.ProgressPercentage);
-        }
         void DataReceived(object sender, DataReceivedEventArgs e) {
             ReceivedData = e.Data;
         }

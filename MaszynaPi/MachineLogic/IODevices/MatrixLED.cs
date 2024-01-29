@@ -9,7 +9,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         enum Mode { Letter, Paint};
         Mode WorkingMode;
 
-        SenseHatDevice Matrix;
+        readonly SenseHatDevice Matrix;
 
         public MatrixLED(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             SetLetterMode();

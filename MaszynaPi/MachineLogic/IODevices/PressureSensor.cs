@@ -6,7 +6,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         const uint ID = 5;
         const IOType TYPE = IOType.Input;
 
-        SenseHatDevice Sensor;
+        readonly SenseHatDevice Sensor;
 
         public PressureSensor(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             Sensor = new SenseHatDevice();

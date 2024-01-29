@@ -379,11 +379,11 @@ namespace MaszynaPi.MachineLogic {
             catch (BusException ex) {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                throw new CPUException(ex.Message + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals)); } 
+                throw new CPUException(ex.Message + ". Last succesed instruction: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + Environment.NewLine + ex.Message); } 
             catch (Exception ex) {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                throw new CPUException("[Program error] " + ex.GetType().ToString() + ". Instruction-1: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + "| " + ex.Message); }
+                throw new CPUException("[Program error] " + ex.GetType().ToString() + ". Last succesed instruction: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + Environment.NewLine + ex.Message); }
 
         }
         #endregion
@@ -478,8 +478,8 @@ namespace MaszynaPi.MachineLogic {
         public List<string> GetActiveSignals() { return ActiveSignals; }
 
         /// <summary>Allows to retreive handle to character buffer list instance from <see cref="TextInput"/> component.</summary>
-        /// <returns>Instance of <see cref="List{T}"/> of characters, containing <see cref="TextInput"/> unprocessed data.</returns>
-        public List<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
+        /// <returns>Instance of <see cref="Queue{T}"/> of characters, containing <see cref="TextInput"/> unprocessed data.</returns>
+        public Queue<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
         
         /// <summary>Allows to set <see cref="TextInput"/> <see cref="CharacterInput.OnCharacterFetched"/> <see cref="Action"/>.</summary>
         /// <param name="characterFetched"><see cref="Action"/> that should be performed when CPU fetches single character from text input's buffer.</param>

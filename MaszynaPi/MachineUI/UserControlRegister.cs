@@ -15,23 +15,23 @@ namespace MaszynaPi.MachineUI {
     public partial class UserControlRegister : TextBox {
         const string DIVIDER = ":";
         public string RegisterName { get; set; }
-        RegisterMode Mode { get; set; }
+        RegisterMode Mode { get; set; } = RegisterMode.Dec;
+        private int PreviousValue { get; set; } = -1;
+
         private Register UnitRegister;
 
-        Timer RefreshTimer = null;
+        private Timer RefreshTimer = null;
 
         public UserControlRegister(){
             InitializeComponent();
             this.TextAlign = HorizontalAlignment.Center;
             this.ReadOnly = true;
             this.BackColor = Color.White;
-            //this.RegisterValue = Defines.DEFAULT_REG_VAL;
             this.MouseDoubleClick += ControlDoubleClick;
-            Mode = RegisterMode.Dec;
         }
 
         public void SetSourceRegister(Register sourceReg) {
-            this.UnitRegister = sourceReg;
+            UnitRegister = sourceReg;
         }
 
         public void SetDisplayMode(RegisterMode mode) {
@@ -51,6 +51,9 @@ namespace MaszynaPi.MachineUI {
             base.OnPaint(e);
         }
         public override void Refresh() {
+            if (PreviousValue == UnitRegister.GetValue())
+                return; // no need to refresh
+
             string DisplayValue = "";
             if (Mode == RegisterMode.Dec) {
                  DisplayValue =  UnitRegister.GetValue().ToString();
@@ -70,12 +73,13 @@ namespace MaszynaPi.MachineUI {
                 DisplayValue = UnitRegister.GetValue().ToString() + " ( " +name+" "+arg.ToString()+" )";
             }
             Text = RegisterName + " " + DIVIDER + " " + DisplayValue;
+            PreviousValue = (int)UnitRegister.GetValue();
             base.Refresh();
         }
 
         public void StartRefreshing(int interval = 1000) {
             RefreshTimer = new Timer();
-            RefreshTimer.Interval = 1000; // co sekundę
+            RefreshTimer.Interval = interval;
             RefreshTimer.Tick += new EventHandler(RefreshControl);
             RefreshTimer.Start();
         }

@@ -10,11 +10,16 @@ using MaszynaPi.MachineAssembler;
 namespace MaszynaPi.MachineUI {
     public partial class UserControlMemory : TextBox {
 
-        private const int NUM_OF_SPACES = 12;
+        private const int SPACING_STR_LEN = 12;
         private const int MAX_NUMBER_STRING_LENGTH = 6; // max number of digits in address index
+
+        private const int VISIBLE_MEMORY_SIZE = 16+1;
 
         private List<uint> UnitMemory; //handle to CentralUnit Memory object
         int SelectedIndex;
+
+        /// <summary>Sets flag that indicates if <see cref="Refresh"/> overload should refresh only visible parts of memory control.</summary>
+        public bool PartiallySupressRefreshing { get; set; } = false;
 
         public UserControlMemory() {
             Multiline = true;
@@ -64,30 +69,28 @@ namespace MaszynaPi.MachineUI {
             Text = string.Join(Environment.NewLine, lines);
         }
 
-        private string GetSpacing() {
-            return new string(' ', (int)NUM_OF_SPACES);
-        }
-        private string CreateStringChunk(string s) {
-            return (s + GetSpacing().Remove(0, s.Length)) + new string(' ', MAX_NUMBER_STRING_LENGTH - s.Length);
+        private string CreateStringChunk(uint val) {
+            string s = val.ToString();
+            return (s + new string(' ', SPACING_STR_LEN - s.Length) + new string(' ', MAX_NUMBER_STRING_LENGTH - s.Length));
         }
         private string CreateFormattedItem(int i) {
             Dictionary<string, uint> avaibleInstructions = InstructionLoader.GetInstructionsNamesOpcodes();
             uint opcode = Bitwise.DecodeInstructionOpcode(UnitMemory[i]);
             uint arg = Bitwise.DecodeIntructionArgument(UnitMemory[i]);
             string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
-            string formatted = CreateStringChunk(i.ToString()) + CreateStringChunk(UnitMemory[i].ToString()) + name + " " + arg;//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
-            return formatted;
+            return $"{CreateStringChunk((uint)i)}{CreateStringChunk(UnitMemory[i])}{name} {arg}{Environment.NewLine}";//i.ToString() + " " + item.ToString() + " " + name + " " + arg; 
         }
 
         protected void FormatItems() {
-            Text = "";
-            List<string> lines = new List<string>();
-            for (int i = 0; i < UnitMemory.Count; i++)
-                lines.Add(CreateFormattedItem(i));
-            Text = string.Join(Environment.NewLine, lines);
+            string lines = string.Empty;
+            int stop = PartiallySupressRefreshing ? VISIBLE_MEMORY_SIZE : UnitMemory.Count;
+            for (int i = 0; i < stop; i++)
+                lines += (CreateFormattedItem(i));
+            Text = lines;
         }
 
-        public override void Refresh() {
+        public override void Refresh()
+        {
             try { FormatItems(); } catch (Exception ex) { MessageBox.Show("Error while formatting items: " + ex.Message + ". \nStack trace: " + ex.StackTrace); }
             base.Refresh();
         }
