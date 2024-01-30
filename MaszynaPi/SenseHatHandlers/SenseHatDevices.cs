@@ -23,8 +23,6 @@ namespace MaszynaPi.SenseHatHandlers {
         Process ReadProcess;
         BackgroundWorker AsyncRead;
 
-        CancellationToken JoystickReadCancellation;
-
         public SenseHatDevice() {
             ReceivedData = "0";
         }
@@ -104,7 +102,7 @@ namespace MaszynaPi.SenseHatHandlers {
                 throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)");
 
             
-            AsyncRead = new BackgroundWorker() { WorkerReportsProgress = true };
+            AsyncRead = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
             AsyncRead.DoWork += AsyncRead_DoWork;
 
             AsyncRead.RunWorkerAsync();
