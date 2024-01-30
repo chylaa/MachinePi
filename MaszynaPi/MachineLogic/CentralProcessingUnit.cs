@@ -366,13 +366,13 @@ namespace MaszynaPi.MachineLogic {
         /// <exception cref="CPUException"></exception>
         void ExecuteProgram() {
             //MaszynaPi.Logger.Logger.EnableFileLog(additionalName: "_Program_Execution_Logs");
-            Exception error = null;
+            //Exception error = null;
             try {
                 DisableDebugger();
                 SetPaintActiveSignals(false);
                 do {
                     if (CheckProgramBreak()) { 
-                        IntController.StopJoystickInterruptionMonitor(); 
+                        //IntController.StopJoystickInterruptionMonitor(); 
                         break; 
                     } else { 
                         ExecuteInstructionCycle(); 
@@ -382,16 +382,16 @@ namespace MaszynaPi.MachineLogic {
                 SetPaintActiveSignals(true);
             } //here also can add watchdog if there is no STP instruction in programm 
             catch (BusException ex) {
-                error = ex;
+                //error = ex;
                 throw new CPUException(ex.Message + ". Last succesed instruction: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + Environment.NewLine + ex.Message); } 
             catch (Exception ex) {
-                error = ex;
+                //error = ex;
                 throw new CPUException("[Program error] " + ex.GetType().ToString() + ". Last succesed instruction: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + Environment.NewLine + ex.Message); }
             finally {
                 EnableDebugger();
                 SetPaintActiveSignals(true);
-                if (false == (error is SenseHatHandlers.SenseHatException))
-                    IntController.StartJoystickInterruptionMonitor(); 
+                //if (false == (error is SenseHatHandlers.SenseHatException))
+                //    IntController.StartJoystickInterruptionMonitor(); 
             }
         }
         #endregion
