@@ -4,8 +4,14 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Threading;
 
-namespace MaszynaPi.SenseHatHandlers {
-    class SenseHatDevice {
+
+namespace MaszynaPi.SenseHatHandlers 
+{
+    /// <summary>General custom <see cref="Exception"/> for signalizing errors related to <see cref="SenseHatDevice"/> data/control flow.</summary>
+    public class SenseHatException : Exception { public SenseHatException(string message) : base(message) { } }
+    
+    class SenseHatDevice 
+    {
         public const string SENSOR_TEMPERATURE = "temperature";
         public const string SENSOR_PRESSURE= "pressure";
         public const string SENSOR_HUMIDITY = "humidity";
@@ -50,14 +56,14 @@ namespace MaszynaPi.SenseHatHandlers {
         // To be called in thread
         string GetData() {
             if (ReadProcess is null)
-                throw new Exception("Sense Hat module Read Process not initailzed. Application probably does not run on RasperryPi device.");
+                throw new SenseHatException("Sense Hat module Read Process not initailzed. Application probably does not run on RasperryPi device.");
             try {
                 ReadProcess.Start();
                 ReceivedData = ReadProcess.StandardOutput.ReadToEnd().Replace(Environment.NewLine, "");
                 //Console.WriteLine("Get: " + ReceivedData);
                 ReadProcess.WaitForExit();
             } catch (Exception e) {
-                throw new Exception("Error while getting data from SenseHat Device. Check SanseHat module connection. Details: " + e.Message);
+                throw new SenseHatException("Error while getting data from SenseHat Device. Check SanseHat module connection. Details: " + e.Message);
             }
             return ReceivedData;
         }
@@ -75,7 +81,7 @@ namespace MaszynaPi.SenseHatHandlers {
                     proc.Start();
                     proc.WaitForExit();
                 } catch (Exception e) {
-                    throw new Exception("Error while sending data to SenseHat Device. Check SanseHat module connection. Details: " + e.Message);
+                    throw new SenseHatException("Error while sending data to SenseHat Device. Check SanseHat module connection. Details: " + e.Message);
                 }
             }
         }
@@ -96,10 +102,10 @@ namespace MaszynaPi.SenseHatHandlers {
 
 
         public void StartAsyncRead() {
-            if (Environment.OSVersion.Platform != PlatformID.Unix)
+            if (Environment.OSVersion.Platform != PlatformID.Unix || (AsyncRead != null && AsyncRead.IsBusy))
                 return;
             if (ReadProcess == null)  
-                throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)");
+                throw new SenseHatException("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)");
 
             
             AsyncRead = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
@@ -122,7 +128,7 @@ namespace MaszynaPi.SenseHatHandlers {
 
             AsyncRead.CancelAsync();
             if (false == SpinWait.SpinUntil(() => AsyncRead.IsBusy, cancelTimeout))
-                throw new Exception($"Cancelation Timeout! Cannot stop SenseHatDevice async read within {cancelTimeout.TotalMilliseconds}[ms].");
+                throw new SenseHatException($"Cancelation Timeout! Cannot stop SenseHatDevice async read within {cancelTimeout.TotalMilliseconds}[ms].");
             
             AsyncRead.Dispose();
         }

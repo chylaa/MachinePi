@@ -30,7 +30,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
             INTJoystick = new SenseHatDevice();
             INTJoystick.CreateReadProcess(SenseHatDevice.JOYSTICK_SCRIPT);
             INTJoystick.OnInterruptionReceived += ReportInterrupt;
-            INTJoystick.StartAsyncRead();
+            StartJoystickInterruptionMonitor();
         }
 
         /// <summary> Action delegate invoked when new interruption is repored.</summary>
@@ -87,6 +87,10 @@ namespace MaszynaPi.MachineLogic.Architecture {
         {
             INTJoystick.StopAsyncRead(cancelTimeout:new TimeSpan(0,0,5));
         }
-
+        /// <summary>Starts async process of reading <see cref="INTJoystick"/> state as source of interrupts.</summary>
+        public void StartJoystickInterruptionMonitor()
+        {
+            INTJoystick.StartAsyncRead();
+        }
     }
 }
