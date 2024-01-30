@@ -370,8 +370,12 @@ namespace MaszynaPi.MachineLogic {
                 DisableDebugger();
                 SetPaintActiveSignals(false);
                 do {
-                    if (CheckProgramBreak()) break;
-                    ExecuteInstructionCycle(); 
+                    if (CheckProgramBreak()) { 
+                        IntController.StopJoystickInterruptionMonitor(); 
+                        break; 
+                    } else { 
+                        ExecuteInstructionCycle(); 
+                    }
                 } while (I.GetOpcode() != 0);
                 EnableDebugger();
                 SetPaintActiveSignals(true);

@@ -58,7 +58,7 @@ namespace MaszynaPi.MachineUI {
                 SelectedIndex = (int)Bitwise.HandleOverflow(uint.Parse(memaddr), MachineLogic.ArchitectureSettings.GetAddressSpace());
                 if (memcontent.Length != 0)
                     UnitMemory[SelectedIndex] = Bitwise.HandleOverflow(uint.Parse(memcontent));
-                SetLine(SelectedIndex,CreateFormattedItem(SelectedIndex));
+                SetLine(SelectedIndex, CreateFormattedItem(SelectedIndex).TrimEnd(Environment.NewLine.ToCharArray()));
                 (sender as TextBox).SelectionLength = 0; //try to prevent selection bug in Rasbian
             } catch (Exception ex) { throw new Exception("Menu Item Handler Error: "+ex.Message); }
 

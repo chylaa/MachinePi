@@ -82,5 +82,11 @@ namespace MaszynaPi.MachineLogic.Architecture {
             AP.SetValue(Defines.DEFAULT_REG_VAL);
         }
 
+        /// <summary>Sends signal to terminates async proccess of reading <see cref="INTJoystick"/> state as source of interrupts.</summary>
+        public void StopJoystickInterruptionMonitor()
+        {
+            INTJoystick.StopAsyncRead(cancelTimeout:new TimeSpan(0,0,5));
+        }
+
     }
 }

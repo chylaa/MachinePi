@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Threading;
 
 namespace MaszynaPi.SenseHatHandlers {
     class SenseHatDevice {
@@ -21,6 +22,8 @@ namespace MaszynaPi.SenseHatHandlers {
         string ReceivedData;
         Process ReadProcess;
         BackgroundWorker AsyncRead;
+
+        CancellationToken JoystickReadCancellation;
 
         public SenseHatDevice() {
             ReceivedData = "0";
@@ -94,17 +97,36 @@ namespace MaszynaPi.SenseHatHandlers {
         public Action<uint> OnInterruptionReceived;
 
 
-
         public void StartAsyncRead() {
             if (Environment.OSVersion.Platform != PlatformID.Unix)
                 return;
             if (ReadProcess == null)  
                 throw new Exception("Code Error: Read process not initialized: invoke SenseHatDevice method CreateReadProcess(string cmd)");
+
             
             AsyncRead = new BackgroundWorker() { WorkerReportsProgress = true };
             AsyncRead.DoWork += AsyncRead_DoWork;
 
             AsyncRead.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// Stops asynchronus operation of reading data from <see cref="JOYSTICK_SCRIPT"/> using <see cref="ReadProcess"/>/.
+        /// If <see cref="ReadProcess"/> or <see cref="AsyncRead"/> is null, returns without taking any actions.
+        /// Throws <see cref="Exception"/> if reated <see cref="BackgroundWorker.IsBusy"/> after <paramref name="cancelTimeout"/>. 
+        /// </summary>
+        /// <param name="cancelTimeout"></param>
+        /// <exception cref="Exception"></exception>
+        public void StopAsyncRead(TimeSpan cancelTimeout)
+        {
+            if (ReadProcess is null || AsyncRead is null)
+                return;
+
+            AsyncRead.CancelAsync();
+            if (false == SpinWait.SpinUntil(() => AsyncRead.IsBusy, cancelTimeout))
+                throw new Exception($"Cancelation Timeout! Cannot stop SenseHatDevice async read within {cancelTimeout.TotalMilliseconds}[ms].");
+            
+            AsyncRead.Dispose();
         }
 
         private void AsyncRead_DoWork(object sender, DoWorkEventArgs e) {
@@ -113,7 +135,7 @@ namespace MaszynaPi.SenseHatHandlers {
             ReadProcess.BeginOutputReadLine();
 
             string previous = ReceivedData;
-            while(true) {
+            while(false == (e.Cancel = AsyncRead.CancellationPending)) { 
                 var data = ReceivedData;
                 if (data != null && data != previous ) {
                     //ReadProcess.WaitForInputIdle(10); //wait 10ms
@@ -123,8 +145,17 @@ namespace MaszynaPi.SenseHatHandlers {
                         OnInterruptionReceived((uint)(reportedInt));
                         //(sender as BackgroundWorker).ReportProgress(reportedInt);
                     }
-                    
                 }
+            }
+            try
+            {
+                ReadProcess.CancelErrorRead();
+                ReadProcess.CancelOutputRead();
+                ReadProcess.Kill();
+                ReadProcess.Dispose();
+            } catch (Exception ex)
+            { 
+                Console.WriteLine($"Error Stopping ReadProcess failed: {ex}"); 
             }
         }
 
