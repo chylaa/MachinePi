@@ -52,7 +52,7 @@ namespace MaszynaPi.FilesHandling {
             return false;
         }
         /// <summary>Creates or overwrites file pointed by <paramref name="filepath"/> with <paramref name="content"/>.</summary>
-        /// <param name="content">Data to write to file. <see cref="string"/> and <see cref="List{string}"/> are supproted.</param>
+        /// <param name="content">Data to write to file. <see cref="string"/> and <see cref="List{String}"/> are supproted.</param>
         /// <param name="filepath">Path to file to be written.</param>
         /// <exception cref="FileHandlerException"></exception>
         public static void OverwriteOrCreateFile(object content, string filepath) {
@@ -74,10 +74,9 @@ namespace MaszynaPi.FilesHandling {
         /// <summary>
         /// Removes one empty string between each string of len greater than 0 (if exist) (leftovers from code-to-List processing on win) 
         /// <br></br>["xx","","yy","","","zz"] -> ["xx","yy","","zz"]<br></br>
-        /// <br></br><b>NOTE: <see cref="StringSplitOptions.RemoveEmptyEntries"/> option should be used when using <see cref="string.Join(string, string[])"/>!</b>
         /// </summary>
         /// <param name="lines">List to process</param>
-        /// <returns>New instance of wihout empty strings.</returns>
+        /// <returns>New instance of wihout newline-split empty strings.</returns>
         public static List<string> RemoveExcessiveEmptyStrings(List<string> lines) {
             var everyOtherElement = lines.Where((x, i) => i % 2 == 1);
             if (everyOtherElement.All(item => item.Length == 0) == false) return lines;

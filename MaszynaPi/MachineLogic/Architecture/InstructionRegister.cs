@@ -13,10 +13,10 @@ namespace MaszynaPi.MachineLogic.Architecture
         /// <summary>Internal Instruction Opcode register.</summary>
         readonly Register KOD;
 
-        /// <summary>Creates new instance of Instruction Register, basing on parent <see cref="Register"/> class.</summary>
+        /// <summary><inheritdoc cref="Register(uint, uint)"/>.<br></br> Represents special <see cref="InstructionRegister"/> CPU's component.</summary>
         /// <param name="addrBitsize">Currently set size of address/argument component of instruction in bits</param>
         /// <param name="opcodeBitsize">Currently set size of opcode component of instruction in bits</param>
-        /// <param name="value">Initialization value of internal <see cref="Value"/></param>
+        /// <param name="value"><inheritdoc cref="Register(uint, uint)" path="/param[@name='value']"/></param>
         public InstructionRegister(uint addrBitsize, uint opcodeBitsize,  uint value = Defines.DEFAULT_REG_VAL) : base(addrBitsize + opcodeBitsize, value) {
             AD = new Register(addrBitsize);
             KOD = new Register(opcodeBitsize);

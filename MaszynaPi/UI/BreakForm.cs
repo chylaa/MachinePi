@@ -2,7 +2,8 @@
 using System.Windows.Forms;
 
 namespace MaszynaPi.UI {
-    public partial class BreakForm : Form {
+    internal partial class BreakForm : Form 
+    {
         public BreakForm() {
             InitializeComponent();
         }

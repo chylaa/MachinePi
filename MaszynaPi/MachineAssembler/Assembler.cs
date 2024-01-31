@@ -83,10 +83,10 @@ namespace MaszynaPi.MachineAssembler {
 
         /// <summary>
         /// Gets adressses for Procedures, Variables and Constans Labels and loads them into
-        /// dictionary where <see cref="Dictionary{TKey, TValue}.Keys"/> are Names Of Labels and <see cref="Dictionary{TKey, TValue}.Values"/> are Addresses.
+        /// dictionary where <see cref="Dictionary{String, UInt32}.Keys"/> are Names Of Labels and <see cref="Dictionary{String, UInt32}.Values"/> are Addresses.
         /// </summary>
         /// <param name="codeLines">Processed lines of code.</param>
-        /// <returns>Created <see cref="Dictionary{TKey, TValue}"/> filled with asseembly components adresses.</returns>
+        /// <returns>Created <see cref="Dictionary{String, UInt32}"/> filled with asseembly components adresses.</returns>
         /// <exception cref="CompilerException"></exception>
         static Dictionary<string,uint> GetLabelsAddresses(List<string> codeLines) {
             var codeLabels = new Dictionary<string, uint>();

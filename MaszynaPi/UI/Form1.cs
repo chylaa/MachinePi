@@ -11,19 +11,22 @@ using MaszynaPi.FilesHandling;
 using MaszynaPi.MachineAssembler.Editors;
 
 namespace MaszynaPi {
-    public partial class Form1 : Form {
 
+    /// <summary>Application main <see cref="Form"/>, handling CPU, IOs and Editors views. </summary>
+    public partial class Form1 : Form 
+    {
+
+        /// <summary>Indicates that <see cref="CentralProcessingUnit.ExecuteProgram"/> was called.</summary>
+        bool CPUProgramExecuting;
+        /// <summary>Indicates that <see cref="Form1"/> should repaint all controls with <see cref="UserControlSignalWire.Active"/> field set.</summary>
         bool PaintActiveSignals;
+        /// <summary>Last path used in file-open/save operation.</summary>
         string LastUsedFilepath;
 
+        /// <summary>All CPU view <see cref="UserControl"/>s.</summary>
         List<object> MachineComponents;
+        /// <summary>List of all <see cref="UserControlSignalWire"/> objects in CPU view.</summary>
         List<UserControlSignalWire> SignalWires;
-
-        /*
-         * Machine manual control -> each activated signal adds its name to a list, which is then sorted and
-         *transmitted to the machine for execution (ManualTick method / "ActiveSignals" setting). 
-         *(only "Cycle" step possible with manual control)
-         */
 
         readonly CodeEditor codeEditor;
         readonly CentralProcessingUnit Machine;
@@ -33,7 +36,9 @@ namespace MaszynaPi {
         UI.BreakForm breakForm;
         bool BREAK_FLAG = false;
 
-        public Form1() {
+        /// <summary>Creates application main <see cref="Form"/>.</summary>
+        public Form1() 
+        {
             //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
@@ -45,6 +50,7 @@ namespace MaszynaPi {
                     return;
                 }
             }
+            CPUProgramExecuting = false;
             PaintActiveSignals = true;
             InitializeComponent();
             InitializeMachineComponentsList();
@@ -54,7 +60,7 @@ namespace MaszynaPi {
             Debugger = new Debugger();
             Machine = new CentralProcessingUnit();
 
-            UserControlRegisterI.SetDisplayMode(mode: RegisterMode.Instruction);
+            UserControlRegisterI.SetDisplayMode(mode: UserControlRegister.RegisterMode.Instruction);
             userControlFlags.FlagsValueRequest += Machine.GetALUFlags;
             
             userControlFlags.Enabled = false;
@@ -65,7 +71,7 @@ namespace MaszynaPi {
             Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
             Debugger.OnSetExecutedMicroinstructions += userControlInstructionList1.SelectCurrentAciveInstruction;
 
-            Machine.OnRefreshValues += RefreshMicrocontrolerControls; //Set method for refreshing components values on each tick
+            Machine.OnRefreshValues += RefreshCPUControls; //Set method for refreshing components values on each tick
             Machine.OnSetExecutedLine += Debugger.SetExecutedLine;
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
@@ -77,10 +83,10 @@ namespace MaszynaPi {
             // uC UI
 
             UserControlCodeEditor.SetCodeLinesHandle(codeEditor.GetCodeLinesHandle());
-            UserControlIntButton.OnSetRequestValue += RefreshMicrocontrolerControls;
+            UserControlIntButton.OnSetRequestValue += RefreshCPUControls;
 
             SetMachineComponentsViewHandles();
-            RefreshMicrocontrolerControls();
+            RefreshCPUControls();
 
             //Machine.SetOnInterruptReportedAction(JoystickInterruptReported);
 
@@ -164,10 +170,9 @@ namespace MaszynaPi {
             foreach (Control con in control.Controls)
                 RefreshControls(con);
         }
-        private void RefreshMicrocontrolerControls(bool stopBusRefresh = false) {
-            //RefreshControls(MicrocontrollerPanel);
+        private void RefreshCPUControls() {
             foreach (var instance in MachineComponents) {
-                if (false == (stopBusRefresh && (instance is UserControlBus)) )
+                if (false == (CPUProgramExecuting && (instance is UserControlBus)) )
                     (instance as Control)?.Refresh();
             }
             List<string> ActiveSignals;
@@ -194,7 +199,7 @@ namespace MaszynaPi {
         private void RefreshAfterSet(uint oldAddressSpace) {
             Machine.SetComponentsBitsizes();
             Machine.ChangeMemorySize(oldAddressSpace);
-            RefreshMicrocontrolerControls();
+            RefreshCPUControls();
         }
 
         private void DisableManuallySetSignals() {
@@ -203,7 +208,9 @@ namespace MaszynaPi {
             }
         }
 
-        // sorts the microinstruction signals so that register output signals are always prioritized
+        /// <summary>Sorts the microinstruction signals so that register output signals are always prioritized.</summary>
+        /// <param name="activeSignals">List of signals names to be sorted.</param>
+        /// <returns>Sorted list of signal names: output->transit->input->special signals.</returns>
         private List<string> SortSignals(List<string> activeSignals) {
             var inputSignals = activeSignals.Where(s => (s.StartsWith("i") && s.StartsWith("ic") == false));
             var outputSignals = activeSignals.Where(s => s.StartsWith("o"));
@@ -213,6 +220,13 @@ namespace MaszynaPi {
             return otherSignals.Concat(outputSignals).Concat(transBusSignal).Concat(inputSignals).Concat(specialSignals).ToList();
         }
 
+        /// <summary>
+        /// Machine manual control -> each <see cref="UserControlSignalWire.Active"/> signal adds its name to a list,
+        /// which is then sorted (<see cref="SortSignals(List{string})"/>) and pass to the machine for execution
+        /// using <see cref="CentralProcessingUnit.ManualTick(List{string})"/> method.
+        /// <br></br>Note: only "Tick" step possible with manual control enabled.
+        /// </summary>
+        /// <returns>List of names of signals activated by user, sored by <see cref="SortSignals(List{string})"/>.</returns>
         private List<string> GetManualActiveSignals() {
             if (UserControlSignalWire.ManualControl == false) return null;
             List<string> activeSignals = new List<string>();
@@ -234,11 +248,12 @@ namespace MaszynaPi {
                 BREAK_FLAG = false;
                 RunBreakDetector();
 
+                CPUProgramExecuting = true;
                 MemoryControl.PartiallySupressRefreshing = true;
                 DisableManuallySetSignals();
                 
                 Machine.ManualProgram();
-                RefreshMicrocontrolerControls();
+                RefreshCPUControls();
 
             } catch (CPUException cEx) {
                 MessageBox.Show(cEx.Message, "CPU Program Error");
@@ -246,7 +261,7 @@ namespace MaszynaPi {
                 MessageBox.Show(ex.Message, "Unknown Program Error");
             } finally
             {
-                //CancelBreakDetector();
+                CPUProgramExecuting = false;
                 MemoryControl.PartiallySupressRefreshing = false;
                 MemoryControl.Refresh();
             }
@@ -256,7 +271,7 @@ namespace MaszynaPi {
             try {
                 DisableManuallySetSignals();
                 Machine.ManualInstruction();
-                RefreshMicrocontrolerControls();
+                RefreshCPUControls();
             } catch (CPUException cEx) {
                 MessageBox.Show(cEx.Message, "CPU Instruction Error");
             } catch (Exception ex) {
@@ -314,7 +329,7 @@ namespace MaszynaPi {
                     Debugger.FillMemoryLineNumberMap();
                     Machine.SetMemoryContent(code);
                     Machine.ResetRegisters();
-                    RefreshMicrocontrolerControls();
+                    RefreshCPUControls();
                     System.Media.SystemSounds.Exclamation.Play();
                     MessageBox.Show("Compiled.", "Pi Machine");
                     return;
@@ -346,7 +361,7 @@ namespace MaszynaPi {
                 } catch (InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading " + lst + " file " + filepath + "\n" + ex.Message, "Instruction Loader Error");
                 }
-                RefreshMicrocontrolerControls();
+                RefreshCPUControls();
                 RefreshControls(tabPageInstructionList);
             }
         }
@@ -381,7 +396,7 @@ namespace MaszynaPi {
         private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
             Machine.ResetRegisters();
             UserControlCharacterOutput.Reset();
-            RefreshMicrocontrolerControls();
+            RefreshCPUControls();
         }
 
 
@@ -454,7 +469,7 @@ namespace MaszynaPi {
             }
         }
 
-        void SetRegistersDisplayMode(RegisterMode mode) {
+        void SetRegistersDisplayMode(UserControlRegister.RegisterMode mode) {
             foreach(var component in MachineComponents) {
                 if(component is UserControlRegister) {
                     (component as UserControlRegister).SetDisplayMode(mode);
@@ -462,10 +477,14 @@ namespace MaszynaPi {
                 }
             }
         }
-        private void unsignedDecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Dec);}
-        private void signedDecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Signed);}
-        private void hexadecimalToolStripMenuItem_Click(object sender, EventArgs e) {SetRegistersDisplayMode(RegisterMode.Hex);}
-        private void binaryToolStripMenuItem_Click(object sender, EventArgs e) { SetRegistersDisplayMode(RegisterMode.Bin); }
+        private void unsignedDecimalToolStripMenuItem_Click(object sender, EventArgs e) 
+            {SetRegistersDisplayMode(UserControlRegister.RegisterMode.Dec);}
+        private void signedDecimalToolStripMenuItem_Click(object sender, EventArgs e) 
+            {SetRegistersDisplayMode(UserControlRegister.RegisterMode.Signed);}
+        private void hexadecimalToolStripMenuItem_Click(object sender, EventArgs e) 
+            {SetRegistersDisplayMode(UserControlRegister.RegisterMode.Hex);}
+        private void binaryToolStripMenuItem_Click(object sender, EventArgs e) 
+            { SetRegistersDisplayMode(UserControlRegister.RegisterMode.Bin); }
 
 
         void JoystickInterruptReported() {

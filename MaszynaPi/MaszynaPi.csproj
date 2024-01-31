@@ -33,6 +33,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\doc\MaszynaPi.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>mpi.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -250,6 +254,7 @@
     <Content Include=".instructions\Przerwania.lst" />
     <Content Include=".instructions\Stos.lst" />
     <Content Include=".instructions\WeWy.lst" />
+    <Content Include="mpi.ico" />
     <Content Include="SenseHatHandlers\Scripts\JoystickHandler.py" />
     <Content Include="SenseHatHandlers\Scripts\MatrixHandler.py" />
     <Content Include="SenseHatHandlers\Scripts\SensorsHandler.py" />
@@ -262,4 +267,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\System.Runtime.WindowsRuntime.4.6.0\build\net461\System.Runtime.WindowsRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\System.Runtime.WindowsRuntime.4.6.0\build\net461\System.Runtime.WindowsRuntime.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY  $(TargetPath) $(ProjectDir)..\build\ /K /Y /Q</PostBuildEvent>
+  </PropertyGroup>
 </Project>

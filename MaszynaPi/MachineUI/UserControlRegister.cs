@@ -8,12 +8,13 @@ using MaszynaPi.CommonOperations;
 using MaszynaPi.MachineLogic.Architecture;
 using MaszynaPi.MachineAssembler;
 
-namespace MaszynaPi.MachineUI {
-
-    public enum RegisterMode { Dec, Signed, Hex, Bin, Instruction}
-
-    public partial class UserControlRegister : TextBox {
-        const string DIVIDER = ":";
+namespace MaszynaPi.MachineUI 
+{
+    internal partial class UserControlRegister : TextBox 
+    {
+        public enum RegisterMode { Dec, Signed, Hex, Bin, Instruction}
+        
+        const char DIVIDER = ':';
         public string RegisterName { get; set; }
         RegisterMode Mode { get; set; } = RegisterMode.Dec;
         private int PreviousValue { get; set; } = -1;
@@ -46,10 +47,7 @@ namespace MaszynaPi.MachineUI {
                 UnitRegister.SetValue((uint)int.Parse(response));
             Refresh();
         }
-        //protected override void OnPaint(PaintEventArgs e) {
-        //    base.Refresh();
-        //    base.OnPaint(e);
-        //}
+
         public override void Refresh() {
             if (PreviousValue == UnitRegister.GetValue())
                 return; // no need to refresh
@@ -60,7 +58,7 @@ namespace MaszynaPi.MachineUI {
             }else if(Mode == RegisterMode.Signed) {
                 var signed = Bitwise.ConvertToSigned(UnitRegister.GetValue(), ArchitectureSettings.GetWordBits());
                 DisplayValue = signed.ToString();
-                if (signed != UnitRegister.GetValue()) DisplayValue = "-"+DisplayValue;
+                if (signed != UnitRegister.GetValue()) DisplayValue = '-'+DisplayValue;
             } else if(Mode == RegisterMode.Hex) {
                 DisplayValue = "0x"+UnitRegister.GetValue().ToString("X");
             } else if (Mode == RegisterMode.Bin) {
@@ -70,9 +68,9 @@ namespace MaszynaPi.MachineUI {
                 uint opcode = Bitwise.DecodeInstructionOpcode(UnitRegister.GetValue());
                 uint arg = Bitwise.DecodeIntructionArgument(UnitRegister.GetValue());
                 string name = avaibleInstructions.FirstOrDefault(x => x.Value == opcode).Key;
-                DisplayValue = UnitRegister.GetValue().ToString() + " ( " +name+" "+arg.ToString()+" )";
+                DisplayValue = UnitRegister.GetValue().ToString() + " ( " +name + ' ' + arg.ToString()+" )";
             }
-            Text = RegisterName + " " + DIVIDER + " " + DisplayValue;
+            Text = RegisterName +  ' ' + DIVIDER + ' ' + DisplayValue;
             PreviousValue = (int)UnitRegister.GetValue();
             base.Refresh();
         }

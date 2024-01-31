@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace MaszynaPi.MachineUI {
-    public partial class UserControlCodeEditor : TextBox {
+namespace MaszynaPi.MachineUI 
+{
+    internal partial class UserControlCodeEditor : TextBox 
+    {
         const string SELECT_LEFT = "< ";
         const string SELECT_RIGHT = " >";
 
@@ -39,8 +41,7 @@ namespace MaszynaPi.MachineUI {
         }
 
         public void ClearSelected() {
-            Text=Text.Replace(SELECT_LEFT, "");
-            Text=Text.Replace(SELECT_RIGHT, "");
+            Text=Text.Replace(SELECT_LEFT, "").Replace(SELECT_RIGHT, "");
             SelectionLength = 0;
         }
 

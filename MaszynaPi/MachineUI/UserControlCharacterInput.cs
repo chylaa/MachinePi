@@ -4,8 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace MaszynaPi.MachineUI {
-    public partial class UserControlCharacterInput : TextBox {
+namespace MaszynaPi.MachineUI 
+{
+    internal partial class UserControlCharacterInput : TextBox 
+    {
 
         Queue<char> CharactersBuffer; // Handle to Control Unit's CharactersInput IO Device
 

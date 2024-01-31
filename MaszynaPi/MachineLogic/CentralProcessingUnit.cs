@@ -48,7 +48,7 @@ namespace MaszynaPi.MachineLogic {
         public Bus MagA { get; private set; }
         /// <summary>Data Bus</summary>
         public Bus MagS { get; private set; }
-        /// <summary>Address<->Data Transition Bus (address space sized)</summary>
+        /// <summary>Address-Data Transition Bus (address space sized)</summary>
         public Bus MagT { get; private set; }
         /// <summary>Machine's Arithmetic Logic Unit</summary>
         public ArithmeticLogicUnit JAL { get; private set; }
@@ -267,10 +267,10 @@ namespace MaszynaPi.MachineLogic {
 
         // |Part which needs to be changed if another technology of UI creation is preffered| //
         #region < UI Related Actions > 
+        /// <summary>Allows to define action responsible for refreshing CPU components representation in GUI.</summary>
+        public Action OnRefreshValues;
         /// <summary>Allows to define action responsible for signalizing in that GUI that signals repaint is neccessary.</summary>
         public Action<bool> SetPaintActiveSignals;
-        /// <summary>Allows to define action responsible for refreshing CPU components representation in GUI.</summary>
-        public Action<bool> OnRefreshValues;
         /// <summary>Allows to define action responsible for showing currently executed line of program. Invoked each single instruction.</summary>
         public Action<uint> OnSetExecutedLine;
         /// <summary>Allows to define action responsible for showing currently executed microinstruction. Invoked each cycle.</summary>
@@ -281,9 +281,8 @@ namespace MaszynaPi.MachineLogic {
         public Func<bool>CheckProgramBreak;
 
         /// <summary>Invoke of <see cref="OnRefreshValues"/> <see cref="Action"/>.</summary>
-        /// <param name="program"> Indicates if method was called from <see cref="ExecuteProgram"/>.</param>
-        private void RefreshValues(bool program = false) {
-            OnRefreshValues(program);
+        private void RefreshValues() {
+            OnRefreshValues.Invoke();
         }
         /// <summary>Invoke of <see cref="OnSetExecutedLine"/> <see cref="Action"/>.</summary>
         private void SetExecutedLineInEditor(uint instructionMemAddress) {
@@ -307,13 +306,11 @@ namespace MaszynaPi.MachineLogic {
 
         // if the instruction completion signal is hit (STATEMENT_END) returns -1
         // Parameter "tick" controlls which point of instruction execution should be performed (start from 0 if ticks controlled manually, from 1 if called from ExecuteInstructionCycle() method)
-
         /// <summary>Executes single 'tick' of CPU, base on current machine state. Sets <see cref="ActiveSignals"/> list.</summary>
         /// <param name="tick">Number (index) of consecutive tick of currently executed instruction. Defaults to 0 (see <see cref="FETCH_CYCLE_TICK"/>).</param>
         /// <param name="manual">Indicates whenever active signals (<see cref="ActiveSignals"/> content) are selected by user in manual mode (true). Defaults to false.</param>
-        /// <param name="program"> Indicates if method was called from <see cref="ExecuteProgram"/>.</param>
         /// <returns>Index of current instruction's tick that should be executed, or <see cref="ENDOF_INSTRUCTION"/> if all instruction's cycles were performed.</returns>
-        int ExecuteTick(int tick = FETCH_CYCLE_TICK, bool manual = false, bool program = false) {
+        int ExecuteTick(int tick = FETCH_CYCLE_TICK, bool manual = false) {
 
             if(USE_DEBUGGER)
                 SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
@@ -334,7 +331,7 @@ namespace MaszynaPi.MachineLogic {
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
                     SignalsMap[signal].Invoke();
             }
-            RefreshValues(program);
+            RefreshValues();
             MagA.SetEmpty(); MagS.SetEmpty(); MagT.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
             
             if (USE_DEBUGGER)
@@ -352,7 +349,7 @@ namespace MaszynaPi.MachineLogic {
             int uInstructionBlock = FETCH_CYCLE_TICK;
 
             FetchInstruction();
-            ExecuteTick(0, false, program);
+            ExecuteTick(0, false);
             uInstructionBlock++;
 
             uint opcode = I.GetOpcode();
@@ -362,7 +359,7 @@ namespace MaszynaPi.MachineLogic {
             //    requiredTicks -= LastTick;
 
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
-                i = ExecuteTick(i, false, program);
+                i = ExecuteTick(i, false);
                 LastTick = i;
                 if (i == ENDOF_INSTRUCTION) 
                     break;
@@ -498,7 +495,7 @@ namespace MaszynaPi.MachineLogic {
         public List<string> GetActiveSignals() { return ActiveSignals; }
 
         /// <summary>Allows to retreive handle to character buffer list instance from <see cref="TextInput"/> component.</summary>
-        /// <returns>Instance of <see cref="Queue{T}"/> of characters, containing <see cref="TextInput"/> unprocessed data.</returns>
+        /// <returns>Instance of <see cref="Queue{Char}"/>, containing <see cref="TextInput"/> unprocessed data.</returns>
         public Queue<char> GetTextInputBufferHandle() { return TextInput.GetCharactersBufferHandle();  }
         
         /// <summary>Allows to set <see cref="TextInput"/> <see cref="CharacterInput.OnCharacterFetched"/> <see cref="Action"/>.</summary>
@@ -506,7 +503,7 @@ namespace MaszynaPi.MachineLogic {
         public void SetOnFetchCharAction(Action characterFetched) { TextInput.OnCharacterFetched = characterFetched;}
 
         /// <summary>Allows to retreive handle to character buffer list instance from <see cref="TextOutput"/> component.</summary>
-        /// <returns>Instance of <see cref="List{T}"/> of characters, containing <see cref="TextOutput"/> unprocessed data.</returns>
+        /// <returns>Instance of <see cref="List{Char}"/>, containing <see cref="TextOutput"/> unprocessed data.</returns>
         public List<char> GetTextOutputBufferHandle() { return TextOutput.GetCharactersBufferHandle(); }
 
         /// <summary>Allows to set <see cref="TextOutput"/> <see cref="CharacterOutput.OnCharacterPushed"/> <see cref="Action"/>.</summary>
@@ -517,10 +514,10 @@ namespace MaszynaPi.MachineLogic {
         /// <param name="interruptReported"><see cref="Action"/> that should be performed when interrupt is first reported to CPU in <see cref="RZ"/> register.</param>
         public void SetOnInterruptReportedAction(Action interruptReported) { IntController.OnInterruptReported += interruptReported; }
 
-        /// <summary>Sets <see cref="MatrixLED.Mode.Letter"/ in Matrix IO handler, <see cref="MatrixOutput"/>.</summary>
+        /// <summary>Sets <see cref="MatrixLED.Mode.Letter"></see> in Matrix IO handler, <see cref="MatrixOutput"/>.</summary>
         public void SetLEDMatrixModeLetter() { MatrixOutput.SetLetterMode(); }
 
-        /// <summary>Sets <see cref="MatrixLED.Mode.Paint"/ in Matrix IO handler, <see cref="MatrixOutput"/>.</summary>
+        /// <summary>Sets <see cref="MatrixLED.Mode.Paint"></see> in Matrix IO handler, <see cref="MatrixOutput"/>.</summary>
         public void SetLEDMatrixModePaint() { MatrixOutput.SetPaintMode(); }
 
         /// <summary>Allows to retreive <see cref="ArithmeticLogicUnit"/>'s, <see cref="ALUFlags"/> state.</summary>

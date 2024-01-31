@@ -6,9 +6,11 @@ using System.Windows.Forms;
 using MaszynaPi.MachineLogic;
 using MaszynaPi.MachineAssembler;
 
-namespace MaszynaPi.MachineUI {
+namespace MaszynaPi.MachineUI 
+{
 
-    public partial class UserControlInstructionList : TextBox  {
+    internal partial class UserControlInstructionList : TextBox  
+    {
         const string ITEM_SELECTED = " ";
         string SelectedInstructionName;
 
@@ -18,7 +20,7 @@ namespace MaszynaPi.MachineUI {
             InitializeComponent();
             ReadOnly = true;
             BackColor = Color.White;
-            SelectedInstructionName = "";
+            SelectedInstructionName = string.Empty;
             WordWrap = false;
 
             Enter += HideCursorSetOnEnter;

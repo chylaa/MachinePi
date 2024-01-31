@@ -4,19 +4,25 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace MaszynaPi {
-    public partial class FormProjectOptions : Form {
+namespace MaszynaPi 
+{
+    internal partial class FormProjectOptions : Form 
+    {
         private bool BLOCK_RADIOBTN_UPDATE = false;
         private bool BLOCK_CHECKBOX_UPDATE = false;
 
-        private uint OldAddressSpace;
+        private readonly uint OldAddressSpace;
         private Defines.Components SelectedComponents;
         private Defines.Architecture SelectedArchitecture;
 
-        List<Control> textBoxesINTAddr;
-        bool ONLY_PATHS;
+        /// <summary>Collection of <see cref="TextBox"/>es containing interruption handlers adresses.</summary>
+        readonly List<TextBox> textBoxesINTAddr;
+        
+        /// <summary>Indicates that only <see cref="tabPagePaths"/> should be shown.</summary>
+        readonly bool ONLY_PATHS;
 
-
+        /// <summary>Creates new <see cref="Form"/>, with editable application settings.</summary>
+        /// <param name="onlyPaths">Collection of <see cref="TextBox"/>es containing interruption handlers adresses.</param>
         public FormProjectOptions(bool onlyPaths=false) {
             InitializeComponent();
 
@@ -39,7 +45,7 @@ namespace MaszynaPi {
             textBoxINT2Addr.KeyPress += HandleInput;
             textBoxINT3Addr.KeyPress += HandleInput;
             textBoxINT4Addr.KeyPress += HandleInput;
-            textBoxesINTAddr = new List<Control> { textBoxINT4Addr, textBoxINT3Addr, textBoxINT2Addr, textBoxINT1Addr };
+            textBoxesINTAddr = new List<TextBox> { textBoxINT4Addr, textBoxINT3Addr, textBoxINT2Addr, textBoxINT1Addr };
 
 
             numericUpDownAddresBits.Maximum = (decimal)Defines.ADDRESS_BITS_MAX;

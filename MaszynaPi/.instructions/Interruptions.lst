@@ -140,14 +140,14 @@ Linia1=instruction ret;
 Linia2=arguments 0;
 Linia3=rd od iins icit;
 Linia4=osp ia icsp;
-Linia5=rd od stor ia iit;
+Linia5=rd od tbs ia iit;
 [pop]
 Linie=5
 Linia1=instruction pop;
 Linia2=arguments 0;
 Linia3=rd od iins icit;
 Linia4=osp ia icsp;
-Linia5=rd od ialu wracc iacc oit ia;
+Linia5=rd od tbs ia iit;
 [mas]
 Linie=5
 Linia1=// mask interruptions, immedite addressing
@@ -161,7 +161,7 @@ Linia1=// mask interruptions, direct addressing
 Linia2=INSTRUCTION MSK;
 Linia3=rd od iins icit;
 Linia4=oa ia;
-Linia5=rd od da iim;
+Linia5=rd od tbs iim;
 Linia6=oit ia;
 [rdm]
 Linie=6
@@ -169,5 +169,5 @@ Linia1=// read mask register value
 Linia2=INSTRUCTION RDM;
 Linia3=rd od iins icit;
 Linia4=oa ia;
-Linia5=oim da id;
+Linia5=oim tbs id;
 Linia6=wr oit ia;

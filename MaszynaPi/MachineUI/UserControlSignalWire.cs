@@ -5,7 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace MaszynaPi.MachineUI {
-    public partial class UserControlSignalWire : UserControl {
+    internal partial class UserControlSignalWire : UserControl 
+    {
 
         private readonly static Brush BRUSH_UNACTIVE = Brushes.Black;
         private readonly static Brush BRUSH_ACTIVE = Brushes.Red;

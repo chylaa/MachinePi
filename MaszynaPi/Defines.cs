@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MaszynaPi {
+namespace MaszynaPi 
+{
     /// <summary>
     /// Static class, containing public constans values, allowing easy defining/modification application-specific 'assumption' values. 
     /// <br></br><u><b>Note:</b> Selected standard is to store all string values in lowercase!</u>
     /// </summary>
-    public static class Defines {
+    public static class Defines 
+    {
         /// <summary>Minimal size (in bits) of machine's WORD opcode part (restriction for setting via UI).</summary>
         public const uint CODE_BITS_MIN = 3;
         /// <summary>Maximum size (in bits) of machine's WORD opcode part (restriction for setting via UI).</summary>
@@ -44,6 +46,8 @@ namespace MaszynaPi {
         /// <summary>Amout of possible interruptions sources.</summary>
         public const uint INTERRUPTIONS_NUM = 4;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         /// <summary> Enum represent different Machine architectures -> they are encoded as the bitwise AND of their base <see cref="Components"/>.
         /// <br></br><see cref="Architecture.MachinePI"/> implementation was subject of this application's extension over original simulator.</summary>
         public enum Architecture : int { MachineW = 1, MachineWp = 3, MachineL = 255, MachineEW = 2047, MachinePI = 4095 };
@@ -69,24 +73,24 @@ namespace MaszynaPi {
             Flags = 0b_0100_0000_0000,               // 1024
             ExtendedIO = 0b_1000_0000_0000           // 2048
         }
+#pragma warning restore CS1591 
 
         #region Unfinished, Architecture & Components enabling/disabling part of implementation 
 
         /* If instruction list containing any signal from a given component is loaded, it must be activated -> related formats appear in GUI. 
          * If component is activated -> related formats appears in GUI and corresponding list of avaible signals is added 
-         * TODO: fill lists with related signals and handle changes. For now, Machine stuck in PI extension (all Components) */
-        public static List<string> SignalsBasic = new List<string> { };
-        public static List<string> SignalsBusConnection = new List<string> { };
-        public static List<string> SignalsALUIncrementations = new List<string> { };
-        public static List<string> SignalsALULogical = new List<string> { };
-        public static List<string> SignalsALUArythmetical = new List<string> { };
-        public static List<string> SignalsStack = new List<string> { };
-        public static List<string> SignalsRegisterX = new List<string> { };
-        public static List<string> SignalsRegisterY = new List<string> { };
-        public static List<string> SignalsInteruptions = new List<string> { };
-        public static List<string> SignalsInput = new List<string> { };
-        public static List<string> SignalsFlags = new List<string> { };
-
+         * TODO: fill lists with related signals and handle changes. For now, Machine stuck in PI extension (all Components) 
+         * public static List<string> SignalsBasic = new List<string> { };
+         * public static List<string> SignalsBusConnection = new List<string> { };
+         * public static List<string> SignalsALUIncrementations = new List<string> { };
+         * public static List<string> SignalsALULogical = new List<string> { };
+         * public static List<string> SignalsALUArythmetical = new List<string> { };
+         * public static List<string> SignalsStack = new List<string> { };
+         * public static List<string> SignalsRegisterX = new List<string> { };
+         * public static List<string> SignalsRegisterY = new List<string> { };
+         * public static List<string> SignalsInteruptions = new List<string> { };
+         * public static List<string> SignalsInput = new List<string> { };
+         * public static List<string> SignalsFlags = new List<string> { };
         /// <summary>
         /// Collection of all implemented microinstructions (of all available <see cref="Architecture"/>s).
         /// <br></br><i>(Currently contains only empty lists due to lack of implementation of dynamic architecture changes - TODO)</i> 
@@ -95,6 +99,7 @@ namespace MaszynaPi {
                                                                             SignalsALULogical, SignalsALUArythmetical, SignalsStack,
                                                                             SignalsRegisterX, SignalsRegisterY, SignalsInteruptions,
                                                                             SignalsInput, SignalsFlags};
+         */
 
         #endregion
         /// <summary> Instruction-definition-language keyword representing ALU's 'sign' bit flag.</summary>
@@ -148,7 +153,13 @@ namespace MaszynaPi {
         public static string INSTRUCTION_NAME_HEADER {get; private set; }
 
         /// <summary> Represents supproted languages version of application, (affects assembly and micrioinstructions code syntax). </summary>
-        public enum Lang { PL, ENG }
+        public enum Lang 
+        { 
+            /// <summary>Polish</summary>
+            PL, 
+            /// <summary>English</summary>
+            ENG 
+        }
 
         /// <summary> Stores language version curenntly in use. </summary>
         public static Lang LangInUse { get; private set; }

@@ -30,12 +30,10 @@ namespace MaszynaPi.MachineAssembler
         /// </summary>
         public Action<uint, List<string>> OnSetExecutedMicroinstructions;
 
-        /// <summary> Default constructor. </summary>
+        /// <summary> Creates <see cref="Debugger"/> instance. </summary>
         public Debugger() {}
         
-        /// <summary>
-        /// Calls <see cref="Dictionary{TKey, TValue}.Clear()"/> on <see cref="MemoryLineNumberMap"/>.
-        /// </summary>
+        /// <summary>Clears <see cref="MemoryLineNumberMap"/> dictionary.</summary>
         void ClearMemoryEditorMap() { MemoryLineNumberMap.Clear(); }
         /// <summary>
         /// Assigns instance of List of code lines into internal <see cref="CodeLinesHandle"/>.

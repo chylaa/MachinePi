@@ -23,6 +23,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         /// <summary>Initializes new <see cref="Bus"/> instance, with <see cref="EMPTY"/> value, of allowed <paramref name="bitsize"/> size.</summary>
         /// <param name="bitsize">"width" of bus, defines maximum size of internal <see cref="Value"/>.</param>
+        /// <param name="name">String to be set as name of <see cref="Bus"/> instance (address/data/transitive).</param>
         public Bus(uint bitsize, string name) {
             Bitsize = bitsize;
             Name = name;

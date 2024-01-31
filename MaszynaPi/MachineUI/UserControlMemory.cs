@@ -7,13 +7,16 @@ using System.Windows.Forms;
 using MaszynaPi.CommonOperations;
 using MaszynaPi.MachineAssembler;
 
-namespace MaszynaPi.MachineUI {
-    public partial class UserControlMemory : TextBox {
+namespace MaszynaPi.MachineUI 
+{
+    internal partial class UserControlMemory : TextBox 
+    {
 
         private const int SPACING_STR_LEN = 12;
         private const int MAX_NUMBER_STRING_LENGTH = 6; // max number of digits in address index
 
-        private const int VISIBLE_MEMORY_SIZE = 16+1;
+        /// <summary>Lines of memory generated in control when <see cref="PartiallySupressRefreshing"/> enabled.</summary>
+        private const int VISIBLE_MEMORY_SIZE = 18;
 
         private List<uint> UnitMemory; //handle to CentralUnit Memory object
         int SelectedIndex;
@@ -27,7 +30,7 @@ namespace MaszynaPi.MachineUI {
             BackColor = Color.White;
             ScrollBars = ScrollBars.None;//ScrollBars = ScrollBars.Vertical;
             WordWrap = false;
-            //ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox [errors in rasbian :c]
+            //ContextMenu = new ContextMenu(); // "Disable" contex menu of TextBox [errors in rasbian]
             InitializeComponent();
             //Enter += HideCursorSetOnEnter; //Causes the scrollbar to "escape"(returns to its previous position)
             MouseDoubleClick += HandleDoubleItemClicked;

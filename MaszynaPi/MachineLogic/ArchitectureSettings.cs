@@ -23,9 +23,9 @@ namespace MaszynaPi.MachineLogic {
         /// <summary> List of microoperations available to use in currently selected architecture. </summary>
         static readonly List<string> AvailableSignals = new List<string>();
 
-        /// <summary>Data structure mapping interruption-specific bits (<see cref="Dictionary{TKey, TValue}.Keys"/>) into memory adresses (<see cref="Dictionary{TKey, TValue}.Values"/>).</summary>
-        static readonly Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>(); 
-        /// <summary>Data structure mapping addresses of IO devices (<see cref="Dictionary{TKey, TValue}.Keys"/>) into their's ID (<see cref="Dictionary{TKey, TValue}.Values"/>).</summary>
+        /// <summary>Data structure mapping interruption-specific bits (<see cref="Dictionary{UInt32, UInt32}.Keys"/>) into memory adresses (<see cref="Dictionary{UInt32, UInt32}.Values"/>).</summary>
+        static readonly Dictionary<uint, uint> InterruptVector = new Dictionary<uint, uint>();
+        /// <summary>Data structure mapping addresses of IO devices (<see cref="Dictionary{UInt32, UInt32}.Keys"/>) into their's ID (<see cref="Dictionary{UInt32, UInt32}.Values"/>).</summary>
         static readonly Dictionary<uint, uint> IODevices = new Dictionary<uint, uint>();
         #endregion
 
@@ -100,6 +100,7 @@ namespace MaszynaPi.MachineLogic {
         /// <returns>List of currently <see cref="AvailableSignals"/> </returns>
         public static List<string> GetAvaibleSignals() => AvailableSignals;
         
+        /* Uncomment On Architecture change implementation, see Defines
         /// <summary>  Allows to set <see cref="AvailableSignals"/> base on previously set <see cref="ActiveComponents"/> 
         /// and collection of all microops from <see cref="Defines.Signals"/>.</summary>
         public static void SetAvaibleSignals() {
@@ -109,7 +110,8 @@ namespace MaszynaPi.MachineLogic {
                 if (ActiveComponents.HasFlag((Defines.Components)i))
                     AvailableSignals.AddRange(Defines.Signals[i]);
             }
-        }
+        }*/
+
         /// <summary>
         /// Returns list of all avaible instructions names, considering the currently set <see cref="CodeBits"/> value <br></br>
         /// <i>(not always whole set of instructions can be loaded if hardware settings does not provide enough space for encoding)</i>.
@@ -147,12 +149,12 @@ namespace MaszynaPi.MachineLogic {
             SetInterruptVector(baseIntVect);
         }
 
-        /// <summary>Allows to access data structure mapping interruption-specific bit (<see cref="Dictionary{TKey, TValue}.Keys"/>) into memory adresses (<see cref="Dictionary{TKey, TValue}.Values"/>).</sum
+        /// <summary>Allows to access data structure mapping interruption-specific bit (<see cref="Dictionary{UInt32, UInt32}.Keys"/>) into memory adresses (<see cref="Dictionary{TKey, TValue}.Values"/>).</summary>
         /// <returns><see cref="InterruptVector"/> instance.</returns>
         public static Dictionary<uint, uint> GetInterruptVector() => InterruptVector;
 
         /// <summary> Clears old <see cref="InterruptVector"/> and copies content of <paramref name="newVector"/> instance to it.</summary>
-        /// <param name="newVector"><see cref="Dictionary{TKey, TValue}"/> object with new interrupt vector (INTbit-address) pairs.</param>
+        /// <param name="newVector"><see cref="Dictionary{UInt32, UInt32}"/> object with new interrupt vector (INTbit-address) pairs.</param>
         public static void SetInterruptVector(Dictionary<uint, uint> newVector) {
             InterruptVector.Clear();
             foreach (var pair in newVector)
@@ -201,7 +203,7 @@ namespace MaszynaPi.MachineLogic {
         }
 
         /// <summary> Clears old <see cref="IODevices"/> and copies content of <paramref name="DevicesAddresses"/> instance to it.</summary>
-        /// <param name="DevicesAddresses"><see cref="Dictionary{TKey, TValue}"/> object with new IO device's address-ID pairs.</param>
+        /// <param name="DevicesAddresses"><see cref="Dictionary{UInt32, UInt32}"/> object with new IO device's address-ID pairs.</param>
         public static void SetIODevicesAddresses(Dictionary<uint, uint> DevicesAddresses) {
             IODevices.Clear();
             foreach (var pair in DevicesAddresses)

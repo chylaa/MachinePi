@@ -18,7 +18,7 @@ namespace MaszynaPi.MachineLogic.IODevices
         {
             /// <summary>Each number written into <see cref="IODevice.IOBuffer"/> if show in <see cref="Matrix"/> as it's ASCII representaion.</summary>
             Letter, 
-            /// <summary>Each number written into <see cref="IODevice.IOBuffer"/> is translated into single pixel of colour to be shown in <see cref="Matrix"/>.
+            /// <summary>Each number written into <see cref="IODevice.IOBuffer"/> is translated into single pixel of colour to be shown in <see cref="Matrix"/>.</summary>
             Paint 
         };
 

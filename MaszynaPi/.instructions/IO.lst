@@ -101,14 +101,14 @@ Linia1=instruction ret;
 Linia2=arguments 0;
 Linia3=rd od iins icit;
 Linia4=osp ia icsp;
-Linia5=rd od stor ia iit;
+Linia5=rd od tbs ia iit;
 [pop]
 Linie=5
 Linia1=instruction pop;
 Linia2=arguments 0;
 Linia3=rd od iins icit;
 Linia4=osp ia icsp;
-Linia5=rd od ialu wracc iacc oit ia;
+Linia5=rd od tbs ia iit;
 [jtp]
 Linie=6
 Linia1=instruction jtp;

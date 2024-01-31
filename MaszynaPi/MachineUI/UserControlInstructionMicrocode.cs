@@ -4,9 +4,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using MaszynaPi.MachineAssembler;
 
-namespace MaszynaPi.MachineUI {
-
-    public partial class UserControlInstructionMicrocode : TextBox {
+namespace MaszynaPi.MachineUI 
+{
+    internal partial class UserControlInstructionMicrocode : TextBox 
+    {
         const string SELECT_LEFT = "< ";
         const string SELECT_RIGHT = " >";
 
@@ -23,8 +24,7 @@ namespace MaszynaPi.MachineUI {
         }
 
         public void ClearSelected() {
-            Text=Text.Replace(SELECT_LEFT, "");
-            Text=Text.Replace(SELECT_RIGHT, "");
+            Text=Text.Replace(SELECT_LEFT, "").Replace(SELECT_RIGHT, "");
             SelectionLength = 0;
         }
 

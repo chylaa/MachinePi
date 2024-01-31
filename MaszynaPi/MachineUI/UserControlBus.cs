@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using MaszynaPi.MachineLogic.Architecture;
 
 namespace MaszynaPi.MachineUI {
-    public partial class UserControlBus : TextBox
+    internal partial class UserControlBus : TextBox
     {
         
         private Bus UnitBus;
@@ -41,7 +41,7 @@ namespace MaszynaPi.MachineUI {
             } 
             else
             { 
-                toolTip?.SetToolTip(this, UnitBus.GetValue().ToString());
+                toolTip?.SetToolTip(this, $"{UnitBus.Name} Bus: {UnitBus.GetValue()}");
                 BackColor = COLOR_ACTIVE;
                 BorderStyle = BorderStyle.None;
             }

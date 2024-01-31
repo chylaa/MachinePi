@@ -7,7 +7,14 @@ namespace MaszynaPi.MachineLogic.IODevices {
     public class IODeviceException : Exception { public IODeviceException(string message) : base(message) { } }
 
     /// <summary>Enumeration representing different types of <see cref="IODevice"/>es.</summary>
-    public enum IOType { Input, Output, InputOutput };  
+    public enum IOType { 
+        /// <summary>Signalizes external device sending data to <see cref="CentralProcessingUnit"/>.</summary>
+        Input,
+        /// <summary>Signalizes external device reading data from <see cref="CentralProcessingUnit"/>.</summary>
+        Output, 
+        /// <summary>Signalizes external device that can send and read data to/from <see cref="CentralProcessingUnit"/>.</summary>
+        InputOutput 
+    };  
     
     /// <summary>
     /// Abstract class providing template for basic <see cref="IODevice"/> that can be <see cref="IOType.Input"/> device
@@ -34,7 +41,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         /// <param name="g">Instance of CPU's "Ready" register. </param>
         /// <param name="rb">Instance of CPU's "I/O Buffer" register.</param>
         /// <param name="id">Requested ID number of device.</param>
-        /// <param name="iOType">Type of device. Will affect <see cref="virtual"/> read/write methdos that can be used.</param>
+        /// <param name="iOType">Type of device. Will affect virtual read/write methdos that can be used.</param>
         protected IODevice(Register g, Register rb, uint id, IOType iOType) {
             Ready = g;
             IOBuffer = rb;

@@ -1,7 +1,9 @@
 ﻿using System.Windows.Forms;
 
-namespace MaszynaPi {
-    public partial class ComponentsCheckBox : CheckBox {
+namespace MaszynaPi 
+{
+    internal partial class ComponentsCheckBox : CheckBox 
+    {
 
         public Defines.Components Component { get; set; }
 

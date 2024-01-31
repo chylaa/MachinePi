@@ -3,8 +3,10 @@ using System.Drawing;
 using System.Windows.Forms;
 
 
-namespace MaszynaPi.MachineUI {
-    public partial class UserControlCharacterOutput : TextBox {
+namespace MaszynaPi.MachineUI 
+{
+    internal partial class UserControlCharacterOutput : TextBox 
+    {
 
         List<char> CharactersBuffer; // Handle to Control Unit's CharactersInput IO Device
 

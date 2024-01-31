@@ -8,13 +8,13 @@ namespace MaszynaPi.MachineLogic.Architecture {
     /// <summary>Supported flags bits of Flag Register of Arithmetic Logic Unit.</summary>
     [Flags]
     public enum ALUFlags { 
-        /// <summary>Value in register AK less than 0 (MSB == 1)</summary>
+        /// <summary>Sign bit (MSB) in accumulator register is set to 1 (negative value).</summary>
         Z   = 0b0001, 
         /// <summary>Not used</summary>
         V   = 0b0010, 
         /// <summary>Interruption requested</summary>
         INT = 0b0100,
-        /// <summary>Value in register AK equals 0</summary>
+        /// <summary>Value in accumulator register equals 0</summary>
         ZAK = 0b1000  
     }
 
@@ -59,7 +59,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         /// <summary>
         /// Allows to check if ALU's flag register, has flag defined by <paramref name="flag"/> stirng set (see <see cref="EncodedFlags"/>).
-        /// <br></br>(<i>Side note after a year: Should've use <see cref="Enum.TryParse"/> method</i>)
+        /// <br></br>(<i>Side note after a year: Should've use <see cref="Enum.TryParse{TEnum}(string, out TEnum)"/> method</i>)
         /// </summary>
         /// <param name="flag">Name of specific ALU flag.</param>
         /// <returns>'true' if passed flag value is currently set in internal flag register, 'false' otherwises.</returns>
@@ -97,7 +97,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         /// <summary> Allows to set <see cref="FlagRegister"/> based on current ALU registers content.</summary>
         public void AutoSetFlags() { 
             FlagRegister &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
-            if (Bitwise.IsSignBitSet(AK.GetValue(),AK.GetBitsize())) FlagRegister |= ALUFlags.Z; ///  From script: Najbardziej znaczący bit akumulatora nazwano bitem znaku liczby(Z)
+            if (Bitwise.IsSignBitSet(AK.GetValue(),AK.GetBitsize())) FlagRegister |= ALUFlags.Z; //  From script: Most significant bit of ACC is sign bit (Z)
             if (AK.GetValue() == 0) FlagRegister |= ALUFlags.ZAK;
         }
         /// <summary>Assings value of first operand (<see cref="OperandA"/>) to <see cref="AK"/>.</summary>
