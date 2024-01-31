@@ -172,15 +172,15 @@ namespace MaszynaPi.MachineLogic {
         }
 
         /// <summary>Calculates how many bits are neccessary to encode all IO Devices addresses.</summary>
-        /// <returns>Minimal number of bits that will allow to assign each IO device it's own memory-mapped address.</returns>
+        /// <returns>Minimal number of bits that will allow to assign each IO device it's own address.</returns>
         public static uint GetAddressSpaceForIO() {
             int numOfIOs = GetNumberOfIODevices();
             return (uint)Math.Ceiling(Math.Log(a: numOfIOs, newBase: 2));
         }
 
-        /// <summary> Allows to retreive IO device's ID number, base on its memory-mappped address. <br></br>
+        /// <summary> Allows to retreive IO device's ID number, base on its assigned address. <br></br>
         /// Throws <see cref="Exception"/> if no device with <paramref name="IOAddress"/> was found in <see cref="IODevices"/> map.</summary>
-        /// <param name="IOAddress">Address of IO device in machine memory.</param>
+        /// <param name="IOAddress">Assigned address of IO device.</param>
         /// <returns>ID of device with address == <paramref name="IOAddress"/>.</returns>
         /// <exception cref="Exception"></exception>
         public static uint GetIODeviceID(uint IOAddress) {
@@ -190,7 +190,7 @@ namespace MaszynaPi.MachineLogic {
 
         /// <summary>
         /// Initializes IO device's index-address dictionary, creating new instance of it, filled with consecutive values from 0 to 'max number of devices', 
-        /// for both keys and values of created map (means that device with ID = 0 is memory-mapped to address 0 etc.).
+        /// for both keys and values of created map (means that device with ID = 0 have address 0 etc.).
         /// </summary>
         public static void InitializeIODevicesAddresses() {
             Dictionary<uint, uint> baseIOAddr = new Dictionary<uint, uint>();

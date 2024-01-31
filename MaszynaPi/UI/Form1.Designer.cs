@@ -28,72 +28,18 @@ namespace MaszynaPi {
             this.BottomPanel = new System.Windows.Forms.Panel();
             this.tabControlOnBottomPanel = new System.Windows.Forms.TabControl();
             this.tabPageInput = new System.Windows.Forms.TabPage();
+            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
             this.tabPageOutput = new System.Windows.Forms.TabPage();
+            this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TopLeftPanel = new System.Windows.Forms.Panel();
             this.MicrocontrollerPanel = new System.Windows.Forms.Panel();
             this.breakPanel = new System.Windows.Forms.Panel();
-            this.panelALUView = new System.Windows.Forms.Panel();
-            this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rozkazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otwórzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearOutputConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.registersDisplayModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unsignedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.signedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hexadecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ładujListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.instructionLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.polishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.opcjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.matrixModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.letterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.paintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wykonajToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.programToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.rozkazToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.taktToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitter2 = new System.Windows.Forms.Splitter();
-            this.TopRightPanel = new System.Windows.Forms.Panel();
-            this.ProgramPanel = new System.Windows.Forms.Panel();
-            this.tabControlEditors = new System.Windows.Forms.TabControl();
-            this.tabPageCodeEditor = new System.Windows.Forms.TabPage();
-            this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveContexMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveUnixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPageInstructionList = new System.Windows.Forms.TabPage();
-            this.panelInstructionsMicrocode = new System.Windows.Forms.Panel();
-            this.splitter3 = new System.Windows.Forms.Splitter();
-            this.panelInstructionsList = new System.Windows.Forms.Panel();
-            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
-            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
-            this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
             this.userControlFlags = new MaszynaPi.MachineUI.UserControlFlags();
             this.userControlSignalWire_stop = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_oitd = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_oa = new MaszynaPi.MachineUI.UserControlSignalWire();
-            this.userControlSignalWire_da = new MaszynaPi.MachineUI.UserControlSignalWire();
-            this.userControlSignalWire_ad = new MaszynaPi.MachineUI.UserControlSignalWire();
+            this.userControlSignalWire_t = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_osp = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_isp = new MaszynaPi.MachineUI.UserControlSignalWire();
             this.userControlSignalWire_dcsp = new MaszynaPi.MachineUI.UserControlSignalWire();
@@ -148,16 +94,70 @@ namespace MaszynaPi {
             this.UserControlRegisterY = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterRB = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterG = new MaszynaPi.MachineUI.UserControlRegister();
+            this.panelALUView = new System.Windows.Forms.Panel();
             this.UserControlRegisterAK = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterL = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterI = new MaszynaPi.MachineUI.UserControlRegister();
             this.userControlBusAddress = new MaszynaPi.MachineUI.UserControlBus();
             this.userControlBusData = new MaszynaPi.MachineUI.UserControlBus();
             this.MemoryControl = new MaszynaPi.MachineUI.UserControlMemory();
+            this.checkBoxManualDebug = new System.Windows.Forms.CheckBox();
             this.UserControlRegisterS = new MaszynaPi.MachineUI.UserControlRegister();
             this.UserControlRegisterA = new MaszynaPi.MachineUI.UserControlRegister();
-            this.UserControlCharacterInput = new MaszynaPi.MachineUI.UserControlCharacterInput();
-            this.UserControlCharacterOutput = new MaszynaPi.MachineUI.UserControlCharacterOutput();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rozkazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otwórzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearOutputConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registersDisplayModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unsignedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signedDecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexadecimalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ładujListęRozkazówToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.instructionLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.polishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.opcjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.matrixModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.letterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wykonajToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.rozkazToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.taktToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitter2 = new System.Windows.Forms.Splitter();
+            this.TopRightPanel = new System.Windows.Forms.Panel();
+            this.ProgramPanel = new System.Windows.Forms.Panel();
+            this.tabControlEditors = new System.Windows.Forms.TabControl();
+            this.tabPageCodeEditor = new System.Windows.Forms.TabPage();
+            this.UserControlCodeEditor = new MaszynaPi.MachineUI.UserControlCodeEditor();
+            this.CodeEditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CompileItemToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveContexMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.wytnijToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kopiujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wklejToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unixCodeEditorMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.kodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kompilujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveUnixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPageInstructionList = new System.Windows.Forms.TabPage();
+            this.panelInstructionsMicrocode = new System.Windows.Forms.Panel();
+            this.userControlInstructionMicrocode1 = new MaszynaPi.MachineUI.UserControlInstructionMicrocode();
+            this.splitter3 = new System.Windows.Forms.Splitter();
+            this.panelInstructionsList = new System.Windows.Forms.Panel();
+            this.userControlInstructionList1 = new MaszynaPi.MachineUI.UserControlInstructionList();
+            this.MainToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.BottomPanel.SuspendLayout();
             this.tabControlOnBottomPanel.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -209,6 +209,14 @@ namespace MaszynaPi {
             this.tabPageInput.TabIndex = 0;
             this.tabPageInput.Text = "Input console";
             // 
+            // UserControlCharacterInput
+            // 
+            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
+            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
+            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
+            this.UserControlCharacterInput.TabIndex = 0;
+            this.UserControlCharacterInput.TabStop = false;
+            // 
             // tabPageOutput
             // 
             this.tabPageOutput.BackColor = System.Drawing.SystemColors.Control;
@@ -219,6 +227,17 @@ namespace MaszynaPi {
             this.tabPageOutput.Size = new System.Drawing.Size(1431, 109);
             this.tabPageOutput.TabIndex = 1;
             this.tabPageOutput.Text = "Output console";
+            // 
+            // UserControlCharacterOutput
+            // 
+            this.UserControlCharacterOutput.BackColor = System.Drawing.Color.White;
+            this.UserControlCharacterOutput.Location = new System.Drawing.Point(11, 9);
+            this.UserControlCharacterOutput.Multiline = true;
+            this.UserControlCharacterOutput.Name = "UserControlCharacterOutput";
+            this.UserControlCharacterOutput.ReadOnly = true;
+            this.UserControlCharacterOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.UserControlCharacterOutput.Size = new System.Drawing.Size(1414, 94);
+            this.UserControlCharacterOutput.TabIndex = 0;
             // 
             // splitter1
             // 
@@ -246,8 +265,7 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_stop);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oitd);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_oa);
-            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_da);
-            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_ad);
+            this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_t);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_osp);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_isp);
             this.MicrocontrollerPanel.Controls.Add(this.userControlSignalWire_dcsp);
@@ -313,6 +331,7 @@ namespace MaszynaPi {
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterS);
             this.MicrocontrollerPanel.Controls.Add(this.UserControlRegisterA);
             this.MicrocontrollerPanel.Controls.Add(this.menuStrip1);
+            this.MicrocontrollerPanel.Cursor = System.Windows.Forms.Cursors.Default;
             this.MicrocontrollerPanel.Location = new System.Drawing.Point(1, 1);
             this.MicrocontrollerPanel.Name = "MicrocontrollerPanel";
             this.MicrocontrollerPanel.Size = new System.Drawing.Size(826, 560);
@@ -325,509 +344,10 @@ namespace MaszynaPi {
             this.breakPanel.Size = new System.Drawing.Size(185, 40);
             this.breakPanel.TabIndex = 76;
             // 
-            // panelALUView
-            // 
-            this.panelALUView.BackColor = System.Drawing.Color.White;
-            this.panelALUView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelALUView.Location = new System.Drawing.Point(317, 303);
-            this.panelALUView.Name = "panelALUView";
-            this.panelALUView.Size = new System.Drawing.Size(156, 146);
-            this.panelALUView.TabIndex = 14;
-            // 
-            // checkBoxManualDebug
-            // 
-            this.checkBoxManualDebug.AutoSize = true;
-            this.checkBoxManualDebug.Location = new System.Drawing.Point(711, 53);
-            this.checkBoxManualDebug.Name = "checkBoxManualDebug";
-            this.checkBoxManualDebug.Size = new System.Drawing.Size(97, 17);
-            this.checkBoxManualDebug.TabIndex = 7;
-            this.checkBoxManualDebug.TabStop = false;
-            this.checkBoxManualDebug.Text = "Manual Control";
-            this.checkBoxManualDebug.UseVisualStyleBackColor = true;
-            this.checkBoxManualDebug.CheckedChanged += new System.EventHandler(this.checkBoxManualDebug_CheckedChanged);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.plikToolStripMenuItem,
-            this.widokToolStripMenuItem,
-            this.projektToolStripMenuItem,
-            this.wykonajToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(826, 24);
-            this.menuStrip1.TabIndex = 6;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // plikToolStripMenuItem
-            // 
-            this.plikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nowyToolStripMenuItem,
-            this.otwórzToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.wyjścieToolStripMenuItem});
-            this.plikToolStripMenuItem.Name = "plikToolStripMenuItem";
-            this.plikToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.plikToolStripMenuItem.Text = "File";
-            // 
-            // nowyToolStripMenuItem
-            // 
-            this.nowyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.programToolStripMenuItem,
-            this.rozkazToolStripMenuItem});
-            this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
-            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.nowyToolStripMenuItem.Text = "New";
-            // 
-            // programToolStripMenuItem
-            // 
-            this.programToolStripMenuItem.Name = "programToolStripMenuItem";
-            this.programToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.programToolStripMenuItem.Text = "Program";
-            // 
-            // rozkazToolStripMenuItem
-            // 
-            this.rozkazToolStripMenuItem.Name = "rozkazToolStripMenuItem";
-            this.rozkazToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.rozkazToolStripMenuItem.Text = "Instruction";
-            // 
-            // otwórzToolStripMenuItem
-            // 
-            this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
-            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.otwórzToolStripMenuItem.Text = "Open";
-            this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.otwórzToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
-            // wyjścieToolStripMenuItem
-            // 
-            this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
-            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.wyjścieToolStripMenuItem.Text = "Exit";
-            // 
-            // widokToolStripMenuItem
-            // 
-            this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearOutputConsoleToolStripMenuItem,
-            this.registersDisplayModeToolStripMenuItem});
-            this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
-            this.widokToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.widokToolStripMenuItem.Text = "View";
-            // 
-            // clearOutputConsoleToolStripMenuItem
-            // 
-            this.clearOutputConsoleToolStripMenuItem.Name = "clearOutputConsoleToolStripMenuItem";
-            this.clearOutputConsoleToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.clearOutputConsoleToolStripMenuItem.Text = "Clear output console";
-            this.clearOutputConsoleToolStripMenuItem.Click += new System.EventHandler(this.clearOutputConsoleToolStripMenuItem_Click);
-            // 
-            // registersDisplayModeToolStripMenuItem
-            // 
-            this.registersDisplayModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.unsignedDecimalToolStripMenuItem,
-            this.signedDecimalToolStripMenuItem,
-            this.hexadecimalToolStripMenuItem,
-            this.binaryToolStripMenuItem});
-            this.registersDisplayModeToolStripMenuItem.Name = "registersDisplayModeToolStripMenuItem";
-            this.registersDisplayModeToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.registersDisplayModeToolStripMenuItem.Text = "Registers display mode";
-            // 
-            // unsignedDecimalToolStripMenuItem
-            // 
-            this.unsignedDecimalToolStripMenuItem.Name = "unsignedDecimalToolStripMenuItem";
-            this.unsignedDecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.unsignedDecimalToolStripMenuItem.Text = "Unsigned decimal";
-            this.unsignedDecimalToolStripMenuItem.Click += new System.EventHandler(this.unsignedDecimalToolStripMenuItem_Click);
-            // 
-            // signedDecimalToolStripMenuItem
-            // 
-            this.signedDecimalToolStripMenuItem.Name = "signedDecimalToolStripMenuItem";
-            this.signedDecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.signedDecimalToolStripMenuItem.Text = "Signed decimal";
-            this.signedDecimalToolStripMenuItem.Click += new System.EventHandler(this.signedDecimalToolStripMenuItem_Click);
-            // 
-            // hexadecimalToolStripMenuItem
-            // 
-            this.hexadecimalToolStripMenuItem.Name = "hexadecimalToolStripMenuItem";
-            this.hexadecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.hexadecimalToolStripMenuItem.Text = "Hexadecimal";
-            this.hexadecimalToolStripMenuItem.Click += new System.EventHandler(this.hexadecimalToolStripMenuItem_Click);
-            // 
-            // binaryToolStripMenuItem
-            // 
-            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
-            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.binaryToolStripMenuItem.Text = "Binary";
-            this.binaryToolStripMenuItem.Click += new System.EventHandler(this.binaryToolStripMenuItem_Click);
-            // 
-            // projektToolStripMenuItem
-            // 
-            this.projektToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ładujListęRozkazówToolStripMenuItem,
-            this.instructionLanguageToolStripMenuItem,
-            this.opcjeToolStripMenuItem,
-            this.pIToolStripMenuItem});
-            this.projektToolStripMenuItem.Name = "projektToolStripMenuItem";
-            this.projektToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.projektToolStripMenuItem.Text = "Project";
-            // 
-            // ładujListęRozkazówToolStripMenuItem
-            // 
-            this.ładujListęRozkazówToolStripMenuItem.Name = "ładujListęRozkazówToolStripMenuItem";
-            this.ładujListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.ładujListęRozkazówToolStripMenuItem.Text = "Load instruction set";
-            this.ładujListęRozkazówToolStripMenuItem.Click += new System.EventHandler(this.ładujListęRozkazówToolStripMenuItem_Click);
-            // 
-            // instructionLanguageToolStripMenuItem
-            // 
-            this.instructionLanguageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.polishToolStripMenuItem,
-            this.englishToolStripMenuItem});
-            this.instructionLanguageToolStripMenuItem.Name = "instructionLanguageToolStripMenuItem";
-            this.instructionLanguageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.instructionLanguageToolStripMenuItem.Text = "Instruction language";
-            // 
-            // polishToolStripMenuItem
-            // 
-            this.polishToolStripMenuItem.CheckOnClick = true;
-            this.polishToolStripMenuItem.Name = "polishToolStripMenuItem";
-            this.polishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.polishToolStripMenuItem.Text = "Polish";
-            this.polishToolStripMenuItem.Click += new System.EventHandler(this.polishToolStripMenuItem_Click);
-            // 
-            // englishToolStripMenuItem
-            // 
-            this.englishToolStripMenuItem.Checked = true;
-            this.englishToolStripMenuItem.CheckOnClick = true;
-            this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.englishToolStripMenuItem.Text = "English";
-            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
-            // 
-            // opcjeToolStripMenuItem
-            // 
-            this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
-            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.opcjeToolStripMenuItem.Text = "Options . . .";
-            this.opcjeToolStripMenuItem.Click += new System.EventHandler(this.opcjeToolStripMenuItem_Click);
-            // 
-            // pIToolStripMenuItem
-            // 
-            this.pIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.matrixModeToolStripMenuItem});
-            this.pIToolStripMenuItem.Name = "pIToolStripMenuItem";
-            this.pIToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.pIToolStripMenuItem.Text = "PI";
-            // 
-            // matrixModeToolStripMenuItem
-            // 
-            this.matrixModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.letterToolStripMenuItem,
-            this.paintToolStripMenuItem});
-            this.matrixModeToolStripMenuItem.Name = "matrixModeToolStripMenuItem";
-            this.matrixModeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.matrixModeToolStripMenuItem.Text = "Matrix mode";
-            // 
-            // letterToolStripMenuItem
-            // 
-            this.letterToolStripMenuItem.Checked = true;
-            this.letterToolStripMenuItem.CheckOnClick = true;
-            this.letterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.letterToolStripMenuItem.Name = "letterToolStripMenuItem";
-            this.letterToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.letterToolStripMenuItem.Text = "Letter";
-            this.letterToolStripMenuItem.Click += new System.EventHandler(this.letterToolStripMenuItem_Click);
-            // 
-            // paintToolStripMenuItem
-            // 
-            this.paintToolStripMenuItem.CheckOnClick = true;
-            this.paintToolStripMenuItem.Name = "paintToolStripMenuItem";
-            this.paintToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.paintToolStripMenuItem.Text = "Paint";
-            this.paintToolStripMenuItem.Click += new System.EventHandler(this.paintToolStripMenuItem_Click);
-            // 
-            // wykonajToolStripMenuItem
-            // 
-            this.wykonajToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.programToolStripMenuItem1,
-            this.rozkazToolStripMenuItem1,
-            this.taktToolStripMenuItem,
-            this.resetToolStripMenuItem});
-            this.wykonajToolStripMenuItem.Name = "wykonajToolStripMenuItem";
-            this.wykonajToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.wykonajToolStripMenuItem.Text = "Run";
-            // 
-            // programToolStripMenuItem1
-            // 
-            this.programToolStripMenuItem1.Name = "programToolStripMenuItem1";
-            this.programToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.programToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
-            this.programToolStripMenuItem1.Text = "Program";
-            this.programToolStripMenuItem1.Click += new System.EventHandler(this.programToolStripMenuItem1_Click);
-            // 
-            // rozkazToolStripMenuItem1
-            // 
-            this.rozkazToolStripMenuItem1.Name = "rozkazToolStripMenuItem1";
-            this.rozkazToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
-            this.rozkazToolStripMenuItem1.Text = "Instruction";
-            this.rozkazToolStripMenuItem1.Click += new System.EventHandler(this.rozkazToolStripMenuItem1_Click);
-            // 
-            // taktToolStripMenuItem
-            // 
-            this.taktToolStripMenuItem.Name = "taktToolStripMenuItem";
-            this.taktToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.taktToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.taktToolStripMenuItem.Text = "Tick";
-            this.taktToolStripMenuItem.Click += new System.EventHandler(this.taktToolStripMenuItem_Click);
-            // 
-            // resetToolStripMenuItem
-            // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F2)));
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
-            // 
-            // splitter2
-            // 
-            this.splitter2.Location = new System.Drawing.Point(826, 0);
-            this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(3, 560);
-            this.splitter2.TabIndex = 3;
-            this.splitter2.TabStop = false;
-            // 
-            // TopRightPanel
-            // 
-            this.TopRightPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.TopRightPanel.Controls.Add(this.ProgramPanel);
-            this.TopRightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TopRightPanel.Location = new System.Drawing.Point(829, 0);
-            this.TopRightPanel.Name = "TopRightPanel";
-            this.TopRightPanel.Size = new System.Drawing.Size(614, 560);
-            this.TopRightPanel.TabIndex = 4;
-            // 
-            // ProgramPanel
-            // 
-            this.ProgramPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProgramPanel.Controls.Add(this.tabControlEditors);
-            this.ProgramPanel.Location = new System.Drawing.Point(-3, -2);
-            this.ProgramPanel.Name = "ProgramPanel";
-            this.ProgramPanel.Size = new System.Drawing.Size(617, 559);
-            this.ProgramPanel.TabIndex = 0;
-            // 
-            // tabControlEditors
-            // 
-            this.tabControlEditors.Controls.Add(this.tabPageCodeEditor);
-            this.tabControlEditors.Controls.Add(this.tabPageInstructionList);
-            this.tabControlEditors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlEditors.HotTrack = true;
-            this.tabControlEditors.Location = new System.Drawing.Point(0, 0);
-            this.tabControlEditors.Name = "tabControlEditors";
-            this.tabControlEditors.RightToLeftLayout = true;
-            this.tabControlEditors.SelectedIndex = 0;
-            this.tabControlEditors.Size = new System.Drawing.Size(617, 559);
-            this.tabControlEditors.TabIndex = 3;
-            this.tabControlEditors.TabStop = false;
-            this.tabControlEditors.SelectedIndexChanged += new System.EventHandler(this.tabControlEditorsPanel_SelectedIndexChanged);
-            // 
-            // tabPageCodeEditor
-            // 
-            this.tabPageCodeEditor.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageCodeEditor.Controls.Add(this.UserControlCodeEditor);
-            this.tabPageCodeEditor.Controls.Add(this.unixCodeEditorMenuStrip);
-            this.tabPageCodeEditor.Location = new System.Drawing.Point(4, 22);
-            this.tabPageCodeEditor.Name = "tabPageCodeEditor";
-            this.tabPageCodeEditor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCodeEditor.Size = new System.Drawing.Size(609, 533);
-            this.tabPageCodeEditor.TabIndex = 0;
-            this.tabPageCodeEditor.Text = "Editor";
-            // 
-            // CodeEditorContextMenu
-            // 
-            this.CodeEditorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CompileItemToolStrip,
-            this.saveContexMenuItem,
-            this.toolStripSeparator1,
-            this.wytnijToolStripMenuItem,
-            this.kopiujToolStripMenuItem,
-            this.wklejToolStripMenuItem});
-            this.CodeEditorContextMenu.Name = "CodeEditorContextMenu";
-            this.CodeEditorContextMenu.Size = new System.Drawing.Size(169, 120);
-            // 
-            // CompileItemToolStrip
-            // 
-            this.CompileItemToolStrip.Name = "CompileItemToolStrip";
-            this.CompileItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
-            this.CompileItemToolStrip.Size = new System.Drawing.Size(168, 22);
-            this.CompileItemToolStrip.Text = "Kompiluj";
-            this.CompileItemToolStrip.Click += new System.EventHandler(this.CompileItemToolStrip_Click);
-            // 
-            // saveContexMenuItem
-            // 
-            this.saveContexMenuItem.Name = "saveContexMenuItem";
-            this.saveContexMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveContexMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.saveContexMenuItem.Text = "Zapisz";
-            this.saveContexMenuItem.Click += new System.EventHandler(this.saveContexMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(165, 6);
-            // 
-            // wytnijToolStripMenuItem
-            // 
-            this.wytnijToolStripMenuItem.Name = "wytnijToolStripMenuItem";
-            this.wytnijToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.wytnijToolStripMenuItem.Text = "Wytnij";
-            this.wytnijToolStripMenuItem.Click += new System.EventHandler(this.wytnijToolStripMenuItem_Click);
-            // 
-            // kopiujToolStripMenuItem
-            // 
-            this.kopiujToolStripMenuItem.Name = "kopiujToolStripMenuItem";
-            this.kopiujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.kopiujToolStripMenuItem.Text = "Kopiuj";
-            this.kopiujToolStripMenuItem.Click += new System.EventHandler(this.kopiujToolStripMenuItem_Click);
-            // 
-            // wklejToolStripMenuItem
-            // 
-            this.wklejToolStripMenuItem.Name = "wklejToolStripMenuItem";
-            this.wklejToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.wklejToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.wklejToolStripMenuItem.Text = "Wklej";
-            this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
-            // 
-            // unixCodeEditorMenuStrip
-            // 
-            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kodToolStripMenuItem});
-            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(3, 3);
-            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
-            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(603, 24);
-            this.unixCodeEditorMenuStrip.TabIndex = 2;
-            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
-            // 
-            // kodToolStripMenuItem
-            // 
-            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kompilujToolStripMenuItem,
-            this.saveUnixToolStripMenuItem});
-            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
-            this.kodToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.kodToolStripMenuItem.Text = "Code";
-            // 
-            // kompilujToolStripMenuItem
-            // 
-            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
-            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
-            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.kompilujToolStripMenuItem.Text = "Compile";
-            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
-            // 
-            // saveUnixToolStripMenuItem
-            // 
-            this.saveUnixToolStripMenuItem.Name = "saveUnixToolStripMenuItem";
-            this.saveUnixToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveUnixToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.saveUnixToolStripMenuItem.Text = "Save";
-            this.saveUnixToolStripMenuItem.Click += new System.EventHandler(this.saveUnixToolStripMenuItem_Click);
-            // 
-            // tabPageInstructionList
-            // 
-            this.tabPageInstructionList.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageInstructionList.Controls.Add(this.panelInstructionsMicrocode);
-            this.tabPageInstructionList.Controls.Add(this.splitter3);
-            this.tabPageInstructionList.Controls.Add(this.panelInstructionsList);
-            this.tabPageInstructionList.Location = new System.Drawing.Point(4, 22);
-            this.tabPageInstructionList.Name = "tabPageInstructionList";
-            this.tabPageInstructionList.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInstructionList.Size = new System.Drawing.Size(609, 533);
-            this.tabPageInstructionList.TabIndex = 1;
-            this.tabPageInstructionList.Text = "Instructions list";
-            // 
-            // panelInstructionsMicrocode
-            // 
-            this.panelInstructionsMicrocode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelInstructionsMicrocode.Controls.Add(this.userControlInstructionMicrocode1);
-            this.panelInstructionsMicrocode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelInstructionsMicrocode.Location = new System.Drawing.Point(206, 3);
-            this.panelInstructionsMicrocode.Name = "panelInstructionsMicrocode";
-            this.panelInstructionsMicrocode.Size = new System.Drawing.Size(400, 527);
-            this.panelInstructionsMicrocode.TabIndex = 2;
-            // 
-            // splitter3
-            // 
-            this.splitter3.Location = new System.Drawing.Point(203, 3);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(3, 527);
-            this.splitter3.TabIndex = 1;
-            this.splitter3.TabStop = false;
-            // 
-            // panelInstructionsList
-            // 
-            this.panelInstructionsList.Controls.Add(this.userControlInstructionList1);
-            this.panelInstructionsList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelInstructionsList.Location = new System.Drawing.Point(3, 3);
-            this.panelInstructionsList.Name = "panelInstructionsList";
-            this.panelInstructionsList.Size = new System.Drawing.Size(200, 527);
-            this.panelInstructionsList.TabIndex = 0;
-            // 
-            // UserControlCodeEditor
-            // 
-            this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
-            this.UserControlCodeEditor.Location = new System.Drawing.Point(17, 34);
-            this.UserControlCodeEditor.Multiline = true;
-            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
-            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.UserControlCodeEditor.Size = new System.Drawing.Size(589, 478);
-            this.UserControlCodeEditor.TabIndex = 9;
-            // 
-            // userControlInstructionMicrocode1
-            // 
-            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
-            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
-            this.userControlInstructionMicrocode1.Multiline = true;
-            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
-            this.userControlInstructionMicrocode1.ReadOnly = true;
-            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(396, 523);
-            this.userControlInstructionMicrocode1.TabIndex = 0;
-            // 
-            // userControlInstructionList1
-            // 
-            this.userControlInstructionList1.BackColor = System.Drawing.Color.White;
-            this.userControlInstructionList1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.userControlInstructionList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userControlInstructionList1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlInstructionList1.Location = new System.Drawing.Point(0, 0);
-            this.userControlInstructionList1.Multiline = true;
-            this.userControlInstructionList1.Name = "userControlInstructionList1";
-            this.userControlInstructionList1.ReadOnly = true;
-            this.userControlInstructionList1.Size = new System.Drawing.Size(200, 527);
-            this.userControlInstructionList1.TabIndex = 0;
-            this.userControlInstructionList1.WordWrap = false;
-            // 
             // userControlFlags
             // 
             this.userControlFlags.BackColor = System.Drawing.Color.White;
+            this.userControlFlags.Cursor = System.Windows.Forms.Cursors.Hand;
             this.userControlFlags.Location = new System.Drawing.Point(317, 259);
             this.userControlFlags.Name = "userControlFlags";
             this.userControlFlags.ReadOnly = true;
@@ -871,27 +391,16 @@ namespace MaszynaPi {
             this.userControlSignalWire_oa.Size = new System.Drawing.Size(41, 282);
             this.userControlSignalWire_oa.TabIndex = 72;
             // 
-            // userControlSignalWire_da
+            // userControlSignalWire_t
             // 
-            this.userControlSignalWire_da.Active = false;
-            this.userControlSignalWire_da.Cap = System.Drawing.Drawing2D.LineCap.Flat;
-            this.userControlSignalWire_da.Location = new System.Drawing.Point(244, 233);
-            this.userControlSignalWire_da.Name = "userControlSignalWire_da";
-            this.userControlSignalWire_da.Rotation = 180;
-            this.userControlSignalWire_da.SignalName = "da";
-            this.userControlSignalWire_da.Size = new System.Drawing.Size(44, 30);
-            this.userControlSignalWire_da.TabIndex = 71;
-            // 
-            // userControlSignalWire_ad
-            // 
-            this.userControlSignalWire_ad.Active = false;
-            this.userControlSignalWire_ad.Cap = System.Drawing.Drawing2D.LineCap.Flat;
-            this.userControlSignalWire_ad.Location = new System.Drawing.Point(244, 211);
-            this.userControlSignalWire_ad.Name = "userControlSignalWire_ad";
-            this.userControlSignalWire_ad.Rotation = 180;
-            this.userControlSignalWire_ad.SignalName = "ad";
-            this.userControlSignalWire_ad.Size = new System.Drawing.Size(44, 30);
-            this.userControlSignalWire_ad.TabIndex = 70;
+            this.userControlSignalWire_t.Active = false;
+            this.userControlSignalWire_t.Cap = System.Drawing.Drawing2D.LineCap.Flat;
+            this.userControlSignalWire_t.Location = new System.Drawing.Point(244, 211);
+            this.userControlSignalWire_t.Name = "userControlSignalWire_t";
+            this.userControlSignalWire_t.Rotation = 180;
+            this.userControlSignalWire_t.SignalName = "tbs";
+            this.userControlSignalWire_t.Size = new System.Drawing.Size(44, 30);
+            this.userControlSignalWire_t.TabIndex = 70;
             // 
             // userControlSignalWire_osp
             // 
@@ -1385,6 +894,7 @@ namespace MaszynaPi {
             // userControlBusAS
             // 
             this.userControlBusAS.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusAS.Cursor = System.Windows.Forms.Cursors.Help;
             this.userControlBusAS.Location = new System.Drawing.Point(235, 137);
             this.userControlBusAS.Multiline = true;
             this.userControlBusAS.Name = "userControlBusAS";
@@ -1395,6 +905,7 @@ namespace MaszynaPi {
             // UserControlRegisterRM
             // 
             this.UserControlRegisterRM.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRM.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterRM.Location = new System.Drawing.Point(26, 79);
             this.UserControlRegisterRM.Name = "UserControlRegisterRM";
             this.UserControlRegisterRM.ReadOnly = true;
@@ -1407,6 +918,7 @@ namespace MaszynaPi {
             // UserControlRegisterAP
             // 
             this.UserControlRegisterAP.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterAP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterAP.Location = new System.Drawing.Point(217, 78);
             this.UserControlRegisterAP.Name = "UserControlRegisterAP";
             this.UserControlRegisterAP.ReadOnly = true;
@@ -1419,6 +931,7 @@ namespace MaszynaPi {
             // UserControlRegisterRP
             // 
             this.UserControlRegisterRP.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterRP.Location = new System.Drawing.Point(217, 53);
             this.UserControlRegisterRP.Name = "UserControlRegisterRP";
             this.UserControlRegisterRP.ReadOnly = true;
@@ -1431,6 +944,7 @@ namespace MaszynaPi {
             // UserControlRegisterRZ
             // 
             this.UserControlRegisterRZ.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRZ.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterRZ.Location = new System.Drawing.Point(26, 53);
             this.UserControlRegisterRZ.Name = "UserControlRegisterRZ";
             this.UserControlRegisterRZ.ReadOnly = true;
@@ -1443,6 +957,7 @@ namespace MaszynaPi {
             // UserControlRegisterWS
             // 
             this.UserControlRegisterWS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterWS.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterWS.Location = new System.Drawing.Point(341, 173);
             this.UserControlRegisterWS.Name = "UserControlRegisterWS";
             this.UserControlRegisterWS.ReadOnly = true;
@@ -1455,6 +970,7 @@ namespace MaszynaPi {
             // UserControlRegisterX
             // 
             this.UserControlRegisterX.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterX.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterX.Location = new System.Drawing.Point(48, 528);
             this.UserControlRegisterX.Name = "UserControlRegisterX";
             this.UserControlRegisterX.ReadOnly = true;
@@ -1467,6 +983,7 @@ namespace MaszynaPi {
             // UserControlRegisterY
             // 
             this.UserControlRegisterY.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterY.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterY.Location = new System.Drawing.Point(249, 528);
             this.UserControlRegisterY.Name = "UserControlRegisterY";
             this.UserControlRegisterY.ReadOnly = true;
@@ -1479,6 +996,7 @@ namespace MaszynaPi {
             // UserControlRegisterRB
             // 
             this.UserControlRegisterRB.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterRB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterRB.Location = new System.Drawing.Point(507, 528);
             this.UserControlRegisterRB.Name = "UserControlRegisterRB";
             this.UserControlRegisterRB.ReadOnly = true;
@@ -1491,6 +1009,7 @@ namespace MaszynaPi {
             // UserControlRegisterG
             // 
             this.UserControlRegisterG.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterG.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterG.Location = new System.Drawing.Point(693, 528);
             this.UserControlRegisterG.Name = "UserControlRegisterG";
             this.UserControlRegisterG.ReadOnly = true;
@@ -1500,10 +1019,20 @@ namespace MaszynaPi {
             this.UserControlRegisterG.TabStop = false;
             this.UserControlRegisterG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // panelALUView
+            // 
+            this.panelALUView.BackColor = System.Drawing.Color.White;
+            this.panelALUView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelALUView.Location = new System.Drawing.Point(317, 303);
+            this.panelALUView.Name = "panelALUView";
+            this.panelALUView.Size = new System.Drawing.Size(156, 146);
+            this.panelALUView.TabIndex = 14;
+            // 
             // UserControlRegisterAK
             // 
             this.UserControlRegisterAK.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterAK.CausesValidation = false;
+            this.UserControlRegisterAK.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterAK.Location = new System.Drawing.Point(317, 281);
             this.UserControlRegisterAK.Name = "UserControlRegisterAK";
             this.UserControlRegisterAK.ReadOnly = true;
@@ -1517,6 +1046,7 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterL.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterL.CausesValidation = false;
+            this.UserControlRegisterL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterL.Location = new System.Drawing.Point(26, 173);
             this.UserControlRegisterL.Name = "UserControlRegisterL";
             this.UserControlRegisterL.ReadOnly = true;
@@ -1530,6 +1060,7 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterI.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterI.CausesValidation = false;
+            this.UserControlRegisterI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterI.Location = new System.Drawing.Point(63, 430);
             this.UserControlRegisterI.Name = "UserControlRegisterI";
             this.UserControlRegisterI.ReadOnly = true;
@@ -1542,23 +1073,25 @@ namespace MaszynaPi {
             // userControlBusAddress
             // 
             this.userControlBusAddress.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusAddress.Cursor = System.Windows.Forms.Cursors.Help;
             this.userControlBusAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 2.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userControlBusAddress.Location = new System.Drawing.Point(9, 131);
+            this.userControlBusAddress.Location = new System.Drawing.Point(9, 130);
             this.userControlBusAddress.Multiline = true;
             this.userControlBusAddress.Name = "userControlBusAddress";
             this.userControlBusAddress.ReadOnly = true;
-            this.userControlBusAddress.Size = new System.Drawing.Size(800, 5);
+            this.userControlBusAddress.Size = new System.Drawing.Size(800, 6);
             this.userControlBusAddress.TabIndex = 10;
             // 
             // userControlBusData
             // 
             this.userControlBusData.BackColor = System.Drawing.SystemColors.Control;
+            this.userControlBusData.Cursor = System.Windows.Forms.Cursors.Help;
             this.userControlBusData.Font = new System.Drawing.Font("Microsoft Sans Serif", 2.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.userControlBusData.Location = new System.Drawing.Point(9, 486);
             this.userControlBusData.Multiline = true;
             this.userControlBusData.Name = "userControlBusData";
             this.userControlBusData.ReadOnly = true;
-            this.userControlBusData.Size = new System.Drawing.Size(799, 5);
+            this.userControlBusData.Size = new System.Drawing.Size(800, 6);
             this.userControlBusData.TabIndex = 9;
             // 
             // MemoryControl
@@ -1568,6 +1101,7 @@ namespace MaszynaPi {
             this.MemoryControl.Location = new System.Drawing.Point(582, 199);
             this.MemoryControl.Multiline = true;
             this.MemoryControl.Name = "MemoryControl";
+            this.MemoryControl.PartiallySupressRefreshing = false;
             this.MemoryControl.ReadOnly = true;
             this.MemoryControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.MemoryControl.Size = new System.Drawing.Size(180, 225);
@@ -1575,9 +1109,22 @@ namespace MaszynaPi {
             this.MemoryControl.TabStop = false;
             this.MemoryControl.WordWrap = false;
             // 
+            // checkBoxManualDebug
+            // 
+            this.checkBoxManualDebug.AutoSize = true;
+            this.checkBoxManualDebug.Location = new System.Drawing.Point(711, 53);
+            this.checkBoxManualDebug.Name = "checkBoxManualDebug";
+            this.checkBoxManualDebug.Size = new System.Drawing.Size(97, 17);
+            this.checkBoxManualDebug.TabIndex = 7;
+            this.checkBoxManualDebug.TabStop = false;
+            this.checkBoxManualDebug.Text = "Manual Control";
+            this.checkBoxManualDebug.UseVisualStyleBackColor = true;
+            this.checkBoxManualDebug.CheckedChanged += new System.EventHandler(this.checkBoxManualDebug_CheckedChanged);
+            // 
             // UserControlRegisterS
             // 
             this.UserControlRegisterS.BackColor = System.Drawing.Color.White;
+            this.UserControlRegisterS.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterS.Location = new System.Drawing.Point(582, 430);
             this.UserControlRegisterS.Name = "UserControlRegisterS";
             this.UserControlRegisterS.ReadOnly = true;
@@ -1591,6 +1138,7 @@ namespace MaszynaPi {
             // 
             this.UserControlRegisterA.BackColor = System.Drawing.Color.White;
             this.UserControlRegisterA.CausesValidation = false;
+            this.UserControlRegisterA.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserControlRegisterA.Location = new System.Drawing.Point(582, 173);
             this.UserControlRegisterA.Name = "UserControlRegisterA";
             this.UserControlRegisterA.ReadOnly = true;
@@ -1600,24 +1148,489 @@ namespace MaszynaPi {
             this.UserControlRegisterA.TabStop = false;
             this.UserControlRegisterA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // UserControlCharacterInput
+            // menuStrip1
             // 
-            this.UserControlCharacterInput.Location = new System.Drawing.Point(6, 27);
-            this.UserControlCharacterInput.Name = "UserControlCharacterInput";
-            this.UserControlCharacterInput.Size = new System.Drawing.Size(1416, 20);
-            this.UserControlCharacterInput.TabIndex = 0;
-            this.UserControlCharacterInput.TabStop = false;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plikToolStripMenuItem,
+            this.widokToolStripMenuItem,
+            this.projektToolStripMenuItem,
+            this.wykonajToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(826, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // UserControlCharacterOutput
+            // plikToolStripMenuItem
             // 
-            this.UserControlCharacterOutput.BackColor = System.Drawing.Color.White;
-            this.UserControlCharacterOutput.Location = new System.Drawing.Point(11, 9);
-            this.UserControlCharacterOutput.Multiline = true;
-            this.UserControlCharacterOutput.Name = "UserControlCharacterOutput";
-            this.UserControlCharacterOutput.ReadOnly = true;
-            this.UserControlCharacterOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.UserControlCharacterOutput.Size = new System.Drawing.Size(1414, 94);
-            this.UserControlCharacterOutput.TabIndex = 0;
+            this.plikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nowyToolStripMenuItem,
+            this.otwórzToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.wyjścieToolStripMenuItem});
+            this.plikToolStripMenuItem.Name = "plikToolStripMenuItem";
+            this.plikToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.plikToolStripMenuItem.Text = "File";
+            // 
+            // nowyToolStripMenuItem
+            // 
+            this.nowyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.programToolStripMenuItem,
+            this.rozkazToolStripMenuItem});
+            this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
+            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.nowyToolStripMenuItem.Text = "New";
+            // 
+            // programToolStripMenuItem
+            // 
+            this.programToolStripMenuItem.Name = "programToolStripMenuItem";
+            this.programToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.programToolStripMenuItem.Text = "Program";
+            // 
+            // rozkazToolStripMenuItem
+            // 
+            this.rozkazToolStripMenuItem.Name = "rozkazToolStripMenuItem";
+            this.rozkazToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.rozkazToolStripMenuItem.Text = "Instruction";
+            // 
+            // otwórzToolStripMenuItem
+            // 
+            this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
+            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.otwórzToolStripMenuItem.Text = "Open";
+            this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.otwórzToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // wyjścieToolStripMenuItem
+            // 
+            this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
+            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.wyjścieToolStripMenuItem.Text = "Exit";
+            // 
+            // widokToolStripMenuItem
+            // 
+            this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearOutputConsoleToolStripMenuItem,
+            this.registersDisplayModeToolStripMenuItem});
+            this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
+            this.widokToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.widokToolStripMenuItem.Text = "View";
+            // 
+            // clearOutputConsoleToolStripMenuItem
+            // 
+            this.clearOutputConsoleToolStripMenuItem.Name = "clearOutputConsoleToolStripMenuItem";
+            this.clearOutputConsoleToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.clearOutputConsoleToolStripMenuItem.Text = "Clear output console";
+            this.clearOutputConsoleToolStripMenuItem.Click += new System.EventHandler(this.clearOutputConsoleToolStripMenuItem_Click);
+            // 
+            // registersDisplayModeToolStripMenuItem
+            // 
+            this.registersDisplayModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.unsignedDecimalToolStripMenuItem,
+            this.signedDecimalToolStripMenuItem,
+            this.hexadecimalToolStripMenuItem,
+            this.binaryToolStripMenuItem});
+            this.registersDisplayModeToolStripMenuItem.Name = "registersDisplayModeToolStripMenuItem";
+            this.registersDisplayModeToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.registersDisplayModeToolStripMenuItem.Text = "Registers display mode";
+            // 
+            // unsignedDecimalToolStripMenuItem
+            // 
+            this.unsignedDecimalToolStripMenuItem.Name = "unsignedDecimalToolStripMenuItem";
+            this.unsignedDecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.unsignedDecimalToolStripMenuItem.Text = "Unsigned decimal";
+            this.unsignedDecimalToolStripMenuItem.Click += new System.EventHandler(this.unsignedDecimalToolStripMenuItem_Click);
+            // 
+            // signedDecimalToolStripMenuItem
+            // 
+            this.signedDecimalToolStripMenuItem.Name = "signedDecimalToolStripMenuItem";
+            this.signedDecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.signedDecimalToolStripMenuItem.Text = "Signed decimal";
+            this.signedDecimalToolStripMenuItem.Click += new System.EventHandler(this.signedDecimalToolStripMenuItem_Click);
+            // 
+            // hexadecimalToolStripMenuItem
+            // 
+            this.hexadecimalToolStripMenuItem.Name = "hexadecimalToolStripMenuItem";
+            this.hexadecimalToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.hexadecimalToolStripMenuItem.Text = "Hexadecimal";
+            this.hexadecimalToolStripMenuItem.Click += new System.EventHandler(this.hexadecimalToolStripMenuItem_Click);
+            // 
+            // binaryToolStripMenuItem
+            // 
+            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
+            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.binaryToolStripMenuItem.Text = "Binary";
+            this.binaryToolStripMenuItem.Click += new System.EventHandler(this.binaryToolStripMenuItem_Click);
+            // 
+            // projektToolStripMenuItem
+            // 
+            this.projektToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ładujListęRozkazówToolStripMenuItem,
+            this.instructionLanguageToolStripMenuItem,
+            this.opcjeToolStripMenuItem,
+            this.pIToolStripMenuItem});
+            this.projektToolStripMenuItem.Name = "projektToolStripMenuItem";
+            this.projektToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.projektToolStripMenuItem.Text = "Project";
+            // 
+            // ładujListęRozkazówToolStripMenuItem
+            // 
+            this.ładujListęRozkazówToolStripMenuItem.Name = "ładujListęRozkazówToolStripMenuItem";
+            this.ładujListęRozkazówToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.ładujListęRozkazówToolStripMenuItem.Text = "Load instruction set";
+            this.ładujListęRozkazówToolStripMenuItem.Click += new System.EventHandler(this.ładujListęRozkazówToolStripMenuItem_Click);
+            // 
+            // instructionLanguageToolStripMenuItem
+            // 
+            this.instructionLanguageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.polishToolStripMenuItem,
+            this.englishToolStripMenuItem});
+            this.instructionLanguageToolStripMenuItem.Name = "instructionLanguageToolStripMenuItem";
+            this.instructionLanguageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.instructionLanguageToolStripMenuItem.Text = "Instruction language";
+            // 
+            // polishToolStripMenuItem
+            // 
+            this.polishToolStripMenuItem.CheckOnClick = true;
+            this.polishToolStripMenuItem.Name = "polishToolStripMenuItem";
+            this.polishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.polishToolStripMenuItem.Text = "Polish";
+            this.polishToolStripMenuItem.Click += new System.EventHandler(this.polishToolStripMenuItem_Click);
+            // 
+            // englishToolStripMenuItem
+            // 
+            this.englishToolStripMenuItem.Checked = true;
+            this.englishToolStripMenuItem.CheckOnClick = true;
+            this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.englishToolStripMenuItem.Text = "English";
+            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
+            // 
+            // opcjeToolStripMenuItem
+            // 
+            this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
+            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.opcjeToolStripMenuItem.Text = "Options . . .";
+            this.opcjeToolStripMenuItem.Click += new System.EventHandler(this.opcjeToolStripMenuItem_Click);
+            // 
+            // pIToolStripMenuItem
+            // 
+            this.pIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.matrixModeToolStripMenuItem});
+            this.pIToolStripMenuItem.Name = "pIToolStripMenuItem";
+            this.pIToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.pIToolStripMenuItem.Text = "PI";
+            // 
+            // matrixModeToolStripMenuItem
+            // 
+            this.matrixModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.letterToolStripMenuItem,
+            this.paintToolStripMenuItem});
+            this.matrixModeToolStripMenuItem.Name = "matrixModeToolStripMenuItem";
+            this.matrixModeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.matrixModeToolStripMenuItem.Text = "Matrix mode";
+            // 
+            // letterToolStripMenuItem
+            // 
+            this.letterToolStripMenuItem.Checked = true;
+            this.letterToolStripMenuItem.CheckOnClick = true;
+            this.letterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.letterToolStripMenuItem.Name = "letterToolStripMenuItem";
+            this.letterToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.letterToolStripMenuItem.Text = "Letter";
+            this.letterToolStripMenuItem.Click += new System.EventHandler(this.letterToolStripMenuItem_Click);
+            // 
+            // paintToolStripMenuItem
+            // 
+            this.paintToolStripMenuItem.CheckOnClick = true;
+            this.paintToolStripMenuItem.Name = "paintToolStripMenuItem";
+            this.paintToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.paintToolStripMenuItem.Text = "Paint";
+            this.paintToolStripMenuItem.Click += new System.EventHandler(this.paintToolStripMenuItem_Click);
+            // 
+            // wykonajToolStripMenuItem
+            // 
+            this.wykonajToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.programToolStripMenuItem1,
+            this.rozkazToolStripMenuItem1,
+            this.taktToolStripMenuItem,
+            this.resetToolStripMenuItem});
+            this.wykonajToolStripMenuItem.Name = "wykonajToolStripMenuItem";
+            this.wykonajToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.wykonajToolStripMenuItem.Text = "Run";
+            // 
+            // programToolStripMenuItem1
+            // 
+            this.programToolStripMenuItem1.Name = "programToolStripMenuItem1";
+            this.programToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.programToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
+            this.programToolStripMenuItem1.Text = "Program";
+            this.programToolStripMenuItem1.Click += new System.EventHandler(this.programToolStripMenuItem1_Click);
+            // 
+            // rozkazToolStripMenuItem1
+            // 
+            this.rozkazToolStripMenuItem1.Name = "rozkazToolStripMenuItem1";
+            this.rozkazToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F8;
+            this.rozkazToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
+            this.rozkazToolStripMenuItem1.Text = "Instruction";
+            this.rozkazToolStripMenuItem1.Click += new System.EventHandler(this.rozkazToolStripMenuItem1_Click);
+            // 
+            // taktToolStripMenuItem
+            // 
+            this.taktToolStripMenuItem.Name = "taktToolStripMenuItem";
+            this.taktToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.taktToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.taktToolStripMenuItem.Text = "Tick";
+            this.taktToolStripMenuItem.Click += new System.EventHandler(this.taktToolStripMenuItem_Click);
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F2)));
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            // 
+            // splitter2
+            // 
+            this.splitter2.Location = new System.Drawing.Point(826, 0);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(3, 560);
+            this.splitter2.TabIndex = 3;
+            this.splitter2.TabStop = false;
+            // 
+            // TopRightPanel
+            // 
+            this.TopRightPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.TopRightPanel.Controls.Add(this.ProgramPanel);
+            this.TopRightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TopRightPanel.Location = new System.Drawing.Point(829, 0);
+            this.TopRightPanel.Name = "TopRightPanel";
+            this.TopRightPanel.Size = new System.Drawing.Size(614, 560);
+            this.TopRightPanel.TabIndex = 4;
+            // 
+            // ProgramPanel
+            // 
+            this.ProgramPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProgramPanel.Controls.Add(this.tabControlEditors);
+            this.ProgramPanel.Location = new System.Drawing.Point(-3, -2);
+            this.ProgramPanel.Name = "ProgramPanel";
+            this.ProgramPanel.Size = new System.Drawing.Size(617, 559);
+            this.ProgramPanel.TabIndex = 0;
+            // 
+            // tabControlEditors
+            // 
+            this.tabControlEditors.Controls.Add(this.tabPageCodeEditor);
+            this.tabControlEditors.Controls.Add(this.tabPageInstructionList);
+            this.tabControlEditors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlEditors.HotTrack = true;
+            this.tabControlEditors.Location = new System.Drawing.Point(0, 0);
+            this.tabControlEditors.Name = "tabControlEditors";
+            this.tabControlEditors.RightToLeftLayout = true;
+            this.tabControlEditors.SelectedIndex = 0;
+            this.tabControlEditors.Size = new System.Drawing.Size(617, 559);
+            this.tabControlEditors.TabIndex = 3;
+            this.tabControlEditors.TabStop = false;
+            this.tabControlEditors.SelectedIndexChanged += new System.EventHandler(this.tabControlEditorsPanel_SelectedIndexChanged);
+            // 
+            // tabPageCodeEditor
+            // 
+            this.tabPageCodeEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageCodeEditor.Controls.Add(this.UserControlCodeEditor);
+            this.tabPageCodeEditor.Controls.Add(this.unixCodeEditorMenuStrip);
+            this.tabPageCodeEditor.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCodeEditor.Name = "tabPageCodeEditor";
+            this.tabPageCodeEditor.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCodeEditor.Size = new System.Drawing.Size(609, 533);
+            this.tabPageCodeEditor.TabIndex = 0;
+            this.tabPageCodeEditor.Text = "Editor";
+            // 
+            // UserControlCodeEditor
+            // 
+            this.UserControlCodeEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UserControlCodeEditor.ContextMenuStrip = this.CodeEditorContextMenu;
+            this.UserControlCodeEditor.Location = new System.Drawing.Point(17, 34);
+            this.UserControlCodeEditor.Multiline = true;
+            this.UserControlCodeEditor.Name = "UserControlCodeEditor";
+            this.UserControlCodeEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.UserControlCodeEditor.Size = new System.Drawing.Size(589, 478);
+            this.UserControlCodeEditor.TabIndex = 9;
+            // 
+            // CodeEditorContextMenu
+            // 
+            this.CodeEditorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CompileItemToolStrip,
+            this.saveContexMenuItem,
+            this.toolStripSeparator1,
+            this.wytnijToolStripMenuItem,
+            this.kopiujToolStripMenuItem,
+            this.wklejToolStripMenuItem});
+            this.CodeEditorContextMenu.Name = "CodeEditorContextMenu";
+            this.CodeEditorContextMenu.Size = new System.Drawing.Size(169, 120);
+            // 
+            // CompileItemToolStrip
+            // 
+            this.CompileItemToolStrip.Name = "CompileItemToolStrip";
+            this.CompileItemToolStrip.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
+            this.CompileItemToolStrip.Size = new System.Drawing.Size(168, 22);
+            this.CompileItemToolStrip.Text = "Kompiluj";
+            this.CompileItemToolStrip.Click += new System.EventHandler(this.CompileItemToolStrip_Click);
+            // 
+            // saveContexMenuItem
+            // 
+            this.saveContexMenuItem.Name = "saveContexMenuItem";
+            this.saveContexMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveContexMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.saveContexMenuItem.Text = "Zapisz";
+            this.saveContexMenuItem.Click += new System.EventHandler(this.saveContexMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(165, 6);
+            // 
+            // wytnijToolStripMenuItem
+            // 
+            this.wytnijToolStripMenuItem.Name = "wytnijToolStripMenuItem";
+            this.wytnijToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.wytnijToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.wytnijToolStripMenuItem.Text = "Wytnij";
+            this.wytnijToolStripMenuItem.Click += new System.EventHandler(this.wytnijToolStripMenuItem_Click);
+            // 
+            // kopiujToolStripMenuItem
+            // 
+            this.kopiujToolStripMenuItem.Name = "kopiujToolStripMenuItem";
+            this.kopiujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.kopiujToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.kopiujToolStripMenuItem.Text = "Kopiuj";
+            this.kopiujToolStripMenuItem.Click += new System.EventHandler(this.kopiujToolStripMenuItem_Click);
+            // 
+            // wklejToolStripMenuItem
+            // 
+            this.wklejToolStripMenuItem.Name = "wklejToolStripMenuItem";
+            this.wklejToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.wklejToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.wklejToolStripMenuItem.Text = "Wklej";
+            this.wklejToolStripMenuItem.Click += new System.EventHandler(this.wklejToolStripMenuItem_Click);
+            // 
+            // unixCodeEditorMenuStrip
+            // 
+            this.unixCodeEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kodToolStripMenuItem});
+            this.unixCodeEditorMenuStrip.Location = new System.Drawing.Point(3, 3);
+            this.unixCodeEditorMenuStrip.Name = "unixCodeEditorMenuStrip";
+            this.unixCodeEditorMenuStrip.Size = new System.Drawing.Size(603, 24);
+            this.unixCodeEditorMenuStrip.TabIndex = 2;
+            this.unixCodeEditorMenuStrip.Text = "menuStrip2";
+            // 
+            // kodToolStripMenuItem
+            // 
+            this.kodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kompilujToolStripMenuItem,
+            this.saveUnixToolStripMenuItem});
+            this.kodToolStripMenuItem.Name = "kodToolStripMenuItem";
+            this.kodToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.kodToolStripMenuItem.Text = "Code";
+            // 
+            // kompilujToolStripMenuItem
+            // 
+            this.kompilujToolStripMenuItem.Name = "kompilujToolStripMenuItem";
+            this.kompilujToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F9)));
+            this.kompilujToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.kompilujToolStripMenuItem.Text = "Compile";
+            this.kompilujToolStripMenuItem.Click += new System.EventHandler(this.kompilujToolStripMenuItem_Click);
+            // 
+            // saveUnixToolStripMenuItem
+            // 
+            this.saveUnixToolStripMenuItem.Name = "saveUnixToolStripMenuItem";
+            this.saveUnixToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveUnixToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.saveUnixToolStripMenuItem.Text = "Save";
+            this.saveUnixToolStripMenuItem.Click += new System.EventHandler(this.saveUnixToolStripMenuItem_Click);
+            // 
+            // tabPageInstructionList
+            // 
+            this.tabPageInstructionList.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageInstructionList.Controls.Add(this.panelInstructionsMicrocode);
+            this.tabPageInstructionList.Controls.Add(this.splitter3);
+            this.tabPageInstructionList.Controls.Add(this.panelInstructionsList);
+            this.tabPageInstructionList.Location = new System.Drawing.Point(4, 22);
+            this.tabPageInstructionList.Name = "tabPageInstructionList";
+            this.tabPageInstructionList.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageInstructionList.Size = new System.Drawing.Size(609, 533);
+            this.tabPageInstructionList.TabIndex = 1;
+            this.tabPageInstructionList.Text = "Instructions list";
+            // 
+            // panelInstructionsMicrocode
+            // 
+            this.panelInstructionsMicrocode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelInstructionsMicrocode.Controls.Add(this.userControlInstructionMicrocode1);
+            this.panelInstructionsMicrocode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInstructionsMicrocode.Location = new System.Drawing.Point(206, 3);
+            this.panelInstructionsMicrocode.Name = "panelInstructionsMicrocode";
+            this.panelInstructionsMicrocode.Size = new System.Drawing.Size(400, 527);
+            this.panelInstructionsMicrocode.TabIndex = 2;
+            // 
+            // userControlInstructionMicrocode1
+            // 
+            this.userControlInstructionMicrocode1.BackColor = System.Drawing.Color.White;
+            this.userControlInstructionMicrocode1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.userControlInstructionMicrocode1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlInstructionMicrocode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlInstructionMicrocode1.Location = new System.Drawing.Point(0, 0);
+            this.userControlInstructionMicrocode1.Multiline = true;
+            this.userControlInstructionMicrocode1.Name = "userControlInstructionMicrocode1";
+            this.userControlInstructionMicrocode1.ReadOnly = true;
+            this.userControlInstructionMicrocode1.Size = new System.Drawing.Size(396, 523);
+            this.userControlInstructionMicrocode1.TabIndex = 0;
+            // 
+            // splitter3
+            // 
+            this.splitter3.Location = new System.Drawing.Point(203, 3);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(3, 527);
+            this.splitter3.TabIndex = 1;
+            this.splitter3.TabStop = false;
+            // 
+            // panelInstructionsList
+            // 
+            this.panelInstructionsList.Controls.Add(this.userControlInstructionList1);
+            this.panelInstructionsList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelInstructionsList.Location = new System.Drawing.Point(3, 3);
+            this.panelInstructionsList.Name = "panelInstructionsList";
+            this.panelInstructionsList.Size = new System.Drawing.Size(200, 527);
+            this.panelInstructionsList.TabIndex = 0;
+            // 
+            // userControlInstructionList1
+            // 
+            this.userControlInstructionList1.BackColor = System.Drawing.Color.White;
+            this.userControlInstructionList1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.userControlInstructionList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlInstructionList1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userControlInstructionList1.Location = new System.Drawing.Point(0, 0);
+            this.userControlInstructionList1.Multiline = true;
+            this.userControlInstructionList1.Name = "userControlInstructionList1";
+            this.userControlInstructionList1.ReadOnly = true;
+            this.userControlInstructionList1.Size = new System.Drawing.Size(200, 527);
+            this.userControlInstructionList1.TabIndex = 0;
+            this.userControlInstructionList1.WordWrap = false;
+            // 
+            // MainToolTip
+            // 
+            this.MainToolTip.UseAnimation = false;
+            this.MainToolTip.UseFading = false;
             // 
             // Form1
             // 
@@ -1755,7 +1768,7 @@ namespace MaszynaPi {
         private MachineUI.UserControlSignalWire userControlSignalWire_add;
         private MachineUI.UserControlSignalWire userControlSignalWire_icacc;
         private MachineUI.UserControlSignalWire userControlSignalWire_and;
-        private MachineUI.UserControlSignalWire userControlSignalWire_ad;
+        private MachineUI.UserControlSignalWire userControlSignalWire_t;
         private MachineUI.UserControlSignalWire userControlSignalWire_osp;
         private MachineUI.UserControlSignalWire userControlSignalWire_isp;
         private MachineUI.UserControlSignalWire userControlSignalWire_dcsp;
@@ -1776,7 +1789,6 @@ namespace MaszynaPi {
         private MachineUI.UserControlSignalWire userControlSignalWire_im;
         private MachineUI.UserControlSignalWire userControlSignalWire_eni;
         private MachineUI.UserControlSignalWire userControlSignalWire_rint;
-        private MachineUI.UserControlSignalWire userControlSignalWire_da;
         private MachineUI.UserControlSignalWire userControlSignalWire_oa;
         private MachineUI.UserControlSignalWire userControlSignalWire_oitd;
         private MachineUI.UserControlSignalWire userControlSignalWire_stop;
@@ -1796,6 +1808,7 @@ namespace MaszynaPi {
         private System.Windows.Forms.Splitter splitter3;
         private System.Windows.Forms.Panel panelInstructionsList;
         private MachineUI.UserControlInstructionList userControlInstructionList1;
+        private System.Windows.Forms.ToolTip MainToolTip;
     }
 }
 

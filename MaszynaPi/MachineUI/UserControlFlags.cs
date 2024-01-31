@@ -11,9 +11,9 @@ namespace MaszynaPi.MachineUI {
 
         public UserControlFlags() {
             InitializeComponent();
-            this.TextAlign = HorizontalAlignment.Center;
-            this.ReadOnly = true;
-            this.BackColor = Color.White;
+            TextAlign = HorizontalAlignment.Center;
+            ReadOnly = true;
+            BackColor = Color.White;
                 
         }
         public Func<ALUFlags> FlagsValueRequest;

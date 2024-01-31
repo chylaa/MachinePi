@@ -3,37 +3,49 @@ using System.Windows.Forms;
 using MaszynaPi.MachineLogic.Architecture;
 
 namespace MaszynaPi.MachineUI {
-    public partial class UserControlBus : TextBox {
-        const string TEXT = "";
+    public partial class UserControlBus : TextBox
+    {
+        
         private Bus UnitBus;
-        private ToolTip toolTip = new ToolTip();
+        private ToolTip toolTip;
 
-        readonly Color COLOR_ACTIVE = Color.Red;
-        readonly Color COLOR_EMPTY = SystemColors.Control;
+        readonly static Color COLOR_ACTIVE = Color.Red;
+        readonly static Color COLOR_EMPTY = SystemColors.Control;
 
         public UserControlBus() {
             InitializeComponent();
-            BackColor = SystemColors.Control;
+            BackColor = COLOR_EMPTY;
             ReadOnly = true;
-            Text = TEXT;
-            toolTip.Active = true;
+            Text = string.Empty;
+        }
+
+        public void SetBusValueToolTip(ToolTip tt) {
+            if (tt != null) {
+                toolTip = tt;
+                toolTip.SetToolTip(this, string.Empty);
+            }
         }
 
         public void SetSourceBus(Bus sourceBus) {
             UnitBus = sourceBus;
         }
 
-        protected override void OnPaint(PaintEventArgs e) {
-            if (UnitBus.IsEmpty() == false) {
-                toolTip.SetToolTip(this, UnitBus.GetValue().ToString());
-                //BackColor = COLOR_ACTIVE;
-                toolTip.AutomaticDelay = 0;
-            } else {
-                //BackColor = COLOR_EMPTY;
-                toolTip.SetToolTip(this, null);
+        public override void Refresh()
+        {
+            if (UnitBus.IsEmpty())
+            {
+                toolTip?.SetToolTip(this, string.Empty);
+                BackColor = COLOR_EMPTY;
+                BorderStyle = BorderStyle.Fixed3D;
+
+            } 
+            else
+            { 
+                toolTip?.SetToolTip(this, UnitBus.GetValue().ToString());
+                BackColor = COLOR_ACTIVE;
+                BorderStyle = BorderStyle.None;
             }
             base.Refresh();
-            base.OnPaint(e);
         }
 
     }

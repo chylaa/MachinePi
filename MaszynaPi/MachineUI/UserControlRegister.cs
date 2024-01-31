@@ -24,10 +24,10 @@ namespace MaszynaPi.MachineUI {
 
         public UserControlRegister(){
             InitializeComponent();
-            this.TextAlign = HorizontalAlignment.Center;
-            this.ReadOnly = true;
-            this.BackColor = Color.White;
-            this.MouseDoubleClick += ControlDoubleClick;
+            TextAlign = HorizontalAlignment.Center;
+            ReadOnly = true;
+            BackColor = Color.White;
+            MouseDoubleClick += ControlDoubleClick;
         }
 
         public void SetSourceRegister(Register sourceReg) {
@@ -40,16 +40,16 @@ namespace MaszynaPi.MachineUI {
         
         private void ControlDoubleClick(object sender, MouseEventArgs args) {
             string response = UnitRegister.GetValue().ToString();
-            Point location = PointToClient(this.Location);
+            Point location = PointToClient(Location);
             InputDialog.ShowInputDialog(ref response, title:"Register "+RegisterName, subtitle:"Current value", x:location.X, y:location.Y);
             if (response.Length != 0)
                 UnitRegister.SetValue((uint)int.Parse(response));
             Refresh();
         }
-        protected override void OnPaint(PaintEventArgs e) {
-            base.Refresh();
-            base.OnPaint(e);
-        }
+        //protected override void OnPaint(PaintEventArgs e) {
+        //    base.Refresh();
+        //    base.OnPaint(e);
+        //}
         public override void Refresh() {
             if (PreviousValue == UnitRegister.GetValue())
                 return; // no need to refresh

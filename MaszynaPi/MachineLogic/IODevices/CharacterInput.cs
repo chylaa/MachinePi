@@ -24,10 +24,10 @@ namespace MaszynaPi.MachineLogic.IODevices {
         /// Creates new instance of <see cref="CharacterInput"/> class, assigning by defaut 
         /// <see cref="IODevice.DeviceID"/> of 1 and <see cref="IODevice.Type"/> of <see cref="IOType.Input"/>.
         /// </summary>
-        /// <param name="g"><inheritdoc/></param>
-        /// <param name="rb"><inheritdoc/></param>
-        /// <param name="id"><inheritdoc/>. Default is <see cref="ID"/>.</param>
-        /// <param name="iOType"><inheritdoc/>. Default is <see cref="TYPE"/> and should not be chaged.</param>
+        /// <param name="g"><inheritdoc path="/param[@name='g']"/></param>
+        /// <param name="rb"><inheritdoc path="/param[@name='rb']"/></param>
+        /// <param name="id"><inheritdoc path="/param[@name='id']"/>. Default is <see cref="ID"/>.</param>
+        /// <param name="iOType"><inheritdoc path="/param[@name='iOType']"/>. Default is <see cref="TYPE"/> and should not be chaged.</param>
         public CharacterInput(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             CharactersBuffer = new Queue<char>();
         }

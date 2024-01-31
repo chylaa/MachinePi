@@ -23,10 +23,10 @@ namespace MaszynaPi.MachineLogic.IODevices {
         /// Creates new instance of <see cref="CharacterOutput"/> class, assigning by defaut 
         /// <see cref="IODevice.DeviceID"/> of 2 and <see cref="IODevice.Type"/> of <see cref="IOType.Output"/>.
         /// </summary>
-        /// <param name="g"><inheritdoc/></param>
-        /// <param name="rb"><inheritdoc/></param>
-        /// <param name="id"><inheritdoc/>. Default is <see cref="ID"/>.</param>
-        /// <param name="iOType"><inheritdoc/>. Default is <see cref="TYPE"/> and should not be chaged.</param>
+        /// <param name="g"><inheritdoc path="/param[@name='g']"/></param>
+        /// <param name="rb"><inheritdoc path="/param[@name='rb']"/></param>
+        /// <param name="id"><inheritdoc path="/param[@name='id']"/>. Default is <see cref="ID"/>.</param>
+        /// <param name="iOType"><inheritdoc path="/param[@name='iOType']"/>. Default is <see cref="TYPE"/> and should not be chaged.</param>
         public CharacterOutput(Register g, Register rb, uint id = ID, IOType iOType = TYPE) : base(g, rb, id, iOType) {
             CharactersBuffer = new List<char>();
         }
@@ -51,9 +51,7 @@ namespace MaszynaPi.MachineLogic.IODevices {
         }
         /// <summary>
         /// Checks if device is valid <see cref="IOType.Output"/> device using base implementation of <see cref="IODevice.ReadFromIOBuffer"/>.
-        /// Set <see cref="IODevice.IO_READY"/> valu into <see cref="IODevice.Ready"/> <see cref="Register"/>.
-        /// Push value from <see cref="IODevice.IOBuffer"/> <see cref="Register"/> to <see cref="CharactersBuffer"/> as character (ASCII Encoding)
-        /// and invokes <see cref="OnCharacterPushed"/>.
+        /// <br></br><inheritdoc cref="PushChar"/>
         /// </summary>
         public override void ReadFromIOBuffer() {
             base.ReadFromIOBuffer();

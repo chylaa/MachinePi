@@ -67,8 +67,9 @@ namespace MaszynaPi.MachineLogic.IODevices {
         public uint GetID() { return DeviceID; }
 
         /// <summary>
-        /// Virtual template of I/O Buffer reading method for <b>external devices</b>: Buffer -> IO. Provides check of Device's <see cref="IOType"/> 
+        /// Virtual template of I/O Buffer reading method for <b>external devices</b>: Buffer -> IO. Provides <b>only</b> check of Device's <see cref="IOType"/> 
         /// (buffer can be read only by <see cref="IOType.Output"/> device, otherwise <see cref="IODeviceException"/> is thrown).
+        /// <br></br><u>Should be overriden in inplementing <see cref="IOType.Output"/> <see cref="IODevice"/></u>
         /// </summary>
         /// <exception cref="IODeviceException"></exception>
         public virtual void ReadFromIOBuffer() {
@@ -76,8 +77,9 @@ namespace MaszynaPi.MachineLogic.IODevices {
         }
 
         /// <summary>
-        /// Virtual template of I/O Buffer writing method for <b>external devices</b>: IO -> Buffer . Provides check of Device's <see cref="IOType"/> 
+        /// Virtual template of I/O Buffer writing method for <b>external devices</b>: IO -> Buffer . Provides <b>only</b> check of Device's <see cref="IOType"/> 
         /// (value can be written to buffer only by <see cref="IOType.Input"/> device, otherwise <see cref="IODeviceException"/> is thrown).
+        /// <br></br><u>Should be overriden in inplementing <see cref="IOType.Input"/> <see cref="IODevice"/></u>
         /// </summary>
         /// <exception cref="IODeviceException"></exception>
         public virtual void WriteToIOBuffer() { 

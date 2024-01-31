@@ -92,6 +92,9 @@ namespace MaszynaPi {
 
             // GUI
             userControlInstructionList1.SetMicrocodeViewHandle(userControlInstructionMicrocode1);
+            userControlBusAddress.SetBusValueToolTip(MainToolTip);
+            userControlBusData.SetBusValueToolTip(MainToolTip);
+            userControlBusAS.SetBusValueToolTip(MainToolTip);
             RefreshRightPanelControls();
 
         }
@@ -108,13 +111,14 @@ namespace MaszynaPi {
                 UserControlRegisterA, UserControlRegisterS, UserControlRegisterI,UserControlRegisterL,
                 UserControlRegisterAK, UserControlRegisterX,UserControlRegisterY,UserControlRegisterRB,
                 UserControlRegisterG,UserControlRegisterWS, UserControlRegisterRZ, UserControlRegisterRM,
-                UserControlRegisterRP,UserControlRegisterAP,userControlBusData,userControlBusAddress, userControlFlags
+                UserControlRegisterRP,UserControlRegisterAP, userControlFlags,
+                userControlBusData,userControlBusAddress, userControlBusAS
             };
         }
 
         private void InitializeSignalWiresList() {
-            SignalWires = new List<UserControlSignalWire> { userControlSignalWire_id, userControlSignalWire1_od, userControlSignalWire2, userControlSignalWire_ad,
-            userControlSignalWire_add, userControlSignalWire_and, userControlSignalWire_da, userControlSignalWire_dcacc, userControlSignalWire_dcsp,
+            SignalWires = new List<UserControlSignalWire> { userControlSignalWire_id, userControlSignalWire1_od, userControlSignalWire2, userControlSignalWire_t,
+            userControlSignalWire_add, userControlSignalWire_and, userControlSignalWire_dcacc, userControlSignalWire_dcsp,
             userControlSignalWire_div, userControlSignalWire_eni, userControlSignalWire_ia, userControlSignalWire_ialu, userControlSignalWire_ibuf,
             userControlSignalWire_icacc, userControlSignalWire_icit, userControlSignalWire_icsp, userControlSignalWire_id, userControlSignalWire_iins,
             userControlSignalWire_iit, userControlSignalWire_im, userControlSignalWire_isp, userControlSignalWire_ix, userControlSignalWire_iy,
@@ -142,6 +146,7 @@ namespace MaszynaPi {
             UserControlRegisterAP.SetSourceRegister(Machine.AP);
             userControlBusData.SetSourceBus(Machine.MagS);
             userControlBusAddress.SetSourceBus(Machine.MagA);
+            userControlBusAS.SetSourceBus(Machine.MagT);
 
             userControlIntButton1.SetIntRequestRegisterHandle(Machine.RZ);
             userControlIntButton2.SetIntRequestRegisterHandle(Machine.RZ);
@@ -159,12 +164,11 @@ namespace MaszynaPi {
             foreach (Control con in control.Controls)
                 RefreshControls(con);
         }
-        private void RefreshMicrocontrolerControls() {
+        private void RefreshMicrocontrolerControls(bool stopBusRefresh = false) {
             //RefreshControls(MicrocontrollerPanel);
             foreach (var instance in MachineComponents) {
-                (instance as Control)?.Refresh();
-                //System.Reflection.MethodInfo method = instance.GetType().GetMethod("Refresh"); // should just implement IRefreshable [Y/L]
-                //method?.Invoke(instance, null);
+                if (false == (stopBusRefresh && (instance is UserControlBus)) )
+                    (instance as Control)?.Refresh();
             }
             List<string> ActiveSignals;
             if (PaintActiveSignals == false || (ActiveSignals = Machine.GetActiveSignals()) == null) 
@@ -201,13 +205,14 @@ namespace MaszynaPi {
 
         // sorts the microinstruction signals so that register output signals are always prioritized
         private List<string> SortSignals(List<string> activeSignals) {
-            var inputSignals = activeSignals.Where(s => (s.StartsWith("i") && s.StartsWith("ic")==false)).ToList();
-            var outputSignals = activeSignals.Where(s => s.StartsWith("o")).ToList();
-            var specialSignals = activeSignals.Where(s => (s.Equals("start") || s.Equals("stop"))).ToList();
-            var otherSignals = activeSignals.Except(inputSignals).Except(outputSignals).Except(specialSignals).ToList();
-            return otherSignals.Concat(outputSignals).Concat(inputSignals).Concat(specialSignals).ToList();
+            var inputSignals = activeSignals.Where(s => (s.StartsWith("i") && s.StartsWith("ic") == false));
+            var outputSignals = activeSignals.Where(s => s.StartsWith("o"));
+            var transBusSignal = activeSignals.Where(s => s.Equals("tbs"));
+            var specialSignals = activeSignals.Where(s => (s.Equals("start") || s.Equals("stop")));
+            var otherSignals = activeSignals.Except(inputSignals).Except(outputSignals).Except(specialSignals).Except(transBusSignal);
+            return otherSignals.Concat(outputSignals).Concat(transBusSignal).Concat(inputSignals).Concat(specialSignals).ToList();
         }
-        
+
         private List<string> GetManualActiveSignals() {
             if (UserControlSignalWire.ManualControl == false) return null;
             List<string> activeSignals = new List<string>();
@@ -480,6 +485,7 @@ namespace MaszynaPi {
             breakForm?.Close();
             breakForm?.Dispose();
             breakForm = new UI.BreakForm();
+            
         }
 
         void ShowBreakForm() {
@@ -492,12 +498,13 @@ namespace MaszynaPi {
             CreateBreakButton();
             BreakDetectorThread = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
             BreakDetectorThread.Start();
-            //BringToFront();
+            breakForm.BringToFront();
         }
 
         void CloseBreakDetector(object sender, RunWorkerCompletedEventArgs e) {
-            try { breakForm?.ForceClose();  } 
+            try { breakForm?.ForceClose(); } 
             finally { BreakDetectorThread?.Join(); } // BREAK_FLAG = (breakForm != null) && breakForm.DialogResult.Equals(DialogResult.OK);
+            
         }
     }
 }

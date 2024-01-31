@@ -48,6 +48,8 @@ namespace MaszynaPi.MachineLogic {
         public Bus MagA { get; private set; }
         /// <summary>Data Bus</summary>
         public Bus MagS { get; private set; }
+        /// <summary>Address<->Data Transition Bus (address space sized)</summary>
+        public Bus MagT { get; private set; }
         /// <summary>Machine's Arithmetic Logic Unit</summary>
         public ArithmeticLogicUnit JAL { get; private set; }
         /// <summary>Address Register - allows to address <see cref="PaO"/> access.</summary>
@@ -121,8 +123,9 @@ namespace MaszynaPi.MachineLogic {
             I = new InstructionRegister(Aspace,Cbits);
             AK = new Register(Mword);
             JAL = new ArithmeticLogicUnit(AK);
-            MagA = new Bus(Aspace);
-            MagS = new Bus(Mword);
+            MagA = new Bus(Aspace, "Address");
+            MagT = new Bus(Aspace, "Transitive");
+            MagS = new Bus(Mword, "Data");
             // Architecture L
             X = new Register(Mword);
             Y = new Register(Mword);
@@ -168,8 +171,14 @@ namespace MaszynaPi.MachineLogic {
 
         #region Architecture W+
 		
-        void _as() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CPUException("Data Bus already in use!"); MagS.SetValue(MagA.GetValue()); }
-        void sa() { if ((MagA.IsEmpty() || MagS.IsEmpty()) == false) throw new CPUException("Address Bus already in use!");  MagA.SetValue(MagS.GetValue()); }
+        void sa_as() 
+        {
+            Bus source = (MagS.IsEmpty() ? MagA : MagS); 
+            Bus dest = (MagS.IsEmpty() ? MagS : MagA);
+            if (false == dest.IsEmpty()) throw new CPUException(dest.Name+" Bus already in use!");
+            MagT.SetValue(source.GetValue());
+            dest.SetValue(MagT.GetValue());
+        }
         #endregion
 
         #region Architecture L
@@ -233,7 +242,7 @@ namespace MaszynaPi.MachineLogic {
         public void InitialazeSignalsMap() {
             var AllPLSignalsMap = new Dictionary<string, Action> {
                 {"czyt",czyt},{"wyad",wyad},{"pisz",pisz},{"przep",przep},{"wys",wys},{"dod",dod},{"wes",wes},{"ode",ode},{"wei",wei},{"weak",weak},
-                { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",_as}, {"sa", sa},{"iak",iak},
+                { "il", il },{ "weja", weja },{ "wyl", wyl },{ "wyak", wyak },{"wea",wea},{"wel",wel},{"stop",stop},{"as",sa_as}, {"sa", sa_as},{"iak",iak},
                 {"dak",dak},{"mno",mno}, {"dziel",dziel},{"shr",shr},{"neg",neg},{"lub",lub},{"i",i},{"wyx",wyx},{"wex",wex},{"wyy",wyy},{"wey",wey},
                 {"wyws",wyws},{"wews",wews},{"iws",iws},{"dws",dws},{"wyrb",wyrb},{"werb",werb},{"wyg",wyg},{"start",start},{"wyrm",wyrm},{"werm",werm},
                 {"wyls",wyls},{"wyap",wyap},{"rint",rint },{"eni",eni}
@@ -241,7 +250,7 @@ namespace MaszynaPi.MachineLogic {
             var AllENGSignalsMap = new Dictionary<string, Action> { 
                 { "start", start },{ "stop", stop }, { "rd", czyt }, { "wr", pisz }, { "ia", wea }, { "od", wys }, { "id", wes }, { "ialu", weja }, { "add", dod },
                 { "sub", ode }, { "wracc", przep }, { "iacc", weak }, { "oacc", wyak }, { "iins", wei }, { "oa", wyad }, { "oit", wyl }, { "iit", wel }, { "icit", il },
-                { "ad", _as }, { "da", sa }, { "oitd", wyls }, { "osp", wyws }, { "isp", wews }, { "icsp", iws }, { "dcsp", dws }, { "mul", mno }, { "div", dziel },
+                { "tbs", sa_as }, { "oitd", wyls }, { "osp", wyws }, { "isp", wews }, { "icsp", iws }, { "dcsp", dws }, { "mul", mno }, { "div", dziel },
                 { "shr", shr }, { "icacc", iak }, { "dcacc", dak }, { "not", neg }, { "or", lub }, { "and", i }, { "oim", wyrm }, { "iim", werm }, { "oiv", wyap },
                 { "yx", wyx }, { "ix", wex }, { "oy", wyy }, { "iy", wey }, { "obuf", wyrb }, { "ibuf", werb }, { "ord", wyg } ,{"rint",rint },{"eni",eni}
             };
@@ -261,7 +270,7 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>Allows to define action responsible for signalizing in that GUI that signals repaint is neccessary.</summary>
         public Action<bool> SetPaintActiveSignals;
         /// <summary>Allows to define action responsible for refreshing CPU components representation in GUI.</summary>
-        public Action OnRefreshValues;
+        public Action<bool> OnRefreshValues;
         /// <summary>Allows to define action responsible for showing currently executed line of program. Invoked each single instruction.</summary>
         public Action<uint> OnSetExecutedLine;
         /// <summary>Allows to define action responsible for showing currently executed microinstruction. Invoked each cycle.</summary>
@@ -272,8 +281,9 @@ namespace MaszynaPi.MachineLogic {
         public Func<bool>CheckProgramBreak;
 
         /// <summary>Invoke of <see cref="OnRefreshValues"/> <see cref="Action"/>.</summary>
-        private void RefreshValues() {
-            OnRefreshValues();
+        /// <param name="program"> Indicates if method was called from <see cref="ExecuteProgram"/>.</param>
+        private void RefreshValues(bool program = false) {
+            OnRefreshValues(program);
         }
         /// <summary>Invoke of <see cref="OnSetExecutedLine"/> <see cref="Action"/>.</summary>
         private void SetExecutedLineInEditor(uint instructionMemAddress) {
@@ -301,8 +311,9 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>Executes single 'tick' of CPU, base on current machine state. Sets <see cref="ActiveSignals"/> list.</summary>
         /// <param name="tick">Number (index) of consecutive tick of currently executed instruction. Defaults to 0 (see <see cref="FETCH_CYCLE_TICK"/>).</param>
         /// <param name="manual">Indicates whenever active signals (<see cref="ActiveSignals"/> content) are selected by user in manual mode (true). Defaults to false.</param>
+        /// <param name="program"> Indicates if method was called from <see cref="ExecuteProgram"/>.</param>
         /// <returns>Index of current instruction's tick that should be executed, or <see cref="ENDOF_INSTRUCTION"/> if all instruction's cycles were performed.</returns>
-        int ExecuteTick(int tick = FETCH_CYCLE_TICK, bool manual = false) {
+        int ExecuteTick(int tick = FETCH_CYCLE_TICK, bool manual = false, bool program = false) {
 
             if(USE_DEBUGGER)
                 SetExecutedLineInEditor(L.GetValue()-1); //select currently executed instruction on code editor (DEBUGGER)
@@ -321,10 +332,10 @@ namespace MaszynaPi.MachineLogic {
                     break;
                 };
                 if (SignalsMap.ContainsKey(signal)) //skips conditional statements 
-                    SignalsMap[signal]();
+                    SignalsMap[signal].Invoke();
             }
-            MagA.SetEmpty(); MagS.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
-            RefreshValues();
+            RefreshValues(program);
+            MagA.SetEmpty(); MagS.SetEmpty(); MagT.SetEmpty(); //Buses no longer sustain last state (MUST BE AFTER INSTRUCTION FETCH CYCLE)
             
             if (USE_DEBUGGER)
                 SetExecutedMicroinstructions(); //select currently executed microinstructions in list of instructions (DEBUGGER)
@@ -336,11 +347,12 @@ namespace MaszynaPi.MachineLogic {
         /// Performes all CPU's steps neccessary for executing whole instruction. 
         /// Invokes all methods responsible for full Fetch-Decode-Execute cycle.
         /// </summary>
-        void ExecuteInstructionCycle() {
+        /// <param name="program"> Indicates if method was called from <see cref="ExecuteProgram"/>.</param>
+        void ExecuteInstructionCycle(bool program = false) {
             int uInstructionBlock = FETCH_CYCLE_TICK;
 
             FetchInstruction();
-            ExecuteTick();
+            ExecuteTick(0, false, program);
             uInstructionBlock++;
 
             uint opcode = I.GetOpcode();
@@ -350,7 +362,7 @@ namespace MaszynaPi.MachineLogic {
             //    requiredTicks -= LastTick;
 
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
-                i = ExecuteTick(i);
+                i = ExecuteTick(i, false, program);
                 LastTick = i;
                 if (i == ENDOF_INSTRUCTION) 
                     break;
@@ -375,7 +387,7 @@ namespace MaszynaPi.MachineLogic {
                         //IntController.StopJoystickInterruptionMonitor(); 
                         break; 
                     } else { 
-                        ExecuteInstructionCycle(); 
+                        ExecuteInstructionCycle(program:true); 
                     }
                 } while (I.GetOpcode() != 0);
                 EnableDebugger();
@@ -531,6 +543,7 @@ namespace MaszynaPi.MachineLogic {
             JAL.Reset();
             MagA.Reset();
             MagS.Reset();
+            MagT.Reset();
             X.Reset();
             Y.Reset();
             WS.Reset();
@@ -560,6 +573,7 @@ namespace MaszynaPi.MachineLogic {
             AK.SetBitsize(Mword);
             MagA.SetBitsize(Aspace);
             MagS.SetBitsize(Mword);
+            MagT.SetBitsize(Aspace);
             X.SetBitsize(Mword);
             Y.SetBitsize(Mword);
             WS.SetBitsize(Aspace);

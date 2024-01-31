@@ -23,10 +23,10 @@ namespace MaszynaPi.MachineLogic.Architecture
 
         /// <summary>
         /// Invokes read/write IO buffer operation of <see cref="IODevice"/>, 
-        /// visible under memory-mapped address <paramref name="IOAddress"/> 
+        /// visible under IO address <paramref name="IOAddress"/> 
         /// (I/O base on <see cref="IOType"/> of assosciated <see cref="IODevice"/>).
         /// </summary>
-        /// <param name="IOAddress">Memory-mapped address of <see cref="IODevice"/>.</param>
+        /// <param name="IOAddress">Address of <see cref="IODevice"/> from IO read/write instruction.</param>
         public void HandleIOOnStartSignal(uint IOAddress) {
             if (IODevices.Count == 0) return;
             uint id = ArchitectureSettings.GetIODeviceID(IOAddress);

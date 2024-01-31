@@ -8,7 +8,7 @@ namespace MaszynaPi.MachineUI {
         public uint InterruptPriority { get; set; }
         Register InterruptRequestRegisterHandle;
         
-        public static Action OnSetRequestValue;
+        public static Action<bool> OnSetRequestValue;
 
         public UserControlIntButton() {
             InitializeComponent();   
@@ -26,7 +26,7 @@ namespace MaszynaPi.MachineUI {
         protected override void OnClick(EventArgs e) {
             base.OnClick(e);
             SetIntRequestValue();
-            OnSetRequestValue();
+            OnSetRequestValue(false);
         }
     }
 }
