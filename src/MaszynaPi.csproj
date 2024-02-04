@@ -129,12 +129,6 @@
     <Compile Include="UI\ArchitectureRadioButton.Designer.cs">
       <DependentUpon>ArchitectureRadioButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\BreakForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\BreakForm.Designer.cs">
-      <DependentUpon>BreakForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\ComponentsCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -209,9 +203,6 @@
     <Compile Include="MachineLogic\CentralProcessingUnit.cs" />
     <EmbeddedResource Include="MachineUI\UserControlSignalWire.resx">
       <DependentUpon>UserControlSignalWire.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\BreakForm.resx">
-      <DependentUpon>BreakForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

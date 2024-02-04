@@ -5,6 +5,8 @@ using System.IO;
 using MaszynaPi.MachineLogic;
 using System.Text.RegularExpressions;
 
+using static MaszynaPi.Defines;
+
 namespace MaszynaPi.MachineAssembler {
 
     /// <summary>
@@ -17,27 +19,17 @@ namespace MaszynaPi.MachineAssembler {
     /// Syntax of instruction set files was preserved to assure backward compability with previous simulator application.
     /// </summary>
     static class InstructionLoader {
-        public const string INSTRUCTION_FILE_EXTENSION = ".rzk";
-        public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
-        const string OPTIONS_HEADER = "[opcje]";
+
+        const byte OPTIONS_LINES = 12;
         const string NO_ARGUMENT = "0";
         const string COMPONENT_ON = "1";
         const char LINE_HEADER_SEPARATOR = '=';
-        const string ADDRESS_SPACE_HEADER = "adres=";
-        const string CODE_BITS_HEADER = "kod=";
-        const byte OPTIONS_LINES = 12;
-        const string INSTRUCTIONS_HEADER = "[rozkazy]";
-
-        const string INSTRUCTION_NUMBER_HEADER = "liczba=";
-        const string INSTRUCTION_LINES_HEADER = "linie=";
-        const string COMMENT = "//";
-        public const string LINE_END = ";";
         
-        static int MAX_OPCODE=-1;
+        static int MAX_OPCODE = -1; // init with no value
 
         /// <summary> List of keywords for microinstruction definition pseoudo-language </summary>
-        public readonly static List<string> uInstDefKeywords = new List<string> { Defines.INSTRUCTION_NAME_HEADER.Replace(" ",""), Defines.SIGNAL_STATEMENT_IF, Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[0], Defines.SIGNAL_STATEMENT_ELSE.Split(' ')[1],
-                                                                        Defines.SIGNAL_STATEMENT_THEN, Defines.SIGNAL_STATEMENT_END, Defines.ALU_FLAG_INT, Defines.ALU_FLAG_Z, Defines.ALU_FLAG_V, Defines.ALU_FLAG_ZAK};
+        public readonly static List<string> uInstDefKeywords = new List<string> { INSTRUCTION_NAME_HEADER.Replace(" ",""), SIGNAL_STATEMENT_IF, SIGNAL_STATEMENT_ELSE.Split(' ')[0], SIGNAL_STATEMENT_ELSE.Split(' ')[1],
+                                                                        SIGNAL_STATEMENT_THEN, SIGNAL_STATEMENT_END, ALU_FLAG_INT, ALU_FLAG_Z, ALU_FLAG_V, ALU_FLAG_ZAK};
 
         /// <summary> Mapping of instruction names to their uOps definitions (lines from file, used for <see cref="MachineUI.UserControlInstructionMicrocode"/>)</summary>
         static Dictionary<string, List<string>> InstructionsLines = new Dictionary<string, List<string>>(); 
@@ -60,7 +52,7 @@ namespace MaszynaPi.MachineAssembler {
         }
         /// <summary>
         /// Method loads base instructions set, using instructions defined in <see cref="Properties.Resources.Podstawa"/> or <see cref="Properties.Resources.Base"/>
-        /// (dependins on currently set <see cref="Defines.LangInUse"/> language). Uses <see cref="LoadInstructionSet(List{string})"/> method.
+        /// (dependins on currently set <see cref="LangInUse"/> language). Uses <see cref="LoadInstructionSet(List{string})"/> method.
         /// </summary>
         /// <returns>'true' if all instructions could be encoded using currently set size of opcode (<see cref="ArchitectureSettings.GetMaxOpcode"/>), false otherwise.</returns>
         /// <exception cref="InstructionLoaderException"></exception>
@@ -68,9 +60,9 @@ namespace MaszynaPi.MachineAssembler {
             var separator = Environment.NewLine.ToCharArray();
             string baseInstructions;
             try {
-                    if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./" + Defines.BASE_INSTRUCTION_SET_FILENAME);
+                    if (Environment.OSVersion.Platform == PlatformID.Unix) baseInstructions = File.ReadAllText("./" + BASE_INSTRUCTION_SET_FILENAME);
                 else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-                    if (Defines.LangInUse == Defines.Lang.ENG) baseInstructions = Properties.Resources.Base;
+                    if (LangInUse == Lang.ENG) baseInstructions = Properties.Resources.Base;
                     else baseInstructions = Properties.Resources.Podstawa;
                 } else throw new InstructionLoaderException("Unknown deploy OS: " + Environment.OSVersion.VersionString);
             
@@ -137,9 +129,9 @@ namespace MaszynaPi.MachineAssembler {
             options.Remove(ADDRESS_SPACE_HEADER+addrSpace.ToString()); 
             options.Remove(CODE_BITS_HEADER + codeBits.ToString());
             //--------------------------------------------------------------------------------------------------------------
-            int componetsSet = (int)Defines.Components.Basic;
-            for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= (1<<i+(int)Defines.Components.Basic); }
-            ArchitectureSettings.SetActiveComponents((Defines.Components)componetsSet);
+            int componetsSet = (int)Components.Basic;
+            for(int i=0; i<options.Count;i++) { if (options[i].EndsWith(COMPONENT_ON)) componetsSet |= (1<<i+(int)Components.Basic); }
+            ArchitectureSettings.SetActiveComponents((Components)componetsSet);
         }
 
         /// <summary> Clears all lists containing loaded instruction set information; instruction definitions, opcoded, and uOps.</summary>
@@ -153,9 +145,9 @@ namespace MaszynaPi.MachineAssembler {
 
         /// <summary>Checks if instruction starts with valid set of fetch microoperations.</summary>
         /// <param name="uOpsLine">Single clock cycle set of microoperations from insturction definition.</param>
-        /// <returns>'true' if passed instruction definition part contains valid fetch sequence (defined in <see cref="Defines.FETCH_SIGNALS"/>).</returns>
+        /// <returns>'true' if passed instruction definition part contains valid fetch sequence (defined in <see cref="FETCH_SIGNALS"/>).</returns>
         private static bool IsValidStartOfInstruction(List<string> uOpsLine) {
-            return Defines.FETCH_SIGNALS.Intersect(uOpsLine).Count() == Defines.FETCH_SIGNALS.Count();
+            return FETCH_SIGNALS.Intersect(uOpsLine).Count() == FETCH_SIGNALS.Count();
         }
 
         /// <summary> Checks if conditional statement written in instruction definition language has valid syntax. </summary>
@@ -163,12 +155,12 @@ namespace MaszynaPi.MachineAssembler {
         /// <returns>'true' if it is not a conditional statement or statemets passed in parameter are in valid order (if [arg] then @label else @label || if [arg] then @label) </returns>
         private static bool IsStatementValid(List<string> sigline) {
             var sigcopy = new List<string>(sigline);
-            if (sigcopy[0].StartsWith(Defines.SIGNAL_LABEL_PREFIX)) sigcopy.RemoveAt(0);
-            if (sigcopy.All(sig => false==sig.Contains(Defines.SIGNAL_LABEL_PREFIX))) return true;
+            if (sigcopy[0].StartsWith(SIGNAL_LABEL_PREFIX.ToString())) sigcopy.RemoveAt(0);
+            if (sigcopy.All(sig => false==sig.Contains(SIGNAL_LABEL_PREFIX))) return true;
 
             string line = string.Join(" ",sigcopy);
-            string ifRegex = "^[a-z ]*"+Defines.SIGNAL_STATEMENT_IF+" [a-z]+ "+Defines.SIGNAL_STATEMENT_THEN+" @[a-z]+$";
-            string ifelseRegex = ifRegex.Replace("$"," ")+Defines.SIGNAL_STATEMENT_ELSE+" @[a-z]+$";
+            string ifRegex = "^[a-z ]*"+SIGNAL_STATEMENT_IF+" [a-z]+ "+SIGNAL_STATEMENT_THEN+" @[a-z]+$";
+            string ifelseRegex = ifRegex.Replace("$"," ")+SIGNAL_STATEMENT_ELSE+" @[a-z]+$";
             if (Regex.IsMatch(line, ifRegex) || Regex.IsMatch(line, ifelseRegex)) return true;
             return false;
         }
@@ -201,7 +193,7 @@ namespace MaszynaPi.MachineAssembler {
                     if (line.StartsWith(COMMENT)) { refractoredLines[name].Add(line); continue; }
 
                     foreach (string word in toReplace) {
-                        string toreplace = word + " "; //" " + word + " ";
+                        string toreplace = word + ' '; //" " + word + " ";
                         line = line.Replace(toreplace, (toUpper ? toreplace.ToUpper() : toreplace.ToLower())); 
                     }
 
@@ -250,7 +242,7 @@ namespace MaszynaPi.MachineAssembler {
             }
          
             instructios.RemoveRange(0, instNum+1);
-            string processInstruction = "";
+            string processInstruction = string.Empty;
             bool czytwysweiil = false;
             foreach (string line in instructios) {
                 if (line.StartsWith("[") && line.EndsWith("]")) { //is [instruction_name]
@@ -263,19 +255,19 @@ namespace MaszynaPi.MachineAssembler {
                 
                 instructionsLines[processInstruction].Add(line.Substring(line.IndexOf(LINE_HEADER_SEPARATOR)+1));
 
-                if (line.Contains(Defines.INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) { zeroArgInstructions.Add(processInstruction); }
-                if (line.Contains(COMMENT) || line.Contains(Defines.INSTRUCTION_NAME_HEADER) || line.Contains(Defines.INSTRUCTION_ARGSNUM_HEADER)) { // is not signals lines
+                if (line.Contains(INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) { zeroArgInstructions.Add(processInstruction); }
+                if (line.Contains(COMMENT) || line.Contains(INSTRUCTION_NAME_HEADER) || line.Contains(INSTRUCTION_ARGSNUM_HEADER)) { // is not signals lines
                     continue;
                 }
                 if (line.IndexOf(LINE_HEADER_SEPARATOR) == line.Length - 1) continue; //empty line
 
-                List<string> signalsInLine = line.Replace(LINE_END,"").Substring(line.IndexOf(LINE_HEADER_SEPARATOR) +1).Split(' ').ToList();
+                List<string> signalsInLine = line.TrimEnd(LINE_END).Substring(line.IndexOf(LINE_HEADER_SEPARATOR) +1).Split(' ').ToList();
 
                 if (IsStatementValid(signalsInLine) == false)
                     throw new InstructionLoaderException("Invalid define of instruction statement: " + string.Join(" ", signalsInLine) +"\nCheck instruction file encoding (ANSI might not be supported)");
                 if (czytwysweiil) {
                     if (false == IsValidStartOfInstruction(signalsInLine)) 
-                        throw new InstructionLoaderException("Critical error in defined instruction "+processInstruction+". Instruction does not start with fetch cycle. Say after me! "+string.Join(", ",Defines.FETCH_SIGNALS)+" [!]");
+                        throw new InstructionLoaderException("Critical error in defined instruction "+processInstruction+". Instruction does not start with fetch cycle. Say after me! "+string.Join(", ",FETCH_SIGNALS)+" [!]");
                     czytwysweiil = false;
                 }
                 instructionSignalsMap[instructionNamesOpcodes[processInstruction]].Add(signalsInLine);
@@ -320,20 +312,20 @@ namespace MaszynaPi.MachineAssembler {
             var signals = new List<List<string>>();
 
             var firstitem = lines.Where(x => !x.StartsWith(COMMENT)).ToList().First();
-            if (firstitem.Contains(Defines.INSTRUCTION_NAME_HEADER)==false) 
-                throw new InstructionLoaderException("Invalid instruction define syntax: Instruction definition must begin with: '" + Defines.INSTRUCTION_NAME_HEADER + " instruction_name'");
+            if (firstitem.Contains(INSTRUCTION_NAME_HEADER)==false) 
+                throw new InstructionLoaderException("Invalid instruction define syntax: Instruction definition must begin with: '" + INSTRUCTION_NAME_HEADER + " instruction_name'");
 
             foreach(string line in lines) {
                 if (line.StartsWith(COMMENT)) continue;
-                if (line.Contains(Defines.INSTRUCTION_NAME_HEADER)) {
-                    instructionName = line.Replace(Defines.INSTRUCTION_NAME_HEADER, "").TrimEnd((" "+LINE_END).ToCharArray());
+                if (line.Contains(INSTRUCTION_NAME_HEADER)) {
+                    instructionName = line.Replace(INSTRUCTION_NAME_HEADER, string.Empty).TrimEnd(' ', LINE_END);
                     continue;
                 }
-                if (line.Contains(Defines.INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) {
+                if (line.Contains(INSTRUCTION_ARGSNUM_HEADER) && line.Contains(NO_ARGUMENT)) {
                     ZeroArgInstructions.Add(instructionName);
                     continue;
                 }
-                var signalsInLine = DeleteComment(line).Replace(LINE_END, "").Split(' ').ToList();
+                var signalsInLine = DeleteComment(line).TrimEnd(LINE_END).Split(' ').ToList();
                 signals.Add(signalsInLine);
             }
             MAX_OPCODE++;

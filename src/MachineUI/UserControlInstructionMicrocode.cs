@@ -37,7 +37,7 @@ namespace MaszynaPi.MachineUI
 
         public void SelectActiveMicroinstructions(List<string> active) {
             ClearSelected();
-            string line = string.Join(" ", active).Replace(InstructionLoader.LINE_END, "").Trim();
+            string line = string.Join(" ", active).TrimEnd(Defines.LINE_END, ' ').TrimStart();
             int idx = Text.IndexOf(line);
             SelectText(line, idx);
             Refresh();

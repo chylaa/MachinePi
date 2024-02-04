@@ -115,9 +115,39 @@ namespace MaszynaPi
         public static readonly Dictionary<string, int> JOYSTICK_INTERRUPTS = new Dictionary<string, int> { { "left", 1 }, { "right", 2 }, { "up", 4 }, { "down", 8 } };
 
         /// <summary> Instruction-definition-language label prefix character.</summary>
-        public const string SIGNAL_LABEL_PREFIX = "@";
+        public const char SIGNAL_LABEL_PREFIX = '@';
         /// <summary> Position of argument (after space string split) in conditional statement syntax in instruction-definition-language.</summary>
         public const int STATMENT_ARG_POSITION = 1;
+
+        #region Instruction set file syntax consts
+
+        /// <summary>Value header from .lst instruction set file defining neccessary address space for defined set. Preserved for backward compability.</summary>
+        public const string ADDRESS_SPACE_HEADER = "adres=";
+        /// <summary>Value header from .lst instruction set file defining neccessary instruction opcode size for defined set. Preserved for backward compability.</summary>
+        public const string CODE_BITS_HEADER = "kod=";
+        /// <summary>Instructions Section header from .lst instruction set file. Preserved for backward compability.</summary>
+        public const string INSTRUCTIONS_HEADER = "[rozkazy]";
+        /// <summary>Architecture Options Section header from .lst instruction set file. Preserved for backward compability.</summary>
+        public const string OPTIONS_HEADER = "[opcje]";
+
+        /// <summary>Value header from .lst instruction set file defining consecutive index of single instruction in defined set. Preserved for backward compability.</summary>
+        public const string INSTRUCTION_NUMBER_HEADER = "liczba=";
+        /// <summary>Value header from .lst instruction set file defining amount of lines that instruction definition contains. Equals amount of neccessary cycles to execute. Preserved for backward compability.</summary>
+        public const string INSTRUCTION_LINES_HEADER = "linie=";
+
+        /// <summary>Neccessary sufix indicating ending of line in instruction definition.</summary>
+        public const char LINE_END = ';';
+        #endregion
+
+        /// <summary>Standard extension of Machine Assembly Program file.</summary>
+        public const string PROGRAM_FILE_EXTENSION = ".prg";
+        /// <summary>Standard extension of Instruction Set Definition file.</summary>
+        public const string INSTRUCTION_FILE_EXTENSION = ".rzk";
+        /// <summary>Standard extension of Single Instruction Definition file.</summary>
+        public const string INSTRUCTION_SET_FILE_EXTENSION = ".lst";
+
+        /// <summary>Assembly comment symbol.</summary>
+        public const string COMMENT = "//";
 
         #region Methods and settable fields related to language version specification
 
@@ -148,7 +178,8 @@ namespace MaszynaPi
         /// <summary>Reffers to instruction set definition (*.lst) file's segment, that marks definition of number of arguments that instruction takes.
         /// <br></br>Note: For standarization purposes, assigned string <u>should end with space character!</u></summary>
         public static string INSTRUCTION_ARGSNUM_HEADER { get; private set; }
-        /// <summary>Reffers to instruction set definition (*.lst) file's segment, that marks definition of instruction name. 
+        /// <summary>Reffers to instruction set definition (*.lst) or instruction definition (*.rzk) file's segment,
+        /// that marks definition of instruction name. 
         /// <br></br>Note: For standarization purposes, assigned string <u>should end with space character!</u></summary>
         public static string INSTRUCTION_NAME_HEADER {get; private set; }
 

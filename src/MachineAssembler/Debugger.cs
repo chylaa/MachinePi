@@ -98,7 +98,7 @@ namespace MaszynaPi.MachineAssembler
             if (MemoryLineNumberMap[memAddress] == -1) return;
 
             int position = GetFirstCharIndexFromLine(MemoryLineNumberMap[memAddress]);
-            //int lineEnd = CodeLinesToString().IndexOf(Environment.NewLine, position);
+            //int lineEnd = CodeLinesToLowerString().IndexOf(Environment.NewLine, position);
             //if (lineEnd < 0) lineEnd = GetCodeLength();
             if (position < 0) return;
 

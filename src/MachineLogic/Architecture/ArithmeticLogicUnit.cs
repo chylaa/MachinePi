@@ -121,10 +121,10 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         /// <summary> As no operation, assigns <see cref="OperandB"/> value to <see cref="OperandA"/>. </summary>
         public void Nop() { OperandA = OperandB; }
-        /// <summary> Performs incrementation of ALU's <see cref="OperandA"/> register value.</summary>
-        public void Inc() { ++OperandA; }
-        /// <summary> Performs decrementation of ALU's <see cref="OperandA"/> register value.</summary>
-        public void Dec() { --OperandA; }
+        /// <summary> Performs incrementation of ALU's <see cref="AK"/> register value.</summary>
+        public void Inc() { AK.SetValue(AK.GetValue() + 1); }
+        /// <summary> Performs decrementation of ALU's <see cref="AK"/> register value.</summary>
+        public void Dec() { AK.SetValue(AK.GetValue() - 1); }
         /// <summary> Performs bitwise negation of ALU's <see cref="OperandA"/> register value.</summary>
         public void Not() { OperandA = ~OperandA; }
         /// <summary> Performs bitwise OR between ALU's <see cref="OperandA"/> and <see cref="OperandB"/> values. Stores result in A. </summary>

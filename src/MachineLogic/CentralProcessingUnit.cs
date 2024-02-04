@@ -21,6 +21,9 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>In which cycle of single instruction, Fetch must be performed.</summary>
         const int FETCH_CYCLE_TICK = 0; // 
 
+        /// <summary>If <see cref="ExecuteInstructionCycle"/> method takes more that this value to complete, <see cref="TimeoutException"/> should be thrown.</summary>
+        static readonly TimeSpan InstructionExcecutionTimeout = new TimeSpan(0,0,5);
+
         /// <summary> Initialized in <see cref="InitialazeSignalsMap"/> mapping of singnals names to related <see cref="CentralProcessingUnit"/> void methods.</summary>
         Dictionary<string, Action> SignalsMap;
 
@@ -223,8 +226,8 @@ namespace MaszynaPi.MachineLogic {
 
         #region Architecture L (ALU's extention)
 
-        void iak() { JAL.Inc(); }
-        void dak() { JAL.Dec(); }
+        void iak() { JAL.Inc(); } // works directry on accumulator reg!
+        void dak() { JAL.Dec(); } // works directry on accumulator reg!
         void mno() { JAL.Mul(); }
         void dziel() { JAL.Div(); }
         void shr() { JAL.Shr(); }
@@ -292,15 +295,19 @@ namespace MaszynaPi.MachineLogic {
         private void SetExecutedMicroinstructions() {
             OnSetExecutedMicroinstruction(I.GetOpcode(), ActiveSignals);
         }
-        /// <summary>Calls <see cref="OnProgramEnd"/> if current instriction's opcode is equal to 0.</summary>
-        private void ProgramEnd() {
-            if (I.GetOpcode() == 0)
-                OnProgramEnd();
-        }
+
         #endregion
 
         #region < Machine Cycle > 
         
+        /// <summary>Check if <paramref name="time"/> enlapsed since <paramref name="event"/> has occured using <see cref="DateTime.Now"/>.</summary>
+        /// <param name="event">Saved <see cref="DateTime"/> when event occured.</param>
+        /// <param name="time">Amout of time that should pass.</param>
+        /// <returns>true if since <paramref name="event"/>, <paramref name="time"/> passed, false otherwise.</returns>
+        bool DoesEnlapsedSinceEvent(DateTime @event, TimeSpan time) {
+            return (DateTime.Now.Subtract(@event).Ticks > time.Ticks);
+        }
+
         /// <summary>Assigns <see cref="Defines.FETCH_SIGNALS"/> to currently <see cref="ActiveSignals"/> list.</summary>
         void FetchInstruction() { ActiveSignals = new List<string>(Defines.FETCH_SIGNALS); }
 
@@ -344,9 +351,9 @@ namespace MaszynaPi.MachineLogic {
         /// Performes all CPU's steps neccessary for executing whole instruction. 
         /// Invokes all methods responsible for full Fetch-Decode-Execute cycle.
         /// </summary>
-        /// <param name="program"> Indicates if method was called from <see cref="ExecuteProgram"/>.</param>
-        void ExecuteInstructionCycle(bool program = false) {
+        void ExecuteInstructionCycle() {
             int uInstructionBlock = FETCH_CYCLE_TICK;
+            DateTime instrBegin = DateTime.Now;
 
             FetchInstruction();
             ExecuteTick(0, false);
@@ -355,14 +362,15 @@ namespace MaszynaPi.MachineLogic {
             uint opcode = I.GetOpcode();
             int requiredTicks = InstrDecoder.GetNumberOfTicksInInstruction(opcode);
 
-            //if (wasForcedTick && LastTick > 0) 
-            //    requiredTicks -= LastTick;
 
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i, false);
                 LastTick = i;
-                if (i == ENDOF_INSTRUCTION) 
+                if (i == ENDOF_INSTRUCTION || CheckProgramBreak()) 
                     break;
+                if (DoesEnlapsedSinceEvent(instrBegin, InstructionExcecutionTimeout))
+                    throw new TimeoutException(nameof(ExecuteInstructionCycle) + " was running for more than " +
+                                               InstructionExcecutionTimeout.TotalSeconds.ToString()+"[s]. Possible deadlock.");
             }
         }
 
@@ -384,7 +392,7 @@ namespace MaszynaPi.MachineLogic {
                         //IntController.StopJoystickInterruptionMonitor(); 
                         break; 
                     } else { 
-                        ExecuteInstructionCycle(program:true); 
+                        ExecuteInstructionCycle(); 
                     }
                 } while (I.GetOpcode() != 0);
                 EnableDebugger();
@@ -397,6 +405,7 @@ namespace MaszynaPi.MachineLogic {
                 //error = ex;
                 throw new CPUException("[Program error] " + ex.GetType().ToString() + ". Last succesed instruction: (" + (L.GetValue() - 1).ToString() + ") line: " + string.Join(" ", ActiveSignals) + Environment.NewLine + ex.Message); }
             finally {
+                LastTick = -1;
                 EnableDebugger();
                 SetPaintActiveSignals(true);
                 //if (false == (error is SenseHatHandlers.SenseHatException))

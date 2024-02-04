@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -32,9 +31,7 @@ namespace MaszynaPi {
         readonly CentralProcessingUnit Machine;
         readonly Debugger Debugger;
 
-        System.Threading.Thread BreakDetectorThread;
-        UI.BreakForm breakForm;
-        bool BREAK_FLAG = false;
+        bool PROG_BREAK_FLAG = false;
 
         /// <summary>Creates application main <see cref="Form"/>.</summary>
         public Form1() 
@@ -76,7 +73,7 @@ namespace MaszynaPi {
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
             Machine.SetPaintActiveSignals += SetSignalsPaintOnRefresh;
-            Machine.CheckProgramBreak += GetBreakFlag;
+            Machine.CheckProgramBreak += DoEventsGetBreakFlag;
 
             ArchitectureSettings.InitializeInterruptVector();
             ArchitectureSettings.InitializeIODevicesAddresses();
@@ -101,7 +98,7 @@ namespace MaszynaPi {
             userControlBusAddress.SetBusValueToolTip(MainToolTip);
             userControlBusData.SetBusValueToolTip(MainToolTip);
             userControlBusAS.SetBusValueToolTip(MainToolTip);
-            RefreshRightPanelControls();
+            RefreshControls(TopRightPanel);
 
         }
         private void Form1_Load(object sender, EventArgs e) {
@@ -189,13 +186,6 @@ namespace MaszynaPi {
 
         }
 
-        private void RefreshRightPanelControls() {
-            RefreshControls(TopRightPanel);
-        }
-        private void RefreshTabPanelControls() {
-            RefreshControls(tabControlEditors);
-        }
-
         private void RefreshAfterSet(uint oldAddressSpace) {
             Machine.SetComponentsBitsizes();
             Machine.ChangeMemorySize(oldAddressSpace);
@@ -243,27 +233,29 @@ namespace MaszynaPi {
             MessageBox.Show("The program has ended.", "Pi Machine");
         }
 
+
         private void programToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
-                BREAK_FLAG = false;
-                RunBreakDetector();
-
+                
                 CPUProgramExecuting = true;
                 MemoryControl.PartiallySupressRefreshing = true;
                 DisableManuallySetSignals();
-                
+                CreateBreakButton(visible:true, resetBreakFlag:true);
+
                 Machine.ManualProgram();
                 RefreshCPUControls();
 
             } catch (CPUException cEx) {
                 MessageBox.Show(cEx.Message, "CPU Program Error");
-            } catch (Exception ex) {        
+            } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Unknown Program Error");
             } finally
             {
+                DestroyBreakButton(resetBreakFlag: true);
                 CPUProgramExecuting = false;
                 MemoryControl.PartiallySupressRefreshing = false;
                 MemoryControl.Refresh();
+
             }
 
         }
@@ -307,24 +299,22 @@ namespace MaszynaPi {
         }
 
         // ================ CodeEditor =======================================
-        private string GetErrorType(string errMsg) {
-            int starttype = errMsg.IndexOf("[");
-            int endtype = errMsg.IndexOf("]");
-            if (starttype != -1 && starttype < endtype) return errMsg.Substring(starttype + 1, endtype);
-            return "Error";
-        }
 
-        private void Compile() {
+        private void Compile(CodeEditor.Definition assume = CodeEditor.Definition.Unknown) 
+        {
+            CodeEditor.Definition detected = (assume == CodeEditor.Definition.Unknown)
+                                                ? codeEditor.DetectCodeType()
+                                                : assume;
             try {
-                //codeEditor.SetCodeLinesFromEditorContent();
-                if (codeEditor.IsInstructionDefinition()) {
+
+                if (detected == CodeEditor.Definition.Instruction) {
                     bool isEnoughSpace = InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
                     if (isEnoughSpace) MessageBox.Show("The instruction has been added.", "Pi Machine");
                     else MessageBox.Show("The instruction has been added but will not be visible (too few code bits)", "Warning!");
                     return;
                 }
-                if (codeEditor.IsProgram()) {
+                if (detected == CodeEditor.Definition.Program) {
                     List<uint> code = Assembler.CompileCode(codeEditor.FormatCodeForCompiler());
                     Debugger.FillMemoryLineNumberMap();
                     Machine.SetMemoryContent(code);
@@ -334,24 +324,28 @@ namespace MaszynaPi {
                     MessageBox.Show("Compiled.", "Pi Machine");
                     return;
                 }
-                MessageBox.Show("Compilation Error: Unknown syntax type - not program or instruction definition.", "Error");
+                if (assume == CodeEditor.Definition.Unknown)
+                {
+                    MessageBox.Show("Compilation Error: Unknown syntax type - not program or instruction definition.", "Error");
+                    var isprogram = MessageBox.Show("Is your code a program?", "Select type of code to assume", MessageBoxButtons.YesNoCancel);
+                    if(isprogram != DialogResult.Cancel)
+                        Compile(isprogram == DialogResult.Yes ? CodeEditor.Definition.Program : CodeEditor.Definition.Instruction);
+                }
             } catch (CompilerException ex) {
-                MessageBox.Show(ex.Message, "Compiler Error");
+                MessageBox.Show(ex.Message, $"{detected} Compiler Error");
             } catch (Exception ex) {
                 MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace, "Error");
             }
         }
 
         private void CompileItemToolStrip_Click(object sender, EventArgs e) { Compile(); }
-        // Code Editor unix toolstrip
-        private void kompilujToolStripMenuItem_Click(object sender, EventArgs e) { Compile(); }
 
 
         // Menu Bar things
         private void ładujListęRozkazówToolStripMenuItem_Click(object sender, EventArgs e) {
-            string lst = InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION;
+            string lst = Defines.INSTRUCTION_SET_FILE_EXTENSION;
             string filter = "instruction files (*" + lst + ")|*" + lst;
-            if (FilesHandler.PointFileAndGetText(filter, out string filepath, out string lstFileContent)) {
+            if (FilesHandler.PointFileAndGetText(filter, LastUsedFilepath, out string filepath, out string lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
                     bool isEnoughSpace = InstructionLoader.LoadInstructionsFromFileContent(lstFileContent);
@@ -366,17 +360,33 @@ namespace MaszynaPi {
             }
         }
 
-        private void otwórzToolStripMenuItem_Click(object sender, EventArgs e) {
-            string prg = Assembler.PROGRAM_FILE_EXTENSION;
-            string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
-            string filer = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
-
-            if (FilesHandler.PointFileAndGetText(filer, out string filepath, out string fileContent)) {
-                UserControlCodeEditor.SetText(fileContent);
-                LastUsedFilepath = filepath;
-            }
-
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
+            Machine.ResetRegisters();
+            UserControlCharacterOutput.Reset();
+            RefreshCPUControls();
         }
+
+        void SetRegistersDisplayMode(UserControlRegister.RegisterMode mode) {
+            foreach (var component in MachineComponents) {
+                if (component is UserControlRegister) {
+                    (component as UserControlRegister).SetDisplayMode(mode);
+                    (component as UserControlRegister).Refresh();
+                }
+            }
+        }
+
+        private void DisplayModeToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (sender == unsignedDecimalToolStripMenuItem)
+                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Dec);
+            else if (sender == signedDecimalToolStripMenuItem)
+                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Signed);
+            else if (sender == hexadecimalToolStripMenuItem)
+                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Hex);
+            else if (sender == binaryToolStripMenuItem)
+                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Bin);
+        }
+
+        // Non Machine-Related Interface Behaviour Methods
 
         private void wklejToolStripMenuItem_Click(object sender, EventArgs e) { UserControlCodeEditor.Paste(); }
 
@@ -393,50 +403,53 @@ namespace MaszynaPi {
             }
         }
 
-        private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
-            Machine.ResetRegisters();
-            UserControlCharacterOutput.Reset();
-            RefreshCPUControls();
-        }
-
-
-        // Non Machine-Related Interface Behaviour Methods
-
         private void tabControlEditorsPanel_SelectedIndexChanged(object sender, EventArgs e) {
             UserControlCodeEditor.ClearSelected();
-            RefreshTabPanelControls();
+            RefreshControls(tabControlEditors);
         }
 
+        private string GetPrgInstFileFiler(CodeEditor.Definition assume = CodeEditor.Definition.Unknown)
+        {
+            string prgfilter = "Program files (*" + Defines.PROGRAM_FILE_EXTENSION + ")|*" + Defines.PROGRAM_FILE_EXTENSION;
+            string rzkfilter = "Instruction files (*" + Defines.INSTRUCTION_FILE_EXTENSION + ")|*" + Defines.INSTRUCTION_FILE_EXTENSION;
+            string allfiler = "All files (*.*)|*.*";
 
-        private void SaveToFile() {
+            bool instructionFirst;
+            if (assume != CodeEditor.Definition.Unknown) instructionFirst = (assume == CodeEditor.Definition.Instruction);
+            else instructionFirst = ((LastUsedFilepath != null) && LastUsedFilepath.EndsWith(Defines.INSTRUCTION_FILE_EXTENSION));
+
+            return instructionFirst ? (rzkfilter + '|' + prgfilter + '|' + allfiler) : (prgfilter + '|' + rzkfilter + '|' + allfiler);
+        }
+
+        private void otwórzToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (FilesHandler.PointFileAndGetText(GetPrgInstFileFiler(), LastUsedFilepath, out string filepath, out string fileContent))
+            {
+                UserControlCodeEditor.SetText(fileContent);
+                LastUsedFilepath = filepath;
+            }
+        }
+
+        private void SaveToFile() 
+        {
             if (LastUsedFilepath != null) {
                 FilesHandler.OverwriteOrCreateFile(codeEditor.GetCodeLinesCopy(), LastUsedFilepath);
                 return;
             }
-            string prg = Assembler.PROGRAM_FILE_EXTENSION;
-            string rzk = InstructionLoader.INSTRUCTION_FILE_EXTENSION;
-            string filter = "instruction files (*" + rzk + ")|*" + rzk + "|program files (*" + prg + ")|*" + prg + "|All files (*.*)|*.*";
 
-            if (FilesHandler.PointToOvervriteFileOrCreateNew(filter, out string filepath)) {
+            CodeEditor.Definition codeType = codeEditor.DetectCodeType();
+            string initDir = FilesHandler.ValidDirOrCurrent(LastUsedFilepath);
+            if (FilesHandler.PointToOvervriteFileOrCreateNew(GetPrgInstFileFiler(codeType), initDir, out string filepath)) {
                 LastUsedFilepath = filepath;
                 FilesHandler.OverwriteOrCreateFile(codeEditor.GetCodeLinesCopy(), LastUsedFilepath);
             }
 
         }
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try { SaveToFile(); }
-            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error"); }
-        }
-        private void saveUnixToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void saveToFile_Click(object sender, EventArgs e)
         {
             try { SaveToFile(); } 
             catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error"); }
-        }
-        private void saveContexMenuItem_Click(object sender, EventArgs e) 
-        { 
-            try { SaveToFile(); } 
-            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error");  } 
         }
 
         private void letterToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -469,61 +482,33 @@ namespace MaszynaPi {
             }
         }
 
-        void SetRegistersDisplayMode(UserControlRegister.RegisterMode mode) {
-            foreach(var component in MachineComponents) {
-                if(component is UserControlRegister) {
-                    (component as UserControlRegister).SetDisplayMode(mode);
-                    (component as UserControlRegister).Refresh();
-                }
-            }
-        }
-        private void unsignedDecimalToolStripMenuItem_Click(object sender, EventArgs e) 
-            {SetRegistersDisplayMode(UserControlRegister.RegisterMode.Dec);}
-        private void signedDecimalToolStripMenuItem_Click(object sender, EventArgs e) 
-            {SetRegistersDisplayMode(UserControlRegister.RegisterMode.Signed);}
-        private void hexadecimalToolStripMenuItem_Click(object sender, EventArgs e) 
-            {SetRegistersDisplayMode(UserControlRegister.RegisterMode.Hex);}
-        private void binaryToolStripMenuItem_Click(object sender, EventArgs e) 
-            { SetRegistersDisplayMode(UserControlRegister.RegisterMode.Bin); }
-
-
-        void JoystickInterruptReported() {
-            bool wasRuning = false;
-            if (BreakDetectorThread.IsAlive) { CancelBreakDetector(); wasRuning = true; }
-            UserControlRegisterRZ.Refresh();
-            if (wasRuning) RunBreakDetector();
-        }
 
         //==============================================================================================================================
         //Special Tasks
-        bool GetBreakFlag() { return BREAK_FLAG; }
+        bool DoEventsGetBreakFlag() { Application.DoEvents();  return PROG_BREAK_FLAG; }
 
-        void CancelBreakDetector() { CloseBreakDetector(null, null); }
-
-        void CreateBreakButton() {
-            breakForm?.Close();
-            breakForm?.Dispose();
-            breakForm = new UI.BreakForm();
-            
+        void CreateBreakButton(bool visible = true, bool resetBreakFlag = true) {
+            PROG_BREAK_FLAG &= !resetBreakFlag;  
+            Button progBreak = new Button() { 
+                FlatStyle = FlatStyle.Flat, Dock = DockStyle.Fill,
+                Text = "Break Program", Visible = visible 
+            };
+            progBreak.Click += new EventHandler(delegate { PROG_BREAK_FLAG = true; });
+            breakPanel.Controls.Add(progBreak);
         }
 
-        void ShowBreakForm() {
-            try { BREAK_FLAG = breakForm.ShowDialog().Equals(DialogResult.OK); } 
-            finally { breakForm?.ForceClose(); breakForm?.Dispose(); } 
-            
+        void SetVisibleBreakButton(bool vis) {
+            if (breakPanel.Controls.Count > 0)
+                breakPanel.Controls[0].Visible = vis;
         }
 
-        void RunBreakDetector() {
-            CreateBreakButton();
-            BreakDetectorThread = new System.Threading.Thread(new System.Threading.ThreadStart(ShowBreakForm));
-            BreakDetectorThread.Start();
-            breakForm.BringToFront();
+        void DestroyBreakButton(bool resetBreakFlag = true)
+        {
+            PROG_BREAK_FLAG &= !resetBreakFlag; 
+            if (breakPanel.Controls.Count > 0)            
+                breakPanel.Controls[0].Dispose();         
+            breakPanel.Controls.Clear();                  
         }
 
-        void CloseBreakDetector(object sender, RunWorkerCompletedEventArgs e) {
-            try { breakForm?.ForceClose(); } 
-            finally { BreakDetectorThread?.Join(); } // BREAK_FLAG = (breakForm != null) && breakForm.DialogResult.Equals(DialogResult.OK);
-            
-        }
     }
 }

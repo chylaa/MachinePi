@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace MaszynaPi.FilesHandling {
     /// <summary> General exception of <see cref="FilesHandler"/> class </summary>
@@ -13,14 +12,29 @@ namespace MaszynaPi.FilesHandling {
     /// <summary>Static class providing methods for handling displaing specific <see cref="FileDialog"/> to user.</summary>
     static class FilesHandler {
 
+        /// <summary>
+        /// Base on <paramref name="filepath"/> parameter, returns its <see cref="Directory"/> 
+        /// component if it is valid path, or current working directory.
+        /// </summary>
+        /// <param name="filepath">Potential path to file </param>
+        /// <returns><see cref="Directory"/> component of <paramref name="filepath"/> if exist, current working directory otherwise.</returns>
+        public static string ValidDirOrCurrent(string filepath)
+        {
+            if (string.IsNullOrEmpty(filepath)) return Directory.GetCurrentDirectory();
+            string dir = Path.GetDirectoryName(filepath);
+            if (Directory.Exists(dir)) return dir;
+            else return Directory.GetCurrentDirectory();
+        }
+
         /// <summary>Opens <see cref="OpenFileDialog"/> with passed <paramref name="dialogFilter"/> and assign path of selected file to <paramref name="filepath"/>.</summary>
         /// <param name="dialogFilter"><see cref="OpenFileDialog"/> filter string.</param>
+        /// <param name="initDir">Initial for <see cref="OpenFileDialog"/>.</param>
         /// <param name="filepath">Output parameter which will store path to pointed file or <see cref="String.Empty"/> if no file selected.</param>
         /// <returns>true if file was selected, false otherwise.</returns>
-        public static bool PointFileAndGetPath(string dialogFilter, out string filepath) {
+        public static bool PointFileAndGetPath(string dialogFilter, string initDir, out string filepath) {
             filepath = string.Empty;
             using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
-                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+                openFileDialog.InitialDirectory = initDir;
                 openFileDialog.Filter = dialogFilter;
                 openFileDialog.RestoreDirectory = true;
 
@@ -32,16 +46,17 @@ namespace MaszynaPi.FilesHandling {
         }
         /// <summary>Allows to get filepath from user using <see cref="SaveFileDialog"/>. Path of file is assigned to <paramref name="filepath"/> param.</summary>
         /// <param name="dialogFilter"><see cref="SaveFileDialog"/> filter string.</param>
+        /// <param name="initDir">Initial for <see cref="SaveFileDialog"/>.</param>
         /// <param name="filepath">Output parameter which will store path to pointed file or <see cref="String.Empty"/> if no file selected.</param>
         /// <returns>true if file to save was selected, false otherwise.</returns>
-        public static bool PointToOvervriteFileOrCreateNew(string dialogFilter, out string filepath) {
+        public static bool PointToOvervriteFileOrCreateNew(string dialogFilter, string initDir, out string filepath) {
             filepath = string.Empty;
             using (SaveFileDialog saveFileDialog = new SaveFileDialog()) {
-                saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+                saveFileDialog.InitialDirectory = initDir;
                 saveFileDialog.Filter = dialogFilter;
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.AddExtension = true;
-                saveFileDialog.DefaultExt = MaszynaPi.MachineAssembler.Assembler.PROGRAM_FILE_EXTENSION;
+                saveFileDialog.DefaultExt = Defines.PROGRAM_FILE_EXTENSION;
                 saveFileDialog.CheckPathExists = true;
                 saveFileDialog.CheckFileExists = true;
                 saveFileDialog.ValidateNames = false;
@@ -94,17 +109,18 @@ namespace MaszynaPi.FilesHandling {
             return newlines;
         }
         /// <summary>
-        /// Calls <see cref="PointFileAndGetPath(string, out string)"/> with <paramref name="dialogFilter"/> and <paramref name="filepath"/> 
+        /// Calls <see cref="PointFileAndGetPath(string, string, out string)"/> with <paramref name="dialogFilter"/> and <paramref name="filepath"/> 
         /// and retreives content of that file into <paramref name="fileContent"/> output variable.
         /// </summary>
         /// <param name="dialogFilter"><see cref="SaveFileDialog"/> filter string.</param>
+        /// <param name="lastfile">Path to last pointed file. If null, current working directory used.</param>
         /// <param name="filepath">Output parameter which will store path to pointed file or <see cref="String.Empty"/> if no file selected.</param>
         /// <param name="fileContent">Output variable for read file content.</param>
         /// <returns>true if file was read properly, false otherwise.</returns>
         /// <exception cref="FileHandlerException"></exception>
-        public static bool PointFileAndGetText(string dialogFilter, out string filepath, out string fileContent) {
+        public static bool PointFileAndGetText(string dialogFilter, string lastfile, out string filepath, out string fileContent) {
             fileContent = string.Empty;
-            if(PointFileAndGetPath(dialogFilter,out filepath)) {
+            if(PointFileAndGetPath(dialogFilter, ValidDirOrCurrent(lastfile), out filepath)) {
                 try { fileContent = GetFileText(filepath); } 
                 catch (FileHandlerException) { return false; } 
                 catch (Exception ex) {throw new FileHandlerException("Unexpected Error while reading " + filepath + " file: " + ex.Message);} 

@@ -22,7 +22,7 @@ namespace MaszynaPi.MachineAssembler {
     /// <br></br>    2. Translated into a sequence of signals    [List of Lists of strings][OLD - UNUSED] 
     /// </summary>
     static class Assembler {
-        public const string PROGRAM_FILE_EXTENSION = ".prg";
+        
         public const string HEADER_LABEL_END = ":";    // [Header] End of assembly label (foo) definition
         const string CHAR_SYMBOL = "'"; 
 
@@ -159,7 +159,7 @@ namespace MaszynaPi.MachineAssembler {
                             arg = Encoding.ASCII.GetBytes(instArg[1].Replace(CHAR_SYMBOL, ""))[0];
                         } else {
                             if (int.TryParse(instArg[1], out arg) == false) // Is argument a number?
-                                throw new CompilerException("[Syntax error] Invalid argument in: " + line); // no.
+                                throw new CompilerException("[Syntax error] Invalid/Unknown instruction argument in: " + line); // no.
                         }
 
                         arg = (int)(arg & ArchitectureSettings.GetMaxWord()); // Handle Overflow instead throwing exception
