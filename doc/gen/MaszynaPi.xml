@@ -85,15 +85,25 @@
         <member name="T:MaszynaPi.FilesHandling.FilesHandler">
             <summary>Static class providing methods for handling displaing specific <see cref="T:System.Windows.Forms.FileDialog"/> to user.</summary>
         </member>
-        <member name="M:MaszynaPi.FilesHandling.FilesHandler.PointFileAndGetPath(System.String,System.String@)">
+        <member name="M:MaszynaPi.FilesHandling.FilesHandler.ValidDirOrCurrent(System.String)">
+            <summary>
+            Base on <paramref name="filepath"/> parameter, returns its <see cref="T:System.IO.Directory"/> 
+            component if it is valid path, or current working directory.
+            </summary>
+            <param name="filepath">Potential path to file </param>
+            <returns><see cref="T:System.IO.Directory"/> component of <paramref name="filepath"/> if exist, current working directory otherwise.</returns>
+        </member>
+        <member name="M:MaszynaPi.FilesHandling.FilesHandler.PointFileAndGetPath(System.String,System.String,System.String@)">
             <summary>Opens <see cref="T:System.Windows.Forms.OpenFileDialog"/> with passed <paramref name="dialogFilter"/> and assign path of selected file to <paramref name="filepath"/>.</summary>
             <param name="dialogFilter"><see cref="T:System.Windows.Forms.OpenFileDialog"/> filter string.</param>
+            <param name="initDir">Initial for <see cref="T:System.Windows.Forms.OpenFileDialog"/>.</param>
             <param name="filepath">Output parameter which will store path to pointed file or <see cref="F:System.String.Empty"/> if no file selected.</param>
             <returns>true if file was selected, false otherwise.</returns>
         </member>
-        <member name="M:MaszynaPi.FilesHandling.FilesHandler.PointToOvervriteFileOrCreateNew(System.String,System.String@)">
+        <member name="M:MaszynaPi.FilesHandling.FilesHandler.PointToOvervriteFileOrCreateNew(System.String,System.String,System.String@)">
             <summary>Allows to get filepath from user using <see cref="T:System.Windows.Forms.SaveFileDialog"/>. Path of file is assigned to <paramref name="filepath"/> param.</summary>
             <param name="dialogFilter"><see cref="T:System.Windows.Forms.SaveFileDialog"/> filter string.</param>
+            <param name="initDir">Initial for <see cref="T:System.Windows.Forms.SaveFileDialog"/>.</param>
             <param name="filepath">Output parameter which will store path to pointed file or <see cref="F:System.String.Empty"/> if no file selected.</param>
             <returns>true if file to save was selected, false otherwise.</returns>
         </member>
@@ -111,12 +121,13 @@
             <param name="lines">List to process</param>
             <returns>New instance of wihout newline-split empty strings.</returns>
         </member>
-        <member name="M:MaszynaPi.FilesHandling.FilesHandler.PointFileAndGetText(System.String,System.String@,System.String@)">
+        <member name="M:MaszynaPi.FilesHandling.FilesHandler.PointFileAndGetText(System.String,System.String,System.String@,System.String@)">
             <summary>
-            Calls <see cref="M:MaszynaPi.FilesHandling.FilesHandler.PointFileAndGetPath(System.String,System.String@)"/> with <paramref name="dialogFilter"/> and <paramref name="filepath"/> 
+            Calls <see cref="M:MaszynaPi.FilesHandling.FilesHandler.PointFileAndGetPath(System.String,System.String,System.String@)"/> with <paramref name="dialogFilter"/> and <paramref name="filepath"/> 
             and retreives content of that file into <paramref name="fileContent"/> output variable.
             </summary>
             <param name="dialogFilter"><see cref="T:System.Windows.Forms.SaveFileDialog"/> filter string.</param>
+            <param name="lastfile">Path to last pointed file. If null, current working directory used.</param>
             <param name="filepath">Output parameter which will store path to pointed file or <see cref="F:System.String.Empty"/> if no file selected.</param>
             <param name="fileContent">Output variable for read file content.</param>
             <returns>true if file was read properly, false otherwise.</returns>
@@ -189,7 +200,7 @@
             values of reported interrupts and mask registers (<see cref="F:MaszynaPi.MachineLogic.Architecture.InterruptionController.RM"/>, <see cref="F:MaszynaPi.MachineLogic.Architecture.InterruptionController.RZ"/>).<br></br>
             Interrupt bit with the highest priority that is not masked, is put in the <see cref="F:MaszynaPi.MachineLogic.Architecture.InterruptionController.RP"/>
             and points to address of interrupt handle which is set as new <see cref="F:MaszynaPi.MachineLogic.Architecture.InterruptionController.AP"/> register value.<br></br>
-            Sets <see cref="F:MaszynaPi.MachineLogic.Architecture.ALUFlags.INT"/> flag of <see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/> if any interrupt 
+            Sets <see cref="F:MaszynaPi.MachineLogic.Architecture.ALUFlags.INT"/> flag of <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> if any interrupt 
             is accepted.
             </summary>
             <param name="JAL">Handle to CPU's <see cref="T:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit"/> instance.</param>
@@ -245,7 +256,7 @@
             between values of internal "registers" <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/> and <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandB"/>. Results of those operations
             are always stored into <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/> and then passed into <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/> - an result <see cref="T:MaszynaPi.MachineLogic.Architecture.Register"/>,
             which value can be publicly accessed. <see cref="T:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit"/> class implements way to get information about 
-            last operation's result and CPU's state via internal <see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/> containing info about 
+            last operation's result and CPU's state via internal <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> containing info about 
             currnetly set <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/>.
             </summary>
         </member>
@@ -258,7 +269,7 @@
         <member name="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK">
             <summary> ALU's operation result register. Values can be accessed only via this register.</summary>
         </member>
-        <member name="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister">
+        <member name="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags">
             <summary>Internal Flag register, holding information about ALU's and CPU's state.</summary>
         </member>
         <member name="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.EncodedFlags">
@@ -267,9 +278,9 @@
             -> used for conditional statments in instruction microoperations. 
             </summary>
         </member>
-        <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.#ctor(MaszynaPi.MachineLogic.Architecture.Register,System.UInt32)">
+        <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.#ctor(MaszynaPi.MachineLogic.Architecture.Register,MaszynaPi.MachineLogic.Architecture.Register,System.UInt32)">
             <summary> Creates <see cref="T:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit"/> instance. 
-            Calls <see cref="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AutoSetFlags"/> to sets <see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/> based on current ALU registers state.</summary>
+            Calls <see cref="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AutoSetFlags"/> to sets <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> <see cref="T:MaszynaPi.MachineLogic.Architecture.Register"/> based on current ALU registers state.</summary>
             <param name="ak">Handle to result register.</param>
             <param name="value">Inital value of internal operands.</param>
         </member>
@@ -286,27 +297,28 @@
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.SetFlags(MaszynaPi.MachineLogic.Architecture.ALUFlags)">
             <summary> Allows to manually set specific ALU's flag register <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/>. </summary>
-            <param name="flags"><see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> to set in <see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/></param>
-        </member>
-        <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.GetFlags">
-            <returns>ALU's flag register content.</returns>
+            <param name="flags"><see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> to set in <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/></param>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.ClearFlags(MaszynaPi.MachineLogic.Architecture.ALUFlags)">
-            <summary> Clears passed <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> from internal <see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/> register.</summary>
+            <summary> Clears passed <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> from internal <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> register.</summary>
             <param name="flags"></param>
+        </member>
+        <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.GetFlags">
+            <returns>ALU's <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> <see cref="T:MaszynaPi.MachineLogic.Architecture.Register"/> content as <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> enum.</returns>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.SetOperandB(System.UInt32)">
             <summary>Allows to set value of second operand of operation.</summary>
             <param name="value"></param>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AutoSetFlags">
-            <summary> Allows to set <see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/> based on current ALU registers content.</summary>
+            <summary> Allows to set <see cref="F:MaszynaPi.MachineLogic.Architecture.ALUFlags.ZAK"/> and <see cref="F:MaszynaPi.MachineLogic.Architecture.ALUFlags.Z"/> flag in
+            <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> <see cref="T:MaszynaPi.MachineLogic.Architecture.Register"/> based on current ALU registers content.</summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.SetResult">
             <summary>Assings value of first operand (<see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/>) to <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/>.</summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.SetResultAndFlags">
-            <summary> Sets value of flag and result registers (<see cref="P:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.FlagRegister"/>, <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/>), base on internal operands state/values. </summary>
+            <summary> Sets value of flag and result registers (<see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/>, <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/>), base on internal operands state/values. </summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Reset">
             <summary>Resets state of all internal component to their default state.</summary>
@@ -315,10 +327,10 @@
             <summary> As no operation, assigns <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandB"/> value to <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/>. </summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Inc">
-            <summary> Performs incrementation of ALU's <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/> register value.</summary>
+            <summary> Performs incrementation of ALU's <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/> register value.</summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Dec">
-            <summary> Performs decrementation of ALU's <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/> register value.</summary>
+            <summary> Performs decrementation of ALU's <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/> register value.</summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Not">
             <summary> Performs bitwise negation of ALU's <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/> register value.</summary>
@@ -1062,6 +1074,9 @@
         <member name="F:MaszynaPi.MachineLogic.CentralProcessingUnit.FETCH_CYCLE_TICK">
             <summary>In which cycle of single instruction, Fetch must be performed.</summary>
         </member>
+        <member name="F:MaszynaPi.MachineLogic.CentralProcessingUnit.InstructionExcecutionTimeout">
+            <summary>If <see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteInstructionCycle"/> method takes more that this value to complete, <see cref="T:System.TimeoutException"/> should be thrown.</summary>
+        </member>
         <member name="F:MaszynaPi.MachineLogic.CentralProcessingUnit.SignalsMap">
             <summary> Initialized in <see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.InitialazeSignalsMap"/> mapping of singnals names to related <see cref="T:MaszynaPi.MachineLogic.CentralProcessingUnit"/> void methods.</summary>
         </member>
@@ -1106,6 +1121,9 @@
         </member>
         <member name="P:MaszynaPi.MachineLogic.CentralProcessingUnit.AK">
             <summary>Accumulator - output register of <see cref="P:MaszynaPi.MachineLogic.CentralProcessingUnit.JAL"/></summary>
+        </member>
+        <member name="P:MaszynaPi.MachineLogic.CentralProcessingUnit.F">
+            <summary>Flag register - contains <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> values set by <see cref="P:MaszynaPi.MachineLogic.CentralProcessingUnit.JAL"/>.</summary>
         </member>
         <member name="P:MaszynaPi.MachineLogic.CentralProcessingUnit.L">
             <summary>Instruction pointer register. Stores address of next instruction.</summary>
@@ -1201,8 +1219,11 @@
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.SetExecutedMicroinstructions">
             <summary>Invoke of <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.OnSetExecutedMicroinstruction"/> <see cref="T:System.Action"/> with current instruction's opcode and <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.ActiveSignals"/> list.</summary>
         </member>
-        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ProgramEnd">
-            <summary>Calls <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.OnProgramEnd"/> if current instriction's opcode is equal to 0.</summary>
+        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.DoesEnlapsedSinceEvent(System.DateTime,System.TimeSpan)">
+            <summary>Check if <paramref name="time"/> enlapsed since <paramref name="event"/> has occured using <see cref="P:System.DateTime.Now"/>.</summary>
+            <param name="event">Saved <see cref="T:System.DateTime"/> when event occured.</param>
+            <param name="time">Amout of time that should pass.</param>
+            <returns>true if since <paramref name="event"/>, <paramref name="time"/> passed, false otherwise.</returns>
         </member>
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.FetchInstruction">
             <summary>Assigns <see cref="P:MaszynaPi.Defines.FETCH_SIGNALS"/> to currently <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.ActiveSignals"/> list.</summary>
@@ -1213,12 +1234,11 @@
             <param name="manual">Indicates whenever active signals (<see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.ActiveSignals"/> content) are selected by user in manual mode (true). Defaults to false.</param>
             <returns>Index of current instruction's tick that should be executed, or <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.ENDOF_INSTRUCTION"/> if all instruction's cycles were performed.</returns>
         </member>
-        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteInstructionCycle(System.Boolean)">
+        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteInstructionCycle">
             <summary>
             Performes all CPU's steps neccessary for executing whole instruction. 
             Invokes all methods responsible for full Fetch-Decode-Execute cycle.
             </summary>
-            <param name="program"> Indicates if method was called from <see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteProgram"/>.</param>
         </member>
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteProgram">
             <summary>
@@ -1273,7 +1293,7 @@
         </member>
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ManualInstruction">
             <summary>
-            Invokes "<see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteInstructionCycle(System.Boolean)"/>" method on CPU. Performs all microoperations neccessary for executing whole instruction.
+            Invokes "<see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteInstructionCycle"/>" method on CPU. Performs all microoperations neccessary for executing whole instruction.
             <br></br><b>Not avaible if 'ManualControl' signal is active.</b>
             </summary>
         </member>
@@ -1371,23 +1391,6 @@
             <param name="disposing">prawda, jeżeli zarządzane zasoby powinny zostać zlikwidowane; Fałsz w przeciwnym wypadku.</param>
         </member>
         <member name="M:MaszynaPi.MachineUI.UserControlCharacterOutput.InitializeComponent">
-            <summary> 
-            Metoda wymagana do obsługi projektanta — nie należy modyfikować 
-            jej zawartości w edytorze kodu.
-            </summary>
-        </member>
-        <member name="F:MaszynaPi.MachineUI.UserControlFlags.components">
-            <summary> 
-            Wymagana zmienna projektanta.
-            </summary>
-        </member>
-        <member name="M:MaszynaPi.MachineUI.UserControlFlags.Dispose(System.Boolean)">
-            <summary> 
-            Wyczyść wszystkie używane zasoby.
-            </summary>
-            <param name="disposing">prawda, jeżeli zarządzane zasoby powinny zostać zlikwidowane; Fałsz w przeciwnym wypadku.</param>
-        </member>
-        <member name="M:MaszynaPi.MachineUI.UserControlFlags.InitializeComponent">
             <summary> 
             Metoda wymagana do obsługi projektanta — nie należy modyfikować 
             jej zawartości w edytorze kodu.
@@ -1681,23 +1684,6 @@
             jej zawartości w edytorze kodu.
             </summary>
         </member>
-        <member name="F:MaszynaPi.UI.BreakForm.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:MaszynaPi.UI.BreakForm.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:MaszynaPi.UI.BreakForm.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
         <member name="F:MaszynaPi.ComponentsCheckBox.components">
             <summary> 
             Wymagana zmienna projektanta.
@@ -1925,6 +1911,20 @@
             <param name="opcode">Opcode of currently execuded instruction.</param>
             <param name="activeSignals">List containing names of microinstructions active on current instruction.</param>
         </member>
+        <member name="T:MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition">
+            <summary>Allows to precise if edited code is <see cref="F:MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition.Instruction"/> or <see cref="F:MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition.Program"/></summary>
+        </member>
+        <member name="M:MaszynaPi.MachineAssembler.Editors.CodeEditor.DetectCodeType(MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition)">
+            <summary>
+            Returns type of code that <see cref="F:MaszynaPi.MachineAssembler.Editors.CodeEditor.CodeLines"/> contains. Each occurence of specific <see cref="T:MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition"/>
+            keyword gives it a point. If equal amout of points is given, <paramref name="draw"/> value is assumed.
+            Before analyzing, copy of <see cref="F:MaszynaPi.MachineAssembler.Editors.CodeEditor.CodeLines"/> is made and all standarization processing are made on it.
+            Method does not affect content of original list. 
+            <br></br>Note: if both probabilites points are equal to 0, <see cref="F:MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition.Unknown"/> is returned.
+            </summary>
+            <param name="draw">Value to be returned if probablity of each code type is the same (except if it is 0).</param>
+            <returns>Assumed <see cref="T:MaszynaPi.MachineAssembler.Editors.CodeEditor.Definition"/> type of code from <see cref="F:MaszynaPi.MachineAssembler.Editors.CodeEditor.CodeLines"/>.</returns>
+        </member>
         <member name="T:MaszynaPi.MachineAssembler.InstructionLoaderException">
             <summary>
             Generic <see cref="T:System.Exception"/> overload, for throwing errors related to <see cref="T:MaszynaPi.MachineAssembler.InstructionLoader"/> class.
@@ -1972,13 +1972,13 @@
             Loads new set of instructions basing on provided instruction file content (<paramref name="instructions"/>).
             Uses <see cref="M:MaszynaPi.MachineAssembler.InstructionLoader.LoadInstructionSet(System.Collections.Generic.List{System.String})"/> method.
             </summary>
-            <param name="instructions">Contents of <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.INSTRUCTION_FILE_EXTENSION"/> instruction set file.</param>
+            <param name="instructions">Contents of <see cref="F:MaszynaPi.Defines.INSTRUCTION_FILE_EXTENSION"/> instruction set file.</param>
             <returns>'true' if all instructions could be encoded using currently set size of opcode (<see cref="M:MaszynaPi.MachineLogic.ArchitectureSettings.GetMaxOpcode"/>), false otherwise.</returns>
             <exception cref="T:MaszynaPi.MachineAssembler.InstructionLoaderException"></exception>
         </member>
         <member name="M:MaszynaPi.MachineAssembler.InstructionLoader.LoadSingleInstructionFromFileContent(System.String)">
             <summary> Allows to load single instruction using passed file's content <paramref name="instructions"/> as insturction definition source. </summary>
-            <param name="instructions">Contents of <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.INSTRUCTION_FILE_EXTENSION"/> file containing definition of single instruction.</param>
+            <param name="instructions">Contents of <see cref="F:MaszynaPi.Defines.INSTRUCTION_FILE_EXTENSION"/> file containing definition of single instruction.</param>
             <returns>'true' if new instruction can be encoded with currently set size of opcode, 'false' otherwise. </returns>
             <exception cref="T:MaszynaPi.MachineAssembler.InstructionLoaderException"></exception>
         </member>
@@ -1996,9 +1996,9 @@
         </member>
         <member name="M:MaszynaPi.MachineAssembler.InstructionLoader.SetOptions(System.Collections.Generic.List{System.String})">
             <summary>
-            Sets related <see cref="T:MaszynaPi.MachineLogic.ArchitectureSettings"/> fields (AddressSpace, CodeBits) according to <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.OPTIONS_HEADER"/> section content. 
+            Sets related <see cref="T:MaszynaPi.MachineLogic.ArchitectureSettings"/> fields (AddressSpace, CodeBits) according to <see cref="F:MaszynaPi.Defines.OPTIONS_HEADER"/> section content. 
             </summary>
-            <param name="options">Part of <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION"/> file containing <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.OPTIONS_HEADER"/> section.</param>
+            <param name="options">Part of <see cref="F:MaszynaPi.Defines.INSTRUCTION_SET_FILE_EXTENSION"/> file containing <see cref="F:MaszynaPi.Defines.OPTIONS_HEADER"/> section.</param>
             <exception cref="T:MaszynaPi.MachineAssembler.InstructionLoaderException"></exception>
         </member>
         <member name="M:MaszynaPi.MachineAssembler.InstructionLoader.ClearLoadedInstructions">
@@ -2031,7 +2031,7 @@
         </member>
         <member name="M:MaszynaPi.MachineAssembler.InstructionLoader.LoadInstructionSet(System.Collections.Generic.List{System.String})">
             <summary>
-            Parses passed in <paramref name="lines"/> content of <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION"/> file, and fills specific instruction mappings/lists acordingly.
+            Parses passed in <paramref name="lines"/> content of <see cref="F:MaszynaPi.Defines.INSTRUCTION_SET_FILE_EXTENSION"/> file, and fills specific instruction mappings/lists acordingly.
             <br></br>Creates new instances for:
             <br></br> - <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.InstructionsLines"/>
             <br></br> - <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.InstructionsSignalsMap"/>
@@ -2040,12 +2040,12 @@
             <br></br>
             Throws <see cref="T:MaszynaPi.MachineAssembler.InstructionLoaderException"/> if parsing fails.
             </summary>
-            <param name="lines">Contents of <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.INSTRUCTION_SET_FILE_EXTENSION"/> file in form of list of its lines (splitted by new line symbol(s) content of .lst file)</param>
+            <param name="lines">Contents of <see cref="F:MaszynaPi.Defines.INSTRUCTION_SET_FILE_EXTENSION"/> file in form of list of its lines (splitted by new line symbol(s) content of .lst file)</param>
             <returns>'true' if all instructions could be encoded using currently set size of opcode (<see cref="M:MaszynaPi.MachineLogic.ArchitectureSettings.GetMaxOpcode"/>), false otherwise.</returns>
             <exception cref="T:MaszynaPi.MachineAssembler.InstructionLoaderException"></exception>
         </member>
         <member name="M:MaszynaPi.MachineAssembler.InstructionLoader.DeleteComment(System.String)">
-            <summary> If <paramref name="line"/> contains <see cref="F:MaszynaPi.MachineAssembler.InstructionLoader.COMMENT"/> substring, deletes all characters after that symbol (including it).</summary>
+            <summary> If <paramref name="line"/> contains <see cref="F:MaszynaPi.Defines.COMMENT"/> substring, deletes all characters after that symbol (including it).</summary>
             <param name="line">Line that contiains potential valid comment.</param>
             <returns>New <see cref="T:System.String"/> instance wihout potential comment substring, or original <paramref name="line"/> if it did not contain any comment.</returns>
         </member>
@@ -2114,6 +2114,9 @@
         <member name="F:MaszynaPi.Defines.INTERRUPTIONS_NUM">
             <summary>Amout of possible interruptions sources.</summary>
         </member>
+        <member name="F:MaszynaPi.Defines.MAX_ALU_FLAG_VALUE">
+            <summary>Maximum value that can be set using single <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> enumeration.</summary>
+        </member>
         <member name="T:MaszynaPi.Defines.Architecture">
             <summary> Enum represent different Machine architectures -> they are encoded as the bitwise AND of their base <see cref="T:MaszynaPi.Defines.Components"/>.
             <br></br><see cref="F:MaszynaPi.Defines.Architecture.MachinePI"/> implementation was subject of this application's extension over original simulator.</summary>
@@ -2148,6 +2151,39 @@
         <member name="F:MaszynaPi.Defines.STATMENT_ARG_POSITION">
             <summary> Position of argument (after space string split) in conditional statement syntax in instruction-definition-language.</summary>
         </member>
+        <member name="F:MaszynaPi.Defines.ADDRESS_SPACE_HEADER">
+            <summary>Value header from .lst instruction set file defining neccessary address space for defined set. Preserved for backward compability.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.CODE_BITS_HEADER">
+            <summary>Value header from .lst instruction set file defining neccessary instruction opcode size for defined set. Preserved for backward compability.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.INSTRUCTIONS_HEADER">
+            <summary>Instructions Section header from .lst instruction set file. Preserved for backward compability.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.OPTIONS_HEADER">
+            <summary>Architecture Options Section header from .lst instruction set file. Preserved for backward compability.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.INSTRUCTION_NUMBER_HEADER">
+            <summary>Value header from .lst instruction set file defining consecutive index of single instruction in defined set. Preserved for backward compability.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.INSTRUCTION_LINES_HEADER">
+            <summary>Value header from .lst instruction set file defining amount of lines that instruction definition contains. Equals amount of neccessary cycles to execute. Preserved for backward compability.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.LINE_END">
+            <summary>Neccessary sufix indicating ending of line in instruction definition.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.PROGRAM_FILE_EXTENSION">
+            <summary>Standard extension of Machine Assembly Program file.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.INSTRUCTION_FILE_EXTENSION">
+            <summary>Standard extension of Instruction Set Definition file.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.INSTRUCTION_SET_FILE_EXTENSION">
+            <summary>Standard extension of Single Instruction Definition file.</summary>
+        </member>
+        <member name="F:MaszynaPi.Defines.COMMENT">
+            <summary>Assembly comment symbol.</summary>
+        </member>
         <member name="P:MaszynaPi.Defines.BASE_INSTRUCTION_SET_FILENAME">
             <summary> Name of file containing definition of instruction set that will be loaded as on application startup. </summary>
         </member>
@@ -2181,7 +2217,8 @@
             <br></br>Note: For standarization purposes, assigned string <u>should end with space character!</u></summary>
         </member>
         <member name="P:MaszynaPi.Defines.INSTRUCTION_NAME_HEADER">
-            <summary>Reffers to instruction set definition (*.lst) file's segment, that marks definition of instruction name. 
+            <summary>Reffers to instruction set definition (*.lst) or instruction definition (*.rzk) file's segment,
+            that marks definition of instruction name. 
             <br></br>Note: For standarization purposes, assigned string <u>should end with space character!</u></summary>
         </member>
         <member name="T:MaszynaPi.Defines.Lang">
