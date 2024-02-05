@@ -8,13 +8,17 @@ using MaszynaPi.MachineAssembler;
 using MaszynaPi.MachineUI;
 using MaszynaPi.FilesHandling;
 using MaszynaPi.MachineAssembler.Editors;
+using System.Drawing.Imaging;
+using System.Drawing;
+using System.IO;
 
 namespace MaszynaPi {
 
     /// <summary>Application main <see cref="Form"/>, handling CPU, IOs and Editors views. </summary>
     public partial class Form1 : Form 
     {
-
+        /// <summary>Indicates that prev key event was user pressing  Alt+S combitation.</summary>
+        bool AltSWasPressed;
         /// <summary>Indicates that <see cref="CentralProcessingUnit.ExecuteProgram"/> was called.</summary>
         bool CPUProgramExecuting;
         /// <summary>Indicates that <see cref="Form1"/> should repaint all controls with <see cref="UserControlSignalWire.Active"/> field set.</summary>
@@ -36,10 +40,10 @@ namespace MaszynaPi {
         /// <summary>Creates application main <see cref="Form"/>.</summary>
         public Form1() 
         {
-            //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
+            //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instructions set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
-                MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
-                                + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message,
+                MessageBox.Show("Failed to load base instructions set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
+                                + " file corrupted. Load another instructions set to use aplication. Details: " + ex.Message,
                                 "Erorr", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FormProjectOptions projectOptions = new FormProjectOptions(onlyPaths:true);
                 var dialogResult = projectOptions.ShowDialog();
@@ -48,6 +52,12 @@ namespace MaszynaPi {
                     return;
                 }
             }
+            // Special shortcuts 
+            AltSWasPressed = false;
+            KeyPreview = true;
+            KeyDown += Form1_KeyDown;
+
+            // Progam execution
             CPUProgramExecuting = false;
             PaintActiveSignals = true;
 
@@ -63,7 +73,7 @@ namespace MaszynaPi {
             Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
             Debugger.OnSetExecutedMicroinstructions += userControlInstructionList1.SelectCurrentAciveInstruction;
 
-            Machine.OnRefreshValues += RefreshCPUControls; //Set method for refreshing components values on each tick
+            Machine.OnRefreshValues += RefreshCPUControls; //Set method for refreshing components values on each ticks
             Machine.OnSetExecutedLine += Debugger.SetExecutedLine;
             Machine.OnSetExecutedMicroinstruction += Debugger.SetExecutedMicronstructions;
             Machine.OnProgramEnd += EndOfProgram;
@@ -96,6 +106,7 @@ namespace MaszynaPi {
             RefreshControls(TopRightPanel);
 
         }
+
         private void Form1_Load(object sender, EventArgs e) {
             if (Environment.OSVersion.Platform != PlatformID.Unix) {
                 unixCodeEditorMenuStrip.Enabled = false;
@@ -218,7 +229,7 @@ namespace MaszynaPi {
 
         /// <summary>
         /// Machine manual control -> each <see cref="UserControlSignalWire.Active"/> signal adds its name to a list,
-        /// which is then sorted (<see cref="SortSignals(List{string})"/>) and pass to the machine for execution
+        /// which is then sorted (<see cref="SortSignals(List{string})"/>) and pass to the machine for execMode
         /// using <see cref="CentralProcessingUnit.ManualTick(List{string})"/> method.
         /// <br></br>Note: only "Tick" step possible with manual control enabled.
         /// </summary>
@@ -318,8 +329,8 @@ namespace MaszynaPi {
                 if (detected == CodeEditor.Definition.Instruction) {
                     bool isEnoughSpace = InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
-                    if (isEnoughSpace) MessageBox.Show("The instruction has been added.", "Success");
-                    else MessageBox.Show("The instruction has been added but will not be visible (too few code bits)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (isEnoughSpace) MessageBox.Show("The instructions has been added.", "Success");
+                    else MessageBox.Show("The instructions has been added but will not be visible (too few code bits)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (detected == CodeEditor.Definition.Program) {
@@ -334,7 +345,7 @@ namespace MaszynaPi {
                 }
                 if (assume == CodeEditor.Definition.Unknown)
                 {
-                    MessageBox.Show("Compilation Error: Unknown syntax type - not program or instruction definition.", "Error");
+                    MessageBox.Show("Compilation Error: Unknown syntax type - not program or instructions definition.", "Error");
                     var isprogram = MessageBox.Show("Is your code a program?", "Select type of code to assume", MessageBoxButtons.YesNoCancel);
                     if(isprogram != DialogResult.Cancel)
                         Compile(isprogram == DialogResult.Yes ? CodeEditor.Definition.Program : CodeEditor.Definition.Instruction);
@@ -352,7 +363,7 @@ namespace MaszynaPi {
         // Menu Bar things
         private void ładujListęRozkazówToolStripMenuItem_Click(object sender, EventArgs e) {
             string lst = Defines.INSTRUCTION_SET_FILE_EXTENSION;
-            string filter = "instruction files (*" + lst + ")|*" + lst;
+            string filter = "instructions files (*" + lst + ")|*" + lst;
             if (FilesHandler.PointFileAndGetText(filter, LastUsedFilepath, out string filepath, out string lstFileContent)) {
                 try {
                     uint oldAddressSpace = ArchitectureSettings.GetAddressSpace();
@@ -360,7 +371,7 @@ namespace MaszynaPi {
                     Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();                                //  \/ Shouldn't happen if .lst file created properly \/
                     if (!isEnoughSpace) MessageBox.Show("Instruction list has been added but will not be visible (too few code bits)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    else MessageBox.Show($"New Instruction Set {System.IO.Path.GetFileName(filepath)} loaded!", "Success");
+                    else MessageBox.Show($"New Instruction Set {Path.GetFileName(filepath)} loaded!", "Success");
                 } catch (InstructionLoaderException ex) {
                     MessageBox.Show("Error while loading " + lst + " file " + filepath + "\n" + ex.Message, "Instruction Loader Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -519,5 +530,84 @@ namespace MaszynaPi {
             breakPanel.Controls.Clear();                  
         }
 
+        // =====================================================
+        #region Window PrintScreen methods for .gif making
+
+
+ 
+        /// <summary>
+        /// Creates .gif file that consist of maximum of <paramref name="maxGifByteSize"/> series of screenshots.
+        /// Each one is taken after <see cref="rozkazToolStripMenuItem1_Click(object, EventArgs)"/> or 
+        /// <see cref="taktToolStripMenuItem_Click(object, EventArgs)"/> execMode (see <paramref name="execMode"/> parameter).
+        /// GIF path is selected by prompting user using <see cref="FilesHandler.PointToOvervriteFileOrCreateNew(string, string, out string)"/>
+        /// </summary>
+        /// <param name="execMode"> 0 - Tick, 1 - Instruction.</param>
+        /// <param name="defaultFrameDelay">Delay between consecutive frames of GIF.</param>
+        /// <param name="maxGifByteSize">Maximum size in bytes that generated gif can have (in case of program infinite loop).</param>
+        private void CreateGifFromProgram(int execMode, ulong maxGifByteSize = 42_000_000UL, int defaultFrameDelay = 200)
+        {
+            //Caller must dispose returned Bitmap!
+            Bitmap PrintScreen() {
+                Bitmap bitmap = new Bitmap(Bounds.Width, Bounds.Height); 
+                using (Graphics g = Graphics.FromImage(bitmap)) 
+                    g.CopyFromScreen(new Point(Bounds.Left + 10, Bounds.Top), Point.Empty, new Size(Bounds.Size.Width - 20, Bounds.Size.Height - 10));
+                //var scaled = new Bitmap(bitmap, new Size(bitmap.Width / 2, bitmap.Height / 2));
+                //bitmap.Dispose();
+                //return scaled;
+                return bitmap;
+            }
+
+            bool ticks = (execMode == 0);
+            bool instructions = (execMode == 1);
+            if (false == (ticks || instructions)) return;
+            else tabControlEditors.SelectTab(tabPage: (ticks ? tabPageInstructionList : tabPageCodeEditor));
+
+            string giffilter = "GIF files (*.gif)|*.gif|All files (*.*)|*.*";
+            string initDir = FilesHandler.ValidDirOrCurrent(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            FilesHandler.PointToOvervriteFileOrCreateNew(giffilter, initDir, out string filepath);
+            if (string.IsNullOrEmpty(filepath)) return;
+
+            using (FileStream outputFile = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
+            using (GifWriter writer = new GifWriter(outputFile, defaultFrameDelay, Repeat:0)) // gif in mode of infinite repetition, 500ms delay between frames
+            {
+                Bitmap bitmap;
+                writer.WriteFrame(bitmap = PrintScreen());
+                bitmap.Dispose();
+
+                do 
+                {
+                    if (instructions) rozkazToolStripMenuItem1_Click(writer, EventArgs.Empty);
+                    else if (ticks) taktToolStripMenuItem_Click(writer, EventArgs.Empty);
+                    else break;
+
+                    writer.WriteFrame(bitmap = PrintScreen());
+                    bitmap.Dispose();
+                } 
+                while (false == Machine.HaltInstructionActive() && (writer.TotalByteSize < maxGifByteSize));       
+            }
+
+            MessageBox.Show($"GIF file successfully created in \"{filepath}\" file.", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Alt)
+            {
+                if (AltSWasPressed) { // if (Alt+S+1) pressed, screens of ticks will be created, if (Alt+S+2) then scrs of instructions.
+                    try { CreateGifFromProgram(((int)e.KeyCode - 0x31)); } 
+                    catch (Exception ex) { MessageBox.Show("Error while creating program GIF: "+ex.Message, 
+                                           "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                if (e.KeyCode == Keys.S) AltSWasPressed = true;
+            }
+            else
+            {
+                AltSWasPressed = false;
+            }
+        }
+
+        #endregion
     }
 }

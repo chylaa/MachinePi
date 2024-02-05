@@ -85,6 +85,7 @@
     <Compile Include="CommonOperations\Arithmetic.cs" />
     <Compile Include="CommonOperations\Bitwise.cs" />
     <Compile Include="FilesHandling\FilesHandler.cs" />
+    <Compile Include="GifWriter.cs" />
     <Compile Include="MachineLogic\Architecture\InterruptionController.cs" />
     <Compile Include="MachineLogic\Architecture\IODevicesController.cs" />
     <Compile Include="MachineLogic\IODevices\CharacterOutput.cs" />

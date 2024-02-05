@@ -155,6 +155,66 @@
             <param name="defaultEncoding">Encoding that should be assumed if file is saved with none of known encodings.</param>
             <returns>Detected <see cref="T:System.Text.Encoding"/> object.</returns>
         </member>
+        <member name="T:MaszynaPi.GifWriter">
+            <summary>
+            Creates a GIF using .Net GIF encoding and additional animation headers.
+            Base on Gif Animation Creater code from https://github.com/DataDink/Bumpkit 
+            </summary>
+        </member>
+        <member name="M:MaszynaPi.GifWriter.#ctor(System.IO.Stream,System.Int32,System.Int32)">
+            <summary>
+            Creates a new instance of GifWriter.
+            </summary>
+            <param name="OutStream">The <see cref="T:System.IO.Stream"/> to output the Gif to.</param>
+            <param name="DefaultFrameDelay">Default Delay between consecutive frames... FrameRate = 1000 / DefaultFrameDelay.</param>
+            <param name="Repeat">No of times the Gif should repeat... -1 not to repeat, 0 to repeat indefinitely (should be "infinitely"? MC 2024).</param>
+        </member>
+        <member name="M:MaszynaPi.GifWriter.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Creates a new instance of GifWriter.
+            </summary>
+            <param name="FileName">The path to the file to output the Gif to.</param>
+            <param name="DefaultFrameDelay">Default Delay between consecutive frames... FrameRate = 1000 / DefaultFrameDelay.</param>
+            <param name="Repeat">No of times the Gif should repeat... -1 not to repeat, 0 to repeat indefinitely.</param>
+        </member>
+        <member name="P:MaszynaPi.GifWriter.DefaultWidth">
+            <summary>
+            Gets or Sets the Default Width of a Frame. Used when unspecified.
+            </summary>
+        </member>
+        <member name="P:MaszynaPi.GifWriter.DefaultHeight">
+            <summary>
+            Gets or Sets the Default Height of a Frame. Used when unspecified.
+            </summary>
+        </member>
+        <member name="P:MaszynaPi.GifWriter.DefaultFrameDelay">
+            <summary>
+            Gets or Sets the Default Delay in Milliseconds.
+            </summary>
+        </member>
+        <member name="P:MaszynaPi.GifWriter.Repeat">
+            <summary>
+            The Number of Times the Animation must repeat.
+            -1 indicates no repeat. 0 indicates repeat indefinitely
+            </summary>
+        </member>
+        <member name="P:MaszynaPi.GifWriter.TotalByteSize">
+            <summary>
+            Overall bytesize of written to gif stream.
+            </summary>
+        </member>
+        <member name="M:MaszynaPi.GifWriter.WriteFrame(System.Drawing.Image,System.Int32)">
+            <summary>
+            Adds a frame to this animation.
+            </summary>
+            <param name="Image">The image to add</param>
+            <param name="Delay">Delay in Milliseconds between this and last frame... 0 = <see cref="P:MaszynaPi.GifWriter.DefaultFrameDelay"/></param>
+        </member>
+        <member name="M:MaszynaPi.GifWriter.Dispose">
+            <summary>
+            Frees all resources used by this object.
+            </summary>
+        </member>
         <member name="T:MaszynaPi.MachineLogic.Architecture.InterruptionController">
             <summary>
             Class represents <see cref="T:MaszynaPi.MachineLogic.CentralProcessingUnit"/>'s component, called Interruption Controller.
@@ -281,7 +341,8 @@
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.#ctor(MaszynaPi.MachineLogic.Architecture.Register,MaszynaPi.MachineLogic.Architecture.Register,System.UInt32)">
             <summary> Creates <see cref="T:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit"/> instance. 
             Calls <see cref="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AutoSetFlags"/> to sets <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> <see cref="T:MaszynaPi.MachineLogic.Architecture.Register"/> based on current ALU registers state.</summary>
-            <param name="ak">Handle to result register.</param>
+            <param name="ak">Handle to accumulator - result register.</param>
+            <param name="f">Handle to flag register.</param>
             <param name="value">Inital value of internal operands.</param>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.IsFlagSet(System.String)">
@@ -1291,6 +1352,10 @@
             <summary>Allows to set CPU's <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.ActiveSignals"/>.</summary>
             <param name="handActivatedSignals">Names of signals that should be set active.</param>
         </member>
+        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.HaltInstructionActive">
+            <summary>Allows to check if <see cref="T:MaszynaPi.MachineLogic.Architecture.InstructionRegister"/> contrains opcode for STP (HALT) instruction.</summary>
+            <returns>true if <see cref="T:MaszynaPi.MachineLogic.Architecture.InstructionRegister"/> opcode segment is equal to 0, false otherwise.</returns>
+        </member>
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ManualInstruction">
             <summary>
             Invokes "<see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteInstructionCycle"/>" method on CPU. Performs all microoperations neccessary for executing whole instruction.
@@ -1350,6 +1415,9 @@
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.GetALUFlags">
             <summary>Allows to retreive <see cref="T:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit"/>'s, <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> state.</summary>
             <returns>Currently active <see cref="T:MaszynaPi.MachineLogic.Architecture.ALUFlags"/> from CPU's ALU instance.</returns>
+        </member>
+        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.SetALUFlagsBaseOnAccumulator">
+            <summary><inheritdoc cref="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AutoSetFlags"/>.</summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ResetRegisters">
             <summary>
@@ -1704,6 +1772,9 @@
         <member name="T:MaszynaPi.Form1">
             <summary>Application main <see cref="T:System.Windows.Forms.Form"/>, handling CPU, IOs and Editors views. </summary>
         </member>
+        <member name="F:MaszynaPi.Form1.AltSWasPressed">
+            <summary>Indicates that prev key event was user pressing  Alt+S combitation.</summary>
+        </member>
         <member name="F:MaszynaPi.Form1.CPUProgramExecuting">
             <summary>Indicates that <see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteProgram"/> was called.</summary>
         </member>
@@ -1730,11 +1801,22 @@
         <member name="M:MaszynaPi.Form1.GetManualActiveSignals">
             <summary>
             Machine manual control -> each <see cref="P:MaszynaPi.MachineUI.UserControlSignalWire.Active"/> signal adds its name to a list,
-            which is then sorted (<see cref="M:MaszynaPi.Form1.SortSignals(System.Collections.Generic.List{System.String})"/>) and pass to the machine for execution
+            which is then sorted (<see cref="M:MaszynaPi.Form1.SortSignals(System.Collections.Generic.List{System.String})"/>) and pass to the machine for execMode
             using <see cref="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ManualTick(System.Collections.Generic.List{System.String})"/> method.
             <br></br>Note: only "Tick" step possible with manual control enabled.
             </summary>
             <returns>List of names of signals activated by user, sored by <see cref="M:MaszynaPi.Form1.SortSignals(System.Collections.Generic.List{System.String})"/>.</returns>
+        </member>
+        <member name="M:MaszynaPi.Form1.CreateGifFromProgram(System.Int32,System.UInt64,System.Int32)">
+            <summary>
+            Creates .gif file that consist of maximum of <paramref name="maxGifByteSize"/> series of screenshots.
+            Each one is taken after <see cref="M:MaszynaPi.Form1.rozkazToolStripMenuItem1_Click(System.Object,System.EventArgs)"/> or 
+            <see cref="M:MaszynaPi.Form1.taktToolStripMenuItem_Click(System.Object,System.EventArgs)"/> execMode (see <paramref name="execMode"/> parameter).
+            GIF path is selected by prompting user using <see cref="M:MaszynaPi.FilesHandling.FilesHandler.PointToOvervriteFileOrCreateNew(System.String,System.String,System.String@)"/>
+            </summary>
+            <param name="execMode"> 0 - Tick, 1 - Instruction.</param>
+            <param name="defaultFrameDelay">Delay between consecutive frames of GIF.</param>
+            <param name="maxGifByteSize">Maximum size in bytes that generated gif can have (in case of program infinite loop).</param>
         </member>
         <member name="F:MaszynaPi.Form1.components">
             <summary>

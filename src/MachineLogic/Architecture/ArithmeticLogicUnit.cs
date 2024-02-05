@@ -48,7 +48,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
 
         /// <summary> Creates <see cref="ArithmeticLogicUnit"/> instance. 
         /// Calls <see cref="AutoSetFlags"/> to sets <see cref="Flags"/> <see cref="Register"/> based on current ALU registers state.</summary>
-        /// <param name="ak">Handle to result register.</param>
+        /// <param name="ak">Handle to accumulator - result register.</param>
+        /// <param name="f">Handle to flag register.</param>
         /// <param name="value">Inital value of internal operands.</param>
         public ArithmeticLogicUnit(Register ak, Register f, uint value=Defines.DEFAULT_ALU_VAL){
             AK = ak;

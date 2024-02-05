@@ -44,6 +44,7 @@ namespace MaszynaPi.FilesHandling {
             if (filepath.Length > 0) return true;
             return false;
         }
+
         /// <summary>Allows to get filepath from user using <see cref="SaveFileDialog"/>. Path of file is assigned to <paramref name="filepath"/> param.</summary>
         /// <param name="dialogFilter"><see cref="SaveFileDialog"/> filter string.</param>
         /// <param name="initDir">Initial for <see cref="SaveFileDialog"/>.</param>
