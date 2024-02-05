@@ -104,8 +104,8 @@ namespace MaszynaPi.MachineAssembler.Editors
 
         public List<string> FormatCodeForCompiler() {
             List<string> codeLines = new List<string>(CodeLines);
+            ProcessCode(codeLines);                         // must be before removing!
             codeLines.RemoveAll(string.IsNullOrWhiteSpace); // for peace of mind
-            ProcessCode(codeLines);
             return codeLines;
         }
 

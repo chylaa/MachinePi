@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MaszynaPi.CommonOperations;
 using MaszynaPi.MachineLogic.Architecture;
 using MaszynaPi.MachineLogic.IODevices;
 
@@ -60,7 +61,9 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>Value Register - output for <see cref="PaO"/> values.</summary>
         public Register S {get; private set; }
         /// <summary>Accumulator - output register of <see cref="JAL"/></summary>
-        public Register AK { get; private set; } 
+        public Register AK { get; private set; }
+        /// <summary>Flag register - contains <see cref="ALUFlags"/> values set by <see cref="JAL"/>.</summary>
+        public Register F { get; private set; }
         /// <summary>Instruction pointer register. Stores address of next instruction.</summary>
         public Register L { get; private set; }   //Instruction Pointer
         /// <summary>Current Instruction register.</summary>
@@ -114,10 +117,11 @@ namespace MaszynaPi.MachineLogic {
             InstrDecoder = new InstructionDecoder();
             InstrDecoder.OnRequestALUFlagState += new Func<string,bool>(delegate { return JAL.IsFlagSet(InstrDecoder.StatementArg); });
             
-            uint Aspace  = ArchitectureSettings.GetAddressSpace();
-            uint Cbits   = ArchitectureSettings.GetCodeBits();
-            uint Mword   = ArchitectureSettings.GetWordBits();
-            uint IOspace = ArchitectureSettings.GetAddressSpaceForIO(); 
+            uint Aspace   = ArchitectureSettings.GetAddressSpace();
+            uint Cbits    = ArchitectureSettings.GetCodeBits();
+            uint Mword    = ArchitectureSettings.GetWordBits();
+            uint IOspace  = ArchitectureSettings.GetAddressSpaceForIO();
+            uint FlagBits = Bitwise.GetBitsAmount(Defines.MAX_ALU_FLAG_VALUE); 
             // Atchitecture W
             PaO = new Memory();
             A = new Register(Aspace);
@@ -125,7 +129,8 @@ namespace MaszynaPi.MachineLogic {
             L = new Register(Aspace);
             I = new InstructionRegister(Aspace,Cbits);
             AK = new Register(Mword);
-            JAL = new ArithmeticLogicUnit(AK);
+            F = new Register(FlagBits);
+            JAL = new ArithmeticLogicUnit(AK, F);
             MagA = new Bus(Aspace, "Address");
             MagT = new Bus(Aspace, "Transitive");
             MagS = new Bus(Mword, "Data");
@@ -532,6 +537,8 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>Allows to retreive <see cref="ArithmeticLogicUnit"/>'s, <see cref="ALUFlags"/> state.</summary>
         /// <returns>Currently active <see cref="ALUFlags"/> from CPU's ALU instance.</returns>
         public ALUFlags GetALUFlags() { return JAL.GetFlags(); }
+
+        public void SetALUFlagsBaseOnAccumulator() { JAL.AutoSetFlags(); }
 
         #endregion
 

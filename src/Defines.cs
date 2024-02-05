@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaszynaPi.MachineLogic.Architecture;
+using System;
 using System.Collections.Generic;
 
 namespace MaszynaPi 
@@ -45,6 +46,9 @@ namespace MaszynaPi
 
         /// <summary>Amout of possible interruptions sources.</summary>
         public const uint INTERRUPTIONS_NUM = 4;
+
+        /// <summary>Maximum value that can be set using single <see cref="ALUFlags"/> enumeration.</summary>
+        public const int MAX_ALU_FLAG_VALUE = (int)ALUFlags.ZAK;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

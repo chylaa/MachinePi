@@ -52,7 +52,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
         /// values of reported interrupts and mask registers (<see cref="RM"/>, <see cref="RZ"/>).<br></br>
         /// Interrupt bit with the highest priority that is not masked, is put in the <see cref="RP"/>
         /// and points to address of interrupt handle which is set as new <see cref="AP"/> register value.<br></br>
-        /// Sets <see cref="ALUFlags.INT"/> flag of <see cref="ArithmeticLogicUnit.FlagRegister"/> if any interrupt 
+        /// Sets <see cref="ALUFlags.INT"/> flag of <see cref="ArithmeticLogicUnit.Flags"/> if any interrupt 
         /// is accepted.
         /// </summary>
         /// <param name="JAL">Handle to CPU's <see cref="ArithmeticLogicUnit"/> instance.</param>

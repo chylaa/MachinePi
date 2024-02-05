@@ -39,7 +39,8 @@ namespace MaszynaPi {
             //Must Be First!  [TODO Handle exception with loading for Raspbian -> allow user to select diferent instruction set]
             try { InstructionLoader.LoadBaseInstructions(); } catch (InstructionLoaderException ex) {
                 MessageBox.Show("Failed to load base instruction set. " + Defines.BASE_INSTRUCTION_SET_FILENAME
-                                + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message);
+                                + " file corrupted. Load another instruction set to use aplication. Details: " + ex.Message,
+                                "Erorr", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FormProjectOptions projectOptions = new FormProjectOptions(onlyPaths:true);
                 var dialogResult = projectOptions.ShowDialog();
                 if (dialogResult.Equals(DialogResult.OK) == false) {
@@ -49,6 +50,7 @@ namespace MaszynaPi {
             }
             CPUProgramExecuting = false;
             PaintActiveSignals = true;
+
             InitializeComponent();
             InitializeMachineComponentsList();
             InitializeSignalWiresList();
@@ -56,13 +58,6 @@ namespace MaszynaPi {
             codeEditor = new CodeEditor();
             Debugger = new Debugger();
             Machine = new CentralProcessingUnit();
-
-            UserControlRegisterI.SetDisplayMode(mode: UserControlRegister.RegisterMode.Instruction);
-            userControlFlags.FlagsValueRequest += Machine.GetALUFlags;
-            
-            userControlFlags.Enabled = false;
-            userControlFlags.Visible = false;
-
 
             Debugger.SetCodeEditorHandle(codeEditor.GetCodeLinesHandle());
             Debugger.OnSetExecutedLine += UserControlCodeEditor.SetExecutedLine;
@@ -114,7 +109,7 @@ namespace MaszynaPi {
                 UserControlRegisterA, UserControlRegisterS, UserControlRegisterI,UserControlRegisterL,
                 UserControlRegisterAK, UserControlRegisterX,UserControlRegisterY,UserControlRegisterRB,
                 UserControlRegisterG,UserControlRegisterWS, UserControlRegisterRZ, UserControlRegisterRM,
-                UserControlRegisterRP,UserControlRegisterAP, userControlFlags,
+                UserControlRegisterRP,UserControlRegisterAP, UserControlRegisterF,
                 userControlBusData,userControlBusAddress, userControlBusAS
             };
         }
@@ -138,6 +133,7 @@ namespace MaszynaPi {
             UserControlRegisterI.SetSourceRegister(Machine.I);
             UserControlRegisterL.SetSourceRegister(Machine.L);
             UserControlRegisterAK.SetSourceRegister(Machine.AK);
+            UserControlRegisterF.SetSourceRegister(Machine.F);
             UserControlRegisterX.SetSourceRegister(Machine.X);
             UserControlRegisterY.SetSourceRegister(Machine.Y);
             UserControlRegisterRB.SetSourceRegister(Machine.RB);
@@ -155,6 +151,15 @@ namespace MaszynaPi {
             userControlIntButton2.SetIntRequestRegisterHandle(Machine.RZ);
             userControlIntButton3.SetIntRequestRegisterHandle(Machine.RZ);
             userControlIntButton4.SetIntRequestRegisterHandle(Machine.RZ);
+
+            UserControlRegisterI.SetRegisterType(type: UserControlRegister.RegisterType.Instruction);
+            UserControlRegisterF.SetRegisterType(type: UserControlRegister.RegisterType.Flag);
+            UserControlRegisterRZ.SetRegisterType(type: UserControlRegister.RegisterType.Interruption);
+
+            // Set new value of Flags register if Accumulator values changed by hand
+            UserControlRegisterAK.MouseDoubleClick += new MouseEventHandler(
+                delegate { Machine.SetALUFlagsBaseOnAccumulator(); UserControlRegisterF.Refresh(); }
+            );
         }
 
         private void SetSignalsPaintOnRefresh(bool paint) {
@@ -205,9 +210,10 @@ namespace MaszynaPi {
             var inputSignals = activeSignals.Where(s => (s.StartsWith("i") && s.StartsWith("ic") == false));
             var outputSignals = activeSignals.Where(s => s.StartsWith("o"));
             var transBusSignal = activeSignals.Where(s => s.Equals("tbs"));
+            var accSignals = activeSignals.Where(s => s.Equals("icacc") || s.Equals("dcacc"));
             var specialSignals = activeSignals.Where(s => (s.Equals("start") || s.Equals("stop")));
-            var otherSignals = activeSignals.Except(inputSignals).Except(outputSignals).Except(specialSignals).Except(transBusSignal);
-            return otherSignals.Concat(outputSignals).Concat(transBusSignal).Concat(inputSignals).Concat(specialSignals).ToList();
+            var otherSignals = activeSignals.Except(inputSignals).Except(outputSignals).Except(specialSignals).Except(transBusSignal).Except(accSignals);
+            return otherSignals.Concat(outputSignals).Concat(transBusSignal).Concat(inputSignals).Concat(accSignals).Concat(specialSignals).ToList();
         }
 
         /// <summary>
@@ -239,6 +245,7 @@ namespace MaszynaPi {
                 
                 CPUProgramExecuting = true;
                 MemoryControl.PartiallySupressRefreshing = true;
+                checkBoxManualDebug.Enabled = false;
                 DisableManuallySetSignals();
                 CreateBreakButton(visible:true, resetBreakFlag:true);
 
@@ -246,14 +253,15 @@ namespace MaszynaPi {
                 RefreshCPUControls();
 
             } catch (CPUException cEx) {
-                MessageBox.Show(cEx.Message, "CPU Program Error");
+                MessageBox.Show(cEx.Message, "CPU Program Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message, "Unknown Program Error");
+                MessageBox.Show(ex.Message, "Unknown Program Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally
             {
                 DestroyBreakButton(resetBreakFlag: true);
                 CPUProgramExecuting = false;
                 MemoryControl.PartiallySupressRefreshing = false;
+                checkBoxManualDebug.Enabled = true;
                 MemoryControl.Refresh();
 
             }
@@ -265,9 +273,9 @@ namespace MaszynaPi {
                 Machine.ManualInstruction();
                 RefreshCPUControls();
             } catch (CPUException cEx) {
-                MessageBox.Show(cEx.Message, "CPU Instruction Error");
+                MessageBox.Show(cEx.Message, "CPU Instruction Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message, "Unknown Instruction Error");
+                MessageBox.Show(ex.Message, "Unknown Instruction Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -276,9 +284,9 @@ namespace MaszynaPi {
                 List<string> signals = GetManualActiveSignals();
                 Machine.ManualTick(signals);
             } catch (CPUException cEx) {
-                MessageBox.Show(cEx.Message, "CPU Tick Error");
+                MessageBox.Show(cEx.Message, "CPU Tick Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message, "Unknown Tick Error");
+                MessageBox.Show(ex.Message, "Unknown Tick Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -310,8 +318,8 @@ namespace MaszynaPi {
                 if (detected == CodeEditor.Definition.Instruction) {
                     bool isEnoughSpace = InstructionLoader.LoadSingleInstruction(codeEditor.FormatMicroinstructionsCode());
                     System.Media.SystemSounds.Exclamation.Play();
-                    if (isEnoughSpace) MessageBox.Show("The instruction has been added.", "Pi Machine");
-                    else MessageBox.Show("The instruction has been added but will not be visible (too few code bits)", "Warning!");
+                    if (isEnoughSpace) MessageBox.Show("The instruction has been added.", "Success");
+                    else MessageBox.Show("The instruction has been added but will not be visible (too few code bits)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (detected == CodeEditor.Definition.Program) {
@@ -332,9 +340,9 @@ namespace MaszynaPi {
                         Compile(isprogram == DialogResult.Yes ? CodeEditor.Definition.Program : CodeEditor.Definition.Instruction);
                 }
             } catch (CompilerException ex) {
-                MessageBox.Show(ex.Message, $"{detected} Compiler Error");
+                MessageBox.Show(ex.Message, $"{detected} Compiler Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception ex) {
-                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace, "Error");
+                MessageBox.Show("Unexpected Compilation Error from " + ex.Source + ": " + ex.Message + ". Stack: " + ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -351,9 +359,10 @@ namespace MaszynaPi {
                     bool isEnoughSpace = InstructionLoader.LoadInstructionsFromFileContent(lstFileContent);
                     Machine.ChangeMemorySize(oldAddressSpace);
                     Machine.SetComponentsBitsizes();                                //  \/ Shouldn't happen if .lst file created properly \/
-                    if (!isEnoughSpace) MessageBox.Show("instruction list has been added but will not be visible (too few code bits)", "Warning!");
+                    if (!isEnoughSpace) MessageBox.Show("Instruction list has been added but will not be visible (too few code bits)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else MessageBox.Show($"New Instruction Set {System.IO.Path.GetFileName(filepath)} loaded!", "Success");
                 } catch (InstructionLoaderException ex) {
-                    MessageBox.Show("Error while loading " + lst + " file " + filepath + "\n" + ex.Message, "Instruction Loader Error");
+                    MessageBox.Show("Error while loading " + lst + " file " + filepath + "\n" + ex.Message, "Instruction Loader Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 RefreshCPUControls();
                 RefreshControls(tabPageInstructionList);
@@ -366,7 +375,7 @@ namespace MaszynaPi {
             RefreshCPUControls();
         }
 
-        void SetRegistersDisplayMode(UserControlRegister.RegisterMode mode) {
+        void SetRegistersDisplayMode(UserControlRegister.ValueMode mode) {
             foreach (var component in MachineComponents) {
                 if (component is UserControlRegister) {
                     (component as UserControlRegister).SetDisplayMode(mode);
@@ -377,13 +386,13 @@ namespace MaszynaPi {
 
         private void DisplayModeToolStripMenuItem_Click(object sender, EventArgs e) {
             if (sender == unsignedDecimalToolStripMenuItem)
-                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Dec);
+                SetRegistersDisplayMode(UserControlRegister.ValueMode.Dec);
             else if (sender == signedDecimalToolStripMenuItem)
-                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Signed);
+                SetRegistersDisplayMode(UserControlRegister.ValueMode.Signed);
             else if (sender == hexadecimalToolStripMenuItem)
-                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Hex);
+                SetRegistersDisplayMode(UserControlRegister.ValueMode.Hex);
             else if (sender == binaryToolStripMenuItem)
-                SetRegistersDisplayMode(UserControlRegister.RegisterMode.Bin);
+                SetRegistersDisplayMode(UserControlRegister.ValueMode.Bin);
         }
 
         // Non Machine-Related Interface Behaviour Methods
@@ -449,7 +458,7 @@ namespace MaszynaPi {
         private void saveToFile_Click(object sender, EventArgs e)
         {
             try { SaveToFile(); } 
-            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error"); }
+            catch (Exception ex) { MessageBox.Show($"Cannot save content to file: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void letterToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -484,7 +493,7 @@ namespace MaszynaPi {
 
 
         //==============================================================================================================================
-        //Special Tasks
+        // Program Break button handling
         bool DoEventsGetBreakFlag() { Application.DoEvents();  return PROG_BREAK_FLAG; }
 
         void CreateBreakButton(bool visible = true, bool resetBreakFlag = true) {

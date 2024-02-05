@@ -10,8 +10,8 @@ namespace MaszynaPi.CommonOperations {
         /// <summary> Returns min amout of bits that are required to represent number as binary.</summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        public static int GetBitsAmount(int number) {
-            return (int)Math.Log(number, 2) + 1;
+        public static uint GetBitsAmount(int number) {
+            return (uint)Math.Log(number, 2) + 1;
         }
 
         /// <summary>Checks if most significant bit of <paramref name="value"/> (pointed by <paramref name="numberBitsize"/>) is set.</summary>

@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\doc\MaszynaPi.xml</DocumentationFile>
+    <DocumentationFile>..\doc\gen\MaszynaPi.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>mpi.ico</ApplicationIcon>
@@ -103,12 +103,6 @@
     </Compile>
     <Compile Include="MachineUI\UserControlCharacterOutput.Designer.cs">
       <DependentUpon>UserControlCharacterOutput.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MachineUI\UserControlFlags.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="MachineUI\UserControlFlags.Designer.cs">
-      <DependentUpon>UserControlFlags.cs</DependentUpon>
     </Compile>
     <Compile Include="MachineUI\UserControlIntButton.cs">
       <SubType>Component</SubType>
@@ -259,6 +253,6 @@
     <Error Condition="!Exists('packages\System.Runtime.WindowsRuntime.4.6.0\build\net461\System.Runtime.WindowsRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\System.Runtime.WindowsRuntime.4.6.0\build\net461\System.Runtime.WindowsRuntime.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>XCOPY  $(TargetPath) $(ProjectDir)..\build\gen\ /K /Y /Q</PostBuildEvent>
+    <PostBuildEvent>IF "$(ConfigurationName)" == "Release" (XCOPY  $(TargetPath) $(ProjectDir)..\build\ /K /Y /Q)</PostBuildEvent>
   </PropertyGroup>
 </Project>

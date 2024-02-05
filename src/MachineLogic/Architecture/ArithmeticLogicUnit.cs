@@ -23,7 +23,7 @@ namespace MaszynaPi.MachineLogic.Architecture {
     /// between values of internal "registers" <see cref="OperandA"/> and <see cref="OperandB"/>. Results of those operations
     /// are always stored into <see cref="OperandA"/> and then passed into <see cref="AK"/> - an result <see cref="Register"/>,
     /// which value can be publicly accessed. <see cref="ArithmeticLogicUnit"/> class implements way to get information about 
-    /// last operation's result and CPU's state via internal <see cref="FlagRegister"/> containing info about 
+    /// last operation's result and CPU's state via internal <see cref="Flags"/> containing info about 
     /// currnetly set <see cref="ALUFlags"/>.
     /// </summary>
     public class ArithmeticLogicUnit{
@@ -32,10 +32,10 @@ namespace MaszynaPi.MachineLogic.Architecture {
         uint OperandA, OperandB;
 
         /// <summary> ALU's operation result register. Values can be accessed only via this register.</summary>
-        public Register AK; 
-        
+        public Register AK;
+
         /// <summary>Internal Flag register, holding information about ALU's and CPU's state.</summary>
-        ALUFlags FlagRegister { get; set; }
+        public Register Flags;
 
         /// <summary>
         /// <see cref="ALUFlags"/> encoded as bitwise XOR of their string representation in lowercase ASCII letters 
@@ -47,11 +47,12 @@ namespace MaszynaPi.MachineLogic.Architecture {
                                                                                         {(0b_0111_1010 ^ 0b_0110_0001 ^ 0b_0110_1011), (int)ALUFlags.ZAK  } };
 
         /// <summary> Creates <see cref="ArithmeticLogicUnit"/> instance. 
-        /// Calls <see cref="AutoSetFlags"/> to sets <see cref="FlagRegister"/> based on current ALU registers state.</summary>
+        /// Calls <see cref="AutoSetFlags"/> to sets <see cref="Flags"/> <see cref="Register"/> based on current ALU registers state.</summary>
         /// <param name="ak">Handle to result register.</param>
         /// <param name="value">Inital value of internal operands.</param>
-        public ArithmeticLogicUnit(Register ak, uint value=Defines.DEFAULT_ALU_VAL){
+        public ArithmeticLogicUnit(Register ak, Register f, uint value=Defines.DEFAULT_ALU_VAL){
             AK = ak;
+            Flags = f;
             OperandA = value;
             OperandB = value;
             AutoSetFlags();
@@ -68,44 +69,45 @@ namespace MaszynaPi.MachineLogic.Architecture {
             foreach(int ascii in Encoding.ASCII.GetBytes(flag)) 
                 argEncoded ^= ascii;
             int iflag = EncodedFlags[argEncoded];
-            return FlagRegister.HasFlag((ALUFlags)iflag);
+            return IsFlagSet(iflag);
         }
 
         /// <returns>'true' if passed flag value is currently set in internal flag register, 'false' otherwises.</returns>
         public bool IsFlagSet(int flag) {
-            return FlagRegister.HasFlag((ALUFlags)flag);
+            return ((ALUFlags)(Flags.GetValue())).HasFlag((ALUFlags)flag);
         }
 
         /// <summary> Allows to manually set specific ALU's flag register <see cref="ALUFlags"/>. </summary>
-        /// <param name="flags"><see cref="ALUFlags"/> to set in <see cref="FlagRegister"/></param>
+        /// <param name="flags"><see cref="ALUFlags"/> to set in <see cref="Flags"/></param>
         public void SetFlags(ALUFlags flags) {
-            FlagRegister |= flags;
+            Flags.SetValue(Flags.GetValue() | (uint)flags);
         }
 
-        /// <returns>ALU's flag register content.</returns>
-        public ALUFlags GetFlags() { return FlagRegister; }
-
-        /// <summary> Clears passed <see cref="ALUFlags"/> from internal <see cref="FlagRegister"/> register.</summary>
+        /// <summary> Clears passed <see cref="ALUFlags"/> from internal <see cref="Flags"/> register.</summary>
         /// <param name="flags"></param>
         public void ClearFlags(ALUFlags flags) {
-            FlagRegister &= ~(flags);
+            Flags.SetValue(Flags.GetValue() & (~(uint)(flags)));
         }
+
+        /// <returns>ALU's <see cref="Flags"/> <see cref="Register"/> content as <see cref="ALUFlags"/> enum.</returns>
+        public ALUFlags GetFlags() { return ((ALUFlags)(Flags.GetValue())); }
         /// <summary>Allows to set value of second operand of operation.</summary>
         /// <param name="value"></param>
         public void SetOperandB(uint value) { OperandB = value; }
 
-        /// <summary> Allows to set <see cref="FlagRegister"/> based on current ALU registers content.</summary>
+        /// <summary> Allows to set <see cref="ALUFlags.ZAK"/> and <see cref="ALUFlags.Z"/> flag in
+        /// <see cref="Flags"/> <see cref="Register"/> based on current ALU registers content.</summary>
         public void AutoSetFlags() { 
-            FlagRegister &= ~(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
-            if (Bitwise.IsSignBitSet(AK.GetValue(),AK.GetBitsize())) FlagRegister |= ALUFlags.Z; //  From script: Most significant bit of ACC is sign bit (Z)
-            if (AK.GetValue() == 0) FlagRegister |= ALUFlags.ZAK;
+            ClearFlags(ALUFlags.ZAK | ALUFlags.Z); // Clear Specific Flags
+            if (Bitwise.IsSignBitSet(AK.GetValue(),AK.GetBitsize())) SetFlags(ALUFlags.Z); //  From script: Most significant bit of ACC is sign bit (Z)
+            if (AK.GetValue() == 0) SetFlags(ALUFlags.ZAK);
         }
         /// <summary>Assings value of first operand (<see cref="OperandA"/>) to <see cref="AK"/>.</summary>
         public void SetResult() {
             AK.SetValue(OperandA); // overflow handled in Register set method
         }
 
-        /// <summary> Sets value of flag and result registers (<see cref="FlagRegister"/>, <see cref="AK"/>), base on internal operands state/values. </summary>
+        /// <summary> Sets value of flag and result registers (<see cref="Flags"/>, <see cref="AK"/>), base on internal operands state/values. </summary>
         public void SetResultAndFlags() {
             SetResult();
             AutoSetFlags();
