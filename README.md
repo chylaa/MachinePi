@@ -22,7 +22,7 @@ Implemetation supports polish and english version of control signals in instruct
 
 ###### Demos
 
-Following GIFs demonstrates [example loop program](/examples/loop.prg) execution. 
+Following GIFs demonstrates [example loop program](/examples/programs/loop.prg) execution. 
 
 - [ ] Performed instruction by instruction:
 
