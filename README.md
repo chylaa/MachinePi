@@ -30,5 +30,5 @@ Following GIFs demonstrates [example loop program](/examples/programs/loop.prg) 
 
 - [ ] Simulator executing single iteration of loop, cycle by cycle:
 
-![microoperations of single iteration of example loop program GIF](/img/loop-16-instructions.gif)
+![microoperations of single iteration of example loop program GIF](/img/loop-1-cycle.gif)
  
