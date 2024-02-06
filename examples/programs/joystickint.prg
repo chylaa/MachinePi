@@ -17,7 +17,7 @@ down: LOAD d
 JMP print
 
 print: ADD red  // set color bits to 0b100 (red)
-IOWR 6          // write accumulator value to matrix
+IOWR 6          // write accumulator value to matrix IO
 
 main: nop
 jmp main

@@ -17,3 +17,18 @@ Implemetation supports polish and english version of control signals in instruct
 #### Simplified educational computer - background information on the basics of the software simulator: 
  
  - Article "*W Machine - How to design a simple instruction*" in the journal **Minut** of the Silesian University of Technology ([Polish version](https://minut.polsl.pl/articles/C-19-004.pdf 'Maszyna W - jak zaprojektować prosty rozkaz')).
+
+---
+
+###### Demos
+
+Following GIFs demonstrates [example loop program](/examples/loop.prg) execution. 
+
+- [ ] Performed instruction by instruction:
+
+![instructions executing in loop example program GIF](/img/loop-16-instructions.gif)
+
+- [ ] Simulator executing single iteration of loop, cycle by cycle:
+
+![microoperations of single iteration of example loop program GIF](/img/loop-16-instructions.gif)
+ 

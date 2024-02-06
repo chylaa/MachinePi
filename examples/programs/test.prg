@@ -1,6 +1,6 @@
-POB a
-DOD b
-£AD c
+LOAD a
+ADD b
+STOR c
 STP
 
 a: RST 42

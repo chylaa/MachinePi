@@ -231,15 +231,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".programs\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".instructions\Base.lst" />
-    <Content Include=".instructions\Podstawa.lst" />
-    <Content Include=".instructions\Przerwania.lst" />
-    <Content Include=".instructions\Stos.lst" />
-    <Content Include=".instructions\WeWy.lst" />
     <Content Include="mpi.ico" />
     <Content Include="SenseHatHandlers\Scripts\JoystickHandler.py" />
     <Content Include="SenseHatHandlers\Scripts\MatrixHandler.py" />
