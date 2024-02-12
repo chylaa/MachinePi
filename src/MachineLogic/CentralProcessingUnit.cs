@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MaszynaPi.CommonOperations;
 using MaszynaPi.MachineLogic.Architecture;
 using MaszynaPi.MachineLogic.IODevices;
@@ -305,12 +306,12 @@ namespace MaszynaPi.MachineLogic {
 
         #region < Machine Cycle > 
 
-        /// <summary>Check if <paramref name="time"/> enlapsed since <paramref name="event"/> has occured using <see cref="DateTime.Now"/>.</summary>
-        /// <param name="event">Saved <see cref="DateTime"/> when event occured.</param>
+        /// <summary>Check if <paramref name="time"/> enlapsed since <paramref name="event"/> has occured using <see cref="Process.GetCurrentProcess()"/> processor time.</summary>
+        /// <param name="event">Saved <see cref="TimeSpan"/> timestamp when event occured.</param>
         /// <param name="time">Amout of time that should pass.</param>
         /// <returns>true if since <paramref name="event"/>, <paramref name="time"/> passed, false otherwise.</returns>
-        bool DoesEnlapsedSinceEvent(DateTime @event, TimeSpan time) {
-            return (DateTime.Now.Subtract(@event).Ticks > time.Ticks);
+        bool DoesEnlapsedSinceEvent(TimeSpan @event, TimeSpan time) {
+            return (Process.GetCurrentProcess().TotalProcessorTime.Subtract(@event) > time);
         }
 
         /// <summary>Assigns <see cref="Defines.FETCH_SIGNALS"/> to currently <see cref="ActiveSignals"/> list.</summary>
@@ -355,9 +356,11 @@ namespace MaszynaPi.MachineLogic {
         /// <summary>
         /// Performes all CPU's steps neccessary for executing whole instruction. 
         /// Invokes all methods responsible for full Fetch-Decode-Execute cycle.
+        /// <br></br>Throws <see cref="TimeoutException"/> if method is executing for more than <see cref="InstructionExcecutionTimeout"/>
+        /// (might be due to I/O operation block e.g. user does not provide input to <see cref="CharacterInput"/> before running program).
         /// </summary>
+        /// <exception cref="TimeoutException"></exception>
         void ExecuteInstructionCycle() {
-            DateTime instrBegin = DateTime.Now;
 
             int uInstructionBlock;
             if (LastTick <= (uInstructionBlock = FETCH_CYCLE_TICK)) {
@@ -370,15 +373,16 @@ namespace MaszynaPi.MachineLogic {
             uint opcode = I.GetOpcode();
             int requiredTicks = InstrDecoder.GetNumberOfTicksInInstruction(opcode);
 
-
+            // starting here, ignoring fetch 'cause no blocking IO can occur on that part of cycle
+            TimeSpan startTimestamp = Process.GetCurrentProcess().TotalProcessorTime;
             for (int i = uInstructionBlock; i < requiredTicks; i++) {
                 i = ExecuteTick(i, false);
                 LastTick = i;
                 if (i == ENDOF_INSTRUCTION || CheckProgramBreak())
                     break;
-                if (DoesEnlapsedSinceEvent(instrBegin, InstructionExcecutionTimeout))
+                if (DoesEnlapsedSinceEvent(startTimestamp, InstructionExcecutionTimeout))
                     throw new TimeoutException(nameof(ExecuteInstructionCycle) + " was running for more than " +
-                                               InstructionExcecutionTimeout.TotalSeconds.ToString() + "[s]. Possible deadlock.");
+                                               InstructionExcecutionTimeout.TotalSeconds.ToString() + "[s]. Possible blocking I/O operation fail.");
             }
         }
 
@@ -560,6 +564,7 @@ namespace MaszynaPi.MachineLogic {
             L.Reset();
             I.Reset();
             JAL.Reset();
+            //^ F is auto set here
             MagA.Reset();
             MagS.Reset();
             MagT.Reset();

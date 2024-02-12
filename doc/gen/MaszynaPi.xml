@@ -382,7 +382,8 @@
             <summary> Sets value of flag and result registers (<see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/>, <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.AK"/>), base on internal operands state/values. </summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Reset">
-            <summary>Resets state of all internal component to their default state.</summary>
+            <summary>Resets state of all internal component to their default state and sets 
+            <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Flags"/> <see cref="T:MaszynaPi.MachineLogic.Architecture.Register"/> accordingly.</summary>
         </member>
         <member name="M:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.Nop">
             <summary> As no operation, assigns <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandB"/> value to <see cref="F:MaszynaPi.MachineLogic.Architecture.ArithmeticLogicUnit.OperandA"/>. </summary>
@@ -1280,9 +1281,9 @@
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.SetExecutedMicroinstructions">
             <summary>Invoke of <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.OnSetExecutedMicroinstruction"/> <see cref="T:System.Action"/> with current instruction's opcode and <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.ActiveSignals"/> list.</summary>
         </member>
-        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.DoesEnlapsedSinceEvent(System.DateTime,System.TimeSpan)">
-            <summary>Check if <paramref name="time"/> enlapsed since <paramref name="event"/> has occured using <see cref="P:System.DateTime.Now"/>.</summary>
-            <param name="event">Saved <see cref="T:System.DateTime"/> when event occured.</param>
+        <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.DoesEnlapsedSinceEvent(System.TimeSpan,System.TimeSpan)">
+            <summary>Check if <paramref name="time"/> enlapsed since <paramref name="event"/> has occured using <see cref="M:System.Diagnostics.Process.GetCurrentProcess"/> processor time.</summary>
+            <param name="event">Saved <see cref="T:System.TimeSpan"/> timestamp when event occured.</param>
             <param name="time">Amout of time that should pass.</param>
             <returns>true if since <paramref name="event"/>, <paramref name="time"/> passed, false otherwise.</returns>
         </member>
@@ -1299,7 +1300,10 @@
             <summary>
             Performes all CPU's steps neccessary for executing whole instruction. 
             Invokes all methods responsible for full Fetch-Decode-Execute cycle.
+            <br></br>Throws <see cref="T:System.TimeoutException"/> if method is executing for more than <see cref="F:MaszynaPi.MachineLogic.CentralProcessingUnit.InstructionExcecutionTimeout"/>
+            (might be due to I/O operation block e.g. user does not provide input to <see cref="T:MaszynaPi.MachineLogic.IODevices.CharacterInput"/> before running program).
             </summary>
+            <exception cref="T:System.TimeoutException"></exception>
         </member>
         <member name="M:MaszynaPi.MachineLogic.CentralProcessingUnit.ExecuteProgram">
             <summary>
@@ -2324,23 +2328,23 @@
         </member>
         <member name="T:MaszynaPi.Properties.Resources">
             <summary>
-              Klasa zasobu wymagająca zdefiniowania typu do wyszukiwania zlokalizowanych ciągów itd.
+              A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
         <member name="P:MaszynaPi.Properties.Resources.ResourceManager">
             <summary>
-            Zwraca buforowane wystąpienie ResourceManager używane przez tę klasę.
+              Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
         <member name="P:MaszynaPi.Properties.Resources.Culture">
             <summary>
-              Przesłania właściwość CurrentUICulture bieżącego wątku dla wszystkich
-              przypadków przeszukiwania zasobów za pomocą tej klasy zasobów wymagającej zdefiniowania typu.
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="P:MaszynaPi.Properties.Resources.Base">
              <summary>
-             Wyszukuje zlokalizowany ciąg podobny do ciągu [Opcje]
+               Looks up a localized string similar to [Opcje]
             Połączenie=0
             Inkrementacja=0
             Logiczne=0
@@ -2365,7 +2369,7 @@
             Nazwa8=bez
             [stp]
             Linie=5
-            Linia1=// zakończenie programu
+            Linia1=// end program
             Linia2=INSTRUCTION STP;
             Linia3=Arguments 0;
             Linia4=rd od iins icit;
@@ -2375,12 +2379,12 @@
             Linia1=INSTRUCTION ADD;
             Linia2=rd od iins icit;
             Linia3=oa ia;
-            Linia4=rd od ialu add iac [obcięto pozostałą część ciągu]&quot;;.
+            Linia4=rd od ialu add iacc oit ia; [rest of string was truncated]&quot;;.
              </summary>
         </member>
         <member name="P:MaszynaPi.Properties.Resources.Podstawa">
              <summary>
-             Wyszukuje zlokalizowany ciąg podobny do ciągu [Opcje]
+               Looks up a localized string similar to [Opcje]
             Połączenie=0
             Inkrementacja=0
             Logiczne=0
@@ -2415,7 +2419,7 @@
             Linia1=ROZKAZ DOD;
             Linia2=czyt wys wei il;
             Linia3=wyad wea;
-            Linia4=czyt wys weja dod weak wyl  [obcięto pozostałą część ciągu]&quot;;.
+            Linia4=czyt wys weja dod weak wyl  [rest of string was truncated]&quot;;.
              </summary>
         </member>
     </members>

@@ -114,7 +114,8 @@ namespace MaszynaPi.MachineLogic.Architecture {
             AutoSetFlags();
         }
 
-        /// <summary>Resets state of all internal component to their default state.</summary>
+        /// <summary>Resets state of all internal component to their default state and sets 
+        /// <see cref="Flags"/> <see cref="Register"/> accordingly.</summary>
         public void Reset() {
             OperandA = Defines.DEFAULT_ALU_VAL;
             OperandB = Defines.DEFAULT_ALU_VAL;
